@@ -9,13 +9,48 @@ export const DefaultAccordionExample = () => {
 import { Accordion } from "@/components/ui/Accordion";
 
 export const DefaultAccordionExample = () => {
-  return <Accordion />;
+  return <Accordion 
+  
+  items={[
+  {
+    title: "Introduction",
+    content: "This section introduces the main concepts and provides an overview.",
+  },
+  {
+    title: "Details",
+    content: "Here we explain the details so users can understand everything thoroughly.",
+  },
+  {
+    title: "Summary",
+    content: "This section summarizes key points for quick reference and review.",
+  },
+]}
+
+  />;
 };
 `;
 
   return (
     <SnippetPreview title="Default Accordion" code={defaultAccordionCode}>
-      <Accordion />
+      <Accordion
+        items={[
+          {
+            title: "Introduction",
+            content:
+              "This section introduces the main concepts and provides an overview.",
+          },
+          {
+            title: "Details",
+            content:
+              "Here we explain the details so users can understand everything thoroughly.",
+          },
+          {
+            title: "Summary",
+            content:
+              "This section summarizes key points for quick reference and review.",
+          },
+        ]}
+      />
     </SnippetPreview>
   );
 };

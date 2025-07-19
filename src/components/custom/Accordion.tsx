@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface AccordionProps extends React.ComponentProps<"div"> {
-  items?: Array<{ title: string; content: string }>;
+  items: Array<{ title: string; content: string }>;
   allowMultiple?: boolean;
   variant?: "default" | "bordered" | "filled";
   size?: "sm" | "md" | "lg";
@@ -14,23 +14,7 @@ export interface AccordionProps extends React.ComponentProps<"div"> {
 }
 
 export const Accordion: React.FC<AccordionProps> = ({
-  items = [
-    {
-      title: "What is this component?",
-      content:
-        "This is a flexible accordion component built with React, Framer Motion, and Tailwind CSS.",
-    },
-    {
-      title: "How do I use it?",
-      content:
-        "Simply pass an array of items with title and content properties. You can customize the appearance and behavior with various props.",
-    },
-    {
-      title: "Can I open multiple items?",
-      content:
-        "Yes! Use the allowMultiple prop to enable multiple items to be open simultaneously.",
-    },
-  ],
+  items = [],
   allowMultiple = false,
   variant = "default",
   size = "md",

@@ -31,33 +31,22 @@ An interactive card component that allows users to reorder items through drag an
 
 ## Props
 
-| Prop                   | Type                                                      | Default      | Description                                                 |
-| ---------------------- | --------------------------------------------------------- | ------------ | ----------------------------------------------------------- |
-| `cards`                | `Array<{id: number, title: string, description: string}>` | Sample cards | Array of card objects to display and make draggable         |
-| `horizontal`           | `boolean`                                                 | `false`      | Whether to arrange cards horizontally instead of vertically |
-| `variant`              | `"default" \| "bordered" \| "filled"`                     | `"default"`  | Visual style variant of the cards                           |
-| `size`                 | `"sm" \| "md" \| "lg"`                                    | `"md"`       | Size variant affecting padding and text size                |
-| `onReorder`            | `(newCards: Card[]) => void`                              | `undefined`  | Callback function called when cards are reordered           |
-| `className`            | `string`                                                  | `undefined`  | Custom classes for the main container                       |
-| `cardClassName`        | `string`                                                  | `undefined`  | Custom classes for individual cards                         |
-| `titleClassName`       | `string`                                                  | `undefined`  | Custom classes for card titles                              |
-| `descriptionClassName` | `string`                                                  | `undefined`  | Custom classes for card descriptions                        |
-| `dragScale`            | `number`                                                  | `1.02`       | Scale factor applied to cards when being dragged            |
-| `dragBoxShadow`        | `string`                                                  | `undefined`  | Custom box shadow for cards when being dragged              |
-| `normalBoxShadow`      | `string`                                                  | `undefined`  | Custom box shadow for cards in normal state                 |
-| `dragBackground`       | `string`                                                  | `undefined`  | Custom background color/gradient for cards when dragging    |
-| `normalBackground`     | `string`                                                  | `undefined`  | Custom background color/gradient for cards in normal state  |
-
-## Features
-
-- **Smooth Drag Animations**: Powered by Framer Motion for fluid drag and drop interactions
-- **Flexible Layout**: Support for both vertical and horizontal arrangements
-- **Visual Feedback**: Cards scale and highlight during drag operations
-- **Custom Styling**: Multiple variants and sizes for different use cases with full className override support
-- **Responsive Design**: Adapts to different screen sizes and touch devices
-- **Dark Mode Ready**: Full support for light and dark themes
-- **Accessible**: Keyboard navigation and screen reader support
-- **Customizable Styling**: Override default styles with className props for container, cards, titles, and descriptions
+| Prop                   | Type                                                      | Default     | Description                                                 |
+| ---------------------- | --------------------------------------------------------- | ----------- | ----------------------------------------------------------- |
+| `cards`                | `Array<{id: number, title: string, description: string}>` | []          | Array of card objects to display and make draggable         |
+| `horizontal`           | `boolean`                                                 | `false`     | Whether to arrange cards horizontally instead of vertically |
+| `variant`              | `"default" \| "bordered" \| "filled"`                     | `"default"` | Visual style variant of the cards                           |
+| `size`                 | `"sm" \| "md" \| "lg"`                                    | `"md"`      | Size variant affecting padding and text size                |
+| `onReorder`            | `(newCards: Card[]) => void`                              | `undefined` | Callback function called when cards are reordered           |
+| `className`            | `string`                                                  | `undefined` | Custom classes for the main container                       |
+| `cardClassName`        | `string`                                                  | `undefined` | Custom classes for individual cards                         |
+| `titleClassName`       | `string`                                                  | `undefined` | Custom classes for card titles                              |
+| `descriptionClassName` | `string`                                                  | `undefined` | Custom classes for card descriptions                        |
+| `dragScale`            | `number`                                                  | `1.02`      | Scale factor applied to cards when being dragged            |
+| `dragBoxShadow`        | `string`                                                  | `undefined` | Custom box shadow for cards when being dragged              |
+| `normalBoxShadow`      | `string`                                                  | `undefined` | Custom box shadow for cards in normal state                 |
+| `dragBackground`       | `string`                                                  | `undefined` | Custom background color/gradient for cards when dragging    |
+| `normalBackground`     | `string`                                                  | `undefined` | Custom background color/gradient for cards in normal state  |
 
 ## Styling Examples
 
@@ -74,5 +63,3 @@ An interactive card component that allows users to reorder items through drag an
   descriptionClassName="text-blue-100 dark:text-blue-200"
 />
 ```
-
-This component is particularly useful for kanban boards, task prioritization interfaces, playlist managers, and any application where users need to reorder content through an intuitive drag-and-drop interface.

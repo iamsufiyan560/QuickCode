@@ -3,13 +3,62 @@
 import React, { useState } from "react";
 import { Card, DraggableCards } from "@/components/animated/DraggableCards";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
+import { cards } from "./CardStackExample";
 
 export const DefaultDraggableCardsExample = () => {
+  const Cards = [
+    {
+      id: 1,
+      title: "Project Alpha",
+      description: "High-priority development task with tight deadline",
+    },
+    {
+      id: 2,
+      title: "Design Review",
+      description: "UI/UX review session for the new dashboard",
+    },
+    {
+      id: 3,
+      title: "Code Review",
+      description: "Review pull requests from the development team",
+    },
+    {
+      id: 4,
+      title: "Team Meeting",
+      description: "Weekly sync with the entire development team",
+    },
+  ];
   const defaultDraggableCardsCode = `
 import { DraggableCards } from "@/components/ui/DraggableCards";
 
+
+
+  const Cards = [
+    {
+      id: 1,
+      title: "Project Alpha",
+      description: "High-priority development task with tight deadline",
+    },
+    {
+      id: 2,
+      title: "Design Review",
+      description: "UI/UX review session for the new dashboard",
+    },
+    {
+      id: 3,
+      title: "Code Review",
+      description: "Review pull requests from the development team",
+    },
+    {
+      id: 4,
+      title: "Team Meeting",
+      description: "Weekly sync with the entire development team",
+    },
+  ];
+
+
 export const DefaultDraggableCardsExample = () => {
-  return <DraggableCards />;
+  return <DraggableCards cards={Cards} />;
 };
 `;
 
@@ -18,7 +67,7 @@ export const DefaultDraggableCardsExample = () => {
       title="Default Vertical Cards"
       code={defaultDraggableCardsCode}
     >
-      <DraggableCards />
+      <DraggableCards cards={Cards} />
     </SnippetPreview>
   );
 };

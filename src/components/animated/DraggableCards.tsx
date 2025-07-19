@@ -11,7 +11,7 @@ export interface Card {
 }
 
 export interface DraggableCardsProps extends HTMLMotionProps<"div"> {
-  cards?: Card[];
+  cards: Card[];
   horizontal?: boolean;
   variant?: "default" | "bordered" | "filled";
   size?: "sm" | "md" | "lg";
@@ -28,18 +28,7 @@ export interface DraggableCardsProps extends HTMLMotionProps<"div"> {
 }
 
 export const DraggableCards: React.FC<DraggableCardsProps> = ({
-  cards = [
-    {
-      id: 1,
-      title: "Fast API Calls",
-      description: "Optimized for speed and efficiency",
-    },
-    {
-      id: 2,
-      title: "Beautiful UI",
-      description: "Tailwind + Framer Motion magic",
-    },
-  ],
+  cards = [],
   horizontal = false,
   variant = "default",
   size = "md",
