@@ -210,6 +210,28 @@ function ToastItem({
   const toastClassName =
     toast.className || typeConfig.className || defaultStyles[toast.type];
 
+  const progressRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const el = progressRef.current;
+    if (!el) return;
+
+    el.getAnimations().forEach((a) => a.cancel());
+
+    const anim = el.animate(
+      [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+      {
+        duration: toast.duration ?? 4000,
+        fill: "forwards",
+        easing: "linear",
+      }
+    );
+
+    return () => {
+      anim.cancel();
+    };
+  }, [toast.id, toast.duration]);
+
   return (
     <div
       className={cn(
@@ -239,6 +261,20 @@ function ToastItem({
           <X className="w-4 h-4" />
         </button>
       )}
+
+      <div
+        ref={progressRef}
+        className={cn(
+          "absolute bottom-0 left-0 h-[3px] w-full origin-left",
+          toast.type === "success"
+            ? "bg-toast-success-border"
+            : toast.type === "error"
+            ? "bg-toast-error-border"
+            : toast.type === "warning"
+            ? "bg-toast-warning-border"
+            : "bg-toast-info-border"
+        )}
+      />
     </div>
   );
 }
