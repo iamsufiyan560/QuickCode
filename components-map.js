@@ -235,6 +235,12 @@ export const components = {
     url: `${BASE_URL}MultiTooltip.tsx`,
     deps: {},
   },
+
+  OtpInput: {
+    url: `${BASE_URL}OtpInput.tsx`,
+    deps: {},
+  },
+
   KanbanBoard: {
     url: `${BASE_URL}KanbanBoard.tsx`,
     deps: {},

@@ -65,6 +65,8 @@ export default {
       MultiInput: "",
       MultiSelect: "",
       MultiTooltip: "",
+      OtpInput: "",
+
       PasswordInput: "",
       RadioGroup: "",
       RangeSlider: "",
@@ -120,8 +122,6 @@ export default {
       DonutChart: { type: "page", display: "hidden" },
       GaugeChart: { type: "page", display: "hidden" },
       Heatmap: { type: "page", display: "hidden" },
-
-      OtpInput: { type: "page", display: "hidden" },
     },
   },
 } as MetaRecord;

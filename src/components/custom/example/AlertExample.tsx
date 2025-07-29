@@ -43,7 +43,7 @@ export default function AlertExample() {
 
 export function DefaultExample() {
   return (
-    <SnippetPreview code={code}>
+    <SnippetPreview title="Default Example" code={code}>
       <div className="grid w-full max-w-xl items-start gap-4">
         <Alert>
           <StarIcon />

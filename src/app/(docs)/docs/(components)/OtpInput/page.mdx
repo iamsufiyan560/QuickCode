@@ -1,5 +1,58 @@
-import { OtpInput } from "@/components/custom/OtpInput";
+import {
+  BasicExample,
+  PatternExample,
+  ControlledExample,
+  AlphanumericExample,
+} from "@/components/custom/example/OtpInputExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# OtpInput Example
+# OTP Input
 
-<OtpInput />
+A fully accessible one-time password input component with keyboard navigation, paste support, and customizable layouts.
+
+<InstallTabs components="OtpInput" />
+
+## Examples
+
+<BasicExample />
+
+<PatternExample />
+
+<ControlledExample />
+
+<AlphanumericExample />
+
+## Props
+
+### OtpInput
+
+| Prop                 | Type                      | Default     | Description                              |
+| -------------------- | ------------------------- | ----------- | ---------------------------------------- |
+| `maxLength`          | `number`                  | —           | Maximum number of characters (required)  |
+| `value`              | `string`                  | —           | Controlled value                         |
+| `onChange`           | `(value: string) => void` | —           | Called when the value changes            |
+| `disabled`           | `boolean`                 | `false`     | Disables all input slots                 |
+| `pattern`            | `RegExp`                  | `/^[0-9]$/` | RegEx pattern for character validation   |
+| `containerClassName` | `string`                  | —           | Additional CSS classes for the container |
+| `className`          | `string`                  | —           | Additional CSS classes                   |
+
+### OtpInput.Group
+
+| Prop        | Type              | Default | Description              |
+| ----------- | ----------------- | ------- | ------------------------ |
+| `className` | `string`          | —       | Additional CSS classes   |
+| `children`  | `React.ReactNode` | —       | OtpInput.Slot components |
+
+### OtpInput.Slot
+
+| Prop        | Type     | Default | Description                           |
+| ----------- | -------- | ------- | ------------------------------------- |
+| `index`     | `number` | —       | Position index of the slot (required) |
+| `className` | `string` | —       | Additional CSS classes                |
+
+### OtpInput.Separator
+
+| Prop        | Type              | Default | Description                                      |
+| ----------- | ----------------- | ------- | ------------------------------------------------ |
+| `className` | `string`          | —       | Additional CSS classes                           |
+| `children`  | `React.ReactNode` | —       | Custom separator content (defaults to dash icon) |
