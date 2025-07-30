@@ -41,6 +41,7 @@ export default {
       Accordion: "",
       ActionSheet: "",
       AdvancedForm: "",
+      Alert: "",
 
       AlertDialog: "",
       Avatar: "",
@@ -120,7 +121,6 @@ export default {
       GaugeChart: { type: "page", display: "hidden" },
       Heatmap: { type: "page", display: "hidden" },
 
-      Alert: { type: "page", display: "hidden" },
       OtpInput: { type: "page", display: "hidden" },
     },
   },

@@ -1,5 +1,36 @@
-import { Alert } from "@/components/custom/Alert";
+import { DefaultExample } from "@/components/custom/example/AlertExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Alert Example
+# Alert
 
-<Alert />
+Display important messages and notifications to users with optional icons and semantic variants.
+
+<InstallTabs components="Alert" />
+
+## Examples
+
+<DefaultExample />
+
+## Props
+
+### Alert
+
+| Prop        | Type                         | Default     | Description                                          |
+| ----------- | ---------------------------- | ----------- | ---------------------------------------------------- |
+| `variant`   | `"default" \| "destructive"` | `"default"` | Visual style of the alert                            |
+| `className` | `string`                     | —           | Additional CSS classes                               |
+| `children`  | `React.ReactNode`            | —           | Alert content including icon, title, and description |
+
+### Alert.Title
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Title text content     |
+
+### Alert.Description
+
+| Prop        | Type              | Default | Description                                               |
+| ----------- | ----------------- | ------- | --------------------------------------------------------- |
+| `className` | `string`          | —       | Additional CSS classes                                    |
+| `children`  | `React.ReactNode` | —       | Description content, supports text, paragraphs, and lists |
