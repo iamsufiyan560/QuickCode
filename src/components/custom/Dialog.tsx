@@ -2,28 +2,83 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "./Button";
+import { Button, ButtonProps } from "./Button";
+
+interface DialogContextValue {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  isControlled: boolean;
+  titleId: string;
+  descriptionId: string;
+}
+
+const DialogContext = React.createContext<DialogContextValue | null>(null);
+
+const useDialog = () => {
+  const context = React.useContext(DialogContext);
+  if (!context) {
+    throw new Error("Dialog components must be used within Dialog");
+  }
+  return context;
+};
 
 export interface DialogProps {
-  children?: React.ReactNode;
-  isOpen?: boolean;
+  children: React.ReactNode;
+  open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  showCloseButton?: boolean;
-  closeOnOverlayClick?: boolean;
-  closeOnEscapeKey?: boolean;
-  title?: string;
-  description?: string;
-  className?: string;
-  overlayClassName?: string;
-  contentClassName?: string;
-  headerClassName?: string;
-  bodyClassName?: string;
-  titleClassName?: string;
-  descriptionClassName?: string;
 }
+
+const DialogRoot: React.FC<DialogProps> = ({
+  children,
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
+}) => {
+  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const titleId = React.useId();
+  const descriptionId = React.useId();
+
+  const handleOpenChange = React.useCallback(
+    (newOpen: boolean) => {
+      if (!isControlled) {
+        setInternalOpen(newOpen);
+      }
+      onOpenChange?.(newOpen);
+    },
+    [isControlled, onOpenChange]
+  );
+
+  React.useEffect(() => {
+    if (open) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <DialogContext.Provider
+      value={{
+        open,
+        onOpenChange: handleOpenChange,
+        isControlled,
+        titleId,
+        descriptionId,
+      }}
+    >
+      {children}
+    </DialogContext.Provider>
+  );
+};
 
 export interface DialogTriggerProps {
   children: React.ReactNode;
@@ -31,322 +86,335 @@ export interface DialogTriggerProps {
   className?: string;
 }
 
-interface ClickableElement {
-  onClick?: (e: React.MouseEvent) => void;
-  className?: string;
-  [key: string]: any;
-}
-
-// Context for compound component pattern
-const DialogContext = React.createContext<{
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  showCloseButton: boolean;
-  closeOnOverlayClick: boolean;
-  closeOnEscapeKey: boolean;
-  title?: string;
-  description?: string;
-  overlayClassName?: string;
-  contentClassName?: string;
-  headerClassName?: string;
-  bodyClassName?: string;
-  titleClassName?: string;
-  descriptionClassName?: string;
-} | null>(null);
-
-// Helper to check if component is being used in compound pattern
-const isCompoundPattern = (children: React.ReactNode): boolean => {
-  let hasTrigger = false;
-  React.Children.forEach(children, (child) => {
-    if (React.isValidElement(child) && child.type === DialogTrigger) {
-      hasTrigger = true;
-    }
-  });
-  return hasTrigger;
-};
-
-// Original Dialog component logic
-const DialogComponent: React.FC<DialogProps> = ({
-  children,
-  isOpen: controlledOpen,
-  defaultOpen = false,
-  onOpenChange,
-  showCloseButton = true,
-  closeOnOverlayClick = true,
-  closeOnEscapeKey = true,
-  title,
-  description,
-  className,
-  overlayClassName,
-  contentClassName,
-  headerClassName,
-  bodyClassName,
-  titleClassName,
-  descriptionClassName,
-}) => {
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
-  const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : internalOpen;
-
-  const handleOpenChange = (open: boolean) => {
-    if (!isControlled) {
-      setInternalOpen(open);
-    }
-    onOpenChange?.(open);
-  };
-
-  const closeDialog = () => handleOpenChange(false);
-
-  // Handle escape key
-  React.useEffect(() => {
-    if (!closeOnEscapeKey || !isOpen) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeDialog();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [closeOnEscapeKey, isOpen]);
-
-  // Prevent body scroll when dialog is open
-  React.useEffect(() => {
-    if (isOpen) {
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "unset";
-    }
-
-    return () => {
-      document.documentElement.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  // Focus management
-  const dialogRef = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
-    if (isOpen && dialogRef.current) {
-      const focusableElements = dialogRef.current.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      const firstElement = focusableElements[0] as HTMLElement;
-      if (firstElement) {
-        firstElement.focus();
-      }
-    }
-  }, [isOpen]);
-
-  return (
-    <div className={cn("", className)}>
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className={cn(
-                "fixed inset-0 z-50 bg-background/80",
-                overlayClassName
-              )}
-              onClick={closeOnOverlayClick ? closeDialog : undefined}
-              style={{ pointerEvents: "auto" }}
-            />
-
-            {/* Dialog Content */}
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
-              style={{ pointerEvents: "none" }}
-            >
-              <motion.div
-                ref={dialogRef}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className={cn(
-                  "relative w-full max-w-md max-h-[90vh] overflow-auto bg-card text-card-foreground rounded-lg border border-border shadow-lg",
-                  contentClassName
-                )}
-                onClick={(e) => e.stopPropagation()}
-                style={{ pointerEvents: "auto" }}
-              >
-                {/* Close Button - Positioned absolutely */}
-                {showCloseButton && (
-                  <Button
-                    onClick={closeDialog}
-                    size="icon"
-                    variant="ghost"
-                    className="absolute top-4 right-4 z-10 h-6 w-6 text-muted-foreground hover:text-foreground"
-                    aria-label="Close dialog"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                )}
-
-                {/* Header */}
-                {(title || description) && (
-                  <div
-                    className={cn(
-                      "p-6 pb-4",
-                      showCloseButton && "pr-12", // Add right padding when close button is present
-                      headerClassName
-                    )}
-                  >
-                    {title && (
-                      <h2
-                        className={cn(
-                          "text-lg font-semibold text-foreground mb-1",
-                          titleClassName
-                        )}
-                      >
-                        {title}
-                      </h2>
-                    )}
-                    {description && (
-                      <p
-                        className={cn(
-                          "text-sm text-muted-foreground",
-                          descriptionClassName
-                        )}
-                      >
-                        {description}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Body */}
-                <div
-                  className={cn(
-                    "px-6",
-                    title || description ? "pb-6" : "py-6",
-                    showCloseButton && !title && !description && "pt-12", // Add top padding if no header but has close button
-                    bodyClassName
-                  )}
-                >
-                  {children}
-                </div>
-              </motion.div>
-            </div>
-          </>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-// DialogTrigger Component
-export const DialogTrigger: React.FC<DialogTriggerProps> = ({
+const DialogTrigger: React.FC<DialogTriggerProps> = ({
   children,
   asChild = false,
   className,
 }) => {
-  const context = React.useContext(DialogContext);
-
-  if (!context) {
-    console.warn("DialogTrigger must be used within a Dialog component");
-    return <>{children}</>;
-  }
+  const { onOpenChange } = useDialog();
 
   const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation();
-    context.onOpenChange(true);
+    onOpenChange(true);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onOpenChange(true);
+    }
   };
 
   if (asChild && React.isValidElement(children)) {
-    const element = children as React.ReactElement<ClickableElement>;
-    const originalOnClick = element.props.onClick;
-
-    return React.cloneElement(element, {
-      ...element.props,
+    return React.cloneElement(children as React.ReactElement<any>, {
       onClick: (e: React.MouseEvent) => {
         handleClick(e);
-        originalOnClick?.(e);
+        (children as React.ReactElement<any>).props.onClick?.(e);
       },
-      className: cn(element.props.className, className),
+      onKeyDown: (e: React.KeyboardEvent) => {
+        handleKeyDown(e);
+        (children as React.ReactElement<any>).props.onKeyDown?.(e);
+      },
+      className: cn(
+        (children as React.ReactElement<any>).props.className,
+        className
+      ),
     });
   }
 
   return (
-    <button onClick={handleClick} className={className}>
+    <button
+      type="button"
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      className={className}
+    >
       {children}
     </button>
   );
 };
 
-// Main Dialog wrapper that handles both patterns
-export const Dialog: React.FC<DialogProps> = (props) => {
-  const { children, ...restProps } = props;
+export interface DialogContentProps {
+  children: React.ReactNode;
+  className?: string;
+  showCloseButton?: boolean;
+}
 
-  // Check if this is compound pattern usage
-  if (isCompoundPattern(children)) {
-    // Compound pattern - use context
-    const [internalOpen, setInternalOpen] = React.useState(
-      props.defaultOpen || false
-    );
-    const isControlled = props.isOpen !== undefined;
-    const isOpen = isControlled ? props.isOpen! : internalOpen;
+const DialogContent: React.FC<DialogContentProps> = ({
+  children,
+  className,
+  showCloseButton = true,
+}) => {
+  const { open, onOpenChange, titleId, descriptionId } = useDialog();
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const previousFocusRef = React.useRef<HTMLElement | null>(null);
+  const [mounted, setMounted] = React.useState(false);
 
-    const handleOpenChange = (open: boolean) => {
-      if (!isControlled) {
-        setInternalOpen(open);
+  React.useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  React.useEffect(() => {
+    if (open) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+
+      const focusableElements =
+        contentRef.current?.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+      if (focusableElements && focusableElements.length > 0) {
+        focusableElements[0].focus();
       }
-      props.onOpenChange?.(open);
+    }
+
+    return () => {
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [open]);
+
+  React.useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onOpenChange(false);
+      }
+
+      if (e.key === "Tab" && contentRef.current) {
+        const focusableElements =
+          contentRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement?.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement?.focus();
+          }
+        }
+      }
     };
 
-    const contextValue = {
-      isOpen,
-      onOpenChange: handleOpenChange,
-      showCloseButton: props.showCloseButton ?? true,
-      closeOnOverlayClick: props.closeOnOverlayClick ?? true,
-      closeOnEscapeKey: props.closeOnEscapeKey ?? true,
-      title: props.title,
-      description: props.description,
-      overlayClassName: props.overlayClassName,
-      contentClassName: props.contentClassName,
-      headerClassName: props.headerClassName,
-      bodyClassName: props.bodyClassName,
-      titleClassName: props.titleClassName,
-      descriptionClassName: props.descriptionClassName,
-    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open, onOpenChange]);
 
-    // Separate trigger from content
-    const triggerElements: React.ReactNode[] = [];
-    const contentElements: React.ReactNode[] = [];
+  if (!mounted) return null;
 
-    React.Children.forEach(children, (child) => {
-      if (React.isValidElement(child) && child.type === DialogTrigger) {
-        triggerElements.push(child);
-      } else {
-        contentElements.push(child);
-      }
+  const dialogContent = (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-50 bg-black/50"
+            onClick={() => onOpenChange(false)}
+          />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              ref={contentRef}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              aria-describedby={descriptionId}
+              className={cn(
+                "relative w-full max-w-lg bg-background rounded-lg border border-border shadow-lg grid  p-6",
+                className
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {showCloseButton && (
+                <Button
+                  onClick={() => onOpenChange(false)}
+                  size="icon"
+                  variant="ghost"
+                  className="absolute top-4 right-4 h-8 w-8 text-muted-foreground hover:text-foreground"
+                  aria-label="Close dialog"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              )}
+              {children}
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+
+  return createPortal(dialogContent, document.body);
+};
+
+export interface DialogHeaderProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const DialogHeader: React.FC<DialogHeaderProps> = ({ children, className }) => {
+  return (
+    <div
+      className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
+    >
+      {children}
+    </div>
+  );
+};
+
+export interface DialogFooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const DialogFooter: React.FC<DialogFooterProps> = ({ children, className }) => {
+  return (
+    <div
+      className={cn(
+        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-2",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+export interface DialogTitleProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const DialogTitle: React.FC<DialogTitleProps> = ({ children, className }) => {
+  const { titleId } = useDialog();
+
+  return (
+    <h2 id={titleId} className={cn("text-lg font-semibold", className)}>
+      {children}
+    </h2>
+  );
+};
+
+export interface DialogDescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const DialogDescription: React.FC<DialogDescriptionProps> = ({
+  children,
+  className,
+}) => {
+  const { descriptionId } = useDialog();
+
+  return (
+    <p
+      id={descriptionId}
+      className={cn("text-sm text-muted-foreground", className)}
+    >
+      {children}
+    </p>
+  );
+};
+
+export interface DialogCloseProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  className?: string;
+}
+
+const DialogClose: React.FC<DialogCloseProps> = ({
+  children,
+  asChild = false,
+  className,
+}) => {
+  const { onOpenChange } = useDialog();
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onOpenChange(false);
+  };
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement<any>, {
+      onClick: (e: React.MouseEvent) => {
+        handleClick(e);
+        (children as React.ReactElement<any>).props.onClick?.(e);
+      },
+      className: cn(
+        (children as React.ReactElement<any>).props.className,
+        className
+      ),
     });
-
-    return (
-      <DialogContext.Provider value={contextValue}>
-        <div className={props.className}>
-          {/* Render triggers */}
-          {triggerElements}
-
-          {/* Render dialog with content */}
-          <DialogComponent
-            {...restProps}
-            isOpen={isOpen}
-            onOpenChange={handleOpenChange}
-          >
-            {contentElements}
-          </DialogComponent>
-        </div>
-      </DialogContext.Provider>
-    );
   }
 
-  // Original pattern - render as before
-  return <DialogComponent {...props}>{children}</DialogComponent>;
+  return (
+    <button type="button" onClick={handleClick} className={className}>
+      {children}
+    </button>
+  );
+};
+
+const DialogAction: React.FC<ButtonProps> = ({ onClick, ...props }) => {
+  const { onOpenChange, isControlled } = useDialog();
+
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      await onClick(e);
+    }
+
+    if (!e.defaultPrevented && !isControlled) {
+      onOpenChange(false);
+    }
+  };
+
+  return <Button onClick={handleClick} {...props} />;
+};
+
+type DialogCompound = React.FC<DialogProps> & {
+  Trigger: typeof DialogTrigger;
+  Content: typeof DialogContent;
+  Header: typeof DialogHeader;
+  Footer: typeof DialogFooter;
+  Title: typeof DialogTitle;
+  Description: typeof DialogDescription;
+  Close: typeof DialogClose;
+  Action: typeof DialogAction;
+};
+
+export const Dialog = DialogRoot as DialogCompound;
+Dialog.Trigger = DialogTrigger;
+Dialog.Content = DialogContent;
+Dialog.Header = DialogHeader;
+Dialog.Footer = DialogFooter;
+Dialog.Title = DialogTitle;
+Dialog.Description = DialogDescription;
+Dialog.Close = DialogClose;
+Dialog.Action = DialogAction;
+
+export {
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+  DialogAction,
 };

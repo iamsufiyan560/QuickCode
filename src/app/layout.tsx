@@ -4,6 +4,7 @@ import "./globals.css";
 import Script from "next/script";
 import { ThemeProvider } from "@/extras/theme-provider";
 import { Head } from "nextra/components";
+import { ToastProvider } from "@/components/custom/Toast";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -200,7 +201,7 @@ export default function RootLayout({
 
       <body className={`${inter.className}  antialiased `}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          {children}
+          <ToastProvider>{children}</ToastProvider>
         </ThemeProvider>
       </body>
     </html>
