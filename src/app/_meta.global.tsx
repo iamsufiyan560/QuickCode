@@ -73,6 +73,8 @@ export default {
       AdvancedForm: "",
       Accordion: "",
       ActionSheet: "",
+      AlertDialog: "",
+
       Avatar: "",
       AvatarGroup: "",
       Button: "",

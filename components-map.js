@@ -40,6 +40,11 @@ export const components = {
     requires: ["Button"],
   },
 
+  AlertDialog: {
+    url: `${BASE_URL}AlertDialog.tsx`,
+    deps: {},
+    requires: ["Button"],
+  },
   Avatar: {
     url: `${BASE_URL}Avatar.tsx`,
     deps: {},

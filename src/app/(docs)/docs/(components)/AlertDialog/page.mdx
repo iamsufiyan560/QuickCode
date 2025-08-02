@@ -1,0 +1,96 @@
+import {
+  SimpleAlertDialogExample,
+  ControlledAlertDialogExample,
+} from "@/components/custom/example/AlertDialogExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# AlertDialog
+
+A modal dialog that interrupts the user with important content and expects a response. Perfect for confirmations, warnings, and critical actions that require user acknowledgment.
+
+<InstallTabs components="AlertDialog" />
+
+## Examples
+
+<SimpleAlertDialogExample />
+<ControlledAlertDialogExample />
+
+## AlertDialog Props
+
+| Prop           | Type                      | Default | Description                               |
+| -------------- | ------------------------- | ------- | ----------------------------------------- |
+| `children`     | `React.ReactNode`         | —       | The trigger and content elements          |
+| `open`         | `boolean`                 | —       | Controlled open state                     |
+| `defaultOpen`  | `boolean`                 | `false` | Default open state for uncontrolled usage |
+| `onOpenChange` | `(open: boolean) => void` | —       | Callback when open state changes          |
+
+## AlertDialogTrigger Props
+
+| Prop        | Type              | Default | Description                          |
+| ----------- | ----------------- | ------- | ------------------------------------ |
+| `children`  | `React.ReactNode` | —       | The element that triggers the dialog |
+| `asChild`   | `boolean`         | `false` | Merge props with child element       |
+| `className` | `string`          | —       | Additional CSS classes               |
+
+## AlertDialogContent Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | —       | Dialog content         |
+| `className` | `string`          | —       | Additional CSS classes |
+
+## AlertDialogHeader Props
+
+| Prop        | Type              | Default | Description                            |
+| ----------- | ----------------- | ------- | -------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Header content (Title and Description) |
+| `className` | `string`          | —       | Additional CSS classes                 |
+
+## AlertDialogFooter Props
+
+| Prop        | Type              | Default | Description                                |
+| ----------- | ----------------- | ------- | ------------------------------------------ |
+| `children`  | `React.ReactNode` | —       | Footer content (Cancel and Action buttons) |
+| `className` | `string`          | —       | Additional CSS classes                     |
+
+## AlertDialogTitle Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | —       | The dialog title text  |
+| `className` | `string`          | —       | Additional CSS classes |
+
+## AlertDialogDescription Props
+
+| Prop        | Type              | Default | Description                 |
+| ----------- | ----------------- | ------- | --------------------------- |
+| `children`  | `React.ReactNode` | —       | The dialog description text |
+| `className` | `string`          | —       | Additional CSS classes      |
+
+## AlertDialogAction Props
+
+Accepts all Button component props including:
+
+| Prop        | Type                                                                          | Default     | Description                                    |
+| ----------- | ----------------------------------------------------------------------------- | ----------- | ---------------------------------------------- |
+| `children`  | `React.ReactNode`                                                             | —           | Action button content                          |
+| `variant`   | `"default" \| "destructive" \| "outline" \| "secondary" \| "ghost" \| "link"` | `"default"` | Button variant style                           |
+| `size`      | `"default" \| "sm" \| "md" \| "lg"`                                           | `"sm"`      | Button size                                    |
+| `isLoading` | `boolean`                                                                     | `false`     | Show loading spinner                           |
+| `disabled`  | `boolean`                                                                     | `false`     | Disable the button                             |
+| `className` | `string`                                                                      | —           | Additional CSS classes                         |
+| `onClick`   | `(e: React.MouseEvent<HTMLButtonElement>) => void \| Promise<void>`           | —           | Called when button is clicked (supports async) |
+
+## AlertDialogCancel Props
+
+Accepts all Button component props including:
+
+| Prop        | Type                                                                          | Default     | Description                   |
+| ----------- | ----------------------------------------------------------------------------- | ----------- | ----------------------------- |
+| `children`  | `React.ReactNode`                                                             | —           | Cancel button content         |
+| `variant`   | `"default" \| "destructive" \| "outline" \| "secondary" \| "ghost" \| "link"` | `"outline"` | Button variant style          |
+| `size`      | `"default" \| "sm" \| "md" \| "lg"`                                           | `"sm"`      | Button size                   |
+| `disabled`  | `boolean`                                                                     | `false`     | Disable the button            |
+| `className` | `string`                                                                      | —           | Additional CSS classes        |
+| `onClick`   | `(e: React.MouseEvent<HTMLButtonElement>) => void`                            | —           | Called when button is clicked |
