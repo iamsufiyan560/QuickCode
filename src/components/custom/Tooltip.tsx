@@ -201,7 +201,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     <>
       <div
         ref={triggerRef}
-        className="relative inline-block"
+        className="relative inline-flex"
         onMouseEnter={onTriggerEnter}
         onMouseLeave={onTriggerLeave}
         onFocus={onTriggerFocus}

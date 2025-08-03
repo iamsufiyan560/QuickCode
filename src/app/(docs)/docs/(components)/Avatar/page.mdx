@@ -1,8 +1,4 @@
-import {
-  DefaultAvatarExample
-
-} from "@/components/custom/example/AvatarExample";
-
+import { DefaultAvatarExample } from "@/components/custom/example/AvatarExample";
 import { InstallTabs } from "@/components/helpers/InstallTabs";
 
 # Avatar
@@ -19,11 +15,13 @@ Display user profile pictures with automatic fallback to initials when images fa
 
 ### Avatar
 
-| Prop        | Type                                   | Default      | Description                            |
-| ----------- | -------------------------------------- | ------------ | -------------------------------------- |
-| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`       | Size of the avatar                     |
-| `className` | `string`                               | `undefined`  | Additional CSS classes                 |
-| `children`  | `React.ReactNode`                      | **required** | AvatarImage and AvatarFallback content |
+| Prop             | Type                                   | Default      | Description                            |
+| ---------------- | -------------------------------------- | ------------ | -------------------------------------- |
+| `size`           | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`       | Size of the avatar                     |
+| `className`      | `string`                               | `undefined`  | Additional CSS classes                 |
+| `children`       | `React.ReactNode`                      | **required** | AvatarImage and AvatarFallback content |
+| `showTooltip`    | `boolean`                              | `false`      | Whether to show tooltip on hover       |
+| `tooltipContent` | `string`                               | `undefined`  | Content to display in the tooltip      |
 
 ### AvatarImage
 

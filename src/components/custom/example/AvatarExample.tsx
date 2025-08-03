@@ -14,7 +14,7 @@ export const DefaultAvatarExample = () => {
 export const DefaultAvatarExample = () => {
   return (
     <div className="flex items-center gap-4">
-        <Avatar>
+      <Avatar showTooltip tooltipContent="SUFIYAN CHAUDHARI">
           <AvatarImage
             src="https://i.postimg.cc/zGhZBK2z/image-2.png"
             alt="User avatar"
@@ -35,7 +35,7 @@ export const DefaultAvatarExample = () => {
   return (
     <SnippetPreview title="Default Avatar" code={defaultAvatarCode}>
       <div className="flex items-center gap-4">
-        <Avatar>
+        <Avatar showTooltip tooltipContent="SUFIYAN CHAUDHARI">
           <AvatarImage
             src="https://i.postimg.cc/zGhZBK2z/image-2.png"
             alt="User avatar"

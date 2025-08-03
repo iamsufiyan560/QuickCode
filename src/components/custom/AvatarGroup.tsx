@@ -12,6 +12,7 @@ export interface AvatarData {
   src?: string;
   alt: string;
   fallback: string;
+  tooltipContent?: string;
 }
 
 export interface AvatarGroupProps {
@@ -19,6 +20,7 @@ export interface AvatarGroupProps {
   max?: number;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   className?: string;
+  showTooltip?: boolean;
 }
 
 export const AvatarGroup: React.FC<AvatarGroupProps> = ({
@@ -26,6 +28,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   max = 4,
   size = "md",
   className,
+  showTooltip = false,
 }) => {
   const visibleAvatars = avatars.slice(0, max);
   const remainingCount = avatars.length - max;
@@ -40,6 +43,8 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
             "ring-2 ring-border hover:z-10 transition-all hover:scale-110",
             index !== 0 && "-ml-3"
           )}
+          tooltipContent={avatar.tooltipContent}
+          showTooltip={showTooltip}
         >
           {avatar.src ? (
             <>

@@ -43,6 +43,7 @@ export const components = {
   Avatar: {
     url: `${BASE_URL}Avatar.tsx`,
     deps: {},
+    requires: ["Tooltip"],
   },
   AvatarGroup: {
     url: `${BASE_URL}AvatarGroup.tsx`,

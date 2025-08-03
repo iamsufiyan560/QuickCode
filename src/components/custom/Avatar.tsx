@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Tooltip } from "@/components/custom/Tooltip";
 
 const AvatarContext = React.createContext<{
   size?: "xs" | "sm" | "md" | "lg" | "xl";
@@ -16,6 +17,8 @@ export interface AvatarProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   className?: string;
   children: React.ReactNode;
+  tooltipContent?: string;
+  showTooltip?: boolean;
 }
 
 const sizeClasses = {
@@ -30,22 +33,34 @@ export const Avatar: React.FC<AvatarProps> = ({
   size = "md",
   className,
   children,
+  tooltipContent,
+  showTooltip = false,
 }) => {
   const [imageStatus, setImageStatus] = React.useState<
     "idle" | "loading" | "loaded" | "error"
   >("idle");
 
+  const avatarElement = (
+    <span
+      className={cn(
+        "relative inline-flex items-center justify-center overflow-hidden rounded-full shrink-0",
+        sizeClasses[size],
+        className
+      )}
+    >
+      {children}
+    </span>
+  );
+
   return (
     <AvatarContext.Provider value={{ size, imageStatus, setImageStatus }}>
-      <span
-        className={cn(
-          "relative inline-flex items-center justify-center overflow-hidden rounded-full shrink-0",
-          sizeClasses[size],
-          className
-        )}
-      >
-        {children}
-      </span>
+      {showTooltip && tooltipContent ? (
+        <Tooltip side="top" content={tooltipContent}>
+          {avatarElement}
+        </Tooltip>
+      ) : (
+        avatarElement
+      )}
     </AvatarContext.Provider>
   );
 };
