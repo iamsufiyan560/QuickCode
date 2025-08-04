@@ -1,24 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "./Button";
+import { Input, InputProps } from "./Input";
 
-export function PasswordInput() {
-  return <Preview code={`
-function PasswordInput() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="PasswordInput" language="jsx" />;
+export interface PasswordInputProps extends Omit<InputProps, "type"> {
+  className?: string;
 }
+
+export const PasswordInput: React.FC<PasswordInputProps> = ({
+  className,
+  ...props
+}) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const Icon = showPassword ? EyeOff : Eye;
+
+  return (
+    <div className="relative">
+      <Input
+        type={showPassword ? "text" : "password"}
+        className={cn("pr-10", className)}
+        {...props}
+      />
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+        onClick={() => setShowPassword((prev) => !prev)}
+        aria-label={showPassword ? "Hide password" : "Show password"}
+        tabIndex={-1}
+      >
+        <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+      </Button>
+    </div>
+  );
+};

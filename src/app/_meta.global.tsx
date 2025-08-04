@@ -94,7 +94,13 @@ export default {
 
       Input: "",
       ImageInput: "",
+      KanbanBoard: "",
       Label: "",
+
+      MultiSelect: "",
+      MultiInput: "",
+      MultiTooltip: "",
+      PasswordInput: "",
       RadioGroup: "",
       RangeSlider: "",
       Select: "",
@@ -106,10 +112,6 @@ export default {
       Slider: "",
       Separator: "",
       SearchBox: "",
-      MultiSelect: "",
-      MultiInput: "",
-      MultiTooltip: "",
-      KanbanBoard: "",
 
       Tabs: "",
       TextArea: "",
@@ -229,7 +231,6 @@ export default {
       OnboardingTour: { type: "page", display: "hidden" },
       OtpInput: { type: "page", display: "hidden" },
       Pagination: { type: "page", display: "hidden" },
-      PasswordInput: { type: "page", display: "hidden" },
       PaymentMethod: { type: "page", display: "hidden" },
       Popconfirm: { type: "page", display: "hidden" },
       Popover: { type: "page", display: "hidden" },

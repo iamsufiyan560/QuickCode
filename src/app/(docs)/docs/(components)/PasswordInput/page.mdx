@@ -1,5 +1,24 @@
-import { PasswordInput } from "@/components/custom/PasswordInput";
+import { DefaultExample } from "@/components/custom/example/PasswordInputExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# PasswordInput Example
+# PasswordInput
 
-<PasswordInput />
+A password input field with a toggle button to show or hide the password text.
+
+<InstallTabs components="PasswordInput" />
+
+## Example
+
+<DefaultExample />
+
+## Props
+
+| Prop          | Type                                               | Default | Description                                  |
+| ------------- | -------------------------------------------------- | ------- | -------------------------------------------- |
+| `className`   | `string`                                           | —       | Additional CSS classes for the input element |
+| `placeholder` | `string`                                           | —       | Placeholder text for the input               |
+| `disabled`    | `boolean`                                          | `false` | Whether the input is disabled                |
+| `value`       | `string`                                           | —       | Controlled input value                       |
+| `onChange`    | `(e: React.ChangeEvent<HTMLInputElement>) => void` | —       | Change event handler                         |
+| `id`          | `string`                                           | —       | HTML id attribute for label association      |
+| ...props      | `InputProps`                                       | —       | All other native input props except `type`   |

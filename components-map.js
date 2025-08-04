@@ -155,6 +155,12 @@ export const components = {
     deps: {},
     requires: ["Badge"],
   },
+
+  PasswordInput: {
+    url: `${BASE_URL}PasswordInput.tsx`,
+    deps: {},
+    requires: ["Button", "Input"],
+  },
   Switch: {
     url: `${BASE_URL}Switch.tsx`,
     deps: {},
