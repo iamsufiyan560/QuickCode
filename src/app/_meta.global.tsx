@@ -73,6 +73,8 @@ export default {
       AdvancedForm: "",
       Accordion: "",
       ActionSheet: "",
+      Avatar: "",
+      AvatarGroup: "",
       Button: "",
       ButtonGroup: "",
 
@@ -160,8 +162,7 @@ export default {
 
       Alert: { type: "page", display: "hidden" },
       Analytics: { type: "page", display: "hidden" },
-      Avatar: { type: "page", display: "hidden" },
-      AvatarGroup: { type: "page", display: "hidden" },
+
       Banner: { type: "page", display: "hidden" },
       Breadcrumb: { type: "page", display: "hidden" },
 

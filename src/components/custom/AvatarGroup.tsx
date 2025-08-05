@@ -1,24 +1,68 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "@/components/custom/Avatar";
 
-export function AvatarGroup() {
-  return <Preview code={`
-function AvatarGroup() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="AvatarGroup" language="jsx" />;
+export interface AvatarData {
+  src?: string;
+  alt: string;
+  fallback: string;
 }
+
+export interface AvatarGroupProps {
+  avatars: AvatarData[];
+  max?: number;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  className?: string;
+}
+
+export const AvatarGroup: React.FC<AvatarGroupProps> = ({
+  avatars,
+  max = 4,
+  size = "md",
+  className,
+}) => {
+  const visibleAvatars = avatars.slice(0, max);
+  const remainingCount = avatars.length - max;
+
+  return (
+    <div className={cn("flex items-center", className)}>
+      {visibleAvatars.map((avatar, index) => (
+        <Avatar
+          key={index}
+          size={size}
+          className={cn(
+            "ring-2 ring-border hover:z-10 transition-all hover:scale-110",
+            index !== 0 && "-ml-3"
+          )}
+        >
+          {avatar.src ? (
+            <>
+              <AvatarImage src={avatar.src} alt={avatar.alt} />
+              <AvatarFallback>{avatar.fallback}</AvatarFallback>
+            </>
+          ) : (
+            <AvatarFallback>{avatar.fallback}</AvatarFallback>
+          )}
+        </Avatar>
+      ))}
+      {remainingCount > 0 && (
+        <Avatar
+          size={size}
+          className={cn(
+            "ring-2 ring-border hover:z-10 transition-all hover:scale-110 -ml-3"
+          )}
+        >
+          <AvatarFallback className="bg-muted text-foreground font-bold">
+            +{remainingCount}
+          </AvatarFallback>
+        </Avatar>
+      )}
+    </div>
+  );
+};

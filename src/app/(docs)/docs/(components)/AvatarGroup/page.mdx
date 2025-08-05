@@ -1,5 +1,32 @@
-import { AvatarGroup } from "@/components/custom/AvatarGroup";
+import { DefaultAvatarGroupExample } from "@/components/custom/example/AvatarGroupExample";
 
-# AvatarGroup Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<AvatarGroup />
+# AvatarGroup
+
+Display multiple user avatars in an overlapping stack with an overflow counter.
+
+<InstallTabs components="AvatarGroup" />
+
+## Examples
+
+<DefaultAvatarGroupExample />
+
+## Props
+
+### AvatarGroup
+
+| Prop        | Type                                   | Default      | Description                          |
+| ----------- | -------------------------------------- | ------------ | ------------------------------------ |
+| `avatars`   | `AvatarData[]`                         | **required** | Array of avatar data objects         |
+| `max`       | `number`                               | `4`          | Maximum number of avatars to display |
+| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`       | Size of all avatars in the group     |
+| `className` | `string`                               | `undefined`  | Additional CSS classes               |
+
+### AvatarData
+
+| Prop       | Type     | Default      | Description                    |
+| ---------- | -------- | ------------ | ------------------------------ |
+| `src`      | `string` | `undefined`  | Image source URL (optional)    |
+| `alt`      | `string` | **required** | Alternative text for the image |
+| `fallback` | `string` | **required** | Fallback initials or text      |
