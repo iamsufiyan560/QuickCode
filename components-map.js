@@ -142,6 +142,11 @@ export const components = {
     url: `${BASE_URL}Separator.tsx`,
     deps: {},
   },
+  SearchBox: {
+    url: `${BASE_URL}SearchBox.tsx`,
+    deps: {},
+    requires: ["Input"],
+  },
   RangeSlider: {
     url: `${BASE_URL}RangeSlider.tsx`,
     deps: {},

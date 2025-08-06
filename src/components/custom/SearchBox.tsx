@@ -1,24 +1,102 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React, { useEffect, useState, useRef } from "react";
+import { Search, X, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/custom/Input";
 
-export function SearchBox() {
-  return <Preview code={`
-function SearchBox() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="SearchBox" language="jsx" />;
+export interface SearchBoxProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  value?: string;
+  onChange?: (value: string) => void;
+  onSearch?: (value: string) => void;
+  loading?: boolean;
+  debounceMs?: number;
+  showClearButton?: boolean;
 }
+
+export const SearchBox: React.FC<SearchBoxProps> = ({
+  value: controlledValue,
+  onChange,
+  onSearch,
+  loading = false,
+  debounceMs = 300,
+  showClearButton = true,
+  placeholder = "Search...",
+  className,
+  disabled,
+  ...props
+}) => {
+  const [internalValue, setInternalValue] = useState("");
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : internalValue;
+  const onSearchRef = useRef(onSearch);
+
+  useEffect(() => {
+    onSearchRef.current = onSearch;
+  }, [onSearch]);
+
+  useEffect(() => {
+    if (!onSearchRef.current) return;
+
+    const timer = setTimeout(() => {
+      if (value) {
+        onSearchRef.current?.(value);
+      }
+    }, debounceMs);
+
+    return () => clearTimeout(timer);
+  }, [value, debounceMs]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+
+    onChange?.(newValue);
+  };
+
+  const handleClear = () => {
+    if (!isControlled) {
+      setInternalValue("");
+    }
+    onChange?.("");
+  };
+
+  return (
+    <div className={cn("relative w-full", className)}>
+      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+
+      <Input
+        type="text"
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+        disabled={disabled}
+        className={cn(
+          "pl-9",
+          (showClearButton && value) || loading ? "pr-9" : ""
+        )}
+        {...props}
+      />
+
+      {loading && (
+        <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground animate-spin" />
+      )}
+
+      {!loading && showClearButton && value && (
+        <button
+          type="button"
+          onClick={handleClear}
+          disabled={disabled}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors disabled:pointer-events-none disabled:opacity-50"
+          aria-label="Clear search"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      )}
+    </div>
+  );
+};

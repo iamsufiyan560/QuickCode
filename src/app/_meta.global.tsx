@@ -97,15 +97,15 @@ export default {
       Select: "",
       Skeleton: "",
       Stepper: "",
-      MultiSelect: "",
-      MultiInput: "",
-      MultiTooltip: "",
-
       Switch: "",
       Sidebar: "",
 
       Slider: "",
       Separator: "",
+      SearchBox: "",
+      MultiSelect: "",
+      MultiInput: "",
+      MultiTooltip: "",
 
       Tabs: "",
       TextArea: "",
@@ -238,7 +238,6 @@ export default {
       QrCode: { type: "page", display: "hidden" },
       QuickActions: { type: "page", display: "hidden" },
       Rating: { type: "page", display: "hidden" },
-      SearchBox: { type: "page", display: "hidden" },
       Section: {
         type: "page",
         display: "hidden",

@@ -1,5 +1,26 @@
-import { SearchBox } from "@/components/custom/SearchBox";
+import { DefaultSearchBoxExample } from "@/components/custom/example/SearchBoxExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# SearchBox Example
+# SearchBox
 
-<SearchBox />
+A search input with built-in debouncing, loading states, and clear functionality.
+
+<InstallTabs components="SearchBox" />
+
+## Default Usage
+
+<DefaultSearchBoxExample />
+
+## Props
+
+| Prop              | Type                      | Default       | Description                                           |
+| ----------------- | ------------------------- | ------------- | ----------------------------------------------------- |
+| `value`           | `string`                  | `undefined`   | Controlled input value.                               |
+| `onChange`        | `(value: string) => void` | `undefined`   | Called when input value changes.                      |
+| `onSearch`        | `(value: string) => void` | `undefined`   | Debounced callback triggered after user stops typing. |
+| `loading`         | `boolean`                 | `false`       | Shows loading spinner and disables input.             |
+| `debounceMs`      | `number`                  | `300`         | Milliseconds to wait before triggering onSearch.      |
+| `showClearButton` | `boolean`                 | `true`        | Shows clear button (X) when input has value.          |
+| `placeholder`     | `string`                  | `"Search..."` | Placeholder text for the input.                       |
+| `disabled`        | `boolean`                 | `false`       | Disables the input and clear button.                  |
+| `className`       | `string`                  | `undefined`   | Additional CSS classes for the wrapper div.           |
