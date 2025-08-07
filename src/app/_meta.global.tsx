@@ -79,6 +79,8 @@ export default {
       Badge: "",
 
       Checkbox: "",
+      CheckboxGroup: "",
+
       Card: "",
       ContextMenu: "",
 
@@ -165,7 +167,6 @@ export default {
       Carousel: { type: "page", display: "hidden" },
       Chatbot: { type: "page", display: "hidden" },
 
-      CheckboxGroup: { type: "page", display: "hidden" },
       Chip: { type: "page", display: "hidden" },
       CodeEditor: { type: "page", display: "hidden" },
       ColorPicker: { type: "page", display: "hidden" },

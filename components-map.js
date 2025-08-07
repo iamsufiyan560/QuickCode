@@ -56,6 +56,11 @@ export const components = {
     deps: {},
     requires: ["Label"],
   },
+  CheckboxGroup: {
+    url: `${BASE_URL}CheckboxGroup.tsx`,
+    deps: {},
+    requires: ["Checkbox"],
+  },
   Card: {
     url: `${BASE_URL}Card.tsx`,
     deps: {},

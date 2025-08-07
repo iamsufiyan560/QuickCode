@@ -1,5 +1,43 @@
-import { CheckboxGroup } from "@/components/custom/CheckboxGroup";
+import {
+  DefaultCheckboxGroupExample,
+  CheckboxGroupWithDescriptionExample,
+} from "@/components/custom/example/CheckboxGroupExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# CheckboxGroup Example
+# CheckboxGroup
 
-<CheckboxGroup />
+Groups multiple related checkboxes with shared state management and semantic form structure.
+
+<InstallTabs components="CheckboxGroup" />
+
+## Basic Usage
+
+<DefaultCheckboxGroupExample />
+
+## With Description
+
+<CheckboxGroupWithDescriptionExample />
+
+## CheckboxGroup Props
+
+| Prop            | Type                        | Default     | Description                                      |
+| --------------- | --------------------------- | ----------- | ------------------------------------------------ |
+| `value`         | `string[]`                  | `undefined` | Controlled array of selected checkbox values.    |
+| `onValueChange` | `(value: string[]) => void` | `undefined` | Callback when selection changes.                 |
+| `defaultValue`  | `string[]`                  | `[]`        | Initial selected values for uncontrolled usage.  |
+| `disabled`      | `boolean`                   | `false`     | Disables all checkboxes in the group.            |
+| `label`         | `string`                    | `undefined` | Label for the checkbox group.                    |
+| `description`   | `string`                    | `undefined` | Helper text displayed below the label.           |
+| `error`         | `string`                    | `undefined` | Error message displayed below the group.         |
+| `className`     | `string`                    | `undefined` | Additional CSS classes for the fieldset wrapper. |
+| `children`      | `React.ReactNode`           | —           | CheckboxGroup.Item components.                   |
+
+## CheckboxGroup.Item Props
+
+| Prop        | Type                   | Default     | Description                                      |
+| ----------- | ---------------------- | ----------- | ------------------------------------------------ |
+| `value`     | `string`               | —           | Unique identifier for this checkbox.             |
+| `label`     | `string`               | `undefined` | Label text for the checkbox.                     |
+| `size`      | `"sm" \| "md" \| "lg"` | `"md"`      | Size of the checkbox.                            |
+| `disabled`  | `boolean`              | `false`     | Disables this specific checkbox.                 |
+| `className` | `string`               | `undefined` | Additional CSS classes for the checkbox wrapper. |
