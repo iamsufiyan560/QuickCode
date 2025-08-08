@@ -124,6 +124,7 @@ export default {
       PieChart: "",
       RadarChart: "",
       ComposedChart: "",
+      FunnelChart: "",
 
       __4: {
         type: "separator",

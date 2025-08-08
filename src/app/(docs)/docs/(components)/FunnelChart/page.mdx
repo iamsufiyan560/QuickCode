@@ -1,0 +1,52 @@
+import {
+  BasicExample,
+  LabelExample,
+  CustomLabelExample,
+} from "@/components/custom/example/FunnelChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# FunnelChart
+
+A funnel chart component for visualizing conversion rates, sales pipelines, and progressive data reduction across stages.
+
+<InstallTabs components="FunnelChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### With Labels
+
+<LabelExample />
+
+### Custom Labels
+
+<CustomLabelExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type          | Default | Description                                           |
+| ----------- | ------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig` | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactNode`   | —       | Chart components to render                            |
+| `className` | `string`      | —       | Additional CSS classes                                |
+
+### FunnelChart
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `margin`    | `object` | —       | Chart margins          |
+| `className` | `string` | —       | Additional CSS classes |
+
+### ChartTooltipContent
+
+| Prop        | Type      | Default   | Description            |
+| ----------- | --------- | --------- | ---------------------- |
+| `hideLabel` | `boolean` | `false`   | Hide the tooltip label |
+| `nameKey`   | `string`  | `'name'`  | Key for stage name     |
+| `valueKey`  | `string`  | `'value'` | Key for value          |
+| `className` | `string`  | —         | Additional CSS classes |
