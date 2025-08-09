@@ -34,7 +34,10 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
 }) => {
   return (
     <div
-      className={cn("w-full h-[400px]", className)}
+      className={cn(
+        "w-full h-[400px] outline-none focus:outline-none",
+        className
+      )}
       style={
         {
           ...Object.entries(config).reduce((acc, [key, value]) => {
@@ -45,7 +48,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
       }
       {...props}
     >
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer className="outline-none" width="100%" height="100%">
         {children}
       </ResponsiveContainer>
     </div>
@@ -68,7 +71,12 @@ export const AreaChart: React.FC<AreaChartProps> = ({
   ...props
 }) => {
   return (
-    <RechartsAreaChart className={cn("", className)} {...props}>
+    <RechartsAreaChart
+      tabIndex={-1}
+      className={cn("outline-none [&>svg]:outline-none", className)}
+      style={{ outline: "none" }}
+      {...props}
+    >
       {children}
     </RechartsAreaChart>
   );
