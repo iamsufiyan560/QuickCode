@@ -99,29 +99,29 @@ const ProjectCalendarDemo = () => {
   );
 
   const holidays = [
-    { year: 2025, month: 9, day: 2 }, // Labor Day
-    { year: 2025, month: 9, day: 15 }, // Mid-Autumn Festival
-    { year: 2025, month: 9, day: 22 }, // Autumnal Equinox
+    new Date("2025-09-02"),
+    new Date("2025-09-15"),
+    new Date("2025-09-22"),
   ];
 
   const specialDays = [
     {
-      date: { year: 2025, month: 9, day: 5 },
+      date: new Date("2025-09-05"),
       className: "bg-chart-1/20 text-chart-1 hover:bg-chart-1/30",
       label: "Sprint Planning",
     },
     {
-      date: { year: 2025, month: 9, day: 12 },
+      date: new Date("2025-09-12"),
       className: "bg-chart-2/20 text-chart-2 hover:bg-chart-2/30",
       label: "Product Demo",
     },
     {
-      date: { year: 2025, month: 9, day: 19 },
+      date: new Date("2025-09-19"),
       className: "bg-chart-3/20 text-chart-3 hover:bg-chart-3/30",
       label: "Code Review",
     },
     {
-      date: { year: 2025, month: 9, day: 26 },
+      date: new Date("2025-09-26"),
       className: "bg-chart-4/20 text-chart-4 hover:bg-chart-4/30",
       label: "Release Date",
     },
@@ -189,19 +189,20 @@ const quickActions: ActionSheetAction[] = [
 ];
 
 export const QuickActionsDemo = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
-    <ActionSheet
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      setIsOpen={setIsOpen}
-      title="Quick Actions"
-      description="Choose an action for this item."
-      actions={quickActions}
-      position="bottom"
-      triggerButtonLabel="Quick Actions"
-    />
+    <ActionSheet position="bottom">
+      <ActionSheet.Trigger>Quick Actions</ActionSheet.Trigger>
+      <ActionSheet.Header>
+        <ActionSheet.Title>Quick Actions</ActionSheet.Title>
+        <ActionSheet.Description>
+          Choose an action for this item.
+        </ActionSheet.Description>
+      </ActionSheet.Header>
+      <ActionSheet.Content>
+        <ActionSheet.Actions actions={quickActions} />
+      </ActionSheet.Content>
+      <ActionSheet.Footer />
+    </ActionSheet>
   );
 };
 
@@ -220,19 +221,18 @@ const fileActions: ActionSheetAction[] = [
 ];
 
 export const FileOptionsDemo = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
-    <ActionSheet
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      setIsOpen={setIsOpen}
-      title="File Options"
-      description="Manage your file."
-      actions={fileActions}
-      position="top"
-      triggerButtonLabel="File Options"
-    />
+    <ActionSheet position="top">
+      <ActionSheet.Trigger>File Options</ActionSheet.Trigger>
+      <ActionSheet.Header>
+        <ActionSheet.Title>File Options</ActionSheet.Title>
+        <ActionSheet.Description>Manage your file.</ActionSheet.Description>
+      </ActionSheet.Header>
+      <ActionSheet.Content>
+        <ActionSheet.Actions actions={fileActions} />
+      </ActionSheet.Content>
+      <ActionSheet.Footer />
+    </ActionSheet>
   );
 };
 
@@ -250,19 +250,18 @@ const editActions: ActionSheetAction[] = [
 ];
 
 export const EditToolsDemo = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
-    <ActionSheet
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      setIsOpen={setIsOpen}
-      title="Edit Tools"
-      description="Modify your content."
-      actions={editActions}
-      position="left"
-      triggerButtonLabel="Edit Tools"
-    />
+    <ActionSheet position="left">
+      <ActionSheet.Trigger>Edit Tools</ActionSheet.Trigger>
+      <ActionSheet.Header>
+        <ActionSheet.Title>Edit Tools</ActionSheet.Title>
+        <ActionSheet.Description>Modify your content.</ActionSheet.Description>
+      </ActionSheet.Header>
+      <ActionSheet.Content>
+        <ActionSheet.Actions actions={editActions} />
+      </ActionSheet.Content>
+      <ActionSheet.Footer />
+    </ActionSheet>
   );
 };
 
@@ -281,19 +280,20 @@ const shareActions: ActionSheetAction[] = [
 ];
 
 export const ShareOptionsDemo = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
-    <ActionSheet
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      setIsOpen={setIsOpen}
-      title="Share Options"
-      description="Control access to your content."
-      actions={shareActions}
-      position="right"
-      triggerButtonLabel="Share Options"
-    />
+    <ActionSheet position="right">
+      <ActionSheet.Trigger>Share Options</ActionSheet.Trigger>
+      <ActionSheet.Header>
+        <ActionSheet.Title>Share Options</ActionSheet.Title>
+        <ActionSheet.Description>
+          Control access to your content.
+        </ActionSheet.Description>
+      </ActionSheet.Header>
+      <ActionSheet.Content>
+        <ActionSheet.Actions actions={shareActions} />
+      </ActionSheet.Content>
+      <ActionSheet.Footer />
+    </ActionSheet>
   );
 };
 

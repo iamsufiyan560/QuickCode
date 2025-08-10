@@ -3,14 +3,13 @@ import {
   TopExample,
   LeftExample,
   RightExample,
-
 } from "@/components/custom/example/ActionSheetExample";
 
 import { InstallTabs } from "@/components/helpers/InstallTabs";
 
 # ActionSheet
 
-A mobile-first bottom sheet component that presents a list of actions in a modal overlay. Perfect for contextual menus, confirmation dialogs, and action selection interfaces commonly seen in mobile applications.
+A flexible modal overlay component that slides in from any direction to present contextual actions or content. Built with compound pattern for maximum composition flexibility.
 
 <InstallTabs components="ActionSheet" />
 
@@ -30,47 +29,114 @@ A mobile-first bottom sheet component that presents a list of actions in a modal
 
 <RightExample />
 
-## Props
+## ActionSheet Props
 
-| Prop                 | Type                                            | Default              | Description                                                               |
-| -------------------- | ----------------------------------------------- | -------------------- | ------------------------------------------------------------------------- |
-| `isOpen`             | `boolean`                                       | -                    | Required: Controls whether the action sheet is visible                    |
-| `onClose`            | `() => void`                                    | -                    | Required: Callback function called when the action sheet closes           |
-| `setIsOpen`          | `React.Dispatch<React.SetStateAction<boolean>>` | -                    | Required: Function to set the `isOpen` state                              |
-| `title`              | `string`                                        | `"Choose an action"` | Header title displayed at the top of the action sheet                     |
-| `description`        | `string`                                        | Sample description   | Optional description text below the title                                 |
-| `actions`            | `ActionSheetAction[]`                           | -                    | Required: Array of action objects with label, onClick, and optional props |
-| `variant`            | `"default" \| "filled" \| "bordered"`           | `"default"`          | Visual style variant for the action sheet                                 |
-| `size`               | `"sm" \| "md" \| "lg"`                          | `"md"`               | Size variant affecting text size and padding                              |
-| `showCloseButton`    | `boolean`                                       | `true`               | Whether to show the X close button in the header                          |
-| `cancelLabel`        | `string`                                        | `"Cancel"`           | Label for the cancel button at the bottom                                 |
-| `triggerButtonLabel` | `string`                                        | `"Show Actions"`     | Label for the trigger button                                              |
-| `triggerButtonProps` | `Omit<ButtonProps, "children">`                 | `{}`                 | Props to customize the trigger button (e.g., variant, size, className)    |
-| `position`           | `"bottom" \| "top" \| "left" \| "right"`        | `"bottom"`           | Position from which the action sheet slides in                            |
-| `showScroll`         | `boolean`                                       | `true`               | Whether to show a scrollbar when content overflows                        |
+| Prop        | Type                                     | Default     | Description                             |
+| ----------- | ---------------------------------------- | ----------- | --------------------------------------- |
+| `children`  | `React.ReactNode`                        | -           | ActionSheet sub-components              |
+| `isOpen`    | `boolean`                                | -           | Controls visibility of the action sheet |
+| `onClose`   | `() => void`                             | -           | Callback when action sheet closes       |
+| `position`  | `"bottom" \| "top" \| "left" \| "right"` | `"bottom"`  | Position to slide in from               |
+| `variant`   | `"default" \| "filled" \| "bordered"`    | `"default"` | Visual style variant                    |
+| `size`      | `"sm" \| "md" \| "lg"`                   | `"md"`      | Size affecting text and padding         |
+| `className` | `string`                                 | -           | Additional CSS classes                  |
+
+## ActionSheet.Trigger Props
+
+| Prop        | Type              | Default | Description                                  |
+| ----------- | ----------------- | ------- | -------------------------------------------- |
+| `children`  | `React.ReactNode` | -       | Trigger button content                       |
+| `asChild`   | `boolean`         | `false` | Compose with child element instead of Button |
+| `className` | `string`          | -       | Additional CSS classes                       |
+
+## ActionSheet.Header Props
+
+| Prop              | Type              | Default | Description                         |
+| ----------------- | ----------------- | ------- | ----------------------------------- |
+| `children`        | `React.ReactNode` | -       | Header content (Title, Description) |
+| `showCloseButton` | `boolean`         | `true`  | Show X close button                 |
+| `className`       | `string`          | -       | Additional CSS classes              |
+
+## ActionSheet.Title Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | -       | Title text             |
+| `className` | `string`          | -       | Additional CSS classes |
+
+## ActionSheet.Description Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | -       | Description text       |
+| `className` | `string`          | -       | Additional CSS classes |
+
+## ActionSheet.Content Props
+
+| Prop         | Type              | Default | Description                           |
+| ------------ | ----------------- | ------- | ------------------------------------- |
+| `children`   | `React.ReactNode` | -       | Content (Actions or custom content)   |
+| `showScroll` | `boolean`         | `true`  | Show scrollbar when content overflows |
+| `className`  | `string`          | -       | Additional CSS classes                |
+
+## ActionSheet.Actions Props
+
+| Prop        | Type                  | Default | Description             |
+| ----------- | --------------------- | ------- | ----------------------- |
+| `actions`   | `ActionSheetAction[]` | -       | Array of action objects |
+| `className` | `string`              | -       | Additional CSS classes  |
+
+## ActionSheet.Footer Props
+
+| Prop          | Type              | Default    | Description            |
+| ------------- | ----------------- | ---------- | ---------------------- |
+| `children`    | `React.ReactNode` | -          | Custom footer content  |
+| `cancelLabel` | `string`          | `"Cancel"` | Cancel button label    |
+| `className`   | `string`          | -          | Additional CSS classes |
 
 ## ActionSheetAction Interface
 
-| Property   | Type                         | Required | Description                                 |
-| ---------- | ---------------------------- | -------- | ------------------------------------------- |
-| `label`    | `string`                     | ✓        | Text displayed for the action               |
-| `onClick`  | `() => void`                 | ✓        | Function called when the action is selected |
-| `variant`  | `"default" \| "destructive"` | ✗        | Visual style, destructive shows in red      |
-| `disabled` | `boolean`                    | ✗        | Whether the action is disabled              |
-| `icon`     | `React.ReactNode`            | ✗        | Optional icon displayed before the label    |
+| Property   | Type                         | Required | Description                              |
+| ---------- | ---------------------------- | -------- | ---------------------------------------- |
+| `label`    | `string`                     | ✓        | Text displayed for the action            |
+| `onClick`  | `() => void`                 | ✓        | Function called when action is selected  |
+| `variant`  | `"default" \| "destructive"` | ✗        | Visual style, destructive shows in red   |
+| `disabled` | `boolean`                    | ✗        | Whether the action is disabled           |
+| `icon`     | `React.ReactNode`            | ✗        | Optional icon displayed before the label |
 
-## Features
+## Custom Content & Mixed Actions
 
-- **Mobile-First Design**: Slides up from the bottom with smooth spring animations powered by Framer Motion.
-- **Keyboard Accessible**: Supports Escape key to close and proper focus management.
-- **Flexible Actions**: Supports custom icons, destructive variants, and disabled states.
-- **Multiple Variants**: Choose from default, filled, or bordered styling options for the action sheet.
-- **Customizable Trigger**: Use `triggerButtonProps` to style the trigger button (e.g., variant, size, className).
-- **Position Control**: Slide in from bottom, top, left, or right.
-- **Backdrop Dismissal**: Click outside the action sheet to close it.
-- **Body Scroll Lock**: Prevents background scrolling when the action sheet is open.
-- **Scrollable Content**: Optional scrollbar for overflowing content with `showScroll` prop.
-- **Responsive Sizing**: Adapts to different screen sizes with maximum width constraints.
-- **Dark Mode Ready**: Full support for light and dark themes with semantic Tailwind classes.
+Mix `ActionSheet.Actions` with custom JSX, or use completely custom content:
 
-This component is ideal for mobile applications, admin panels, or any interface requiring contextual actions without navigating away from the current view. The bottom sheet pattern is intuitive for users familiar with native mobile apps, making it perfect for quick action menus like sharing, editing, or deleting items.
+```jsx
+// Mixed: Actions + Custom
+<ActionSheet.Content>
+  <ActionSheet.Actions actions={actions} />
+  <div className="mt-4 pt-4 border-t border-border">
+    <button className="w-full p-3 border border-border rounded hover:bg-muted">
+      Custom Button
+    </button>
+  </div>
+</ActionSheet.Content>
+
+// Fully Custom Content
+<ActionSheet.Content>
+  <div className="space-y-4">
+    <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+      <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+      <p className="text-sm text-muted-foreground">Drag files here</p>
+    </div>
+    <div className="flex gap-2">
+      <button className="flex-1 p-2 border border-border rounded">Camera</button>
+      <button className="flex-1 p-2 border border-border rounded">Gallery</button>
+    </div>
+  </div>
+</ActionSheet.Content>
+
+// Custom Footer for Left/Right positions
+<ActionSheet.Footer>
+  <button className="w-full p-2 text-sm border border-border rounded">
+    Custom Footer Action
+  </button>
+</ActionSheet.Footer>
+```

@@ -1,64 +1,49 @@
 "use client";
 
-import React from "react";
+import React, { createContext, useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { Button, ButtonProps } from "./Button";
+import { Button } from "./Button";
+import { cn } from "@/lib/utils";
 
-export interface ActionSheetAction {
-  label: string;
-  onClick: () => void;
-  variant?: "default" | "destructive";
-  disabled?: boolean;
-  icon?: React.ReactNode;
+interface ActionSheetContextValue {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  onClose: () => void;
+  position: "bottom" | "top" | "left" | "right";
+  variant: "default" | "filled" | "bordered";
+  size: "sm" | "md" | "lg";
 }
 
-export interface ActionSheetProps {
-  isOpen: boolean;
-  onClose: () => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  title?: string;
-  description?: string;
-  actions: ActionSheetAction[];
+const ActionSheetContext = createContext<ActionSheetContextValue | undefined>(
+  undefined
+);
+
+function useActionSheet() {
+  const context = useContext(ActionSheetContext);
+  if (!context) {
+    throw new Error("ActionSheet components must be used within ActionSheet");
+  }
+  return context;
+}
+
+interface ActionSheetProps {
+  children: React.ReactNode;
+  position?: "bottom" | "top" | "left" | "right";
   variant?: "default" | "filled" | "bordered";
   size?: "sm" | "md" | "lg";
-  showCloseButton?: boolean;
-  cancelLabel?: string;
-  triggerButtonLabel?: string;
-  triggerButtonProps?: Omit<ButtonProps, "size"> & {
-    size?: "default" | "sm" | "md" | "lg";
-  };
-  position?: "bottom" | "top" | "left" | "right";
-  showScroll?: boolean;
+  className?: string;
 }
 
-export const ActionSheet: React.FC<ActionSheetProps> = ({
-  isOpen,
-  onClose,
-  setIsOpen,
-  title = "Choose an action",
-  description = "Select one of the options below to continue.",
-  actions,
+function ActionSheetProvider({
+  children,
+  position = "bottom",
   variant = "default",
   size = "md",
-  showCloseButton = true,
-  cancelLabel = "Cancel",
-  triggerButtonLabel = "Show Actions",
-  triggerButtonProps = {},
-  position = "bottom",
-  showScroll = true,
-}) => {
-  const sizeClasses = {
-    sm: { text: "text-sm", padding: "px-4 py-3", spacing: "space-y-1" },
-    md: { text: "text-base", padding: "px-6 py-4", spacing: "space-y-2" },
-    lg: { text: "text-lg", padding: "px-8 py-5", spacing: "space-y-3" },
-  };
-
-  const variantClasses = {
-    default: "bg-background border-border",
-    filled: "bg-muted border-border",
-    bordered: "bg-background border-2 border-border",
-  };
+  className,
+}: ActionSheetProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
 
   React.useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -76,18 +61,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
       document.removeEventListener("keydown", handleEscape);
       document.documentElement.style.overflow = "";
     };
-  }, [isOpen, onClose]);
-
-  const handleActionClick = (action: ActionSheetAction) => {
-    if (!action.disabled) {
-      action.onClick();
-      onClose();
-    }
-  };
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
+  }, [isOpen]);
 
   const getMotionProps = () => {
     switch (position) {
@@ -96,14 +70,14 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           initial: { y: "-100%" },
           animate: { y: 0 },
           exit: { y: "-100%" },
-          className: "fixed  inset-x-0 top-0 z-50 mx-auto max-w-lg",
+          className: "fixed inset-x-0 top-0 z-50 mx-auto max-w-lg",
         };
       case "left":
         return {
           initial: { x: "-100%" },
           animate: { x: 0 },
           exit: { x: "-100%" },
-          className: "fixed  inset-y-0 left-0 z-[50] h-full w-80 max-w-[90%]",
+          className: "fixed inset-y-0 left-0 z-50 h-full w-80 max-w-[90%]",
         };
       case "right":
         return {
@@ -117,18 +91,43 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           initial: { y: "100%" },
           animate: { y: 0 },
           exit: { y: "100%" },
-          className: "fixed  inset-x-0 bottom-0 z-50 mx-auto max-w-lg",
+          className: "fixed inset-x-0 bottom-0 z-50 mx-auto max-w-lg",
         };
     }
   };
 
+  const variantClasses = {
+    default: "bg-background border-border",
+    filled: "bg-muted border-border",
+    bordered: "bg-background border-2 border-border",
+  };
+
   const motionProps = getMotionProps();
 
+  let headerContent = null;
+  let mainContent = null;
+  let footerContent = null;
+  let triggerContent = null;
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child)) {
+      if (child.type === ActionSheetTrigger) {
+        triggerContent = child;
+      } else if (child.type === ActionSheetHeader) {
+        headerContent = child;
+      } else if (child.type === ActionSheetContent) {
+        mainContent = child;
+      } else if (child.type === ActionSheetFooter) {
+        footerContent = child;
+      }
+    }
+  });
+
   return (
-    <div>
-      <Button onClick={handleOpen} {...triggerButtonProps}>
-        {triggerButtonLabel}
-      </Button>
+    <ActionSheetContext.Provider
+      value={{ isOpen, setIsOpen, onClose, position, variant, size }}
+    >
+      {triggerContent}
       <AnimatePresence mode="wait">
         {isOpen && (
           <>
@@ -137,7 +136,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="fixed  inset-0 z-40 bg-black/50 h-full"
+              className="fixed inset-0 z-40 bg-black/50"
               onClick={onClose}
             />
 
@@ -150,20 +149,21 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                 duration: 0.25,
                 ease: [0.25, 1, 0.5, 1],
               }}
-              className={motionProps.className}
+              className={cn(motionProps.className, className)}
             >
               <div
-                className={`${
+                className={cn(
+                  "shadow-xl flex flex-col",
                   position === "bottom"
                     ? "rounded-t-2xl border-t"
                     : position === "top"
                     ? "rounded-b-2xl border-b"
-                    : "h-full border-l"
-                } ${variantClasses[variant]} shadow-xl flex flex-col  ${
+                    : "h-full border-l",
+                  variantClasses[variant],
                   position === "left"
                     ? "border border-r-border"
                     : "border border-l-border"
-                } `}
+                )}
                 style={{
                   maxHeight:
                     position === "bottom" || position === "top"
@@ -171,88 +171,259 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                       : "100%",
                 }}
               >
-                <div
-                  className={`border-b border-border ${sizeClasses[size].padding} flex-shrink-0`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3
-                        className={`font-semibold text-foreground ${sizeClasses[size].text}`}
-                      >
-                        {title}
-                      </h3>
-                      {description && (
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {description}
-                        </p>
-                      )}
-                    </div>
-
-                    {showCloseButton && (
-                      <Button onClick={onClose} size="icon" variant="ghost">
-                        <X className="w-5 h-5" />
-                      </Button>
-                    )}
-                  </div>
-                </div>
-
-                <div
-                  className={`flex-1 overflow-y-auto px-6 py-4 space-y-2 ${
-                    showScroll
-                      ? `[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-track]:${
-                          variant === "filled"
-                            ? "bg-muted"
-                            : variant === "bordered"
-                            ? "bg-background"
-                            : "bg-background"
-                        } [&::-webkit-scrollbar-thumb]:bg-gray-400/50 [&::-webkit-scrollbar-thumb]:rounded-[4px]`
-                      : "[&::-webkit-scrollbar]:hidden"
-                  }`}
-                >
-                  {actions.map((action, index) => (
-                    <Button
-                      key={index}
-                      onClick={() => handleActionClick(action)}
-                      disabled={action.disabled ?? false}
-                      size="default"
-                      variant="ghost"
-                      className={`w-full flex items-center justify-start space-x-3 text-left ${
-                        sizeClasses[size].text
-                      }  ${
-                        action.disabled
-                          ? "cursor-not-allowed opacity-50"
-                          : action.variant === "destructive"
-                          ? "text-destructive hover:bg-destructive/10"
-                          : variant === "filled"
-                          ? "text-foreground hover:bg-secondary"
-                          : "text-foreground hover:bg-muted"
-                      } `}
-                    >
-                      {action.icon && (
-                        <div className="flex-shrink-0">{action.icon}</div>
-                      )}
-                      <span className="font-medium">{action.label}</span>
-                    </Button>
-                  ))}
-                </div>
-
-                {(position === "bottom" || position === "top") && (
-                  <div className="border-t border-border py-2 flex-shrink-0">
-                    <Button
-                      onClick={onClose}
-                      size="default"
-                      variant="ghost"
-                      className={`inline-flex w-full ${sizeClasses[size].text} font-medium items-center justify-center py-4`}
-                    >
-                      {cancelLabel}
-                    </Button>
-                  </div>
-                )}
+                {headerContent}
+                {mainContent}
+                {footerContent}
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+    </ActionSheetContext.Provider>
+  );
+}
+
+interface ActionSheetTriggerProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+function ActionSheetTrigger({ children, className }: ActionSheetTriggerProps) {
+  const { setIsOpen } = useActionSheet();
+
+  return (
+    <Button onClick={() => setIsOpen(true)} className={className}>
+      {children}
+    </Button>
+  );
+}
+
+interface ActionSheetHeaderProps {
+  children: React.ReactNode;
+  showCloseButton?: boolean;
+  className?: string;
+}
+
+function ActionSheetHeader({
+  children,
+  showCloseButton = true,
+  className,
+}: ActionSheetHeaderProps) {
+  const { onClose, size } = useActionSheet();
+
+  const sizeClasses = {
+    sm: "px-4 py-3",
+    md: "px-6 py-4",
+    lg: "px-8 py-5",
+  };
+
+  return (
+    <div
+      className={cn(
+        "border-b border-border flex-shrink-0",
+        sizeClasses[size],
+        className
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex-1">{children}</div>
+        {showCloseButton && (
+          <Button
+            onClick={onClose}
+            size="icon"
+            variant="ghost"
+            className="ml-4"
+          >
+            <X className="w-5 h-5" />
+          </Button>
+        )}
+      </div>
     </div>
   );
-};
+}
+
+interface ActionSheetTitleProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+function ActionSheetTitle({ children, className }: ActionSheetTitleProps) {
+  const { size } = useActionSheet();
+
+  const sizeClasses = {
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+  };
+
+  return (
+    <h3
+      className={cn(
+        "font-semibold text-foreground",
+        sizeClasses[size],
+        className
+      )}
+    >
+      {children}
+    </h3>
+  );
+}
+
+interface ActionSheetDescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+function ActionSheetDescription({
+  children,
+  className,
+}: ActionSheetDescriptionProps) {
+  return (
+    <p className={cn("mt-1 text-sm text-muted-foreground", className)}>
+      {children}
+    </p>
+  );
+}
+
+interface ActionSheetContentProps {
+  children: React.ReactNode;
+  showScroll?: boolean;
+  className?: string;
+}
+
+function ActionSheetContent({
+  children,
+  showScroll = true,
+  className,
+}: ActionSheetContentProps) {
+  const { variant } = useActionSheet();
+
+  const scrollClasses = showScroll
+    ? `[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-track]:${
+        variant === "filled" ? "bg-muted" : "bg-background"
+      } [&::-webkit-scrollbar-thumb]:bg-gray-400/50 [&::-webkit-scrollbar-thumb]:rounded-[4px]`
+    : "[&::-webkit-scrollbar]:hidden";
+
+  return (
+    <div
+      className={cn(
+        "flex-1 overflow-y-auto px-6 py-4",
+        scrollClasses,
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+export interface ActionSheetAction {
+  label: string;
+  onClick: () => void;
+  variant?: "default" | "destructive";
+  disabled?: boolean;
+  icon?: React.ReactNode;
+}
+
+interface ActionSheetActionsProps {
+  actions: ActionSheetAction[];
+  className?: string;
+}
+
+function ActionSheetActions({ actions, className }: ActionSheetActionsProps) {
+  const { onClose, size, variant } = useActionSheet();
+
+  const sizeClasses = {
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+  };
+
+  const handleActionClick = (action: ActionSheetAction) => {
+    if (!action.disabled) {
+      action.onClick();
+      onClose();
+    }
+  };
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {actions.map((action, index) => (
+        <Button
+          key={index}
+          onClick={() => handleActionClick(action)}
+          disabled={action.disabled ?? false}
+          size="default"
+          variant="ghost"
+          className={cn(
+            "w-full flex items-center justify-start space-x-3 text-left",
+            sizeClasses[size],
+            action.disabled
+              ? "cursor-not-allowed opacity-50"
+              : action.variant === "destructive"
+              ? "text-destructive hover:bg-destructive/10"
+              : variant === "filled"
+              ? "text-foreground hover:bg-secondary"
+              : "text-foreground hover:bg-muted"
+          )}
+        >
+          {action.icon && <div className="flex-shrink-0">{action.icon}</div>}
+          <span className="font-medium">{action.label}</span>
+        </Button>
+      ))}
+    </div>
+  );
+}
+
+interface ActionSheetFooterProps {
+  children?: React.ReactNode;
+  cancelLabel?: string;
+  className?: string;
+}
+
+function ActionSheetFooter({
+  children,
+  cancelLabel = "Cancel",
+  className,
+}: ActionSheetFooterProps) {
+  const { onClose, position, size } = useActionSheet();
+
+  const sizeClasses = {
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+  };
+
+  if (!children && (position === "left" || position === "right")) {
+    return null;
+  }
+
+  return (
+    <div className={cn("border-t border-border py-2 flex-shrink-0", className)}>
+      {children || (
+        <Button
+          onClick={onClose}
+          size="default"
+          variant="ghost"
+          className={cn(
+            "inline-flex w-full font-medium items-center justify-center py-4",
+            sizeClasses[size]
+          )}
+        >
+          {cancelLabel}
+        </Button>
+      )}
+    </div>
+  );
+}
+
+const ActionSheet = ActionSheetProvider as any;
+ActionSheet.Trigger = ActionSheetTrigger;
+ActionSheet.Header = ActionSheetHeader;
+ActionSheet.Title = ActionSheetTitle;
+ActionSheet.Description = ActionSheetDescription;
+ActionSheet.Content = ActionSheetContent;
+ActionSheet.Actions = ActionSheetActions;
+ActionSheet.Footer = ActionSheetFooter;
+
+export { ActionSheet };
