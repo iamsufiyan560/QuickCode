@@ -1,5 +1,53 @@
-import { DateRangePicker } from "@/components/custom/DateRangePicker";
+import {
+  DefaultExample,
+  AdvancedExample,
+  CustomFormattingExample,
+} from "@/components/custom/example/DateRangePickerExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# DateRangePicker Example
+# DateRangePicker
 
-<DateRangePicker />
+A date range picker component for selecting start and end dates with visual range highlighting and preset options.
+
+<InstallTabs components="DateRangePicker" />
+
+## Examples
+
+### Default
+
+<DefaultExample />
+
+### Advanced
+
+<AdvancedExample />
+
+### Custom Formatting
+
+<CustomFormattingExample />
+
+## Props
+
+| Prop                | Type                           | Default                      | Description                                              |
+| ------------------- | ------------------------------ | ---------------------------- | -------------------------------------------------------- |
+| `value?`            | `DateRange`                    | —                            | Controlled date range value                              |
+| `defaultValue?`     | `DateRange`                    | `{ start: null, end: null }` | Default date range when uncontrolled                     |
+| `onChange?`         | `(range: DateRange) => void`   | —                            | Callback fired when date range changes                   |
+| `disabled?`         | `boolean`                      | `false`                      | Whether the date picker is disabled                      |
+| `placeholder?`      | `string`                       | `"Select date range"`        | Placeholder text when no dates selected                  |
+| `locale?`           | `string`                       | `"en-IN"`                    | Locale for date formatting                               |
+| `minDate?`          | `Date`                         | —                            | Minimum selectable date                                  |
+| `maxDate?`          | `Date`                         | —                            | Maximum selectable date                                  |
+| `maxRange?`         | `number`                       | —                            | Maximum number of days that can be selected              |
+| `minRange?`         | `number`                       | —                            | Minimum number of days that must be selected             |
+| `highlightedDates?` | `DateHighlight[]`              | `[]`                         | Array of dates to highlight with custom styling          |
+| `disabledDates?`    | `Date[]`                       | `[]`                         | Array of dates that should be disabled                   |
+| `holidays?`         | `Date[]`                       | `[]`                         | Array of holiday dates to highlight                      |
+| `specialDays?`      | `SpecialDay[]`                 | `[]`                         | Array of special days with custom styling and labels     |
+| `disableWeekends?`  | `boolean`                      | `false`                      | Whether to disable weekend selection                     |
+| `disableHolidays?`  | `boolean`                      | `false`                      | Whether to disable holiday selection                     |
+| `presets?`          | `DateRangePreset[]`            | Default presets              | Array of preset date ranges for quick selection          |
+| `showLegend?`       | `boolean`                      | `true`                       | Whether to show the legend for holidays and special days |
+| `className?`        | `string`                       | —                            | Additional CSS classes for the container                 |
+| `triggerClassName?` | `string`                       | —                            | Additional CSS classes for the trigger button            |
+| `contentClassName?` | `string`                       | —                            | Additional CSS classes for the dropdown content          |
+| `format?`           | `(range: DateRange) => string` | —                            | Custom function to format the displayed date range       |

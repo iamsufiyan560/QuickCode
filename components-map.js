@@ -59,7 +59,12 @@ export const components = {
   DatePicker: {
     url: `${BASE_URL}DatePicker.tsx`,
     deps: {},
-    requires: ["Tooltip"],
+    requires: ["Tooltip", "Button", "Input", "Select"],
+  },
+  DateRangePicker: {
+    url: `${BASE_URL}DateRangePicker.tsx`,
+    deps: {},
+    requires: ["Tooltip", "Button", "Select"],
   },
   Dialog: {
     url: `${BASE_URL}Dialog.tsx`,

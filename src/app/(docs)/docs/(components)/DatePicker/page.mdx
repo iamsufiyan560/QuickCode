@@ -8,75 +8,43 @@ import { InstallTabs } from "@/components/helpers/InstallTabs";
 
 # DatePicker
 
-A comprehensive date picker component with advanced features including time selection, smart positioning, and business calendar functionality. Designed for modern applications with portal rendering and intelligent date handling.
+A date picker component with time selection, holiday support, and Custom Event calendar features.
 
 <InstallTabs components="DatePicker" />
 
-## Default Usage
+## Examples
 
-The DatePicker provides a clean interface for date selection with intuitive month/year navigation and automatic positioning to prevent viewport overflow.
+### Default
 
 <DefaultDatePickerExample />
 
-## Date & Time Selection
-
-Enable time selection for scheduling applications with integrated hour/minute inputs and AM/PM toggle functionality.
+### Date & Time
 
 <DateTimePickerExample />
 
-## Business Calendar Features
-
-Advanced calendar functionality with holiday detection, special event highlighting, weekend restrictions, and business logic enforcement.
+### Business Calendar
 
 <BusinessDatePickerExample />
 
-## Component Architecture
-
-The DatePicker utilizes portal rendering to ensure the calendar overlay never gets clipped by parent containers with overflow restrictions. The component automatically calculates optimal positioning based on available viewport space, switching between top and bottom placement as needed.
-
 ## Props
 
-| Prop               | Type                                                                             | Default         | Description                                        |
-| ------------------ | -------------------------------------------------------------------------------- | --------------- | -------------------------------------------------- |
-| `value`            | `Date \| null`                                                                   | `null`          | Controlled date value                              |
-| `defaultValue`     | `Date`                                                                           | `undefined`     | Default date for uncontrolled usage                |
-| `onChange`         | `(date: Date \| null) => void`                                                   | `undefined`     | Callback when date selection changes               |
-| `disabled`         | `boolean`                                                                        | `false`         | Disables the entire date picker                    |
-| `placeholder`      | `string`                                                                         | `"Select date"` | Placeholder text for empty state                   |
-| `includeTime`      | `boolean`                                                                        | `false`         | Enables time selection with hour/minute inputs     |
-| `minDate`          | `Date`                                                                           | `undefined`     | Earliest selectable date                           |
-| `maxDate`          | `Date`                                                                           | `undefined`     | Latest selectable date                             |
-| `holidays`         | `Array<{year: number, month: number, day: number}>`                              | `[]`            | Holiday dates to highlight and optionally disable  |
-| `specialDays`      | `Array<{date: DateObj, className?: string, label?: string, disabled?: boolean}>` | `[]`            | Custom highlighted dates with styling              |
-| `disabledDates`    | `Array<{year: number, month: number, day: number}>`                              | `[]`            | Specific dates to disable                          |
-| `disableWeekends`  | `boolean`                                                                        | `false`         | Disables Saturday and Sunday selection             |
-| `disableHolidays`  | `boolean`                                                                        | `false`         | Makes holiday dates non-selectable                 |
-| `showLegend`       | `boolean`                                                                        | `true`          | Shows color legend for holidays and special events |
-| `className`        | `string`                                                                         | `undefined`     | Additional classes for the root container          |
-| `triggerClassName` | `string`                                                                         | `undefined`     | Additional classes for the input trigger           |
-| `contentClassName` | `string`                                                                         | `undefined`     | Additional classes for the calendar popup          |
-| `format`           | `(date: Date) => string`                                                         | Auto format     | Custom date formatting function                    |
-
-## Advanced Features
-
-### Smart Positioning System
-
-The DatePicker uses an intelligent positioning algorithm that prevents the calendar from being cut off by viewport boundaries. It automatically switches between top and bottom placement based on available space and handles scroll events to maintain proper positioning.
-
-### Holiday and Event Management
-
-Define holidays and special events with custom styling and tooltips. The component supports business logic like disabling weekends and holidays while providing visual indicators for important dates.
-
-### Time Integration
-
-When time selection is enabled, the component seamlessly integrates hour/minute inputs with proper validation and 12-hour format conversion. Time changes are immediately reflected in the selected date value.
-
-### Accessibility Standards
-
-The DatePicker implements comprehensive keyboard navigation, screen reader support, and proper ARIA labeling. All interactive elements are focusable and provide appropriate feedback for assistive technologies.
-
-## Technical Implementation
-
-Built with React 18+ and TypeScript for type safety. Utilizes Framer Motion for smooth animations and portal rendering for reliable positioning. The component follows modern React patterns with proper state management and event handling.
-
-Perfect for applications requiring sophisticated date selection with business rules, scheduling interfaces, or any scenario where standard HTML date inputs are insufficient.
+| Prop                | Type                           | Default         | Description                                   |
+| ------------------- | ------------------------------ | --------------- | --------------------------------------------- |
+| `value?`            | `Date \| null`                 | —               | Controlled date value                         |
+| `defaultValue?`     | `Date`                         | —               | Default date when uncontrolled                |
+| `onChange?`         | `(date: Date \| null) => void` | —               | Callback fired when date changes              |
+| `disabled?`         | `boolean`                      | `false`         | Whether the date picker is disabled           |
+| `placeholder?`      | `string`                       | `"Select date"` | Placeholder text when no date selected        |
+| `includeTime?`      | `boolean`                      | `false`         | Enable time selection with hour/minute inputs |
+| `minDate?`          | `Date`                         | —               | Minimum selectable date                       |
+| `maxDate?`          | `Date`                         | —               | Maximum selectable date                       |
+| `holidays?`         | `Date[]`                       | `[]`            | Holiday dates to highlight                    |
+| `specialDays?`      | `SpecialDay[]`                 | `[]`            | Special dates with custom styling             |
+| `disabledDates?`    | `Date[]`                       | `[]`            | Specific dates to disable                     |
+| `disableWeekends?`  | `boolean`                      | `false`         | Disable Saturday and Sunday selection         |
+| `disableHolidays?`  | `boolean`                      | `false`         | Make holiday dates non-selectable             |
+| `showLegend?`       | `boolean`                      | `true`          | Show color legend for holidays and events     |
+| `className?`        | `string`                       | —               | Additional CSS classes                        |
+| `triggerClassName?` | `string`                       | —               | Additional CSS classes for trigger button     |
+| `contentClassName?` | `string`                       | —               | Additional CSS classes for calendar popup     |
+| `format?`           | `(date: Date) => string`       | —               | Custom date formatting function               |

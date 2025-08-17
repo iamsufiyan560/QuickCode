@@ -14,6 +14,8 @@ import {
   SelectValue,
 } from "@/components/custom/Select";
 import { Tooltip } from "@/components/custom/Tooltip";
+import { Button } from "./Button";
+import { Input } from "./Input";
 
 export interface DateHighlight {
   date: Date;
@@ -32,10 +34,10 @@ export interface DatePickerProps {
   minDate?: Date;
   maxDate?: Date;
   highlightedDates?: DateHighlight[];
-  disabledDates?: Array<{ year: number; month: number; day: number }>;
-  holidays?: Array<{ year: number; month: number; day: number }>;
+  disabledDates?: Date[];
+  holidays?: Date[];
   specialDays?: Array<{
-    date: { year: number; month: number; day: number };
+    date: Date;
     className?: string;
     label?: string;
     disabled?: boolean;
@@ -125,21 +127,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
 
-  const createUserDate = (year: any, month: any, day: any) => {
-    return new Date(year, month - 1, day);
-  };
-
-  const processedHolidays = holidays.map((h) =>
-    createUserDate(h.year, h.month, h.day)
-  );
-  const processedSpecialDays = specialDays.map((s) => ({
-    ...s,
-    date: createUserDate(s.date.year, s.date.month, s.date.day),
-  }));
-  const processedDisabledDates = disabledDates.map((d) =>
-    createUserDate(d.year, d.month, d.day)
-  );
-
   React.useEffect(() => {
     if (value !== undefined) setSelectedDate(value);
   }, [value]);
@@ -211,7 +198,25 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const hour12 = parseInt(e.target.value);
+    const inputValue = e.target.value;
+
+    // Prevent empty input
+    if (inputValue === "") {
+      e.target.value = "12";
+      return;
+    }
+
+    const hour12 = parseInt(inputValue);
+
+    // Clamp value between 1-12
+    if (hour12 < 1) {
+      e.target.value = "1";
+      return;
+    }
+    if (hour12 > 12) {
+      e.target.value = "12";
+      return;
+    }
 
     if (hour12 === 0) {
       const newHour24 = time.hours >= 12 ? 11 + 12 : 11;
@@ -239,18 +244,16 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       return true;
     if (
       disableHolidays &&
-      processedHolidays.some(
-        (holiday) => date.toDateString() === holiday.toDateString()
-      )
+      holidays.some((holiday) => date.toDateString() === holiday.toDateString())
     )
       return true;
-    const specialDay = processedSpecialDays.find(
+    const specialDay = specialDays.find(
       (special) => date.toDateString() === special.date.toDateString()
     );
 
     if (specialDay?.disabled) return true;
 
-    return processedDisabledDates.some(
+    return disabledDates.some(
       (disabledDate) => date.toDateString() === disabledDate.toDateString()
     );
   };
@@ -261,7 +264,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     );
     if (highlight) return highlight;
 
-    const isHoliday = processedHolidays.some(
+    const isHoliday = holidays.some(
       (holiday) => date.toDateString() === holiday.toDateString()
     );
     if (isHoliday) {
@@ -273,7 +276,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       };
     }
 
-    const specialDay = processedSpecialDays.find(
+    const specialDay = specialDays.find(
       (special) => date.toDateString() === special.date.toDateString()
     );
 
@@ -320,14 +323,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     }
     if (
       disableHolidays &&
-      processedHolidays.some(
-        (holiday) => date.toDateString() === holiday.toDateString()
-      )
+      holidays.some((holiday) => date.toDateString() === holiday.toDateString())
     ) {
       return "Holidays are disabled";
     }
     if (
-      processedDisabledDates.some(
+      disabledDates.some(
         (disabledDate) => date.toDateString() === disabledDate.toDateString()
       )
     ) {
@@ -457,7 +458,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           onMouseDown={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between mb-4">
-            <button
+            <Button
+              size="sm"
+              variant="ghost"
               type="button"
               onClick={() =>
                 setCurrentMonth(
@@ -470,7 +473,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               className="p-1 hover:bg-accent rounded-md transition-colors cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
-            </button>
+            </Button>
 
             <div className="flex items-center gap-2">
               <Select
@@ -481,7 +484,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                   )
                 }
               >
-                <SelectTrigger className="w-26">
+                <SelectTrigger className="w-28">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -520,7 +523,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               </Select>
             </div>
 
-            <button
+            <Button
+              size="sm"
+              variant="ghost"
               type="button"
               onClick={() =>
                 setCurrentMonth(
@@ -533,7 +538,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               className="p-1 hover:bg-accent rounded-md transition-colors cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
 
           <div className="grid grid-cols-7 gap-1 mb-2">
@@ -560,7 +565,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                 const tooltipContent = getTooltipContent(date, dateInfo);
 
                 const dayButton = (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     key={index}
                     type="button"
                     disabled={isDisabled}
@@ -592,7 +599,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                         )}
                       ></span>
                     )}
-                  </button>
+                  </Button>
                 );
 
                 return tooltipContent ? (
@@ -617,7 +624,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1">
-                  <input
+                  <Input
                     type="number"
                     min="1"
                     max="12"
@@ -629,29 +636,33 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                         : time.hours
                     }
                     onChange={handleHoursChange}
-                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [moz-appearance:textfield] w-16 px-2 py-2 text-sm border border-border rounded-lg bg-background text-center focus:outline-none focus:ring-2 focus:ring-ring"
+                    className=" w-16 text-center text-sm  dark:bg-background bg-background"
                   />
                   <span className="text-muted-foreground">:</span>
-                  <input
+                  <Input
                     type="number"
                     max="60"
                     value={time.minutes.toString().padStart(2, "0")}
                     onChange={handleMinutesChange}
-                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [moz-appearance:textfield] w-16 px-2 py-2 text-sm border border-border rounded-lg bg-background text-center focus:outline-none focus:ring-2 focus:ring-ring"
+                    className=" w-16 text-center text-sm  dark:bg-background bg-background"
                   />
                 </div>
 
-                <button
-                  type="button"
+                <Button
+                  size="sm"
+                  variant="outline"
                   onClick={() => {
                     const newHours =
                       time.hours >= 12 ? time.hours - 12 : time.hours + 12;
                     handleTimeChange(newHours, time.minutes);
                   }}
-                  className="px-3 py-2 text-sm border border-border rounded-lg hover:bg-accent transition-colors cursor-pointer select-none bg-background"
                 >
                   {time.hours >= 12 ? "PM" : "AM"}
-                </button>
+                </Button>
+
+                <Button size="sm" onClick={() => setOpen(false)}>
+                  Done
+                </Button>
               </div>
             </div>
           )}
@@ -685,14 +696,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
-      <button
+      <Button
+        variant="outline"
         ref={triggerRef}
         type="button"
         disabled={disabled}
         onClick={() => !disabled && setOpen(!open)}
         className={cn(
-          "flex h-10 w-full items-center justify-between rounded-md border border-input hover:bg-input/30 bg-background px-3 py-2 text-sm transition-colors",
-          "disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-10 w-full items-center justify-between  text-sm transition-colors",
           !selectedDate && "text-muted-foreground",
           triggerClassName
         )}
@@ -701,7 +712,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           {selectedDate ? formatDate(selectedDate) : placeholder}
         </span>
         <Calendar className="h-4 w-4 opacity-50" />
-      </button>
+      </Button>
 
       {typeof document !== "undefined" &&
         ReactDOM.createPortal(calendarContent, document.body)}

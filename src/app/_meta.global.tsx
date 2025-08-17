@@ -104,8 +104,10 @@ export default {
       Checkbox: "",
       Card: "",
       DatePicker: "",
+      DateRangePicker: "",
 
       Dialog: "",
+
       Input: "",
       ImageInput: "",
       Label: "",
@@ -163,7 +165,6 @@ export default {
         display: "hidden",
         items: DATA_DISPLAY,
       },
-      DateRangePicker: { type: "page", display: "hidden" },
       Divider: { type: "page", display: "hidden" },
       Drawer: { type: "page", display: "hidden" },
       Dropdown: { type: "page", display: "hidden" },

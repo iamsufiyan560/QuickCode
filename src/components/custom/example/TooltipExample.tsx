@@ -50,7 +50,7 @@ export const DefaultTooltipExample = () => {
   return (
     <SnippetPreview title="Search Tooltip" code={searchTooltipCode}>
       <div className="flex flex-col gap-12">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-center mx-auto gap-6">
           <Tooltip content="Search on the left" side="left">
             <Search className="w-6 h-6 cursor-pointer text-muted-foreground" />
           </Tooltip>

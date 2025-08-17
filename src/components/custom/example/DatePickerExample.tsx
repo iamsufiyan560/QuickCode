@@ -74,19 +74,19 @@ export const BusinessDatePickerExample = () => {
   const [eventDate, setEventDate] = React.useState<Date | null>(null);
 
   const holidays = [
-    { year: 2025, month: 1, day: 1 },
-    { year: 2025, month: 8, day: 15 },
-    { year: 2025, month: 12, day: 25 },
+    new Date("2025-01-01"),
+    new Date("2025-08-15"),
+    new Date("2025-12-25"),
   ];
 
   const specialDays = [
     {
-      date: { year: 2025, month: 9, day: 15 },
+      date: new Date("2025-09-15"),
       className: "bg-chart-2/20 text-chart-2 hover:bg-chart-2/30",
       label: "Product Launch",
     },
     {
-      date: { year: 2025, month: 10, day: 31 },
+      date: new Date("2025-10-31"),
       className: "bg-chart-4/20 text-chart-4 hover:bg-chart-4/30",
       label: "Quarterly Review",
     },
@@ -98,23 +98,23 @@ export const BusinessDatePickerExample = () => {
   const [eventDate, setEventDate] = React.useState<Date | null>(null);
 
   const holidays = [
-    { year: 2025, month: 1, day: 1 },
-    { year: 2025, month: 8, day: 15 },
-    { year: 2025, month: 12, day: 25 },
-  ];
+  new Date("2025-01-01"),
+  new Date("2025-08-15"),
+  new Date("2025-12-25"),
+];
 
-  const specialDays = [
-    {
-      date: { year: 2025, month: 9, day: 15 },
-      className: "bg-chart-2/20 text-chart-2 hover:bg-chart-2/30",
-      label: "Product Launch",
-    },
-    {
-      date: { year: 2025, month: 10, day: 31 },
-      className: "bg-chart-4/20 text-chart-4 hover:bg-chart-4/30",
-      label: "Quarterly Review",
-    },
-  ];
+const specialDays = [
+  {
+    date: new Date("2025-09-15"),
+    className: "bg-chart-2/20 text-chart-2 hover:bg-chart-2/30",
+    label: "Product Launch",
+  },
+  {
+    date: new Date("2025-10-31"),
+    className: "bg-chart-4/20 text-chart-4 hover:bg-chart-4/30",
+    label: "Quarterly Review",
+  },
+];
 
 
   return (

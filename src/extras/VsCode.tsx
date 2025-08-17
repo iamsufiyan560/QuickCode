@@ -796,16 +796,15 @@ export default function QuickCodePromoPage({
             </motion.div>
 
             <div className="absolute right-4 cursor-pointer z-10">
-              <Tooltip content="Close Demo ❌">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className=""
-                  onClick={onClose}
-                >
-                  <X className="w-6 h-6" />
-                </Button>
-              </Tooltip>
+              <Button
+                title="Close Demo"
+                variant="ghost"
+                size="icon"
+                className=""
+                onClick={onClose}
+              >
+                <X className="w-6 h-6" />
+              </Button>
             </div>
           </motion.div>
         )}
