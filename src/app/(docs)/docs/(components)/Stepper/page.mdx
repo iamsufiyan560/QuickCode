@@ -1,5 +1,52 @@
-import { Stepper } from "@/components/custom/Stepper";
+import {
+  HorizontalStepperExample,
+  VerticalStepperExample,
+} from "@/components/custom/example/StepperExample";
 
-# Stepper Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Stepper />
+# Stepper
+
+A visual progress indicator that shows users their current position in a multi-step process. Features responsive design, multiple sizes, vertical/horizontal layouts, and smooth animations.
+
+<InstallTabs components="Stepper" />
+
+## Horizontal Life Journey Stepper
+
+<HorizontalStepperExample />
+
+## Vertical Project Timeline
+
+<VerticalStepperExample />
+
+## Props
+
+| Prop          | Type                   | Default | Description                                           |
+| ------------- | ---------------------- | ------- | ----------------------------------------------------- |
+| `steps`       | `StepperStep[]`        | -       | Array of step objects with id, title, and description |
+| `currentStep` | `number`               | -       | Zero-based index of the current active step           |
+| `className`   | `string`               | -       | Additional CSS classes                                |
+| `showLabels`  | `boolean`              | `true`  | Whether to show step titles and descriptions          |
+| `size`        | `"sm" \| "md" \| "lg"` | `"md"`  | Size variant affecting circle and text sizes          |
+| `vertical`    | `boolean`              | `false` | Whether to display steps vertically                   |
+
+## StepperStep Interface
+
+| Property      | Type     | Required | Description                    |
+| ------------- | -------- | -------- | ------------------------------ |
+| `id`          | `string` | Yes      | Unique identifier for the step |
+| `title`       | `string` | Yes      | Display title for the step     |
+| `description` | `string` | No       | Optional description text      |
+
+## Features
+
+- **Dual Layouts**: Horizontal layout for desktop with connecting lines, vertical layout for timelines and detailed processes
+- **Responsive Design**: Mobile-optimized horizontal layout with centered steps and current step details
+- **Progress Visualization**: Completed steps show checkmarks, current step is highlighted, future steps are muted
+- **Multiple Sizes**: Small, medium, and large variants for different use cases
+- **Smooth Animations**: Transitions between steps with scale and color animations
+- **Accessible**: Proper contrast ratios and semantic structure for screen readers
+- **Flexible Content**: Support for step titles and optional descriptions
+- **Dark Mode Ready**: Seamless integration with light and dark themes
+
+Perfect for onboarding flows, checkout processes, form wizards, project timelines, and any multi-step user journey.

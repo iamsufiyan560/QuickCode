@@ -147,11 +147,19 @@ export const Tooltip: React.FC<TooltipProps> = ({
   useEffect(() => {
     if (!isVisible) return;
     const handle = () => computePosition(usedSide);
+    const hideOnScroll = () => setIsVisible(false);
     window.addEventListener("resize", handle);
     window.addEventListener("scroll", handle, true);
+
+    window.addEventListener("touchmove", hideOnScroll, { passive: true });
+    document.addEventListener("touchmove", hideOnScroll, { passive: true });
+
     return () => {
       window.removeEventListener("resize", handle);
       window.removeEventListener("scroll", handle, true);
+
+      window.removeEventListener("touchmove", hideOnScroll);
+      document.removeEventListener("touchmove", hideOnScroll);
     };
   }, [isVisible, computePosition, usedSide]);
 

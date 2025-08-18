@@ -1,0 +1,65 @@
+import {
+  BasicImageInputExample,
+  CustomizedImageInputExample,
+} from "@/components/custom/example/ImageInputExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Image Input
+
+A user-friendly image upload component with instant preview functionality. Features drag-and-drop support, customizable preview sizes, and seamless integration with forms.
+
+<InstallTabs components="ImageInput" />
+
+## Basic Image Input
+
+<BasicImageInputExample />
+
+## Customized Image Inputs
+
+<CustomizedImageInputExample />
+
+## Props
+
+| Prop               | Type                           | Default | Description                                   |
+| ------------------ | ------------------------------ | ------- | --------------------------------------------- |
+| `onImageChange`    | `(file: File \| null) => void` | -       | Callback fired when image is selected/removed |
+| `previewClassName` | `string`                       | -       | Additional CSS classes for preview container  |
+| `showRemoveButton` | `boolean`                      | `true`  | Whether to show the remove button on preview  |
+| `previewUrl`       | `string`                       | -       | External URL for initial preview image        |
+| `className`        | `string`                       | -       | Additional CSS classes for the input          |
+
+All standard HTML input props are supported (except `type` and `accept` which are predefined).
+
+## Features
+
+- **Instant Preview**: Shows selected image immediately with customizable preview size
+- **Remove Functionality**: Clean removal with X button that properly updates parent state
+- **File Validation**: Built-in image file type validation
+- **Responsive Design**: Adapts to different screen sizes and container widths
+- **Accessibility**: Proper ARIA labels and keyboard navigation support
+- **Form Integration**: Works seamlessly with form libraries and controlled components
+- **External URLs**: Support for displaying images from external URLs
+- **Dark Mode Ready**: Consistent styling across light and dark themes
+
+## Fake Event Explanation
+
+When an image is removed using the X button, the component creates a "fake event" to notify the parent component:
+
+```typescript
+const fakeEvent = {
+  target: { files: null, value: "" },
+} as React.ChangeEvent<HTMLInputElement>;
+onChange?.(fakeEvent);
+```
+
+**Why is this needed?**
+
+1. **Parent State Sync**: The parent component often expects an `onChange` event to update its state
+2. **Form Library Compatibility**: Form libraries like React Hook Form, Formik expect standard input change events
+3. **Controlled Components**: Maintains consistency with how controlled input components work
+4. **State Reset**: Ensures both the file input's internal value and parent state are properly cleared
+
+This pattern ensures that removing an image behaves exactly like clearing a regular input field, maintaining consistency across your application's form handling.
+
+Perfect for profile pictures, document uploads, product images, and any scenario requiring image selection with preview.

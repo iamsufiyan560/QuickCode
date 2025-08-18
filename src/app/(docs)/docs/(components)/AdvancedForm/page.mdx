@@ -1,0 +1,467 @@
+import {
+  ComprehensiveFormExample,
+  JobApplicationFormExample,
+  UserProfileFormExample,
+} from "@/components/custom/example/AdvancedFormExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Advanced Form
+
+A comprehensive form component that eliminates repetitive form development. Build complex, validated, multi-step forms through configuration instead of writing UI code.
+
+<InstallTabs components="AdvancedForm" />
+
+## Core Capabilities
+
+**Configuration-Driven Development**: Define forms through JSON configuration objects instead of writing repetitive form markup and validation logic.
+
+**Comprehensive Field Support**: Built-in support for 16 field types including text, email, number, checkbox, radio, switch, select, multi-select, slider, range-slider, textarea, date, time, tel, url, file, and image inputs.
+
+**Advanced Validation System**: Powered by Zod schema validation with automatic schema generation, real-time validation feedback, custom validation functions, and configurable error messages.
+
+**Multi-Step Form Support**: Create wizard-style forms with progress indicators, step navigation, individual step validation, and smooth transitions between steps.
+
+**Responsive Layout System**: Automatically adapts to different screen sizes with configurable grid layouts supporting 1, 2, or 3 columns based on screen width.
+
+**Loading States and Skeletons**: Built-in loading states for form interactions and customizable skeleton components for data loading scenarios.
+
+**Extensible Architecture**: Support for conditional fields, custom headers and footers, auto-save functionality, and comprehensive event handling.
+
+## Examples
+
+### Comprehensive Multi-Step Form
+
+Demonstrates all field types, validation patterns, conditional logic, and stepper functionality in a complete three-step registration process.
+
+<ComprehensiveFormExample />
+
+### Job Application Form
+
+Single-step form showcasing file upload validation, URL validation, and select field options for employment applications.
+
+<JobApplicationFormExample />
+
+### User Profile Form with API Integration
+
+Profile editing form that fetches user data from RandomUser.me API, demonstrates form population with external data, includes image upload with preview, and shows real-time header updates.
+
+<UserProfileFormExample />
+
+## Component Properties
+
+### AdvancedFormProps
+
+| Property           | Type                                                   | Default     | Description                                                      |
+| ------------------ | ------------------------------------------------------ | ----------- | ---------------------------------------------------------------- |
+| `fields`           | `FormField[]`                                          | `[]`        | Field configuration array for single-step forms                  |
+| `steps`            | `FormStep[]`                                           | `[]`        | Step configuration array for multi-step forms                    |
+| `onSubmit`         | `(data: Record<string, any>) => void \| Promise<void>` | Required    | Function called when form is submitted with form data            |
+| `onChange`         | `(data: Record<string, any>) => void`                  | `undefined` | Function called whenever any field value changes                 |
+| `initialValues`    | `Record<string, any>`                                  | `{}`        | Initial values to populate form fields on mount                  |
+| `header`           | `FormHeader`                                           | `undefined` | Header configuration with title, description, and custom content |
+| `footer`           | `FormFooter`                                           | `undefined` | Footer configuration with custom content                         |
+| `submitText`       | `string`                                               | `"Submit"`  | Text displayed on the submit button                              |
+| `resetText`        | `string`                                               | `"Reset"`   | Text displayed on the reset button                               |
+| `nextText`         | `string`                                               | `"Next"`    | Text displayed on the next step button                           |
+| `backText`         | `string`                                               | `"Back"`    | Text displayed on the back step button                           |
+| `showReset`        | `boolean`                                              | `false`     | Whether to display the reset button                              |
+| `showStepProgress` | `boolean`                                              | `true`      | Whether to show step progress indicators in multi-step forms     |
+| `autoSave`         | `boolean`                                              | `false`     | Enable automatic saving of form data to localStorage             |
+| `className`        | `string`                                               | `undefined` | Additional CSS classes for the form container                    |
+| `stepperClassName` | `string`                                               | `undefined` | Additional CSS classes for the stepper component                 |
+| `formClassName`    | `string`                                               | `undefined` | Additional CSS classes for the form element                      |
+| `loading`          | `boolean`                                              | `false`     | Loading state that disables all form inputs                      |
+| `isSubmitLoading`  | `boolean`                                              | `false`     | Loading state specifically for the submit button                 |
+| `isFormLoading`    | `boolean`                                              | `false`     | Loading state that shows skeleton instead of form                |
+| `skeletonProps`    | `FormSkeletonProps`                                    | `undefined` | Configuration for the loading skeleton appearance                |
+| `logo`             | `React.ReactNode`                                      | `undefined` | Logo or image to display above the form title                    |
+
+### FormField Configuration
+
+| Property       | Type                                       | Default     | Description                                                  |
+| -------------- | ------------------------------------------ | ----------- | ------------------------------------------------------------ |
+| `id`           | `string`                                   | Required    | Unique identifier for the field used in form data            |
+| `label`        | `string`                                   | Required    | Display label shown above the input field                    |
+| `type`         | `FieldType`                                | Required    | Input type that determines which component to render         |
+| `placeholder`  | `string`                                   | `undefined` | Placeholder text displayed inside input fields               |
+| `description`  | `string`                                   | `undefined` | Helper text displayed below the input field                  |
+| `options`      | `FormFieldOption[] \| string[]`            | `undefined` | Options for select, radio, checkbox, and multi-select fields |
+| `validation`   | `FormFieldValidation`                      | `undefined` | Validation rules and error messages for the field            |
+| `defaultValue` | `any`                                      | `undefined` | Default value to populate the field with                     |
+| `disabled`     | `boolean`                                  | `false`     | Whether the field should be disabled                         |
+| `hidden`       | `boolean`                                  | `false`     | Whether the field should be hidden from display              |
+| `className`    | `string`                                   | `undefined` | Additional CSS classes for the field wrapper                 |
+| `conditional`  | `(values: Record<string, any>) => boolean` | `undefined` | Function to conditionally show/hide field based on form data |
+| `sliderProps`  | `SliderProps`                              | `undefined` | Additional configuration for slider and range-slider fields  |
+| `inputProps`   | `Record<string, any>`                      | `undefined` | Additional props passed directly to the input component      |
+
+### FormFieldValidation Options
+
+| Property          | Type                             | Default     | Description                                     |
+| ----------------- | -------------------------------- | ----------- | ----------------------------------------------- |
+| `required`        | `boolean`                        | `false`     | Whether the field must have a value             |
+| `min`             | `number`                         | `undefined` | Minimum value for number and slider fields      |
+| `max`             | `number`                         | `undefined` | Maximum value for number and slider fields      |
+| `minLength`       | `number`                         | `undefined` | Minimum character length for text fields        |
+| `maxLength`       | `number`                         | `undefined` | Maximum character length for text fields        |
+| `pattern`         | `string`                         | `undefined` | Regular expression pattern for validation       |
+| `email`           | `boolean`                        | `undefined` | Enable built-in email validation                |
+| `url`             | `boolean`                        | `undefined` | Enable built-in URL validation                  |
+| `custom`          | `(value: any) => string \| null` | `undefined` | Custom validation function returning error text |
+| `maxSize`         | `number`                         | `undefined` | Maximum file size in bytes for file fields      |
+| `acceptedTypes`   | `string[]`                       | `undefined` | Accepted file types for file and image fields   |
+| `requiredError`   | `string`                         | `undefined` | Custom error message for required validation    |
+| `minLengthError`  | `string`                         | `undefined` | Custom error message for minimum length         |
+| `maxLengthError`  | `string`                         | `undefined` | Custom error message for maximum length         |
+| `minError`        | `string`                         | `undefined` | Custom error message for minimum value          |
+| `maxError`        | `string`                         | `undefined` | Custom error message for maximum value          |
+| `emailError`      | `string`                         | `undefined` | Custom error message for email validation       |
+| `urlError`        | `string`                         | `undefined` | Custom error message for URL validation         |
+| `patternError`    | `string`                         | `undefined` | Custom error message for pattern validation     |
+| `customFileError` | `string`                         | `undefined` | Custom error message for file validation        |
+
+### FormStep Configuration
+
+| Property      | Type          | Default     | Description                                |
+| ------------- | ------------- | ----------- | ------------------------------------------ |
+| `id`          | `string`      | Required    | Unique identifier for the step             |
+| `title`       | `string`      | Required    | Display title shown in the stepper         |
+| `description` | `string`      | `undefined` | Optional description text for the step     |
+| `fields`      | `FormField[]` | Required    | Array of field configurations for the step |
+| `className`   | `string`      | `undefined` | Additional CSS classes for the step        |
+
+### FormSkeletonProps
+
+| Property    | Type          | Default     | Description                                       |
+| ----------- | ------------- | ----------- | ------------------------------------------------- |
+| `className` | `string`      | `undefined` | Additional CSS classes for the skeleton container |
+| `fields`    | `number`      | `6`         | Number of skeleton fields to display              |
+| `columns`   | `1 \| 2 \| 3` | `2`         | Number of columns in the skeleton grid layout     |
+
+## Supported Field Types
+
+All field types must include `as const` for proper TypeScript inference:
+
+**Text Input Fields**
+
+- `"text" as const` - Standard text input
+- `"email" as const` - Email input with validation
+- `"password" as const` - Password input with security validation
+- `"number" as const` - Numeric input with min/max validation
+- `"tel" as const` - Phone number input with formatting
+- `"url" as const` - URL input with protocol validation
+
+**Date and Time Fields**
+
+- `"date" as const` - Date picker input
+- `"time" as const` - Time picker input
+- `"datetime-local" as const` - Combined date and time picker
+
+**Selection Fields**
+
+- `"checkbox" as const` - Single checkbox for boolean values
+- `"radio" as const` - Radio button group for single selection
+- `"switch" as const` - Toggle switch for boolean values
+- `"select" as const` - Dropdown select for single selection
+- `"multi-select" as const` - Multi-selection dropdown
+
+**Range and Content Fields**
+
+- `"slider" as const` - Single value slider
+- `"range-slider" as const` - Dual value range slider
+- `"textarea" as const` - Multi-line text input
+
+**File Upload Fields**
+
+- `"file" as const` - General file upload
+- `"image" as const` - Image upload with preview functionality
+
+## Image Field Type
+
+The image field type provides specialized functionality for image uploads:
+
+```jsx
+{
+  id: "profilePicture",
+  label: "Profile Picture",
+  type: "image" as const,
+  validation: {
+    required: false,
+    maxSize: 2000000,
+    acceptedTypes: [".jpg", ".jpeg", ".png", ".gif", ".webp"],
+  },
+  defaultValue: "https://example.com/current-avatar.jpg",
+  description: "Upload your profile picture (max 2MB)"
+}
+```
+
+**Image Field Features:**
+
+- Automatic image preview display
+- Support for existing image URLs as default values
+- File size validation in bytes
+- File type restriction by extension
+- Remove button for clearing selection
+- Responsive preview layout
+
+## Loading States and Skeletons
+
+The form supports multiple loading states for different scenarios:
+
+**Form Interaction Loading**
+
+```jsx
+<AdvancedForm loading={true} isSubmitLoading={true} />
+```
+
+**Data Loading with Skeleton**
+
+```jsx
+<AdvancedForm
+  isFormLoading={loading}
+  skeletonProps={{
+    fields: 8,
+    columns: 2,
+    showHeader: true,
+    showSteps: false,
+  }}
+/>
+```
+
+The skeleton automatically detects if the form is stepped and adjusts accordingly. Skeleton props allow customization of the loading appearance without affecting the actual form structure.
+
+## Advanced Configuration Examples
+
+### Complete Validation Setup
+
+```jsx
+const validationExample = {
+  fields: [
+    {
+      id: "username",
+      label: "Username",
+      type: "text" as const,
+      placeholder: "Enter username",
+      validation: {
+        required: true,
+        minLength: 3,
+        maxLength: 20,
+        pattern: "^[a-zA-Z0-9_]+$",
+        requiredError: "Username is required",
+        minLengthError: "Username must be at least 3 characters",
+        maxLengthError: "Username cannot exceed 20 characters",
+        patternError: "Username can only contain letters, numbers, and underscores",
+        custom: (value) => {
+          if (value?.toLowerCase().includes('admin')) {
+            return "Username cannot contain 'admin'";
+          }
+          return null;
+        }
+      },
+    },
+    {
+      id: "email",
+      label: "Email Address",
+      type: "email" as const,
+      validation: {
+        required: true,
+        emailError: "Please enter a valid email address",
+        requiredError: "Email is required",
+      },
+    },
+    {
+      id: "age",
+      label: "Age",
+      type: "number" as const,
+      validation: {
+        required: true,
+        min: 18,
+        max: 120,
+        requiredError: "Age is required",
+        minError: "You must be at least 18 years old",
+        maxError: "Please enter a valid age",
+      },
+    },
+    {
+      id: "profileImage",
+      label: "Profile Photo",
+      type: "image" as const,
+      validation: {
+        required: false,
+        maxSize: 5000000,
+        acceptedTypes: [".jpg", ".jpeg", ".png"],
+        customFileError: "Image must be under 5MB and in JPG or PNG format",
+      },
+    },
+    {
+      id: "resume",
+      label: "Resume",
+      type: "file" as const,
+      inputProps: {
+        accept: ".pdf,.doc,.docx"
+      },
+      validation: {
+        required: true,
+        maxSize: 10000000,
+        requiredError: "Please upload your resume",
+        customFileError: "Resume must be under 10MB and in PDF or Word format",
+      },
+    },
+    {
+      id: "bio",
+      label: "Biography",
+      type: "textarea" as const,
+      validation: {
+        required: false,
+        minLength: 10,
+        maxLength: 500,
+        minLengthError: "Bio must be at least 10 characters if provided",
+        maxLengthError: "Bio cannot exceed 500 characters",
+      },
+    },
+  ],
+};
+```
+
+### Custom Validation Logic
+
+**Password Confirmation Example**
+
+```jsx
+{
+  id: "confirmPassword",
+  label: "Confirm Password",
+  type: "password" as const,
+  validation: {
+    required: true,
+    custom: (value, allValues) => {
+      if (value !== allValues.password) {
+        return "Passwords do not match";
+      }
+      return null;
+    }
+  },
+}
+```
+
+**Project Code Validation Example**
+
+```jsx
+{
+  id: "projectCode",
+  label: "Project Code",
+  type: "text" as const,
+  placeholder: "PRJ-YYYY-XXXX",
+  validation: {
+    required: true,
+    custom: (value) => {
+      if (!value?.startsWith("PRJ-")) {
+        return "Project code must start with 'PRJ-'";
+      }
+      if (!/^PRJ-\d{4}-[A-Z]{4}$/.test(value)) {
+        return "Format must be PRJ-YYYY-XXXX (e.g., PRJ-2024-ABCD)";
+      }
+      return null;
+    }
+  },
+}
+```
+
+### Conditional Field Display
+
+```jsx
+{
+  id: "companyName",
+  label: "Company Name",
+  type: "text" as const,
+  validation: {
+    required: true,
+    minLength: 2,
+  },
+  conditional: (values) => values.userType === "business",
+},
+{
+  id: "companySize",
+  label: "Company Size",
+  type: "select" as const,
+  options: [
+    { label: "1-10 employees", value: "small" },
+    { label: "11-50 employees", value: "medium" },
+    { label: "51+ employees", value: "large" },
+  ],
+  conditional: (values) => values.userType === "business" && values.companyName,
+}
+```
+
+### Multi-Step Form with Logo
+
+```jsx
+<AdvancedForm
+  steps={formSteps}
+  onSubmit={handleSubmit}
+  header={{
+    title: "Account Setup",
+    description: "Complete your profile in three easy steps",
+  }}
+  logo={"https://cat.png"}
+  showStepProgress={true}
+  autoSave={true}
+  isFormLoading={isLoading}
+  skeletonProps={{
+    fields: 6,
+    columns: 2,
+    showSteps: true,
+    steps: 3,
+  }}
+/>
+```
+
+## Real-Time Data Handling
+
+Monitor and respond to form changes:
+
+```jsx
+<AdvancedForm
+  onChange={(data) => {
+    console.log("Current form data:", data);
+
+    if (data.userType === "business") {
+      setShowCompanyFields(true);
+    }
+
+    if (data.country) {
+      fetchCitiesForCountry(data.country);
+    }
+
+    setFormData(data);
+  }}
+/>
+```
+
+## Auto-Save and Persistence
+
+Enable automatic form data persistence:
+
+```jsx
+<AdvancedForm autoSave={true} />
+```
+
+Auto-save functionality automatically generates storage keys based on form titles or step names. Data is saved on every field change and restored when the component mounts.
+
+## Key Benefits
+
+**Reduced Development Time**: Eliminate repetitive form markup, validation logic, and state management code by using configuration-driven development.
+
+**Type Safety**: Complete TypeScript support with comprehensive type definitions ensures compile-time error catching and excellent developer experience.
+
+**Accessibility Built-In**: Forms include proper ARIA labels, keyboard navigation support, screen reader compatibility, and required field indicators automatically.
+
+**Performance Optimized**: Efficient rendering with minimal re-renders, optimized validation cycles, and smart update patterns prevent performance bottlenecks.
+
+**Production Ready**: Comprehensive error handling, loading state management, string trimming, edge case handling, and validation feedback ensure reliable form behavior.
+
+**Extensible Architecture**: Easy to extend with custom field types, validation logic, and UI components while maintaining consistency across your application.
+
+**User Experience Focus**: Smart button states, helpful error messages, loading indicators, and responsive design create intuitive form interactions.
+
+The AdvancedForm component transforms form development from a repetitive, error-prone process into a streamlined configuration task, allowing developers to focus on business logic rather than form implementation details.

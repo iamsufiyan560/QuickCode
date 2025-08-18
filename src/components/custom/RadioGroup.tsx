@@ -102,9 +102,9 @@ export const RadioGroupItem: React.FC<RadioGroupItemProps> = ({
       disabled={isDisabled}
       id={id}
       className={cn(
-        "relative w-6 h-6  border-2 rounded-full overflow-hidden",
+        "relative w-6 h-6  border-[3px] rounded-full overflow-hidden",
         "disabled:opacity-50 disabled:cursor-not-allowed ",
-        isSelected ? "border-primary" : "border-border bg-transparent",
+        isSelected ? "border-input" : "border-border bg-transparent",
         !isDisabled && !isSelected && "hover:border-primary",
         className
       )}

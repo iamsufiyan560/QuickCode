@@ -1,5 +1,74 @@
-import { Skeleton } from "@/components/custom/Skeleton";
+import {
+  DefaultSkeletonExample,
+  TextLinesExample,
+  UserProfileExample,
+  SkeletonCardExample,
+  VariantsExample,
+} from "@/components/custom/example/SkeletonExample";
 
-# Skeleton Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Skeleton />
+# Skeleton
+
+A versatile loading placeholder component that provides visual feedback while content is being loaded. Features multiple variants, animations, and built-in composite components for common use cases.
+
+<InstallTabs components="Skeleton" />
+
+## Default Usage
+
+<DefaultSkeletonExample />
+
+## Text Lines Loading
+
+<TextLinesExample />
+
+## User Profile Loading
+
+<UserProfileExample />
+
+## Skeleton Card
+
+<SkeletonCardExample />
+
+## Variants and Sizes
+
+<VariantsExample />
+
+## Props
+
+| Prop        | Type                                                 | Default         | Description                                  |
+| ----------- | ---------------------------------------------------- | --------------- | -------------------------------------------- |
+| `className` | `string`                                             | -               | Additional CSS classes                       |
+| `variant`   | `"text" \| "circular" \| "rectangular" \| "rounded"` | `"rectangular"` | Visual variant of the skeleton               |
+| `width`     | `string \| number`                                   | -               | Width of the skeleton element                |
+| `height`    | `string \| number`                                   | -               | Height of the skeleton element               |
+| `animation` | `"pulse" \| "wave" \| "none"`                        | `"pulse"`       | Animation type for the loading effect        |
+| `lines`     | `number`                                             | `1`             | Number of text lines (only for text variant) |
+| `children`  | `React.ReactNode`                                    | -               | Optional children to render inside skeleton  |
+
+## Built-in Components
+
+### SkeletonCard
+
+Pre-built card skeleton with image and text placeholders.
+
+### SkeletonAvatar
+
+Circular skeleton for profile pictures with size variants (sm, md, lg).
+
+### SkeletonButton
+
+Button-shaped skeleton with size variants (sm, md, lg).
+
+## Features
+
+- **Multiple Variants**: Text, circular, rectangular, and rounded shapes
+- **Flexible Sizing**: Custom width and height support with responsive classes
+- **Animation Options**: Pulse, wave, or no animation
+- **Multi-line Text**: Support for multiple text line skeletons
+- **Composite Components**: Ready-to-use card, avatar, and button skeletons
+- **Accessible**: Proper loading states that work with screen readers
+- **Dark Mode Ready**: Seamless integration with light and dark themes
+- **Performance Optimized**: Lightweight animations that don't impact performance
+
+The Skeleton component is perfect for creating smooth loading experiences in data-heavy applications, user profiles, content feeds, and anywhere you need to indicate loading state while maintaining visual structure.

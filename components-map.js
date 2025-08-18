@@ -8,6 +8,28 @@ export const HOOK_BASE_URL =
   "https://github.com/iamsufiyan560/QuickCode/blob/main/src/Hooks/";
 
 export const components = {
+  AdvancedForm: {
+    url: `${BASE_URL}AdvancedForm.tsx`,
+    deps: { zod: "^4.1.8" },
+    requires: [
+      "Button",
+      "Input",
+      "Checkbox",
+      "RadioGroup",
+      "Switch",
+      "Select",
+      "MultiSelect",
+      "Textarea",
+      "Label",
+      "Stepper",
+      "Tooltip",
+      "ImageInput",
+      "Slider",
+      "RangeSlider",
+      "FormSkeleton",
+      "DatePicker",
+    ],
+  },
   Accordion: {
     url: `${BASE_URL}Accordion.tsx`,
     deps: {},
@@ -34,6 +56,11 @@ export const components = {
     url: `${BASE_URL}Card.tsx`,
     deps: {},
   },
+  DatePicker: {
+    url: `${BASE_URL}DatePicker.tsx`,
+    deps: {},
+    requires: ["Tooltip"],
+  },
   Dialog: {
     url: `${BASE_URL}Dialog.tsx`,
     deps: {},
@@ -42,6 +69,11 @@ export const components = {
 
   Input: {
     url: `${BASE_URL}Input.tsx`,
+    deps: {},
+  },
+
+  ImageInput: {
+    url: `${BASE_URL}ImageInput.tsx`,
     deps: {},
   },
   Label: {
@@ -54,6 +86,14 @@ export const components = {
   },
   Select: {
     url: `${BASE_URL}Select.tsx`,
+    deps: {},
+  },
+  Skeleton: {
+    url: `${BASE_URL}Skeleton.tsx`,
+    deps: {},
+  },
+  Stepper: {
+    url: `${BASE_URL}Stepper.tsx`,
     deps: {},
   },
   MultiSelect: {
