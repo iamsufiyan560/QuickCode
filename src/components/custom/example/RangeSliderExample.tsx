@@ -36,7 +36,7 @@ export const DefaultRangeSliderExample = () => {
 
   return (
     <SnippetPreview title="Default Range Slider" code={defaultRangeSliderCode}>
-      <div className="w-full max-w-md space-y-2 flex flex-col">
+      <div className="w-full max-w-md space-y-2 flex flex-col px-4">
         <Label>
           Price Range: ${value[0]} - ${value[1]}
         </Label>

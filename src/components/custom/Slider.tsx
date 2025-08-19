@@ -64,6 +64,26 @@ export const Slider: React.FC<SliderProps> = ({
     [updateValue, disabled]
   );
 
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (disabled) return;
+      const touch = e.touches[0];
+      updateValue(touch.clientX);
+
+      const handleTouchMove = (e: TouchEvent) => {
+        updateValue(e.touches[0].clientX);
+      };
+      const handleTouchEnd = () => {
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
+      };
+
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    },
+    [updateValue, disabled]
+  );
+
   return (
     <div
       className={cn(
@@ -76,6 +96,7 @@ export const Slider: React.FC<SliderProps> = ({
         ref={trackRef}
         className="relative w-full h-2.5 bg-input  rounded-lg cursor-pointer"
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         <div
           className="absolute h-full bg-primary rounded-lg"

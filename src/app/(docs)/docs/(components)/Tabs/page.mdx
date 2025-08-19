@@ -2,14 +2,13 @@ import {
   DefaultTabsExample,
   CustomColorTabsExample,
   GlassTabsExample,
-  VerticalTabsExample,
 } from "@/components/custom/example/TabsExample";
 
 import { InstallTabs } from "@/components/helpers/InstallTabs";
 
 # Tabs
 
-A flexible and accessible tabs component with smooth gliding animations. Features customizable colors, gradients, horizontal and vertical orientations with smooth transitions between tabs.
+A flexible and accessible tabs component with smooth gliding animations. Features customizable colors and gradients with smooth transitions between tabs.
 
 <InstallTabs components="Tabs" />
 
@@ -23,12 +22,6 @@ Each tab trigger can have its own custom color using hex, RGB, or gradient value
 
 <CustomColorTabsExample />
 
-## Vertical Orientation
-
-Perfect for sidebar navigation with smooth vertical gliding animation.
-
-<VerticalTabsExample />
-
 ## Premium Gems
 
 Create beautiful glass-morphism effects inspired by modern design trends.
@@ -39,20 +32,18 @@ Create beautiful glass-morphism effects inspired by modern design trends.
 
 ### Tabs
 
-| Prop           | Type                         | Default        | Description                                   |
-| -------------- | ---------------------------- | -------------- | --------------------------------------------- |
-| `defaultValue` | `string`                     | -              | The default active tab value                  |
-| `children`     | `React.ReactNode`            | -              | TabsList and TabsContent components           |
-| `orientation`  | `"horizontal" \| "vertical"` | `"horizontal"` | Layout orientation of the tabs                |
-| `className`    | `string`                     | -              | Additional CSS classes for the tabs container |
+| Prop           | Type              | Default | Description                                   |
+| -------------- | ----------------- | ------- | --------------------------------------------- |
+| `defaultValue` | `string`          | -       | The default active tab value                  |
+| `children`     | `React.ReactNode` | -       | TabsList and TabsContent components           |
+| `className`    | `string`          | -       | Additional CSS classes for the tabs container |
 
 ### TabsList
 
-| Prop          | Type                         | Default | Description                              |
-| ------------- | ---------------------------- | ------- | ---------------------------------------- |
-| `children`    | `React.ReactNode`            | -       | TabsTrigger components                   |
-| `orientation` | `"horizontal" \| "vertical"` | -       | Override orientation from parent         |
-| `className`   | `string`                     | -       | Additional CSS classes for the tabs list |
+| Prop        | Type              | Default | Description                              |
+| ----------- | ----------------- | ------- | ---------------------------------------- |
+| `children`  | `React.ReactNode` | -       | TabsTrigger components                   |
+| `className` | `string`          | -       | Additional CSS classes for the tabs list |
 
 ### TabsTrigger
 
@@ -73,11 +64,10 @@ Create beautiful glass-morphism effects inspired by modern design trends.
 
 ## Features
 
-- **Smooth Gliding Animation**: Beautiful sliding background that flows from tab to tab in both horizontal and vertical orientations
-- **Dual Orientation**: Support for both horizontal and vertical layouts perfect for different UI patterns
+- **Smooth Gliding Animation**: Beautiful sliding background that flows from tab to tab with framer-motion
 - **Custom Colors**: Support for hex, RGB, gradients, and any CSS color format
-- **Sidebar Ready**: Vertical orientation with fixed width ideal for sidebar navigation
 - **Keyboard Accessible**: Full keyboard navigation support with proper ARIA labels
 - **Context-Based State**: Uses React Context for clean state management
 - **Responsive Design**: Adapts beautifully to different screen sizes
 - **Dark Mode Ready**: Built with CSS custom properties for seamless theme switching
+- **Missing Content Detection**: Automatically shows helpful messages when TabsContent is missing

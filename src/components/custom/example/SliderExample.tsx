@@ -34,7 +34,7 @@ export const DefaultSliderExample = () => {
 
   return (
     <SnippetPreview title="Default Slider" code={defaultSliderCode}>
-      <div className="w-full max-w-md space-y-2 flex flex-col ">
+      <div className="w-full max-w-md space-y-2 flex flex-col px-2 ">
         <Label> Volume: {value}%</Label>
         <Slider
           value={value}

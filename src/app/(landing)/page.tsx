@@ -31,8 +31,6 @@ import {
   QrCode,
   Github,
   TwitterIcon,
-  Linkedin,
-  InstagramIcon,
   ArrowUpRight,
   HeartIcon,
 } from "lucide-react";
@@ -190,7 +188,7 @@ const QuoteSection = () => {
             "
           </div>
 
-          <blockquote className="text-2xl md:text-3xl font-light text-[#fbf8f5] leading-relaxed mb-6 italic">
+          <blockquote className=" max-[327px]:text-[20px] text-2xl md:text-3xl font-light text-[#fbf8f5] leading-relaxed mb-6 italic">
             Build something meaningful that Atleast two people can use make a
             real impact.
           </blockquote>
@@ -263,7 +261,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-6xl md:text-8xl font-black mb-6  ">
+          <h1 className="max-[327px]:text-[40px] text-6xl sm:text-8xl  font-black mb-6">
             <span className="bg-gradient-to-r from-primary via-accent to-destructive bg-clip-text text-transparent selection:text-black ">
               Quick
             </span>
@@ -432,7 +430,7 @@ const FeaturedComponents = () => {
       preview: "Smooth animated scrollable list",
       component: (
         <AnimatedList
-          className="min-w-72"
+          className="md:min-w-72 w-full"
           data={items}
           onPick={(val, idx) => console.log(val, idx)}
           gradients
@@ -466,7 +464,7 @@ const FeaturedComponents = () => {
 
   return (
     <motion.section
-      className="py-20 px-4"
+      className="py-20 md:px-4 px-2 "
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -498,11 +496,11 @@ const FeaturedComponents = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="group"
+              className="group "
             >
-              <Card className="h-full bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer  flex items-center justify-center ">
+              <Card className="h-full 5:w-[300px]   bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer  flex items-center justify-center  ">
                 <CardContent>
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-4 ">
                     <h3 className="text-xl font-bold">{component.name}</h3>
                     <Link href={component.link}>
                       <Button

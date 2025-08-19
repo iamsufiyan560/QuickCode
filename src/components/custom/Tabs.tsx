@@ -8,20 +8,18 @@ export interface TabsProps {
   defaultValue: string;
   children: React.ReactNode;
   className?: string;
-  orientation?: "horizontal" | "vertical";
 }
 
 export interface TabsListProps {
   children: React.ReactNode;
   className?: string;
-  orientation?: "horizontal" | "vertical";
 }
 
 export interface TabsTriggerProps {
   value: string;
   children: React.ReactNode;
   className?: string;
-  activeColor?: string; // Supports hex, rgb, gradients, etc.
+  activeColor?: string;
 }
 
 export interface TabsContentProps {
@@ -30,11 +28,11 @@ export interface TabsContentProps {
   className?: string;
 }
 
-// Context for managing tab state
 const TabsContext = React.createContext<{
   activeTab: string;
   setActiveTab: (value: string) => void;
-  orientation: "horizontal" | "vertical";
+  registerContent?: (value: string) => void;
+  unregisterContent?: (value: string) => void;
 } | null>(null);
 
 const useTabsContext = () => {
@@ -49,134 +47,127 @@ export const Tabs: React.FC<TabsProps> = ({
   defaultValue,
   children,
   className,
-  orientation = "horizontal",
 }) => {
   const [activeTab, setActiveTab] = React.useState(defaultValue);
+  const contentCounts = React.useRef<Map<string, number>>(new Map());
+
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const registerContent = React.useCallback((v: string) => {
+    contentCounts.current.set(v, (contentCounts.current.get(v) || 0) + 1);
+  }, []);
+
+  const unregisterContent = React.useCallback((v: string) => {
+    const n = (contentCounts.current.get(v) || 0) - 1;
+    if (n <= 0) contentCounts.current.delete(v);
+    else contentCounts.current.set(v, n);
+  }, []);
+
+  const hasContentForActive = contentCounts.current.has(activeTab);
 
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab, orientation }}>
-      <div
-        className={cn(
-          "w-full",
-          orientation === "vertical" && "flex gap-4",
-          className
-        )}
-      >
+    <TabsContext.Provider
+      value={{ activeTab, setActiveTab, registerContent, unregisterContent }}
+    >
+      <div className={cn("w-full", className)}>
         {children}
+        {mounted && !hasContentForActive && (
+          <div className="h-[120px] mt-4 flex items-center justify-center p-6 border border-border rounded-lg bg-muted/50 text-muted-foreground">
+            <div className="text-center">
+              <p className="text-sm">
+                Hey! You forgot to add
+                <code className="bg-secondary text-secondary-foreground px-2 py-1 rounded font-mono text-xs ml-2">
+                  TabsContent value="{activeTab}"
+                </code>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </TabsContext.Provider>
   );
 };
-export const TabsList: React.FC<TabsListProps> = ({
-  children,
-  className,
-  orientation,
-}) => {
-  const { activeTab, orientation: contextOrientation } = useTabsContext();
-  const finalOrientation = orientation || contextOrientation;
-  const triggerCount = React.Children.count(children);
 
-  let activeIndex = -1;
-  let activeColor = "var(--primary)";
-
-  React.Children.forEach(children, (child, index) => {
-    if (
-      React.isValidElement<TabsTriggerProps>(child) &&
-      child.props.value === activeTab
-    ) {
-      activeIndex = index;
-      if (child.props.activeColor) {
-        activeColor = child.props.activeColor;
-      }
-    }
-  });
-
-  const isVertical = finalOrientation === "vertical";
-
+export const TabsList: React.FC<TabsListProps> = ({ children, className }) => {
   return (
     <div
       className={cn(
-        "flex relative bg-muted/20 rounded-lg overflow-hidden border border-border/50",
-        isVertical ? "flex-col w-48" : "flex-row",
+        "flex relative bg-muted/20 rounded-lg overflow-hidden border border-border/50 flex-row overflow-x-auto",
+        "[&>*:last-child]:mr-0",
         className
       )}
+      style={{ scrollbarWidth: "none" }}
     >
       {children}
-
-      {/* Gliding background */}
-      <motion.div
-        className="absolute rounded-lg z-[1] shadow-sm min-h-12 max-h-12"
-        style={{
-          ...(isVertical
-            ? {
-                height: `${100 / triggerCount}%`,
-                left: 0,
-                right: 0,
-              }
-            : {
-                width: `${100 / triggerCount}%`,
-                top: 0,
-                bottom: 0,
-              }),
-          background: activeColor,
-        }}
-        animate={{
-          ...(isVertical
-            ? { y: activeIndex !== -1 ? `${activeIndex * 100}%` : "0%" }
-            : { x: activeIndex !== -1 ? `${activeIndex * 100}%` : "0%" }),
-        }}
-        transition={{
-          duration: 0.5,
-          ease: [0.37, 1.95, 0.66, 0.56],
-        }}
-      />
     </div>
   );
 };
 
-export const TabsTrigger: React.FC<TabsTriggerProps> = ({
-  value,
-  children,
-  className,
-}) => {
-  const { activeTab, setActiveTab } = useTabsContext();
-  const isActive = activeTab === value;
+export const TabsTrigger: React.FC<
+  TabsTriggerProps & { ref?: React.Ref<HTMLButtonElement> }
+> = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
+  ({ value, children, className, activeColor }, ref) => {
+    const { activeTab, setActiveTab } = useTabsContext();
+    const isActive = activeTab === value;
 
-  return (
-    <button
-      className={cn(
-        "flex-1 text-center py-3 px-4 font-medium text-sm transition-colors z-[2] cursor-pointer relative min-h-12 max-h-12",
-        isActive
-          ? "text-primary-foreground"
-          : "text-muted-foreground hover:text-foreground",
-        className
-      )}
-      onClick={() => setActiveTab(value)}
-      role="tab"
-      aria-selected={isActive}
-      type="button"
-    >
-      {children}
-    </button>
-  );
-};
+    return (
+      <div className="relative flex-shrink-0 min-w-32">
+        <button
+          ref={ref}
+          className={cn(
+            "relative z-[2] text-center py-3 px-4 font-medium text-sm transition-colors cursor-pointer min-h-12 max-h-12",
+            "whitespace-nowrap w-full",
+            isActive
+              ? "text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground",
+            className
+          )}
+          onClick={() => setActiveTab(value)}
+          role="tab"
+          aria-selected={isActive}
+          type="button"
+        >
+          {children}
+        </button>
+
+        {isActive && (
+          <motion.div
+            className="absolute inset-0 rounded-lg z-[1] "
+            style={{ background: activeColor || "var(--primary)" }}
+            transition={{
+              duration: 0.35,
+              ease: [0.37, 1.95, 0.66, 0.56],
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+);
+
+TabsTrigger.displayName = "TabsTrigger";
 
 export const TabsContent: React.FC<TabsContentProps> = ({
   value,
   children,
   className,
 }) => {
-  const { activeTab, orientation } = useTabsContext();
+  const { activeTab, registerContent, unregisterContent } = useTabsContext();
+
+  React.useEffect(() => {
+    registerContent?.(value);
+    return () => unregisterContent?.(value);
+  }, [value, registerContent, unregisterContent]);
 
   if (activeTab !== value) {
     return null;
   }
 
   return (
-    <div
-      className={cn(orientation === "vertical" ? "flex-1" : "mt-4", className)}
-      role="tabpanel"
-    >
+    <div className={cn("mt-4", className)} role="tabpanel">
       {children}
     </div>
   );

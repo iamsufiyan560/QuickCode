@@ -100,6 +100,30 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
     },
     [disabled, min, max, currentValue, updateValue]
   );
+
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent, thumbIndex: number) => {
+      if (disabled) return;
+      e.stopPropagation();
+
+      const touch = e.touches[0];
+      updateValue(touch.clientX, thumbIndex);
+
+      const handleTouchMove = (e: TouchEvent) => {
+        updateValue(e.touches[0].clientX, thumbIndex);
+      };
+
+      const handleTouchEnd = () => {
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
+      };
+
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    },
+    [updateValue, disabled]
+  );
+
   return (
     <div
       className={cn(
@@ -124,11 +148,13 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
           className="absolute top-1/2 w-5 h-5 bg-primary rounded-full shadow-md cursor-pointer transform -translate-y-1/2 transition-transform hover:scale-110 z-10"
           style={{ left: `calc(${minPercentage}% - 10px)` }}
           onMouseDown={(e) => handleMouseDown(e, 0)}
+          onTouchStart={(e) => handleTouchStart(e, 0)}
         />
         <div
           className="absolute top-1/2 w-5 h-5 bg-primary rounded-full shadow-md cursor-pointer transform -translate-y-1/2 transition-transform hover:scale-110 z-10"
           style={{ left: `calc(${maxPercentage}% - 10px)` }}
           onMouseDown={(e) => handleMouseDown(e, 1)}
+          onTouchStart={(e) => handleTouchStart(e, 1)}
         />
       </div>
     </div>

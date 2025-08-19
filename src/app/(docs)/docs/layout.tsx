@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { Armchair } from "lucide-react";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://quickcode.space"),
   title: {
     default: "QuickCode UI",
     template: "%s | QuickCode UI",
@@ -47,6 +48,8 @@ export const metadata: Metadata = {
       "QuickCode UI offers reusable, easy-to-use components for fast, consistent interface design.",
     type: "website",
     locale: "en_US",
+    url: "https://quickcode.space/docs",
+    images: ["/og-image.png"],
   },
 };
 
