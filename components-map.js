@@ -1,3 +1,5 @@
+import { Select } from "nextra/components";
+
 export const BASE_URL =
   "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/custom/";
 
@@ -44,6 +46,30 @@ export const components = {
     url: `${BASE_URL}Label.tsx`,
     deps: {},
   },
+  RadioGroup: {
+    url: `${BASE_URL}RadioGroup.tsx`,
+    deps: {},
+  },
+  Select: {
+    url: `${BASE_URL}Select.tsx`,
+    deps: {},
+  },
+  Switch: {
+    url: `${BASE_URL}Switch.tsx`,
+    deps: {},
+  },
+  Textarea: {
+    url: `${BASE_URL}Textarea.tsx`,
+    deps: {},
+  },
+  Slider: {
+    url: `${BASE_URL}Slider.tsx`,
+    deps: {},
+  },
+  RangeSlider: {
+    url: `${BASE_URL}RangeSlider.tsx`,
+    deps: {},
+  },
   Tabs: {
     url: `${BASE_URL}Tabs.tsx`,
     deps: {},
@@ -73,6 +99,10 @@ export const components = {
   },
   AnimatedList: {
     url: `${ANIMATED_BASE_URL}AnimatedList.tsx`,
+    deps: {},
+  },
+  SocialCard: {
+    url: `${ANIMATED_BASE_URL}SocialCard.tsx`,
     deps: {},
   },
 };

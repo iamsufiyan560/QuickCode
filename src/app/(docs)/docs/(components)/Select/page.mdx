@@ -1,5 +1,85 @@
-import { Select } from "@/components/custom/Select";
+import { DefaultSelectExample } from "@/components/custom/example/SelectExample";
 
-# Select Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Select />
+# Select
+
+A dropdown component that allows users to choose one option from a list. Features smooth animations, grouped options, and full keyboard accessibility.
+
+<InstallTabs components="Select" />
+
+## Default Usage
+
+<DefaultSelectExample />
+
+## Props
+
+### Select
+
+| Prop            | Type                      | Default      | Description                              |
+| --------------- | ------------------------- | ------------ | ---------------------------------------- |
+| `value`         | `string`                  | `undefined`  | The controlled value of the select       |
+| `defaultValue`  | `string`                  | `undefined`  | The default value when uncontrolled      |
+| `onValueChange` | `(value: string) => void` | `undefined`  | Callback fired when the value changes    |
+| `disabled`      | `boolean`                 | `false`      | Whether the select is disabled           |
+| `className`     | `string`                  | `undefined`  | Additional CSS classes for the container |
+| `children`      | `React.ReactNode`         | **required** | The select trigger and content           |
+
+### SelectTrigger
+
+| Prop        | Type              | Default      | Description                               |
+| ----------- | ----------------- | ------------ | ----------------------------------------- |
+| `className` | `string`          | `undefined`  | Additional CSS classes for the trigger    |
+| `children`  | `React.ReactNode` | **required** | The trigger content (usually SelectValue) |
+
+### SelectValue
+
+| Prop          | Type     | Default              | Description                             |
+| ------------- | -------- | -------------------- | --------------------------------------- |
+| `placeholder` | `string` | `"Select an option"` | Placeholder text when no value selected |
+| `className`   | `string` | `undefined`          | Additional CSS classes for the value    |
+
+### SelectContent
+
+| Prop        | Type              | Default      | Description                             |
+| ----------- | ----------------- | ------------ | --------------------------------------- |
+| `className` | `string`          | `undefined`  | Additional CSS classes for the dropdown |
+| `children`  | `React.ReactNode` | **required** | The select groups and items             |
+
+### SelectGroup
+
+| Prop        | Type              | Default      | Description                          |
+| ----------- | ----------------- | ------------ | ------------------------------------ |
+| `className` | `string`          | `undefined`  | Additional CSS classes for the group |
+| `children`  | `React.ReactNode` | **required** | The group label and items            |
+
+### SelectLabel
+
+| Prop        | Type              | Default      | Description                          |
+| ----------- | ----------------- | ------------ | ------------------------------------ |
+| `className` | `string`          | `undefined`  | Additional CSS classes for the label |
+| `children`  | `React.ReactNode` | **required** | The label text                       |
+
+### SelectItem
+
+| Prop        | Type              | Default      | Description                         |
+| ----------- | ----------------- | ------------ | ----------------------------------- |
+| `value`     | `string`          | **required** | The value of the select item        |
+| `className` | `string`          | `undefined`  | Additional CSS classes for the item |
+| `children`  | `React.ReactNode` | **required** | The item content                    |
+
+## Features
+
+- **Compound Components**: Flexible composition with Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, and SelectItem
+- **Grouped Options**: Organize items into logical groups with labels for better UX
+- **Smooth Animations**: Powered by Framer Motion for fluid open/close transitions
+- **Keyboard Accessible**: Full keyboard navigation and screen reader support
+- **Controlled & Uncontrolled**: Supports both controlled and uncontrolled usage patterns
+- **Check Indicator**: Selected items display a check mark for visual confirmation
+- **Auto-close**: Dropdown closes automatically when an item is selected
+- **Custom Styling**: Each component accepts className for complete customization
+- **Dark Mode Ready**: Built with CSS tokens for seamless theme switching
+
+## Usage Notes
+
+The Select component uses a compound pattern for maximum flexibility. Use SelectGroup and SelectLabel to organize options into categories like continents, departments, or any logical grouping. The component automatically handles focus management, value tracking, and accessibility attributes. Perfect for country selectors, category filters, or any dropdown with organized options.

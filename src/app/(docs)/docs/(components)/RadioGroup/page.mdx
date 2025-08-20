@@ -1,5 +1,68 @@
-import { RadioGroup } from "@/components/custom/RadioGroup";
+import {
+  DefaultRadioGroupExample,
+  PaymentMethodExample,
+  ControlledRadioGroupExample,
+  DisabledRadioGroupExample,
+} from "@/components/custom/example/RadioGroupExample";
 
-# RadioGroup Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<RadioGroup />
+# RadioGroup
+
+A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time. Features smooth fill animations and full accessibility support.
+
+<InstallTabs components="RadioGroup" />
+
+## Default Usage
+
+<DefaultRadioGroupExample />
+
+## Payment Method Selection
+
+<PaymentMethodExample />
+
+## Controlled Radio Group
+
+<ControlledRadioGroupExample />
+
+## Disabled State
+
+<DisabledRadioGroupExample />
+
+## Props
+
+### RadioGroup
+
+| Prop            | Type                      | Default         | Description                                |
+| --------------- | ------------------------- | --------------- | ------------------------------------------ |
+| `value`         | `string`                  | `undefined`     | The controlled value of the radio group    |
+| `defaultValue`  | `string`                  | `undefined`     | The default value when uncontrolled        |
+| `onValueChange` | `(value: string) => void` | `undefined`     | Callback fired when the value changes      |
+| `name`          | `string`                  | `"radio-group"` | The name attribute for the radio group     |
+| `disabled`      | `boolean`                 | `false`         | Whether the entire radio group is disabled |
+| `className`     | `string`                  | `undefined`     | Additional CSS classes for the container   |
+| `children`      | `React.ReactNode`         | **required**    | The radio group items and their labels     |
+
+### RadioGroupItem
+
+| Prop        | Type      | Default      | Description                                    |
+| ----------- | --------- | ------------ | ---------------------------------------------- |
+| `value`     | `string`  | **required** | The value of the radio button                  |
+| `id`        | `string`  | `undefined`  | The id attribute for the radio button          |
+| `disabled`  | `boolean` | `false`      | Whether this specific radio button is disabled |
+| `className` | `string`  | `undefined`  | Additional CSS classes for the radio button    |
+
+## Features
+
+- **Smooth Fill Animation**: Beautiful diagonal fill effect powered by Framer Motion
+- **Full Accessibility**: Proper ARIA attributes, keyboard navigation, and screen reader support
+- **Flexible Composition**: Use RadioGroup with RadioGroupItem components like shadcn
+- **Controlled & Uncontrolled**: Supports both controlled and uncontrolled usage patterns
+- **Individual Disabling**: Disable the entire group or individual items
+- **Focus Management**: Proper focus ring handling with keyboard navigation
+- **Label Integration**: Works seamlessly with Label components for better accessibility
+- **Dark Mode Ready**: Built with CSS tokens for automatic theme switching
+
+## Usage Notes
+
+RadioGroup uses the compound component pattern . Wrap your RadioGroupItem components with RadioGroup and use Label components for accessible labeling. The component handles all radio button logic internally while providing flexibility for custom layouts and styling.

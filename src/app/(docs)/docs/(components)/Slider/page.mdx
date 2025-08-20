@@ -1,5 +1,33 @@
-import { Slider } from "@/components/custom/Slider";
+import { DefaultSliderExample } from "@/components/custom/example/SliderExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Slider Example
+# Slider
 
-<Slider />
+A smooth and interactive range slider component with gradient styling and responsive thumb design. Click anywhere on the track to instantly set the value.
+
+<InstallTabs components="Slider" />
+
+## Default Usage
+
+<DefaultSliderExample />
+
+## Props
+
+| Prop        | Type                                               | Default | Description                                   |
+| ----------- | -------------------------------------------------- | ------- | --------------------------------------------- |
+| `className` | `string`                                           | -       | Additional CSS classes to apply to the slider |
+| `value`     | `number`                                           | -       | Current value of the slider                   |
+| `onChange`  | `(e: React.ChangeEvent<HTMLInputElement>) => void` | -       | Callback fired when the value changes         |
+| `min`       | `number`                                           | `0`     | Minimum value                                 |
+| `max`       | `number`                                           | `100`   | Maximum value                                 |
+| `step`      | `number`                                           | `1`     | Step interval                                 |
+| `...props`  | `React.InputHTMLAttributes<HTMLInputElement>`      | -       | All standard HTML input range attributes      |
+
+## Features
+
+- **Click to Set**: Click anywhere on the track to instantly set the value
+- **Smooth Interaction**: Responsive hover effects and smooth transitions
+- **Gradient Design**: Beautiful gradient track and thumb styling
+- **Native HTML**: Built on standard HTML range input for maximum compatibility
+- **Accessible**: Full keyboard navigation and screen reader support
+- **Dark Mode Ready**: Adapts to light and dark themes using design tokens

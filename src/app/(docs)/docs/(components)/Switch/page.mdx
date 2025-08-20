@@ -1,5 +1,41 @@
-import { Switch } from "@/components/custom/Switch";
+import { DefaultSwitchExample } from "@/components/custom/example/SwitchExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Switch Example
+# Switch
 
-<Switch />
+A smooth, accessible toggle switch component with beautiful hover animations and seamless state transitions. Perfect for settings, preferences, and binary choices.
+
+<InstallTabs components="Switch" />
+
+## Usage
+
+<DefaultSwitchExample />
+
+## Props
+
+| Prop              | Type                                | Default     | Description                                  |
+| ----------------- | ----------------------------------- | ----------- | -------------------------------------------- |
+| `checked`         | `boolean`                           | `false`     | Whether the switch is checked                |
+| `onCheckedChange` | `(checked: boolean) => void`        | -           | Callback fired when the switch state changes |
+| `disabled`        | `boolean`                           | `false`     | Whether the switch is disabled               |
+| `id`              | `string`                            | -           | Unique identifier for the switch input       |
+| `className`       | `string`                            | -           | Additional CSS classes for custom styling    |
+| `size`            | `"sm" \| "default" \| "md" \| "lg"` | `"default"` | Size variant of the switch component         |
+
+## Sizes
+
+| Size      | Dimensions | Description                      |
+| --------- | ---------- | -------------------------------- |
+| `sm`      | 32×16px    | Small size for compact layouts   |
+| `default` | 48×24px    | Standard size for most use cases |
+| `md`      | 56×28px    | Medium size for emphasis         |
+| `lg`      | 64×32px    | Large size for primary actions   |
+
+## Features
+
+- **Smooth Animations**: Fluid transitions with hover effects and gentle shadow animations
+- **Keyboard Accessible**: Full keyboard navigation support with focus management
+- **Touch Friendly**: Optimized for mobile and touch interactions
+- **Visual Feedback**: Subtle hover animations with expanding shadow effects
+- **Dark Mode Ready**: Seamless integration with light and dark themes using design tokens
+- **Controlled & Uncontrolled**: Supports both controlled and uncontrolled usage patterns

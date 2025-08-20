@@ -1,5 +1,34 @@
-import { RangeSlider } from "@/components/custom/RangeSlider";
+import { DefaultRangeSliderExample } from "@/components/custom/example/RangeSliderExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# RangeSlider Example
+# Range Slider
 
-<RangeSlider />
+A dual-thumb range slider component that allows users to select a range of values between a minimum and maximum. Perfect for price ranges, date ranges, and filtering.
+
+<InstallTabs components="RangeSlider" />
+
+## Default Usage
+
+<DefaultRangeSliderExample />
+
+## Props
+
+| Prop           | Type                                | Default    | Description                                   |
+| -------------- | ----------------------------------- | ---------- | --------------------------------------------- |
+| `className`    | `string`                            | -          | Additional CSS classes to apply to the slider |
+| `value`        | `[number, number]`                  | -          | Current range values [min, max]               |
+| `defaultValue` | `[number, number]`                  | `[25, 75]` | Default range values                          |
+| `onChange`     | `(value: [number, number]) => void` | -          | Callback fired when the range changes         |
+| `min`          | `number`                            | `0`        | Minimum value                                 |
+| `max`          | `number`                            | `100`      | Maximum value                                 |
+| `step`         | `number`                            | `1`        | Step interval                                 |
+| `disabled`     | `boolean`                           | `false`    | Whether the slider is disabled                |
+
+## Features
+
+- **Dual Thumbs**: Independent control of minimum and maximum values
+- **Smart Constraints**: Prevents thumbs from crossing over each other
+- **Smooth Interaction**: Responsive drag behavior with hover effects
+- **Click to Set**: Click anywhere on the track to move the nearest thumb
+- **Accessible**: Full keyboard navigation and screen reader support
+- **Dark Mode Ready**: Adapts to light and dark themes using design tokens

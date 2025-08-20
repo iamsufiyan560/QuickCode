@@ -1,5 +1,27 @@
-import { TextArea } from "@/components/custom/TextArea";
+import { DefaultTextareaExample } from "@/components/custom/example/TextareaExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# TextArea Example
+# Textarea
 
-<TextArea />
+A simple and accessible textarea component that extends native HTML textarea functionality with consistent styling and focus management.
+
+<InstallTabs components="Textarea" />
+
+## Default Usage
+
+<DefaultTextareaExample />
+
+## Props
+
+| Prop        | Type                                                | Default | Description                                     |
+| ----------- | --------------------------------------------------- | ------- | ----------------------------------------------- |
+| `className` | `string`                                            | -       | Additional CSS classes to apply to the textarea |
+| `...props`  | `React.TextareaHTMLAttributes<HTMLTextAreaElement>` | -       | All standard HTML textarea attributes           |
+
+## Features
+
+- **Native HTML Support**: All standard textarea attributes and events work seamlessly
+- **Accessible**: Proper focus management and keyboard navigation
+- **Responsive Design**: Adapts beautifully to different screen sizes
+- **Dark Mode Ready**: Built-in support for light and dark themes
+- **TypeScript Ready**: Full TypeScript support with proper typing
