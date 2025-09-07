@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import "./docs.css";
 import { Metadata } from "next";
+import { Armchair } from "lucide-react";
 
 export const metadata: Metadata = {
   title: {
@@ -55,8 +56,23 @@ const banner = (
     className="bg-primary relative max-w-[1440px] mx-auto"
     storageKey="1.0-release"
   >
-    ✨ Just dropped v1.0.0 of my UI Library — only 6 comps rn but I’m cooking.
-    Stay tuned & maybe… hire me 😉
+    ✨ Just dropped my UI Library — still cooking up some magic! Stay tuned &
+    maybe…{" "}
+    <Anchor
+      href="https://x.com/iamsufiyan560"
+      target="_blank"
+      className="hover:underline underline-offset-3 font-semibold"
+    >
+      hire me
+    </Anchor>{" "}
+    or{" "}
+    <Anchor
+      href="https://github.com/sponsors/iamsufiyan560"
+      target="_blank"
+      className="hover:underline underline-offset-3 font-semibold"
+    >
+      sponsor me 😉
+    </Anchor>
   </Banner>
 );
 
@@ -127,22 +143,19 @@ export default async function RootLayout({
             toggleButton: true,
             defaultMenuCollapseLevel: 1,
           }}
-          // toc={{
-          //   extraContent: (
-          //     <>
-          //       <b className="mt-2 text-xs">Sponsored by:</b>
-          //       <Anchor href="https://xyflow.com?utm_source=nextra.site&utm_campaign=nextra&utm_content=sidebarLink">
-          //         <Image
-          //           width="50"
-          //           height="50"
-          //           src={"/next.svg"}
-          //           alt="Wire your ideas with xyflow!"
-          //           className="nextra-border rounded-sm border"
-          //         />
-          //       </Anchor>
-          //     </>
-          //   ),
-          // }}
+          toc={{
+            extraContent: (
+              <div className="mt-2 text-sm flex flex-col items-start gap-3">
+                <b>Sponsored by:</b>
+                <div className="p-2 border-2 border-dashed border-gray-400 rounded flex justify-center w-full">
+                  <Armchair className="w-8 h-8 text-gray-400" />
+                </div>
+                <span className="italic text-base text-gray-500">
+                  This comfy seat is waiting for a brave sponsor… maybe you? 😏
+                </span>
+              </div>
+            ),
+          }}
         >
           <main
             className={clsx(

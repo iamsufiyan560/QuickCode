@@ -41,6 +41,7 @@ import {
   Linkedin,
   InstagramIcon,
   ArrowUpRight,
+  HeartIcon,
 } from "lucide-react";
 import { Button } from "@/components/custom/Button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -656,30 +657,40 @@ const PricingSection = () => {
                 </ul>
 
                 <Dialog
-                  title="Nah bro, keep your money 💸"
-                  description="Instead, just ⭐ my repo or follow me on X/Twitter. That's
-                    more valuable than cash ❤️"
-                  contentClassName=" text-center  bg-secondary"
+                  title="Sponsor this project 💖"
+                  description="If you find QuickCode useful, consider sponsoring me! Your support helps me build more awesome components 🚀"
+                  contentClassName="text-center bg-secondary"
                   titleClassName="text-xl font-bold mb-4"
                   descriptionClassName="text-sm text-[#65859b] mb-6"
                 >
                   <DialogTrigger asChild>
                     <Button className="w-full rounded-full bg-gradient-to-r from-destructive to-primary hover:from-destructive/80 hover:to-primary/80 cursor-pointer">
                       <QrCode className="w-4 h-4 mr-2" />
-                      Holy shit, I'm feeling generous
+                      I'm feeling generous
                     </Button>
                   </DialogTrigger>
 
                   <div className="flex flex-col gap-3">
                     <Link
+                      href="https://github.com/sponsors/iamsufiyan560"
+                      target="_blank"
+                    >
+                      <Button className="w-full rounded-full bg-destructive hover:bg-destructive/80 cursor-pointer">
+                        <HeartIcon className="w-4 h-4 mr-2 fill-white" />
+                        Sponsor me
+                      </Button>
+                    </Link>
+
+                    <Link
                       href="https://github.com/iamsufiyan560/QuickCode"
                       target="_blank"
                     >
                       <Button className="w-full rounded-full bg-primary cursor-pointer">
-                        <Star className="fill-yellow-500 text-yellow-500" />
+                        <Star className="fill-yellow-500 mr-2 text-yellow-500" />
                         Star on GitHub
                       </Button>
                     </Link>
+
                     <Link href="https://x.com/iamsufiyan560" target="_blank">
                       <Button className="w-full rounded-full bg-accent hover:bg-accent/80 cursor-pointer">
                         <TwitterIcon className="fill-white text-black" />

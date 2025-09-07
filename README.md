@@ -144,14 +144,17 @@ You may use it in your own projects, but you **cannot remove copyright or licens
 
 ## Support
 
-[QuickCode](https://quickcode-ui.vercel.app) is free forever, but if you find it valuable, consider supporting the project via the QR code on the [landing page](https://quickcode-ui.vercel.app). Your support keeps the project alive and helps me buy more coffee!
+[QuickCode](https://quickcode-ui.vercel.app) is completely **free**. If you’d like to support the project, you can:
+
+- **Sponsor me** via [GitHub Sponsors](https://github.com/sponsors/iamsufiyan560)
+- Or **message me on X** ([Twitter/X](https://x.com/iamsufiyan560))
 
 ## Author
 
 - **GitHub**: [iamsufiyan560](https://github.com/iamsufiyan560)
 - **X/Twitter**: [@iamsufiyan560](https://x.com/iamsufiyan560)
 - **Portfolio**: [SUFIYAN](https://sufiyan-dev.vercel.app)
-- **Docs**: [Quickcode.com](<(https://quickcode-ui.vercel.app/docs)>)
+- **Docs**: [Quickcode.com](https://quickcode-ui.vercel.app/docs)
 
 ---
 
