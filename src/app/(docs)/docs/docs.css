@@ -1,0 +1,194 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+/* ============================
+   Base Theme Tokens (Light)
+   ============================ */
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.99 0 0); /* near-white */
+  --foreground: oklch(0 0 0); /* pure black */
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
+
+  --popover: oklch(0.99 0 0);
+  --popover-foreground: oklch(0 0 0);
+
+  --primary: oklch(0.15 0 0); /* dark neutral */
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.92 0 0); /* soft gray */
+  --secondary-foreground: oklch(0.15 0 0);
+
+  --muted: oklch(0.96 0 0); /* lighter gray */
+  --muted-foreground: oklch(0.45 0 0);
+
+  --accent: oklch(0.9 0 0); /* silver */
+  --accent-foreground: oklch(0.15 0 0);
+
+  --destructive: oklch(0.63 0.19 23.03);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.94 0 0);
+  --ring: oklch(0.15 0 0);
+
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.1 0 0);
+  --sidebar-primary: oklch(0.15 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.92 0 0);
+  --sidebar-accent-foreground: oklch(0.1 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.15 0 0);
+
+  /* Fonts */
+  --font-sans: Geist, system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Geist Mono, monospace;
+
+  /* Radius + Shadows */
+  --radius: 0.5rem;
+  --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0 2px 4px hsl(0 0% 0% / 0.07);
+  --shadow-md: 0 4px 6px hsl(0 0% 0% / 0.09);
+  --shadow-lg: 0 8px 12px hsl(0 0% 0% / 0.12);
+  --shadow-xl: 0 12px 20px hsl(0 0% 0% / 0.16);
+}
+
+/* ============================
+   Dark Theme
+   ============================ */
+.dark {
+  --background: oklch(0.13 0 0);
+  --foreground: oklch(0.98 0 0);
+
+  --card: oklch(0.16 0 0);
+  --card-foreground: oklch(0.98 0 0);
+
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+
+  --primary: oklch(0.95 0 0);
+  --primary-foreground: oklch(0.1 0 0);
+
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+
+  --accent: oklch(0.32 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive: oklch(0.69 0.2 23.91);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.28 0 0);
+  --input: oklch(0.32 0 0);
+  --ring: oklch(0.7 0 0);
+
+  --sidebar: oklch(0.18 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.95 0 0);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
+  --sidebar-accent: oklch(0.32 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.32 0 0);
+  --sidebar-ring: oklch(0.7 0 0);
+}
+
+/* ============================
+   Tailwind Theme Bridge
+   ============================ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+}
+
+/* @media (max-width: 768px) {
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px; 
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+} */
+
+/* Hide the main scrollbar but keep scrolling */
+html {
+  overflow: overlay; /* allows scrolling without showing a visible scrollbar */
+}
+
+html::-webkit-scrollbar {
+  width: 0px; /* Chrome, Safari, Opera */
+  background: transparent; /* optional, makes scrollbar invisible */
+}
+
+/* @layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+} */
+/* Hide dark mode button inside sidebar */
+
+/* .nextra-sidebar-footer {
+  display: none;
+} */
+
+/* .nextra-navbar-blur {
+  backdrop-filter: none !important;
+}
+
+.nextra-navbar {
+  backdrop-filter: none !important;
+}
+
+.nextra-navbar {
+  background-color: none !important;
+} */

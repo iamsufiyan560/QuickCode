@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.02 0.02 240); /* Deep dark blue-black */
+  --foreground: oklch(0.98 0.005 60); /* Warm white */
+  --card: oklch(0.08 0.03 240); /* Slightly lighter dark */
+  --card-foreground: oklch(0.95 0.01 60);
+  --popover: oklch(0.08 0.03 240);
+  --popover-foreground: oklch(0.95 0.01 60);
+  --primary: oklch(0.65 0.25 300); /* Electric purple */
+  --primary-foreground: oklch(0.98 0.005 60);
+  --secondary: oklch(0.15 0.05 240); /* Dark blue-gray */
+  --secondary-foreground: oklch(0.9 0.02 60);
+  --muted: oklch(0.12 0.04 240);
+  --muted-foreground: oklch(0.6 0.05 240);
+  --accent: oklch(0.7 0.3 180); /* Cyan accent */
+  --accent-foreground: oklch(0.02 0.02 240);
+  --destructive: oklch(0.65 0.25 15); /* Hot pink-red */
+  --border: oklch(0.2 0.05 240);
+  --input: oklch(0.15 0.05 240);
+  --ring: oklch(0.65 0.25 300);
+  --chart-1: oklch(0.65 0.25 300); /* Purple */
+  --chart-2: oklch(0.7 0.3 180); /* Cyan */
+  --chart-3: oklch(0.6 0.28 120); /* Green */
+  --chart-4: oklch(0.7 0.25 60); /* Yellow */
+  --chart-5: oklch(0.65 0.25 15); /* Pink */
+  --sidebar: oklch(0.05 0.02 240);
+  --sidebar-foreground: oklch(0.95 0.01 60);
+  --sidebar-primary: oklch(0.65 0.25 300);
+  --sidebar-primary-foreground: oklch(0.98 0.005 60);
+  --sidebar-accent: oklch(0.15 0.05 240);
+  --sidebar-accent-foreground: oklch(0.9 0.02 60);
+  --sidebar-border: oklch(0.2 0.05 240);
+  --sidebar-ring: oklch(0.65 0.25 300);
+}
+
+.dark {
+  --background: oklch(0.02 0.02 240);
+  --foreground: oklch(0.98 0.005 60);
+  --card: oklch(0.08 0.03 240);
+  --card-foreground: oklch(0.95 0.01 60);
+  --popover: oklch(0.08 0.03 240);
+  --popover-foreground: oklch(0.95 0.01 60);
+  --primary: oklch(0.7 0.3 300); /* Brighter purple for dark mode */
+  --primary-foreground: oklch(0.02 0.02 240);
+  --secondary: oklch(0.15 0.05 240);
+  --secondary-foreground: oklch(0.9 0.02 60);
+  --muted: oklch(0.12 0.04 240);
+  --muted-foreground: oklch(0.6 0.05 240);
+  --accent: oklch(0.75 0.35 180); /* Brighter cyan */
+  --accent-foreground: oklch(0.02 0.02 240);
+  --destructive: oklch(0.7 0.3 15);
+  --border: oklch(0.25 0.06 240);
+  --input: oklch(0.2 0.06 240);
+  --ring: oklch(0.7 0.3 300);
+  --chart-1: oklch(0.7 0.3 300);
+  --chart-2: oklch(0.75 0.35 180);
+  --chart-3: oklch(0.65 0.32 120);
+  --chart-4: oklch(0.75 0.3 60);
+  --chart-5: oklch(0.7 0.3 15);
+  --sidebar: oklch(0.05 0.02 240);
+  --sidebar-foreground: oklch(0.95 0.01 60);
+  --sidebar-primary: oklch(0.7 0.3 300);
+  --sidebar-primary-foreground: oklch(0.02 0.02 240);
+  --sidebar-accent: oklch(0.15 0.05 240);
+  --sidebar-accent-foreground: oklch(0.9 0.02 60);
+  --sidebar-border: oklch(0.25 0.06 240);
+  --sidebar-ring: oklch(0.7 0.3 300);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Hide scrollbar on mobile but keep scroll */
+/* @media (max-width: 768px) {
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px; 
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+} */
+
+html {
+  overflow: overlay; /* allows scrolling without showing a visible scrollbar */
+}
+
+html::-webkit-scrollbar {
+  width: 0px; /* Chrome, Safari, Opera */
+  background: transparent; /* optional, makes scrollbar invisible */
+}
+.socialiconcard::before,
+.socialiconcard::after {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  transition: 0.25s linear;
+  z-index: 1;
+  content: "";
+}
+
+.socialiconcard::before {
+  left: 0;
+  justify-content: flex-end;
+  background-color: oklch(57.94% 0.24637 303.614); /* lighter purple variant */
+}
+
+.socialiconcard::after {
+  right: 0;
+  justify-content: flex-start;
+  background-color: oklch(0.51 0.25 300); /* darker purple variant */
+}
+
+.socialiconcard:hover span {
+  opacity: 0;
+  z-index: -3;
+}
+
+.socialiconcard:hover::before {
+  opacity: 0.5;
+  transform: translateY(-100%);
+}
+
+.socialiconcard:hover::after {
+  opacity: 0.5;
+  transform: translateY(100%);
+}
+
+.social-link svg {
+  text-shadow: 1px 1px rgba(31, 74, 121, 0.7);
+  transform: scale(1);
+}
+
+.social-link:hover {
+  background-color: rgba(249, 244, 255, 0.774);
+  animation: bounce_613 0.4s linear;
+}
+
+@keyframes bounce_613 {
+  40% {
+    transform: scale(1.4);
+  }
+  60% {
+    transform: scale(0.8);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

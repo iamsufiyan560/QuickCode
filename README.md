@@ -1,4 +1,4 @@
-# QuickCode
+# [QuickCode](https://quickcode-ui.vercel.app)
 
 A modern, high-quality library of copy-pasteable React components and UI blocks designed for developers who prioritize premium design and simplicity. Built with Next.js, TypeScript, Tailwind CSS, Nextra for documentation, Framer Motion for animations, and Recharts for charts.
 
@@ -15,7 +15,13 @@ A modern, high-quality library of copy-pasteable React components and UI blocks 
 
 ## Installation
 
-QuickCode works like shadcn/ui - components are not installed as a package. Instead, you add individual components to your project using our CLI.
+[QuickCode](https://quickcode-ui.vercel.app) works similarly to shadcn/ui—components are not installed as a package. Instead, you add individual components to your project using our CLI or by manually copying from the documentation.
+
+Install the [package](https://www.npmjs.com/package/quickcode-ui) via npm:
+
+```bash
+npm install quickcode-ui
+```
 
 To add a specific component (e.g., Accordion), use:
 
@@ -23,7 +29,7 @@ To add a specific component (e.g., Accordion), use:
 npx quickcode add accordion
 ```
 
-Or manually copy the component from our documentation and paste it into your `components/custom` directory.
+Or manually copy the component from our [documentation](https://quickcode-ui.vercel.app) and paste it into your `components/custom` directory.
 
 Then import and use the component:
 
@@ -33,17 +39,7 @@ import { Accordion } from "@/components/custom/accordion";
 
 ## Usage
 
-### Basic Setup
-
-Ensure you have the following dependencies installed in your Next.js project:
-
-```bash
-npm install framer-motion recharts
-```
-
-Configure Tailwind CSS in your project by following the [Tailwind CSS Next.js guide](https://tailwindcss.com/docs/guides/nextjs).
-
-Import and use QuickCode components in your project. Example with the Accordion component:
+Import and use [QuickCode](https://quickcode-ui.vercel.app) components in your project. Example with the Accordion component:
 
 ```tsx
 import { Accordion } from "@/components/custom/accordion";
@@ -68,6 +64,7 @@ export default function MyComponent() {
 - **Navbar**: A sticky, modern navigation bar with smooth animations
 - **Hero**: Eye-catching hero sections designed for high conversion
 - **Card**: Premium cards with hover effects and customizable layouts
+- **Button**: Customizable buttons with variants (outline, secondary, ghost, destructive, link) and sizes
 - More components and UI blocks available in the `components/custom` directory
 
 Check the documentation (powered by Nextra) for detailed usage and props for each component.
@@ -79,7 +76,7 @@ To contribute or run the project locally:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-repo/quickcode.git
+   git clone https://github.com/iamsufiyan560/quickcode.git
    cd quickcode
    ```
 
@@ -95,11 +92,6 @@ To contribute or run the project locally:
    npm run dev
    ```
 
-4. **Build the documentation with Nextra:**
-   ```bash
-   npm run docs
-   ```
-
 ## Project Structure
 
 ```
@@ -110,16 +102,19 @@ quickcode/
 │   │   ├── Navbar.tsx
 │   │   ├── Hero.tsx
 │   │   ├── Card.tsx
+│   │   ├── Button.tsx
 │   │   └── ...
-│   └── ui/
-│       ├── Button.tsx
-│       ├── Card.tsx
-│       └── ...
+│   ├── ui/
+│   │   ├── Showcase.tsx
+│   │   └── ...
 ├── pages/
 │   ├── index.tsx
 │   └── ...
 ├── docs/
-│   ├── accordion.md
+│   ├── accordion/
+│   │   └── page.mdx
+│   ├── button/
+│   │   └── page.mdx
 │   └── ...
 ├── public/
 └── styles/
@@ -134,26 +129,63 @@ quickcode/
 - **Framer Motion**: Animation library for smooth transitions
 - **Recharts**: Charting library for data visualization
 - **Nextra**: Documentation framework for a seamless docs experience
+- **Lucide React**: Icon library for versatile iconography
 
 ## Contributing
 
 Contributions are welcome! To contribute:
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/your-feature`)
-3. Make your changes and commit (`git commit -m 'Add your feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a pull request
+1. Fork the repository.
 
-Please ensure your code follows the existing style and includes TypeScript types.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+
+3. Go to `components/custom/` and locate the component file. If the component is not yet built, write the component code in this directory.
+
+4. In `components/custom/examples/`, create a file with the component name suffixed with `Example` (e.g., `ButtonExample.tsx`). Write example usage of the component and wrap it in the `Showcase` component, as shown below:
+
+   ```tsx
+   "use client";
+
+   import { Showcase } from "@/components/ui/Showcase";
+   import { Button } from "../Button";
+   import React from "react";
+   import { Loader2 } from "lucide-react";
+
+   export const DefaultButtonExample = () => (
+     <Showcase
+       title="Default Button"
+       imports={["import { Button } from '@/components/custom/Button'"]}
+       scope={{ React, Loader2, Button }}
+     >
+       <Button>Default Button</Button>
+     </Showcase>
+   );
+   ```
+
+5. In `docs/<component-name>/page.mdx`, write detailed steps on how to use the component and provide example usage instructions (without including code directly in the MDX file).
+
+6. Make your changes and commit (`git commit -m 'Add your feature'`).
+
+7. Push to the branch (`git push origin feature/your-feature`).
+
+8. Open a pull request.
+
+Please ensure your code follows the existing style, includes TypeScript types, and adheres to the project’s structure.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for more details.
+MIT License. See LICENSE for more details.
 
 ## Support
 
-QuickCode is free forever, but if you find it valuable, consider supporting the project via the QR code on the landing page. Your support keeps the project alive and helps me buy more coffee!
+[QuickCode](https://quickcode-ui.vercel.app) is free forever, but if you find it valuable, consider supporting the project via the QR code on the [landing page](https://quickcode-ui.vercel.app). Your support keeps the project alive and helps me buy more coffee!
+
+## Author
+
+- **GitHub**: [iamsufiyan560](https://github.com/iamsufiyan560)
+- **X/Twitter**: [@iamsufiyan560](https://x.com/iamsufiyan560)
+- **Portfolio**: [SUFIYAN](https://sufiyan-dev.vercel.app)
+- **Docs**: [Quickcode.com](<(https://quickcode-ui.vercel.app/docs)>)
 
 ---
 

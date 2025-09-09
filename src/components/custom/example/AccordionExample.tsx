@@ -1,19 +1,17 @@
 "use client";
 
 import { Showcase } from "@/components/ui/Showcase";
-import { Accordion } from "../Accordion";
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { Accordion } from "../Accordion";
 
 // Default Accordion Example
 export const DefaultAccordionExample = () => (
   <Showcase
     title="Default Accordion"
-    imports={[
-      "import { Accordion } from '../../../components/custom/Accordion'",
-    ]}
+    imports={["import { Accordion } from '@/components/custom/Accordion'"]}
     scope={{ React, motion, AnimatePresence, ChevronDown, Accordion }}
   >
     <Accordion />
@@ -24,9 +22,7 @@ export const DefaultAccordionExample = () => (
 export const AllowMultipleExample = () => (
   <Showcase
     title="Allow Multiple Open"
-    imports={[
-      "import { Accordion } from '../../../components/custom/Accordion'",
-    ]}
+    imports={["import { Accordion } from '@/components/custom/Accordion'"]}
     scope={{ React, motion, AnimatePresence, ChevronDown, Accordion }}
   >
     <Accordion
@@ -56,9 +52,7 @@ export const AllowMultipleExample = () => (
 export const BorderedExample = () => (
   <Showcase
     title="Bordered Variant"
-    imports={[
-      "import { Accordion } from '../../../components/custom/Accordion'",
-    ]}
+    imports={["import { Accordion } from '@/components/custom/Accordion'"]}
     scope={{ React, motion, AnimatePresence, ChevronDown, Accordion }}
   >
     <Accordion
@@ -83,9 +77,7 @@ export const BorderedExample = () => (
 export const FilledLargeExample = () => (
   <Showcase
     title="Filled Variant Large"
-    imports={[
-      "import { Accordion } from '../../../components/custom/Accordion'",
-    ]}
+    imports={["import { Accordion } from '@/components/custom/Accordion'"]}
     scope={{ React, motion, AnimatePresence, ChevronDown, Accordion }}
   >
     <Accordion

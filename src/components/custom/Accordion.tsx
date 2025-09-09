@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { Button } from "./Button";
 
 export interface AccordionProps {
   items?: Array<{ title: string; content: string }>;
@@ -35,10 +36,11 @@ export const Accordion: React.FC<AccordionProps> = ({
 }) => {
   const sizeClasses = { sm: "text-sm", md: "text-base", lg: "text-lg" };
   const paddingClasses = { sm: "px-3 py-2", md: "px-4 py-3", lg: "px-6 py-4" };
+
   const variantClasses = {
-    default: "border-b border-gray-200 dark:border-gray-700",
-    bordered: "border border-gray-200 dark:border-gray-700 rounded-lg mb-2",
-    filled: "bg-gray-100 dark:bg-gray-800/50 rounded-lg mb-2",
+    default: "border-b border-border", // token
+    bordered: "border border-border rounded-lg mb-2", // token
+    filled: "bg-muted text-foreground rounded-lg mb-2", // token
   };
 
   const [openItems, setOpenItems] = React.useState<Set<number>>(new Set());
@@ -64,7 +66,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           >
             <button
               onClick={() => toggleItem(index)}
-              className={`w-full flex items-center justify-between ${paddingClasses[size]} ${sizeClasses[size]} font-medium text-left text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 rounded-md`}
+              className={`w-full flex items-center justify-between ${paddingClasses[size]} ${sizeClasses[size]} font-medium text-left text-foreground hover:text-blue-400  transition-colors duration-200 rounded-md`}
             >
               <span>{item.title}</span>
               <ChevronDown
@@ -84,7 +86,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                   className="overflow-hidden w-full"
                 >
                   <div
-                    className={`${paddingClasses[size]} pt-0 text-gray-600 dark:text-gray-300 ${sizeClasses[size]}`}
+                    className={`${paddingClasses[size]} pt-0 text-muted-foreground ${sizeClasses[size]}`}
                   >
                     {item.content}
                   </div>

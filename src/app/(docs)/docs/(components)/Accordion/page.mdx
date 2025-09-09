@@ -1,0 +1,44 @@
+import {
+  DefaultAccordionExample,
+  AllowMultipleExample,
+  BorderedExample,
+  FilledLargeExample,
+} from "@/components/custom/example/AccordionExample";
+
+# Accordion
+
+A flexible and accessible accordion component that allows users to expand and collapse content sections. Built with smooth animations and multiple styling variants.
+
+## Default Usage
+
+<DefaultAccordionExample />
+
+## Allow Multiple Open Items
+
+<AllowMultipleExample />
+
+## Bordered Variant
+
+<BorderedExample />
+
+## Filled Variant with Large Size
+
+<FilledLargeExample />
+
+## Props
+
+| Prop            | Type                                      | Default      | Description                                                           |
+| --------------- | ----------------------------------------- | ------------ | --------------------------------------------------------------------- |
+| `items`         | `Array<{title: string, content: string}>` | Sample items | Array of objects containing title and content for each accordion item |
+| `allowMultiple` | `boolean`                                 | `false`      | Whether multiple accordion items can be open simultaneously           |
+| `variant`       | `"default" \| "bordered" \| "filled"`     | `"default"`  | Visual style variant of the accordion                                 |
+| `size`          | `"sm" \| "md" \| "lg"`                    | `"md"`       | Size variant that affects text size and padding                       |
+
+## Features
+
+- **Smooth Animations**: Powered by Framer Motion for fluid expand/collapse transitions
+- **Keyboard Accessible**: Full keyboard navigation support with focus management
+- **Multiple Variants**: Choose from default, bordered, or filled styling options
+- **Flexible Content**: Supports any content structure within accordion items
+- **Responsive Design**: Adapts beautifully to different screen sizes
+- **Dark Mode Ready**: Built-in support for light and dark themes

@@ -1,0 +1,57 @@
+import {
+  DefaultVariantExample,
+  FilledVariantExample,
+} from "@/components/custom/example/ActionSheetExample";
+
+# ActionSheet
+
+A mobile-first bottom sheet component that presents a list of actions in a modal overlay. Perfect for contextual menus, confirmation dialogs, and action selection interfaces commonly seen in mobile applications.
+
+## Default Variant
+
+<DefaultVariantExample />
+
+## Filled Variant
+
+<FilledVariantExample />
+
+## Props
+
+| Prop                 | Type                                            | Default              | Description                                                               |
+| -------------------- | ----------------------------------------------- | -------------------- | ------------------------------------------------------------------------- |
+| `isOpen`             | `boolean`                                       | -                    | Required: Controls whether the action sheet is visible                    |
+| `onClose`            | `() => void`                                    | -                    | Required: Callback function called when the action sheet closes           |
+| `setIsOpen`          | `React.Dispatch<React.SetStateAction<boolean>>` | -                    | Required: Function to set the `isOpen` state                              |
+| `title`              | `string`                                        | `"Choose an action"` | Header title displayed at the top of the action sheet                     |
+| `description`        | `string`                                        | Sample description   | Optional description text below the title                                 |
+| `actions`            | `ActionSheetAction[]`                           | -                    | Required: Array of action objects with label, onClick, and optional props |
+| `variant`            | `"default" \| "filled" \| "bordered"`           | `"default"`          | Visual style variant for the action sheet                                 |
+| `size`               | `"sm" \| "md" \| "lg"`                          | `"md"`               | Size variant affecting text size and padding                              |
+| `showCloseButton`    | `boolean`                                       | `true`               | Whether to show the X close button in the header                          |
+| `cancelLabel`        | `string`                                        | `"Cancel"`           | Label for the cancel button at the bottom                                 |
+| `triggerButtonLabel` | `string`                                        | `"Show Actions"`     | Label for the trigger button                                              |
+| `triggerButtonProps` | `Omit<ButtonProps, "children">`                 | `{}`                 | Props to customize the trigger button (e.g., variant, size, className)    |
+
+## ActionSheetAction Interface
+
+| Property   | Type                         | Required | Description                                 |
+| ---------- | ---------------------------- | -------- | ------------------------------------------- |
+| `label`    | `string`                     | ✓        | Text displayed for the action               |
+| `onClick`  | `() => void`                 | ✓        | Function called when the action is selected |
+| `variant`  | `"default" \| "destructive"` | ✗        | Visual style, destructive shows in red      |
+| `disabled` | `boolean`                    | ✗        | Whether the action is disabled              |
+| `icon`     | `React.ReactNode`            | ✗        | Optional icon displayed before the label    |
+
+## Features
+
+- **Mobile-First Design**: Slides up from the bottom with smooth spring animations powered by Framer Motion.
+- **Keyboard Accessible**: Supports Escape key to close and proper focus management.
+- **Flexible Actions**: Supports custom icons, destructive variants, and disabled states.
+- **Multiple Variants**: Choose from default, filled, or bordered styling options for the action sheet.
+- **Customizable Trigger**: Use `triggerButtonProps` to style the trigger button (e.g., variant, size, className).
+- **Backdrop Dismissal**: Click outside the action sheet to close it.
+- **Body Scroll Lock**: Prevents background scrolling when the action sheet is open.
+- **Responsive Sizing**: Adapts to different screen sizes with maximum width constraints.
+- **Dark Mode Ready**: Full support for light and dark themes with semantic Tailwind classes.
+
+This component is ideal for mobile applications, admin panels, or any interface requiring contextual actions without navigating away from the current view. The bottom sheet pattern is intuitive for users familiar with native mobile apps, making it perfect for quick action menus like sharing, editing, or deleting items.

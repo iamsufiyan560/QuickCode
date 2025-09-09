@@ -72,13 +72,25 @@ export default {
     title: "Documentation",
 
     items: {
+      __1: {
+        type: "separator",
+        title: "Get Started",
+      },
       index: "",
-      __: {
+      Installation: "",
+      __2: {
         type: "separator",
         title: "Components",
       },
       Accordion: "",
       ActionSheet: "",
+      Button: "",
+
+      __3: {
+        type: "separator",
+        title: "Coming Soon",
+      },
+
       Alert: "",
       Analytics: "",
       Avatar: "",
@@ -86,7 +98,7 @@ export default {
       Badge: "",
       Banner: "",
       Breadcrumb: "",
-      Button: "",
+
       ButtonGroup: "",
       Calendar: "",
       Card: "",
