@@ -50,7 +50,14 @@ export const metadata: Metadata = {
 };
 
 const banner = (
-  <Banner storageKey="release-banner">🚀 My Project 1.0.0 is live!</Banner>
+  <Banner
+    dismissible={false}
+    className="bg-primary relative max-w-[1440px] mx-auto"
+    storageKey="1.0-release"
+  >
+    ✨ Just dropped v1.0.0 of my UI Library — only 6 comps rn but I’m cooking.
+    Stay tuned & maybe… hire me 😉
+  </Banner>
 );
 
 const navbar = (
@@ -83,7 +90,7 @@ const navbar = (
     }
     logoLink="/"
     projectLink="https://github.com/iamsufiyan560/QuickCode"
-    className="max-w-[1440px] text-gray-900 dark:text-gray-100 transition-colors duration-300"
+    className="max-w-[1440px mx-auto]  transition-colors duration-300 bg-[#f8fafc]  dark:bg-[#0f172a]    "
   >
     {/* 👇 Right side items */}
     {/* <ThemeSwitch className="!text-gray-400 hover:!text-gray-100" /> */}
@@ -107,7 +114,7 @@ export default async function RootLayout({
 
       <body>
         <Layout
-          // banner={banner}
+          banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/iamsufiyan560/QuickCode"
@@ -139,7 +146,7 @@ export default async function RootLayout({
         >
           <main
             className={clsx(
-              "min-w-full bg-[#FAFAFA] text-gray-900 dark:bg-[#111111]   dark:text-gray-100 transition-colors duration-300"
+              "min-w-full bg-[#f8fafc]  dark:bg-[#0f172a]    transition-colors duration-300"
             )}
           >
             {children}

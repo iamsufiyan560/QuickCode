@@ -1,0 +1,73 @@
+import {
+  DefaultDraggableCardsExample,
+  HorizontalDraggableCardsExample,
+  BorderedDraggableCardsExample,
+  LargeDraggableCardsExample,
+} from "@/components/custom/example/DraggableCardsExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Draggable Cards
+
+An interactive card component that allows users to reorder items through drag and drop. Perfect for task management, prioritization interfaces, and customizable dashboards.
+
+<InstallTabs components="DraggableCards" />
+
+## Default Usage
+
+<DefaultDraggableCardsExample />
+
+## Horizontal Layout
+
+<HorizontalDraggableCardsExample />
+
+## Bordered Variant
+
+<BorderedDraggableCardsExample />
+
+## Large Size with Custom Handler
+
+<LargeDraggableCardsExample />
+
+## Props
+
+| Prop                   | Type                                                      | Default      | Description                                                 |
+| ---------------------- | --------------------------------------------------------- | ------------ | ----------------------------------------------------------- |
+| `cards`                | `Array<{id: number, title: string, description: string}>` | Sample cards | Array of card objects to display and make draggable         |
+| `horizontal`           | `boolean`                                                 | `false`      | Whether to arrange cards horizontally instead of vertically |
+| `variant`              | `"default" \| "bordered" \| "filled"`                     | `"default"`  | Visual style variant of the cards                           |
+| `size`                 | `"sm" \| "md" \| "lg"`                                    | `"md"`       | Size variant affecting padding and text size                |
+| `onReorder`            | `(newCards: Card[]) => void`                              | `undefined`  | Callback function called when cards are reordered           |
+| `className`            | `string`                                                  | `undefined`  | Custom classes for the main container                       |
+| `cardClassName`        | `string`                                                  | `undefined`  | Custom classes for individual cards                         |
+| `titleClassName`       | `string`                                                  | `undefined`  | Custom classes for card titles                              |
+| `descriptionClassName` | `string`                                                  | `undefined`  | Custom classes for card descriptions                        |
+
+## Features
+
+- **Smooth Drag Animations**: Powered by Framer Motion for fluid drag and drop interactions
+- **Flexible Layout**: Support for both vertical and horizontal arrangements
+- **Visual Feedback**: Cards scale and highlight during drag operations
+- **Custom Styling**: Multiple variants and sizes for different use cases with full className override support
+- **Responsive Design**: Adapts to different screen sizes and touch devices
+- **Dark Mode Ready**: Full support for light and dark themes
+- **Accessible**: Keyboard navigation and screen reader support
+- **Customizable Styling**: Override default styles with className props for container, cards, titles, and descriptions
+
+## Styling Examples
+
+```tsx
+// Custom container styling
+<DraggableCards
+  className="max-w-3xl bg-gray-50 dark:bg-gray-900 p-4 rounded-lg"
+/>
+
+// Custom card styling with proper dark mode
+<DraggableCards
+  cardClassName="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 text-white border-none"
+  titleClassName="text-yellow-300 dark:text-yellow-200"
+  descriptionClassName="text-blue-100 dark:text-blue-200"
+/>
+```
+
+This component is particularly useful for kanban boards, task prioritization interfaces, playlist managers, and any application where users need to reorder content through an intuitive drag-and-drop interface.

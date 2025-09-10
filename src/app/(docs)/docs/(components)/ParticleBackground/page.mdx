@@ -1,0 +1,43 @@
+import {
+  DefaultParticleBackgroundExample,
+  CustomColorsExample,
+} from "@/components/custom/example/ParticleBackgroundExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Particle Background
+
+An animated background component that creates floating particles with customizable colors, speed, and appearance. Perfect for adding dynamic visual interest to landing pages, hero sections, or any area needing ambient animation.
+
+<InstallTabs components="ParticleBackground" />
+
+## Default Usage
+
+<DefaultParticleBackgroundExample />
+
+## Custom Colors and Settings
+
+<CustomColorsExample />
+
+## Props
+
+| Prop            | Type                           | Default                             | Description                                              |
+| --------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- |
+| `particleCount` | `number`                       | `50`                                | Number of particles to render                            |
+| `colors`        | `string[]`                     | `["#06b6d4", "#a855f7", "#ec4899"]` | Array of hex colors for particles                        |
+| `speed`         | `"slow" \| "medium" \| "fast"` | `"medium"`                          | Animation speed of particle movement                     |
+| `size`          | `"sm" \| "md" \| "lg"`         | `"md"`                              | Size of individual particles                             |
+| `blur`          | `boolean`                      | `true`                              | Whether to apply blur effect to particles                |
+| `fixed`         | `boolean`                      | `true`                              | Use fixed positioning (viewport) or absolute (container) |
+
+## Features
+
+- **Customizable Particles**: Control count, colors, size, and blur effects
+- **Variable Speed**: Choose from slow, medium, or fast animation speeds
+- **Fixed Positioning**: Automatically positions behind content with proper z-index
+- **Performance Optimized**: Efficient animations using Framer Motion
+- **Responsive**: Works seamlessly across all screen sizes
+- **Theme Compatible**: Uses bg-background for proper theme support
+
+## Real-World Usage
+
+This component is ideal for creating engaging hero sections, landing page backgrounds, or adding subtle animation to dashboard layouts. The fixed positioning ensures it stays in the background while content remains interactive and accessible. Commonly used in SaaS landing pages, portfolio sites, and modern web applications to create depth and visual interest without overwhelming the main content.

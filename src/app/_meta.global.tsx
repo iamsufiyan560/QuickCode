@@ -78,6 +78,7 @@ export default {
       },
       index: "",
       Installation: "",
+
       __2: {
         type: "separator",
         title: "Components",
@@ -87,6 +88,15 @@ export default {
       Button: "",
 
       __3: {
+        type: "separator",
+        title: "Backgrounds & Effects",
+      },
+
+      FloatingCode: "",
+      ParticleBackground: "",
+      DraggableCards: "",
+
+      __4: {
         type: "separator",
         title: "Coming Soon",
       },

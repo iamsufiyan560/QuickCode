@@ -1,19 +1,34 @@
 import {
-  DefaultVariantExample,
-  FilledVariantExample,
+  BottomExample,
+  TopExample,
+  LeftExample,
+  RightExample,
+
 } from "@/components/custom/example/ActionSheetExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
 # ActionSheet
 
 A mobile-first bottom sheet component that presents a list of actions in a modal overlay. Perfect for contextual menus, confirmation dialogs, and action selection interfaces commonly seen in mobile applications.
 
-## Default Variant
+<InstallTabs components="ActionSheet" />
 
-<DefaultVariantExample />
+## Open from Bottom
 
-## Filled Variant
+<BottomExample />
 
-<FilledVariantExample />
+## Open from Top
+
+<TopExample />
+
+## Open from Left
+
+<LeftExample />
+
+## Open from Right
+
+<RightExample />
 
 ## Props
 
@@ -31,6 +46,8 @@ A mobile-first bottom sheet component that presents a list of actions in a modal
 | `cancelLabel`        | `string`                                        | `"Cancel"`           | Label for the cancel button at the bottom                                 |
 | `triggerButtonLabel` | `string`                                        | `"Show Actions"`     | Label for the trigger button                                              |
 | `triggerButtonProps` | `Omit<ButtonProps, "children">`                 | `{}`                 | Props to customize the trigger button (e.g., variant, size, className)    |
+| `position`           | `"bottom" \| "top" \| "left" \| "right"`        | `"bottom"`           | Position from which the action sheet slides in                            |
+| `showScroll`         | `boolean`                                       | `true`               | Whether to show a scrollbar when content overflows                        |
 
 ## ActionSheetAction Interface
 
@@ -49,8 +66,10 @@ A mobile-first bottom sheet component that presents a list of actions in a modal
 - **Flexible Actions**: Supports custom icons, destructive variants, and disabled states.
 - **Multiple Variants**: Choose from default, filled, or bordered styling options for the action sheet.
 - **Customizable Trigger**: Use `triggerButtonProps` to style the trigger button (e.g., variant, size, className).
+- **Position Control**: Slide in from bottom, top, left, or right.
 - **Backdrop Dismissal**: Click outside the action sheet to close it.
 - **Body Scroll Lock**: Prevents background scrolling when the action sheet is open.
+- **Scrollable Content**: Optional scrollbar for overflowing content with `showScroll` prop.
 - **Responsive Sizing**: Adapts to different screen sizes with maximum width constraints.
 - **Dark Mode Ready**: Full support for light and dark themes with semantic Tailwind classes.
 

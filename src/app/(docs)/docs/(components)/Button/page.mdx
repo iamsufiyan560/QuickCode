@@ -4,9 +4,13 @@ import {
   SizeLoadingExamples,
 } from "@/components/custom/example/ButtonExample";
 
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
 # Button
 
 A versatile and accessible button component with multiple variants, sizes, and states. Ideal for primary actions, secondary options, and loading indicators in forms and interfaces.
+
+<InstallTabs components="Button" />
 
 ## Default Usage
 
@@ -25,7 +29,7 @@ A versatile and accessible button component with multiple variants, sizes, and s
 | Prop        | Type                                                                          | Default     | Description                                                                  |
 | ----------- | ----------------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
 | `variant`   | `"default" \| "destructive" \| "outline" \| "secondary" \| "ghost" \| "link"` | `"default"` | Visual style of the button, affecting background, border, and text colors.   |
-| `size`      | `"default" \| "sm" \| "lg" \| "icon"`                                         | `"default"` | Controls padding, height, and overall size of the button.                    |
+| `size`      | `"default" \| "sm" \| "lg" \| "md" \| "icon"`                                 | `"default"` | Controls padding, height, and overall size of the button.                    |
 | `isLoading` | `boolean`                                                                     | `false`     | Shows a loading spinner and disables the button during asynchronous actions. |
 | `disabled`  | `boolean`                                                                     | `false`     | Disables the button and applies reduced opacity.                             |
 | `className` | `string`                                                                      | `undefined` | Additional CSS classes for custom styling overrides.                         |

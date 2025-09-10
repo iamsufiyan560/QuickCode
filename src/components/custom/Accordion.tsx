@@ -3,7 +3,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { Button } from "./Button";
 
 export interface AccordionProps {
   items?: Array<{ title: string; content: string }>;

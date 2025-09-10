@@ -50,7 +50,7 @@ import DraggableCards from "@/components/landing/DraggableCards";
 const useCopyToClipboard = () => {
   const [copied, setCopied] = useState(false);
 
-  const copyToClipboard = async (text) => {
+  const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -151,8 +151,13 @@ const AnimatedBackground = () => {
   );
 };
 
-// Floating Code Snippet
-const FloatingCode = ({ code, className = "" }) => {
+const FloatingCode = ({
+  code,
+  className = "",
+}: {
+  code: string;
+  className?: string;
+}) => {
   return (
     <motion.div
       className={`absolute font-mono text-xs text-white ${className}`}

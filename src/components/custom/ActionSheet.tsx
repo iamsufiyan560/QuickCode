@@ -26,6 +26,8 @@ export interface ActionSheetProps {
   cancelLabel?: string;
   triggerButtonLabel?: string;
   triggerButtonProps?: Omit<ButtonProps, "children">;
+  position?: "bottom" | "top" | "left" | "right"; // NEW
+  showScroll?: boolean;
 }
 
 export const ActionSheet: React.FC<ActionSheetProps> = ({
@@ -41,6 +43,8 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
   cancelLabel = "Cancel",
   triggerButtonLabel = "Show Actions",
   triggerButtonProps = {},
+  position = "bottom", // default
+  showScroll = true, // NEW
 }) => {
   const sizeClasses = {
     sm: { text: "text-sm", padding: "px-4 py-3", spacing: "space-y-1" },
@@ -63,12 +67,12 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
 
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "unset";
+      document.documentElement.style.overflow = "";
     };
   }, [isOpen, onClose]);
 
@@ -83,13 +87,48 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
     setIsOpen(true);
   };
 
+  // 🟢 Motion variants by position
+  const getMotionProps = () => {
+    switch (position) {
+      case "top":
+        return {
+          initial: { y: "-100%" },
+          animate: { y: 0 },
+          exit: { y: "-100%" },
+          className: "fixed  inset-x-0 top-0 z-50 mx-auto max-w-lg",
+        };
+      case "left":
+        return {
+          initial: { x: "-100%" },
+          animate: { x: 0 },
+          exit: { x: "-100%" },
+          className: "fixed  inset-y-0 left-0 z-[50] h-full w-80 max-w-[90%]",
+        };
+      case "right":
+        return {
+          initial: { x: "100%" },
+          animate: { x: 0 },
+          exit: { x: "100%" },
+          className: "fixed inset-y-0 right-0 z-50 h-full w-80 max-w-[90%]",
+        };
+      default: // bottom
+        return {
+          initial: { y: "100%" },
+          animate: { y: 0 },
+          exit: { y: "100%" },
+          className: "fixed  inset-x-0 bottom-0 z-50 mx-auto max-w-lg",
+        };
+    }
+  };
+
+  const motionProps = getMotionProps();
+
   return (
     <>
       {/* Trigger Button */}
       <Button onClick={handleOpen} {...triggerButtonProps}>
         {triggerButtonLabel}
       </Button>
-
       <AnimatePresence mode="wait">
         {isOpen && (
           <>
@@ -99,28 +138,44 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="fixed inset-0 z-50 bg-black/50 h-full"
+              className="fixed  inset-0 z-40 bg-black/50 h-full"
               onClick={onClose}
             />
 
             {/* Action Sheet */}
             <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
+              initial={motionProps.initial}
+              animate={motionProps.animate}
+              exit={motionProps.exit}
               transition={{
                 type: "tween",
                 duration: 0.25,
                 ease: [0.25, 1, 0.5, 1],
               }}
-              className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-lg"
+              className={motionProps.className}
             >
               <div
-                className={`rounded-t-2xl border-t ${variantClasses[variant]} shadow-xl`}
+                className={`${
+                  position === "bottom"
+                    ? "rounded-t-2xl border-t"
+                    : position === "top"
+                    ? "rounded-b-2xl border-b"
+                    : "h-full border-l"
+                } ${variantClasses[variant]} shadow-xl flex flex-col  ${
+                  position === "left"
+                    ? "border border-r-border"
+                    : "border border-l-border"
+                } `}
+                style={{
+                  maxHeight:
+                    position === "bottom" || position === "top"
+                      ? "24rem"
+                      : "100%", // max-h-96 = 24rem
+                }}
               >
                 {/* Header */}
                 <div
-                  className={`border-b border-border ${sizeClasses[size].padding}`}
+                  className={`border-b border-border ${sizeClasses[size].padding} flex-shrink-0`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -144,15 +199,26 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                   </div>
                 </div>
 
+                {/* Scrollable content */}
                 <div
-                  className={`${sizeClasses[size].spacing} ${sizeClasses[size].padding}`}
+                  className={`flex-1 overflow-y-auto px-6 py-4 space-y-2 ${
+                    showScroll
+                      ? `[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-track]:${
+                          variant === "filled"
+                            ? "bg-muted"
+                            : variant === "bordered"
+                            ? "bg-background"
+                            : "bg-background"
+                        } [&::-webkit-scrollbar-thumb]:bg-gray-400/50 [&::-webkit-scrollbar-thumb]:rounded-[4px]`
+                      : "[&::-webkit-scrollbar]:hidden"
+                  }`}
                 >
                   {actions.map((action, index) => (
                     <Button
                       key={index}
                       onClick={() => handleActionClick(action)}
                       disabled={action.disabled ?? false}
-                      size="default" // always default, padding/text from sizeClasses
+                      size="default"
                       variant="ghost"
                       className={`w-full flex items-center space-x-3 text-left ${
                         sizeClasses[size].text
@@ -161,6 +227,8 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                           ? "cursor-not-allowed opacity-50"
                           : action.variant === "destructive"
                           ? "text-destructive hover:bg-destructive/10"
+                          : variant === "filled"
+                          ? "text-foreground hover:bg-secondary"
                           : "text-foreground hover:bg-muted"
                       } `}
                     >
@@ -170,19 +238,21 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                       <span className="font-medium">{action.label}</span>
                     </Button>
                   ))}
+                </div>
 
-                  {/* Cancel Button */}
-                  <div className="pt-2 border-t border-border">
+                {/* Cancel Button (fixed at bottom for top/bottom) */}
+                {(position === "bottom" || position === "top") && (
+                  <div className="border-t border-border py-2 flex-shrink-0">
                     <Button
                       onClick={onClose}
                       size="default"
                       variant="ghost"
-                      className={` inline-flex  w-full ${sizeClasses[size].text} font-medium items-center justify-center`}
+                      className={`inline-flex w-full ${sizeClasses[size].text} font-medium items-center justify-center py-4`}
                     >
                       {cancelLabel}
                     </Button>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           </>

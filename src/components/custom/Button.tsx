@@ -3,21 +3,6 @@
 import React from "react";
 import { Loader2 } from "lucide-react";
 
-// export interface ButtonProps
-//   extends React.DetailedHTMLProps<
-//     React.ButtonHTMLAttributes<HTMLButtonElement>,
-//     HTMLButtonElement
-//   > {
-//   variant?:
-//     | "default"
-//     | "destructive"
-//     | "outline"
-//     | "secondary"
-//     | "ghost"
-//     | "link";
-//   size?: "default" | "sm" | "lg" | "icon";
-//   isLoading?: boolean;
-// }
 export interface ButtonProps
   extends Omit<
     React.DetailedHTMLProps<
@@ -49,11 +34,12 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    "cursor-pointer  whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50";
+    "cursor-pointer     whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50";
 
   const sizeClasses = {
     default: "h-10 px-4 py-2",
     sm: "h-9 rounded-md px-3",
+    md: "h-10 rounded-md px-5",
     lg: "h-11 rounded-md px-8",
     icon: "h-10 w-10 flex items-center justify-center",
   };
@@ -64,7 +50,7 @@ export const Button: React.FC<ButtonProps> = ({
       "bg-destructive text-destructive-foreground hover:bg-destructive/90",
     outline:
       "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
-    secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+    secondary: "bg-secondary text-secondary-foreground hover:bg-secondary",
     ghost: "hover:bg-accent hover:text-accent-foreground",
     link: "text-primary underline-offset-4 hover:underline",
   };
@@ -75,7 +61,9 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       className={`${baseClasses} ${sizeClasses[size]} ${
         variantClasses[variant]
-      } ${className || ""}`}
+      }   ${isLoading ? "flex items-center justify-center" : ""} ${
+        className || ""
+      }`}
       type={type}
       disabled={combinedDisabled}
       {...props}
