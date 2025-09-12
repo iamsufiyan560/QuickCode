@@ -1,7 +1,8 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-const FloatingCode = ({
+export const FloatingCode = ({
   code,
   className = "",
 }: {
@@ -10,7 +11,7 @@ const FloatingCode = ({
 }) => {
   return (
     <motion.div
-      className={cn("absolute font-mono text-xs text-primary", className)}
+      className={cn("absolute font-mono text-xs  text-primary", className)}
       animate={{
         y: [-20, 20],
         opacity: [0.3, 0.7, 0.3],
@@ -25,5 +26,3 @@ const FloatingCode = ({
     </motion.div>
   );
 };
-
-export default FloatingCode;

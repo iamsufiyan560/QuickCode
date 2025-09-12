@@ -26,16 +26,12 @@ import {
   InstagramIcon,
   ArrowUpRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/custom/Button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import Image from "next/image";
 import clsx from "clsx";
+import { Dialog, DialogTrigger } from "@/components/custom/Dialog";
 
 // Main Landing Page Component
 export default function QuickCodeLanding() {
@@ -350,8 +346,8 @@ const Hero = () => {
         >
           <Link href="/docs">
             <Button
-              size="lg"
-              className="text-lg px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-accent hover:from-primary/80 hover:to-accent/80 transition-all duration-300 transform hover:scale-105 cursor-pointer mb-8"
+              size="md"
+              className="text-md  py-4 rounded-lg bg-gradient-to-r from-primary to-accent hover:from-primary/80 hover:to-accent/80 transition-all duration-300 transform hover:scale-105 px-5 mb-8"
             >
               <Zap className="mr-2" />
               Get the damn code
@@ -671,40 +667,39 @@ const PricingSection = () => {
                     Currently unemployed, hire me bro
                   </li>
                 </ul>
-                <Dialog>
+
+                <Dialog
+                  title="Nah bro, keep your money 💸"
+                  description="Instead, just ⭐ my repo or follow me on X/Twitter. That's
+                    more valuable than cash ❤️"
+                  contentClassName=" text-center  bg-secondary"
+                  titleClassName="text-xl font-bold mb-4"
+                  descriptionClassName="text-sm text-[#65859b] mb-6"
+                >
                   <DialogTrigger asChild>
                     <Button className="w-full rounded-full bg-gradient-to-r from-destructive to-primary hover:from-destructive/80 hover:to-primary/80 cursor-pointer">
                       <QrCode className="w-4 h-4 mr-2" />
                       Holy shit, I'm feeling generous
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-sm text-center py-8 bg-secondary ">
-                    <DialogTitle className="sr-only">Support</DialogTitle>
-                    <p className="text-xl font-bold mb-4">
-                      Nah bro, keep your money 💸
-                    </p>
-                    <p className="text-sm text-[#65859b] mb-6">
-                      Instead, just ⭐ my repo or follow me on X/Twitter. That’s
-                      more valuable than cash ❤️
-                    </p>
-                    <div className="flex flex-col gap-3">
-                      <Link
-                        href="https://github.com/iamsufiyan560/QuickCode"
-                        target="_blank"
-                      >
-                        <Button className="w-full rounded-full bg-primary cursor-pointer ">
-                          <Star className="fill-yellow-500 text-yellow-500" />
-                          Star on GitHub
-                        </Button>
-                      </Link>
-                      <Link href="https://x.com/iamsufiyan560" target="_blank">
-                        <Button className="w-full rounded-full bg-accent hover:bg-accent/80 cursor-pointer">
-                          <TwitterIcon className="fill-white text-black" />{" "}
-                          Follow on X/Twitter
-                        </Button>
-                      </Link>
-                    </div>
-                  </DialogContent>
+
+                  <div className="flex flex-col gap-3">
+                    <Link
+                      href="https://github.com/iamsufiyan560/QuickCode"
+                      target="_blank"
+                    >
+                      <Button className="w-full rounded-full bg-primary cursor-pointer">
+                        <Star className="fill-yellow-500 text-yellow-500" />
+                        Star on GitHub
+                      </Button>
+                    </Link>
+                    <Link href="https://x.com/iamsufiyan560" target="_blank">
+                      <Button className="w-full rounded-full bg-accent hover:bg-accent/80 cursor-pointer">
+                        <TwitterIcon className="fill-white text-black" />
+                        Follow on X/Twitter
+                      </Button>
+                    </Link>
+                  </div>
                 </Dialog>
               </CardContent>
             </Card>

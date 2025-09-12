@@ -34,7 +34,7 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
 
   return (
     <div className={` inset-0 z-[10] overflow-hidden absolute`}>
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-gray-100 dark:bg-black" />
       {[...Array(particleCount)].map((_, i) => (
         <motion.div
           key={i}

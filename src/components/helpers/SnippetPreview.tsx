@@ -72,7 +72,10 @@ export const SnippetPreview: React.FC<ShowcaseProps> = ({
               code={code}
               disabled
               theme={{
-                plain: { backgroundColor: "transparent", color: "#f8fafc" },
+                plain: {
+                  backgroundColor: "transparent",
+                  color: "var(--code-plain)", // ✅ correct string syntax
+                },
                 styles: [
                   {
                     types: ["comment"],
@@ -89,7 +92,7 @@ export const SnippetPreview: React.FC<ShowcaseProps> = ({
                 ],
               }}
             >
-              <div className="bg-[#acb9c7] dark:bg-[#0f172a] overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+              <div className="bg-white dark:bg-[#0f172a] overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
                 <LiveEditor
                   disabled
                   style={{

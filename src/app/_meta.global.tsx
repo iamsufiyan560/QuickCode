@@ -86,6 +86,7 @@ export default {
       Accordion: "",
       ActionSheet: "",
       Button: "",
+      Dialog: "",
 
       __3: {
         type: "separator",
@@ -135,7 +136,6 @@ export default {
       },
       DatePicker: "",
       DateRangePicker: "",
-      Dialog: "",
       Divider: "",
       Drawer: "",
       Dropdown: "",

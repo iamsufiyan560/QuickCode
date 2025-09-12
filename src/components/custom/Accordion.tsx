@@ -3,12 +3,14 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface AccordionProps {
   items?: Array<{ title: string; content: string }>;
   allowMultiple?: boolean;
   variant?: "default" | "bordered" | "filled";
   size?: "sm" | "md" | "lg";
+  className?: string;
 }
 
 export const Accordion: React.FC<AccordionProps> = ({
@@ -32,6 +34,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   allowMultiple = false,
   variant = "default",
   size = "md",
+  className, // ✅ added
 }) => {
   const sizeClasses = { sm: "text-sm", md: "text-base", lg: "text-lg" };
   const paddingClasses = { sm: "px-3 py-2", md: "px-4 py-3", lg: "px-6 py-4" };
@@ -55,7 +58,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className="lg:w-3xl md:w-2xl w-full">
+    <div className={cn("lg:w-3xl md:w-2xl w-full mx-auto", className)}>
       {items.map((item, index) => {
         const isOpen = openItems.has(index);
         return (
@@ -65,7 +68,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           >
             <button
               onClick={() => toggleItem(index)}
-              className={`w-full flex items-center justify-between ${paddingClasses[size]} ${sizeClasses[size]} font-medium text-left text-foreground hover:text-blue-400  transition-colors duration-200 rounded-md`}
+              className={`w-full flex items-center justify-between ${paddingClasses[size]} ${sizeClasses[size]} font-medium text-left text-foreground hover:text-primary  transition-colors duration-200 rounded-md cursor-pointer`}
             >
               <span>{item.title}</span>
               <ChevronDown

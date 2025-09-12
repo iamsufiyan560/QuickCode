@@ -1,5 +1,112 @@
-import { Dialog } from "@/components/custom/Dialog";
+import {
+  BasicControlledDialogExample,
+  CompoundDialogExample,
+  DefaultOpenDialogExample,
+  PreventOverlayClickDialogExample,
+  CustomStyledDialogExample,
+} from "@/components/custom/example/DialogExample";
 
-# Dialog Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Dialog />
+# Dialog
+
+A flexible and accessible dialog component for creating modal windows with smooth animations. Supports both traditional state management and modern compound component patterns.
+
+<InstallTabs components="Dialog" />
+
+## Basic State-Controlled Dialog
+
+Standard dialog pattern using React state for control.
+
+<BasicControlledDialogExample />
+
+## Compound Component Pattern (DialogTrigger)
+
+Use DialogTrigger for stateless dialog management - no state needed!
+
+<CompoundDialogExample />
+
+## Default Open Dialog
+
+Dialog that opens automatically when component mounts.
+
+<DefaultOpenDialogExample />
+
+## Prevent Overlay Click Dialog
+
+Critical dialogs that require explicit user action to close.
+
+<PreventOverlayClickDialogExample />
+
+## Custom Styled Dialog
+
+Showcase advanced styling capabilities with custom classes.
+
+<CustomStyledDialogExample />
+
+## Props
+
+| Prop                   | Type                      | Default | Description                                              |
+| ---------------------- | ------------------------- | ------- | -------------------------------------------------------- |
+| `children`             | `React.ReactNode`         | -       | Content to display inside the dialog                     |
+| `isOpen`               | `boolean`                 | -       | Controlled open state of the dialog                      |
+| `defaultOpen`          | `boolean`                 | `false` | Default open state for uncontrolled usage                |
+| `onOpenChange`         | `(open: boolean) => void` | -       | Callback fired when open state changes                   |
+| `showCloseButton`      | `boolean`                 | `true`  | Whether to show the close button (positioned absolutely) |
+| `closeOnOverlayClick`  | `boolean`                 | `true`  | Whether clicking overlay closes the dialog               |
+| `closeOnEscapeKey`     | `boolean`                 | `true`  | Whether pressing Escape key closes the dialog            |
+| `title`                | `string`                  | -       | Title text displayed in the dialog header                |
+| `description`          | `string`                  | -       | Description text displayed below the title               |
+| `className`            | `string`                  | -       | Additional classes for the dialog wrapper                |
+| `overlayClassName`     | `string`                  | -       | Additional classes for the backdrop overlay              |
+| `contentClassName`     | `string`                  | -       | Additional classes for the dialog content container      |
+| `headerClassName`      | `string`                  | -       | Additional classes for the header section                |
+| `bodyClassName`        | `string`                  | -       | Additional classes for the body content                  |
+| `titleClassName`       | `string`                  | -       | Additional classes for the title text                    |
+| `descriptionClassName` | `string`                  | -       | Additional classes for the description text              |
+
+## DialogTrigger Props
+
+| Prop        | Type              | Default | Description                                |
+| ----------- | ----------------- | ------- | ------------------------------------------ |
+| `children`  | `React.ReactNode` | -       | The trigger element (button, link, etc.)   |
+| `asChild`   | `boolean`         | `false` | Merge trigger props with child element     |
+| `className` | `string`          | -       | Additional classes for the trigger element |
+
+## Features
+
+- **Flexible Patterns**: Traditional state management or modern compound components with DialogTrigger
+- **Zero State Compound**: DialogTrigger pattern requires no state management - completely automatic
+- **Smooth Animations**: Powered by Framer Motion with scale, opacity, and position transitions
+- **Accessibility First**: Full keyboard navigation, focus management, ARIA attributes, and screen reader support
+- **Advanced Close Button**: Absolutely positioned close button that doesn't affect content layout
+- **Customizable Behavior**: Fine-grained control over closing behavior (overlay clicks, escape key)
+- **Rich Styling System**: Granular className props for every section (overlay, content, header, body, title, description)
+- **Body Scroll Lock**: Automatically prevents background scrolling when dialog is open
+- **Focus Management**: Auto-focuses first focusable element and traps focus within dialog
+- **Responsive Design**: Adapts to all screen sizes with proper mobile handling
+- **Dark Mode Ready**: Built-in support for light/dark themes
+- **TypeScript First**: Full TypeScript support with proper typing for all props and patterns
+
+## Usage Patterns
+
+### Traditional State-Controlled Pattern
+
+```jsx
+const [isOpen, setIsOpen] = useState(false);
+
+<Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
+  <p>Content here</p>
+</Dialog>;
+```
+
+### Modern Compound Component Pattern
+
+```jsx
+<Dialog title="My Dialog">
+  <DialogTrigger asChild>
+    <Button>Open Dialog</Button>
+  </DialogTrigger>
+  <p>Content here</p>
+</Dialog>
+```

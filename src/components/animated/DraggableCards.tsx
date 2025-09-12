@@ -82,7 +82,7 @@ export const DraggableCards: React.FC<DraggableCardsProps> = ({
   const itemClasses = horizontal ? "flex-shrink-0 w-80" : "w-full";
 
   return (
-    <div className={cn("w-full  max-w-5xl mx-auto", className)}>
+    <div className={cn("w-full  max-w-5xl mx-auto  ", className)}>
       <Reorder.Group
         axis={horizontal ? "x" : "y"}
         values={localCards}

@@ -2,8 +2,7 @@
 
 import React from "react";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
-
-import FloatingCode from "@/components/animated/FloatingCode";
+import { FloatingCode } from "@/components/animated/FloatingCode";
 
 // Default Floating Code Example
 export const DefaultFloatingCodeExample = () => {

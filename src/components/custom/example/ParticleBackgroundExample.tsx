@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { ParticleBackground } from "@/components/animated/ParticleBackground";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 

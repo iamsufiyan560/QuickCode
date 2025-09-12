@@ -25,7 +25,9 @@ export interface ActionSheetProps {
   showCloseButton?: boolean;
   cancelLabel?: string;
   triggerButtonLabel?: string;
-  triggerButtonProps?: Omit<ButtonProps, "children">;
+  triggerButtonProps?: Omit<ButtonProps, "size"> & {
+    size?: "default" | "sm" | "md" | "lg";
+  };
   position?: "bottom" | "top" | "left" | "right"; // NEW
   showScroll?: boolean;
 }
@@ -43,8 +45,8 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
   cancelLabel = "Cancel",
   triggerButtonLabel = "Show Actions",
   triggerButtonProps = {},
-  position = "bottom", // default
-  showScroll = true, // NEW
+  position = "bottom",
+  showScroll = true,
 }) => {
   const sizeClasses = {
     sm: { text: "text-sm", padding: "px-4 py-3", spacing: "space-y-1" },
@@ -124,7 +126,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
   const motionProps = getMotionProps();
 
   return (
-    <>
+    <div>
       {/* Trigger Button */}
       <Button onClick={handleOpen} {...triggerButtonProps}>
         {triggerButtonLabel}
@@ -199,7 +201,6 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                   </div>
                 </div>
 
-                {/* Scrollable content */}
                 <div
                   className={`flex-1 overflow-y-auto px-6 py-4 space-y-2 ${
                     showScroll
@@ -220,7 +221,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                       disabled={action.disabled ?? false}
                       size="default"
                       variant="ghost"
-                      className={`w-full flex items-center space-x-3 text-left ${
+                      className={`w-full flex items-center justify-start space-x-3 text-left ${
                         sizeClasses[size].text
                       }  ${
                         action.disabled
@@ -240,7 +241,6 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                   ))}
                 </div>
 
-                {/* Cancel Button (fixed at bottom for top/bottom) */}
                 {(position === "bottom" || position === "top") && (
                   <div className="border-t border-border py-2 flex-shrink-0">
                     <Button
@@ -258,6 +258,6 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           </>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
