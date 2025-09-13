@@ -86,7 +86,10 @@ export default {
       Accordion: "",
       ActionSheet: "",
       Button: "",
+      Checkbox: "",
       Dialog: "",
+      Input: "",
+      Label: "",
 
       __3: {
         type: "separator",
@@ -96,6 +99,7 @@ export default {
       FloatingCode: "",
       ParticleBackground: "",
       DraggableCards: "",
+      MorphButton: "",
 
       __4: {
         type: "separator",
@@ -119,7 +123,6 @@ export default {
         items: CHART,
       },
 
-      Checkbox: "",
       CheckboxGroup: "",
       Chip: "",
       CodeEditor: "",
@@ -159,12 +162,10 @@ export default {
       IconButton: "",
       Image: "",
       InfiniteScroll: "",
-      Input: "",
       Invoice: "",
       JsonViewer: "",
       KanbanBoard: "",
       KeyboardShortcut: "",
-      Label: "",
       LazyLoad: "",
       Link: "",
       List: "",

@@ -1,24 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export function Input() {
-  return <Preview code={`
-function Input() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Input" language="jsx" />;
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  className?: string;
 }
+
+export const Input: React.FC<InputProps> = ({ className, ...props }) => {
+  return (
+    <input
+      className={cn(
+        "file:text-primary/80 placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive file:cursor-pointer ",
+        className
+      )}
+      {...props}
+    />
+  );
+};

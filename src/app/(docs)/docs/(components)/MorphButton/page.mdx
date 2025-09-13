@@ -1,0 +1,113 @@
+import {
+  FormSubmissionExample,
+  FileUploadExample,
+  DataSaveExample,
+} from "@/components/custom/example/MorphButtonExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# MorphButton
+
+An intelligent button that smoothly morphs its appearance, content, and behavior based on state changes. Perfect for form submissions, async actions, and providing rich user feedback with interactive success/error callbacks.
+
+<InstallTabs components="MorphButton" />
+
+## Form Submission with All Handlers
+
+<FormSubmissionExample />
+
+## File Upload with State Management
+
+<FileUploadExample />
+
+## Data Save with Error Recovery
+
+<DataSaveExample />
+
+## Props
+
+| Prop              | Type                                          | Default        | Description                                                |
+| ----------------- | --------------------------------------------- | -------------- | ---------------------------------------------------------- |
+| `state`           | `"idle" \| "loading" \| "success" \| "error"` | `"idle"`       | Current state of the button (controlled mode)              |
+| `onStateChange`   | `(state: string) => void`                     | -              | Callback fired when state changes (controlled mode)        |
+| `idleText`        | `string`                                      | `"Submit"`     | Text displayed in idle state                               |
+| `loadingText`     | `string`                                      | `"Processing"` | Text displayed during loading state                        |
+| `successText`     | `string`                                      | `"Success"`    | Text displayed in success state                            |
+| `errorText`       | `string`                                      | `"Error"`      | Text displayed in error state                              |
+| `onClick`         | `() => void \| Promise<void>`                 | **Required**   | **Priority 1**: Main click handler for idle state          |
+| `onSuccess`       | `() => void \| Promise<void>`                 | **Required**   | Click handler for success state (enables clicking success) |
+| `onError`         | `() => void \| Promise<void>`                 | **Required**   | Click handler for error state (enables clicking error)     |
+| `autoCallSuccess` | `boolean`                                     | `true`         | Auto-call onSuccess when reaching success state            |
+| `disabled`        | `boolean`                                     | `false`        | Whether the button is disabled                             |
+| `autoReset`       | `boolean`                                     | `false`        | Whether button auto-resets to idle after success/error     |
+| `resetDelay`      | `number`                                      | `5000`         | Delay in ms before auto-reset (error gets +1000ms)         |
+| `className`       | `string`                                      | -              | Additional CSS classes for custom styling                  |
+| `children`        | `React.ReactNode`                             | -              | Custom content for idle state (overrides idleText)         |
+
+## Icon Props
+
+| Prop          | Type                                          | Default   | Description                      |
+| ------------- | --------------------------------------------- | --------- | -------------------------------- |
+| `idleIcon`    | `React.ComponentType<{ className?: string }>` | `Send`    | Icon component for idle state    |
+| `loadingIcon` | `React.ComponentType<{ className?: string }>` | `Loader2` | Icon component for loading state |
+| `successIcon` | `React.ComponentType<{ className?: string }>` | `Check`   | Icon component for success state |
+| `errorIcon`   | `React.ComponentType<{ className?: string }>` | `X`       | Icon component for error state   |
+
+## Features
+
+- **Required Handlers**: All three handlers (onClick, onSuccess, onError) are required for complete functionality
+- **Interactive States**: Click on success/error states to trigger additional actions
+- **Smart Cursor**: Always shows pointer cursor since all handlers are present
+- **Priority Click Handling**: onClick (idle) → onSuccess (success) → onError (error)
+- **Custom Icons Support**: Use any Lucide React icon for each state
+- **Intelligent State Management**: Automatically handles loading, success, and error states
+- **Form Integration**: Built-in preventDefault support for form submissions
+- **Smooth Morphing Animations**: Width, color, and content transitions with Framer Motion
+- **Visual Feedback**: Unique animations for each state (spin, bounce, shake, ripple effects)
+- **Flexible Control**: Works in both controlled and uncontrolled modes
+- **Async Support**: Built-in promise handling with automatic state transitions
+- **Accessibility**: Maintains proper button semantics and keyboard navigation
+- **Error Handling**: Gracefully catches and displays async operation failures
+
+## Usage Patterns
+
+**Complete Workflow**: All three handlers create a complete user interaction flow - submit, continue, and retry actions.
+
+**Form Integration**: Use with forms and include `e.preventDefault()` in your handlers to prevent page reloads.
+
+**Custom Icons**: Replace default icons by passing your own icon components for any state.
+
+**Manual Control**: Set `autoReset={false}` to prevent automatic state resets and handle them manually.
+
+## Click Behavior
+
+1. **Idle State**: Executes `onClick` (always available)
+2. **Success State**: Executes `onSuccess` (always available)
+3. **Error State**: Executes `onError` (always available)
+4. **Loading State**: No click action (disabled during processing)
+
+## State Flow
+
+```
+Idle → Loading → Success/Error
+  ↑                    ↓
+  └── Manual Reset ←───┘ (autoReset: false by default)
+
+Success → Loading → Success/Error (onSuccess always available)
+Error → Loading → Success/Error (onError always available)
+```
+
+## Required Implementation
+
+Since all handlers are required, every MorphButton implementation must provide:
+
+```tsx
+<MorphButton
+  onClick={handleInitialAction} // Required: Handle idle state
+  onSuccess={handleSuccessAction} // Required: Handle success state
+  onError={handleErrorAction} // Required: Handle error state
+  // ... other props
+/>
+```
+
+This ensures complete user interaction flows and prevents incomplete button implementations.

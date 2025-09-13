@@ -1,5 +1,40 @@
-import { Input } from "@/components/custom/Input";
+import {
+  DefaultInputExample,
+  FileInputExample,
+} from "@/components/custom/example/InputExample";
 
-# Input Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Input />
+# Input
+
+A simple, accessible input field with support for various types, including text, email, and file uploads. Designed for clean integration with labels via standard HTML id/for attributes.
+
+<InstallTabs components="Input" />
+
+## Default Usage
+
+<DefaultInputExample />
+
+## File Upload
+
+<FileInputExample />
+
+## Props
+
+| Prop          | Type       | Default | Description                                       |
+| ------------- | ---------- | ------- | ------------------------------------------------- |
+| `type`        | `string`   | -       | The type of input (e.g., "text", "email", "file") |
+| `placeholder` | `string`   | -       | Placeholder text for the input                    |
+| `value`       | `string`   | -       | The value of the input                            |
+| `onChange`    | `function` | -       | Handler for change events                         |
+| `className`   | `string`   | -       | Additional custom classes                         |
+| `disabled`    | `boolean`  | `false` | Whether the input is disabled                     |
+| `id`          | `string`   | -       | ID for associating with label                     |
+
+## Features
+
+- **Accessible**: Supports ARIA attributes and keyboard navigation
+- **Responsive**: Adapts to different screen sizes
+- **Dark Mode**: Full support via theme tokens
+- **File Support**: Handles file inputs with custom styling
+- **Validation States**: Visual cues for invalid inputs

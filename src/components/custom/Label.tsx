@@ -1,24 +1,52 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export function Label() {
-  return <Preview code={`
-function Label() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Label" language="jsx" />;
+export interface LabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  size?: "sm" | "md" | "lg";
+  variant?: "default" | "muted" | "accent";
+  required?: boolean;
 }
+
+export const Label: React.FC<LabelProps> = ({
+  children,
+  size = "md",
+  variant = "default",
+  required = false,
+  className,
+  ...props
+}) => {
+  const sizeClasses = {
+    sm: "text-sm",
+    md: "text-sm",
+    lg: "text-base",
+  };
+
+  const variantClasses = {
+    default: "text-foreground",
+    muted: "text-muted-foreground",
+    accent: "text-primary",
+  };
+
+  return (
+    <label
+      className={cn(
+        "font-medium leading-none cursor-pointer select-none transition-colors",
+        "peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        sizeClasses[size],
+        variantClasses[variant],
+        className
+      )}
+      {...props}
+    >
+      {children}
+      {required && (
+        <span className="ml-1 text-destructive" aria-label="required">
+          *
+        </span>
+      )}
+    </label>
+  );
+};

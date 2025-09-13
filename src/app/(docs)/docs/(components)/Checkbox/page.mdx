@@ -1,5 +1,57 @@
-import { Checkbox } from "@/components/custom/Checkbox";
+import {
+  DefaultCheckboxExample,
+  SizeVariantsExample,
+  DisabledStatesExample,
+  FormIntegrationExample,
+} from "@/components/custom/example/CheckboxExample";
 
-# Checkbox Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Checkbox />
+# Checkbox
+
+A modern, accessible checkbox component with smooth animations and multiple size variants. Perfect for forms, settings, and selection interfaces.
+
+<InstallTabs components="Checkbox" />
+
+## Default Usage
+
+<DefaultCheckboxExample />
+
+## Size Variants
+
+<SizeVariantsExample />
+
+## Disabled States
+
+<DisabledStatesExample />
+
+## Form Integration
+
+<FormIntegrationExample />
+
+## Props
+
+| Prop        | Type                         | Default | Description                                        |
+| ----------- | ---------------------------- | ------- | -------------------------------------------------- |
+| `checked`   | `boolean`                    | `false` | Whether the checkbox is checked                    |
+| `onChange`  | `(checked: boolean) => void` | -       | Callback fired when the checkbox state changes     |
+| `disabled`  | `boolean`                    | `false` | Whether the checkbox is disabled                   |
+| `size`      | `"sm" \| "md" \| "lg"`       | `"md"`  | Size variant of the checkbox                       |
+| `label`     | `string`                     | -       | Optional label text displayed next to the checkbox |
+| `className` | `string`                     | -       | Additional CSS classes for custom styling          |
+| `id`        | `string`                     | -       | HTML id attribute for proper form association      |
+
+## Features
+
+- **Smooth Animations**: Subtle scale and fade transitions for better user experience
+- **Keyboard Accessible**: Full keyboard navigation with Space and Enter key support
+- **Screen Reader Friendly**: Proper ARIA labels and semantic HTML structure
+- **Multiple Sizes**: Three size variants (sm, md, lg) to fit different UI contexts
+- **Disabled State**: Visual and functional disabled state with reduced opacity
+- **Form Integration**: Works seamlessly with form libraries and controlled components
+- **Dark Mode Ready**: Built-in support for light and dark themes using design tokens
+- **Touch Friendly**: Optimized touch targets for mobile devices
+
+## Usage Notes
+
+The Checkbox component is controlled, meaning you need to manage the `checked` state and provide an `onChange` handler. This gives you full control over the checkbox behavior and makes it easy to integrate with forms and state management solutions.

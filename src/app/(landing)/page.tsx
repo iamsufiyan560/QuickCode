@@ -32,6 +32,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import clsx from "clsx";
 import { Dialog, DialogTrigger } from "@/components/custom/Dialog";
+import { link } from "fs";
 
 // Main Landing Page Component
 export default function QuickCodeLanding() {
@@ -469,6 +470,7 @@ const FeaturedComponents = () => {
       name: "Hover Cards",
       preview: "Premium cards with hover effects",
       component: <HoverCards />,
+      link: "/docs/components/hover-card",
     },
     {
       name: "Animated List",
@@ -483,11 +485,13 @@ const FeaturedComponents = () => {
           wrapperClass="w-auto"
         />
       ),
+      link: "/docs/components/hover-card",
     },
     {
       name: "Premium Draggable Cards",
       preview: "High-end dark-mode cards with smooth drag and glow effects",
       component: <DraggableCards />,
+      link: "/docs/DraggableCards",
     },
   ];
 
@@ -531,13 +535,15 @@ const FeaturedComponents = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">{component.name}</h3>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer"
-                    >
-                      <ArrowUpRight className="w-4 h-4" />
-                    </Button>
+                    <Link href={component.link}>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer"
+                      >
+                        <ArrowUpRight className="w-4 h-4" />
+                      </Button>
+                    </Link>
                   </div>
                   <p className="text-[#65859b] mb-4 selection:text-white">
                     {component.preview}

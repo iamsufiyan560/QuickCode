@@ -1,5 +1,52 @@
-import { Label } from "@/components/custom/Label";
+import {
+  DefaultLabelExample,
+  RequiredFieldExample,
+  VariantExamples,
+  SizeExamples,
+} from "@/components/custom/example/LabelExample";
 
-# Label Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Label />
+# Label
+
+A semantic and accessible label component that extends HTML label functionality with consistent styling and enhanced features. Perfect for form elements and interactive components.
+
+<InstallTabs components="Label" />
+
+## Default Usage
+
+<DefaultLabelExample />
+
+## Required Field Indicator
+
+<RequiredFieldExample />
+
+## Label Variants
+
+<VariantExamples />
+
+## Label Sizes
+
+<SizeExamples />
+
+## Props
+
+| Prop       | Type                               | Default     | Description                                                 |
+| ---------- | ---------------------------------- | ----------- | ----------------------------------------------------------- |
+| `size`     | `"sm" \| "md" \| "lg"`             | `"md"`      | Size variant that affects text size                         |
+| `variant`  | `"default" \| "muted" \| "accent"` | `"default"` | Visual style variant of the label                           |
+| `required` | `boolean`                          | `false`     | Shows a red asterisk (\*) indicator for required fields     |
+| `children` | `React.ReactNode`                  | -           | The label text or content                                   |
+| `...props` | `LabelHTMLAttributes`              | -           | All standard HTML label attributes (htmlFor, onClick, etc.) |
+
+## Features
+
+- **Semantic HTML**: Built on native label element for proper accessibility
+- **Screen Reader Friendly**: Properly associates labels with form controls
+- **Required Field Support**: Built-in asterisk indicator for required fields
+- **Flexible Styling**: Multiple variants and sizes for different use cases
+- **Keyboard Accessible**: Full keyboard navigation support
+- **Dark Mode Ready**: Automatic support for light and dark themes
+- **Disabled State Handling**: Automatically styles for disabled form controls
+
+The Label component automatically handles the disabled state styling when used with disabled form controls through CSS peer selectors, ensuring consistent visual feedback across your forms.
