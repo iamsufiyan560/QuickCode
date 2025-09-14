@@ -1,5 +1,80 @@
-import { Card } from "@/components/custom/Card";
+import {
+  DefaultCardExample,
+  InteractiveCardExample,
+  ProfileCardExample,
+} from "@/components/custom/example/CardExample";
 
-# Card Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Card />
+# Card
+
+A flexible card component system that provides a foundation for displaying content in a structured format. Built with composable sub-components and context-aware styling.
+
+<InstallTabs components="Card" />
+
+## Default Usage
+
+<DefaultCardExample />
+
+## Interactive Card
+
+<InteractiveCardExample />
+
+## Profile Card
+
+<ProfileCardExample />
+
+## Props
+
+### Card
+
+| Prop            | Type              | Default | Description                                |
+| --------------- | ----------------- | ------- | ------------------------------------------ |
+| `children`      | `React.ReactNode` | -       | The content to display inside the card     |
+| `isInteractive` | `boolean`         | `false` | Whether the card should have hover effects |
+| `className`     | `string`          | -       | Additional CSS classes for custom styling  |
+
+### CardHeader
+
+| Prop        | Type              | Default | Description                               |
+| ----------- | ----------------- | ------- | ----------------------------------------- |
+| `children`  | `React.ReactNode` | -       | The content to display in the card header |
+| `className` | `string`          | -       | Additional CSS classes for custom styling |
+
+### CardContent
+
+| Prop        | Type              | Default | Description                               |
+| ----------- | ----------------- | ------- | ----------------------------------------- |
+| `children`  | `React.ReactNode` | -       | The main content to display in the card   |
+| `className` | `string`          | -       | Additional CSS classes for custom styling |
+
+### CardFooter
+
+| Prop        | Type              | Default | Description                               |
+| ----------- | ----------------- | ------- | ----------------------------------------- |
+| `children`  | `React.ReactNode` | -       | The content to display in the card footer |
+| `className` | `string`          | -       | Additional CSS classes for custom styling |
+
+### CardTitle
+
+| Prop        | Type              | Default | Description                               |
+| ----------- | ----------------- | ------- | ----------------------------------------- |
+| `children`  | `React.ReactNode` | -       | The title text to display                 |
+| `className` | `string`          | -       | Additional CSS classes for custom styling |
+
+### CardDescription
+
+| Prop        | Type              | Default | Description                               |
+| ----------- | ----------------- | ------- | ----------------------------------------- |
+| `children`  | `React.ReactNode` | -       | The description text to display           |
+| `className` | `string`          | -       | Additional CSS classes for custom styling |
+
+## Features
+
+- **Composable Architecture**: Mix and match sub-components to create the perfect card layout
+- **Context-Aware Styling**: Shared context between components for consistent behavior
+- **Interactive States**: Optional hover effects for clickable cards
+- **Flexible Content**: Supports any content structure within card sections
+- **Responsive Design**: Adapts beautifully to different screen sizes
+- **Dark Mode Ready**: Built-in support for light and dark themes
+- **Accessibility Focused**: Semantic HTML structure with proper focus management

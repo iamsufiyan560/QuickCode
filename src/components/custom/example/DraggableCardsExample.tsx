@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import { Card, DraggableCards } from "@/components/animated/DraggableCards";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
-// Default Vertical Example
 export const DefaultDraggableCardsExample = () => {
   const defaultDraggableCardsCode = `
-import { DraggableCards } from "@/components/custom/DraggableCards";
+import { DraggableCards } from "@/components/ui/DraggableCards";
 
 export const DefaultDraggableCardsExample = () => {
   return <DraggableCards />;
@@ -24,7 +23,6 @@ export const DefaultDraggableCardsExample = () => {
   );
 };
 
-// Horizontal Example
 export const HorizontalDraggableCardsExample = () => {
   const horizontalCards = [
     {
@@ -50,7 +48,7 @@ export const HorizontalDraggableCardsExample = () => {
   ];
 
   const horizontalDraggableCardsCode = `
-import { DraggableCards } from "@/components/custom/DraggableCards";
+import { DraggableCards } from "@/components/ui/DraggableCards";
 
 export const HorizontalDraggableCardsExample = () => {
   const horizontalCards = [
@@ -90,7 +88,6 @@ export const HorizontalDraggableCardsExample = () => {
   );
 };
 
-// Bordered Variant Example
 export const BorderedDraggableCardsExample = () => {
   const borderedCards = [
     {
@@ -112,7 +109,7 @@ export const BorderedDraggableCardsExample = () => {
   ];
 
   const borderedDraggableCardsCode = `
-import { DraggableCards } from "@/components/custom/DraggableCards";
+import { DraggableCards } from "@/components/ui/DraggableCards";
 
 export const BorderedDraggableCardsExample = () => {
   const borderedCards = [
@@ -169,7 +166,7 @@ export const LargeDraggableCardsExample = () => {
   // 🔑 full code string (for Code tab + copy button)
   const largeDraggableCardsCode = `
 import { useState } from "react";
-import { Card ,  DraggableCards } from "@/components/custom/DraggableCards";
+import { Card ,  DraggableCards } from "@/components/ui/DraggableCards";
 
 export const LargeDraggableCardsExample = () => {
   const [tasks, setTasks] = useState([

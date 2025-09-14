@@ -1,4 +1,4 @@
-# [QuickCode](https://quickcode-ui.vercel.app)
+# [QuickCode](https://quickcode.space)
 
 A modern, high-quality library of copy-pasteable React components and UI blocks designed for developers who prioritize premium design and simplicity. Built with Next.js, TypeScript, Tailwind CSS, Nextra for documentation, Framer Motion for animations, and Recharts for charts.
 
@@ -15,7 +15,7 @@ A modern, high-quality library of copy-pasteable React components and UI blocks 
 
 ## Installation
 
-[QuickCode](https://quickcode-ui.vercel.app) works similarly to shadcn/ui—components are not installed as a package. Instead, you add individual components to your project using our CLI or by manually copying from the documentation.
+[QuickCode](https://quickcode.space) works similarly to shadcn/ui—components are not installed as a package. Instead, you add individual components to your project using our CLI or by manually copying from the documentation.
 
 Install the [package](https://www.npmjs.com/package/quickcode-ui) via npm:
 
@@ -29,7 +29,7 @@ To add a specific component (e.g., Accordion), use:
 npx quickcode add accordion
 ```
 
-Or manually copy the component from our [documentation](https://quickcode-ui.vercel.app) and paste it into your `components/custom` directory.
+Or manually copy the component from our [documentation](https://quickcode.space) and paste it into your `components/custom` directory.
 
 Then import and use the component:
 
@@ -39,7 +39,7 @@ import { Accordion } from "@/components/custom/accordion";
 
 ## Usage
 
-Import and use [QuickCode](https://quickcode-ui.vercel.app) components in your project. Example with the Accordion component:
+Import and use [QuickCode](https://quickcode.space) components in your project. Example with the Accordion component:
 
 ```tsx
 import { Accordion } from "@/components/custom/accordion";
@@ -144,7 +144,7 @@ You may use it in your own projects, but you **cannot remove copyright or licens
 
 ## Support
 
-[QuickCode](https://quickcode-ui.vercel.app) is completely **free**. If you’d like to support the project, you can:
+[QuickCode](https://quickcode.space) is completely **free**. If you’d like to support the project, you can:
 
 - **Sponsor me** via [GitHub Sponsors](https://github.com/sponsors/iamsufiyan560)
 - Or **message me on X** ([Twitter/X](https://x.com/iamsufiyan560))
@@ -154,7 +154,7 @@ You may use it in your own projects, but you **cannot remove copyright or licens
 - **GitHub**: [iamsufiyan560](https://github.com/iamsufiyan560)
 - **X/Twitter**: [@iamsufiyan560](https://x.com/iamsufiyan560)
 - **Portfolio**: [SUFIYAN](https://sufiyan-dev.vercel.app)
-- **Docs**: [Quickcode.com](https://quickcode-ui.vercel.app/docs)
+- **Docs**: [Quickcode.com](https://quickcode.space/docs)
 
 ---
 

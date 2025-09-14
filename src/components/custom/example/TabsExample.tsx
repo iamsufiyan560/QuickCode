@@ -19,10 +19,9 @@ import {
   Bell,
 } from "lucide-react";
 
-// Default Tabs Example
 export const DefaultTabsExample = () => {
   const defaultTabsCode = `
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/custom/Tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { AppWindowIcon, CodeIcon, Zap } from "lucide-react";
 
 export const DefaultTabsExample = () => {
@@ -101,7 +100,7 @@ export const DefaultTabsExample = () => {
 
 export const CustomColorTabsExample = () => {
   const customColorCode = `
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/custom/Tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { Palette, Settings, User } from "lucide-react";
 
 export const CustomColorTabsExample = () => {
@@ -195,7 +194,7 @@ export const CustomColorTabsExample = () => {
 
 export const GlassTabsExample = () => {
   const glassCode = `
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/custom/Tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 
 export const GlassTabsExample = () => {
   return (
@@ -300,7 +299,7 @@ export const GlassTabsExample = () => {
 
 export const VerticalTabsExample = () => {
   const verticalCode = `
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/custom/Tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { Home, Settings, User, Bell } from "lucide-react";
 
 export const VerticalTabsExample = () => {

@@ -5,13 +5,12 @@ import { Label } from "@/components/custom/Label";
 import { Checkbox } from "@/components/custom/Checkbox";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
-// Default Label Example
 export const DefaultLabelExample = () => {
   const [checked, setChecked] = React.useState(false);
 
   const defaultLabelCode = `
-import { Label } from "@/components/custom/Label";
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Label } from "@/components/ui/Label";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export const DefaultLabelExample = () => {
   const [checked, setChecked] = React.useState(false);
@@ -39,13 +38,12 @@ export const DefaultLabelExample = () => {
   );
 };
 
-// Required Field Example
 export const RequiredFieldExample = () => {
   const [checked, setChecked] = React.useState(false);
 
   const requiredFieldCode = `
-import { Label } from "@/components/custom/Label";
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Label } from "@/components/ui/Label";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export const RequiredFieldExample = () => {
   const [checked, setChecked] = React.useState(false);
@@ -81,7 +79,6 @@ export const RequiredFieldExample = () => {
   );
 };
 
-// Variant Examples
 export const VariantExamples = () => {
   const [catChecked, setCatChecked] = React.useState(false);
   const [procrastinationChecked, setProcrastinationChecked] =
@@ -89,8 +86,8 @@ export const VariantExamples = () => {
   const [superheroChecked, setSuperheroChecked] = React.useState(false);
 
   const variantExamplesCode = `
-import { Label } from "@/components/custom/Label";
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Label } from "@/components/ui/Label";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export const VariantExamples = () => {
   const [catChecked, setCatChecked] = React.useState(false);
@@ -176,15 +173,14 @@ export const VariantExamples = () => {
   );
 };
 
-// Size Examples
 export const SizeExamples = () => {
   const [smallChecked, setSmallChecked] = React.useState(false);
   const [mediumChecked, setMediumChecked] = React.useState(true);
   const [largeChecked, setLargeChecked] = React.useState(false);
 
   const sizeExamplesCode = `
-import { Label } from "@/components/custom/Label";
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Label } from "@/components/ui/Label";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export const SizeExamples = () => {
   const [smallChecked, setSmallChecked] = React.useState(false);

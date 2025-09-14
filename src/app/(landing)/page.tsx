@@ -15,14 +15,7 @@
  */
 
 "use client";
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  ReactNode,
-  MouseEventHandler,
-  UIEvent,
-} from "react";
+import React, { useState, useEffect } from "react";
 
 import { motion, AnimatePresence, useInView, Reorder } from "framer-motion";
 import Link from "next/link";
@@ -44,7 +37,7 @@ import {
   HeartIcon,
 } from "lucide-react";
 import { Button } from "@/components/custom/Button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/custom/Card";
 
 import Image from "next/image";
 import clsx from "clsx";
@@ -55,6 +48,7 @@ import { ParticleBackground } from "@/components/animated/ParticleBackground";
 import { FloatingCode } from "@/components/animated/FloatingCode";
 import { DraggableCards } from "@/components/animated/DraggableCards";
 import { AnimatedList } from "@/components/animated/AnimatedList";
+import { ActionLink, SocialCard } from "@/components/animated/SocialCard";
 
 export default function QuickCodeLanding() {
   const [scrolled, setScrolled] = useState(false);
@@ -140,46 +134,39 @@ export default function QuickCodeLanding() {
   );
 }
 
-function SocialCard() {
-  return (
-    <div className="socialiconcard group relative flex h-[50px] w-[200px] items-center justify-center bg-[#e7e7e7] shadow-md transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] overflow-hidden hover:shadow-2xl">
-      {/* Label */}
-      <span className="absolute flex h-full w-full items-center justify-center font-mono text-[24px] font-bold text-white transition-opacity duration-200 group-hover:opacity-0 z-[2]">
-        Social
-      </span>
+const SocialComponent = () => {
+  const socialData: [ActionLink, ActionLink, ...ActionLink[]] = [
+    {
+      icon: "github",
+      url: "https://github.com/iamsufiyan560",
+      color: "#6b7280",
+    },
+    {
+      icon: "instagram",
+      url: "https://www.instagram.com/iamsufiyan_560/#",
+      color: "#f97316",
+    },
+    {
+      icon: "linkedin",
+      url: "https://www.linkedin.com/in/sufiyan-chaudhari-8a55502ab/",
+      color: "#3b82f6",
+    },
+    {
+      icon: "twitter",
+      url: "https://x.com/iamsufiyan560",
+      color: "#000000",
+    },
+  ];
 
-      {/* Social Links */}
-      <Link
-        href="https://github.com/iamsufiyan560"
-        target="_blank"
-        className="social-link relative flex h-full w-1/4 items-center justify-center text-white text-[24px] transition duration-300"
-      >
-        <Github className="h-[25px] w-[25px] text-gray-500" />
-      </Link>
-      <Link
-        href="https://www.instagram.com/iamsufiyan_560/#"
-        target="_blank"
-        className="social-link relative flex h-full w-1/4 items-center justify-center text-white text-[24px] transition duration-300"
-      >
-        <InstagramIcon className="h-[25px] w-[25px] text-orange-500" />
-      </Link>
-      <Link
-        target="_blank"
-        href="https://www.linkedin.com/in/sufiyan-chaudhari-8a55502ab/"
-        className="social-link relative flex h-full w-1/4 items-center justify-center text-white text-[24px] transition duration-300"
-      >
-        <Linkedin className="h-[25px] w-[25px] text-blue-500" />
-      </Link>
-      <Link
-        target="_blank"
-        href="https://x.com/iamsufiyan560"
-        className="social-link relative flex h-full w-1/4 items-center justify-center text-white text-[24px] transition duration-300"
-      >
-        <TwitterIcon className="h-[25px] w-[25px]  text-black" />
-      </Link>
-    </div>
+  return (
+    <SocialCard
+      iconClassName="hover:bg-gray-300"
+      className="bg-foreground"
+      actionLinks={socialData}
+      label="Connect"
+    />
   );
-}
+};
 
 const QuoteSection = () => {
   return (
@@ -462,7 +449,7 @@ const FeaturedComponents = () => {
       preview: "High-end dark-mode cards with smooth drag and glow effects",
       component: (
         <DraggableCards
-          className="max-w-5xl mx-auto py-16 px-4"
+          className="max-w-5xl mx-auto mt-16 px-4"
           titleClassName="text-teal-400"
           dragScale={1.05}
           dragBoxShadow="0 15px 35px rgba(72, 209, 204, 0.6)"
@@ -514,7 +501,7 @@ const FeaturedComponents = () => {
               className="group"
             >
               <Card className="h-full bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer  flex items-center justify-center ">
-                <CardContent className="p-6 ">
+                <CardContent>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">{component.name}</h3>
                     <Link href={component.link}>
@@ -808,7 +795,7 @@ const Footer = () => {
               Premium components for developers who give a damn about design.
             </p>
             <div className="flex justify-center md:block">
-              <SocialCard />
+              <SocialComponent />
             </div>
           </div>
 

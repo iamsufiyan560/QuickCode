@@ -4,10 +4,9 @@ import React from "react";
 import { Button } from "@/components/custom/Button";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
-// Default Button Example
 export const DefaultButtonExample = () => {
   const defaultButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const DefaultButtonExample = () => {
   return <Button>Default Button</Button>;
@@ -21,10 +20,9 @@ export const DefaultButtonExample = () => {
   );
 };
 
-// Variant Examples
 export const VariantExamples = () => {
   const outlineButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const OutlineButtonExample = () => {
   return <Button variant="outline">Outline</Button>;
@@ -32,7 +30,7 @@ export const OutlineButtonExample = () => {
 `;
 
   const secondaryButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const SecondaryButtonExample = () => {
   return <Button variant="secondary">Secondary</Button>;
@@ -40,7 +38,7 @@ export const SecondaryButtonExample = () => {
 `;
 
   const ghostButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const GhostButtonExample = () => {
   return <Button variant="ghost">Ghost</Button>;
@@ -48,7 +46,7 @@ export const GhostButtonExample = () => {
 `;
 
   const destructiveButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const DestructiveButtonExample = () => {
   return <Button variant="destructive">Destructive</Button>;
@@ -56,7 +54,7 @@ export const DestructiveButtonExample = () => {
 `;
 
   const linkButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const LinkButtonExample = () => {
   return <Button variant="link">Link</Button>;
@@ -84,10 +82,9 @@ export const LinkButtonExample = () => {
   );
 };
 
-// Size and Loading Examples
 export const SizeLoadingExamples = () => {
   const smallButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const SmallButtonExample = () => {
   return <Button size="sm">Small</Button>;
@@ -95,7 +92,7 @@ export const SmallButtonExample = () => {
 `;
 
   const largeButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const LargeButtonExample = () => {
   return <Button size="lg">Large</Button>;
@@ -103,7 +100,7 @@ export const LargeButtonExample = () => {
 `;
 
   const loadingButtonCode = `
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const LoadingButtonExample = () => {
   return <Button isLoading>Loading...</Button>;

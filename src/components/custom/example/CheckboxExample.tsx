@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import { Checkbox } from "@/components/custom/Checkbox";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
-// Default Checkbox Example
 export const DefaultCheckboxExample = () => {
   const [checked, setChecked] = useState(false);
 
   const defaultCheckboxCode = `
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { useState } from "react";
 
 export const DefaultCheckboxExample = () => {
@@ -38,14 +37,13 @@ export const DefaultCheckboxExample = () => {
   );
 };
 
-// Size Variants Example
 export const SizeVariantsExample = () => {
   const [smallChecked, setSmallChecked] = useState(true);
   const [mediumChecked, setMediumChecked] = useState(false);
   const [largeChecked, setLargeChecked] = useState(true);
 
   const sizeVariantsCode = `
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { useState } from "react";
 
 export const SizeVariantsExample = () => {
@@ -110,13 +108,12 @@ export const SizeVariantsExample = () => {
   );
 };
 
-// Disabled States Example
 export const DisabledStatesExample = () => {
   const [uncheckedState, setUncheckedState] = React.useState(false);
   const [checkedState, setCheckedState] = React.useState(true);
 
   const disabledStatesCode = `
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 export const DisabledStatesExample = () => {
   const [uncheckedState, setUncheckedState] = React.useState(false);
@@ -165,7 +162,6 @@ export const DisabledStatesExample = () => {
   );
 };
 
-// Form Integration Example
 export const FormIntegrationExample = () => {
   const [formData, setFormData] = useState({
     newsletter: true,
@@ -178,7 +174,7 @@ export const FormIntegrationExample = () => {
   };
 
   const formIntegrationCode = `
-import { Checkbox } from "@/components/custom/Checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { useState } from "react";
 
 export const FormIntegrationExample = () => {

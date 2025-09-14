@@ -4,10 +4,9 @@ import React from "react";
 import { ParticleBackground } from "@/components/animated/ParticleBackground";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
-// Default Particle Background Example
 export const DefaultParticleBackgroundExample = () => {
   const defaultParticleBackgroundCode = `
-import { ParticleBackground } from "@/components/animated/ParticleBackground";
+import { ParticleBackground } from "@/components/ui/ParticleBackground";
 
 export const DefaultParticleBackgroundExample = () => {
   return (
@@ -54,10 +53,9 @@ export const DefaultParticleBackgroundExample = () => {
   );
 };
 
-// Custom Colors Example
 export const CustomColorsExample = () => {
   const customColorsCode = `
-import { ParticleBackground } from "@/components/animated/ParticleBackground";
+import { ParticleBackground } from "@/components/ui/ParticleBackground";
 
 export const CustomColorsExample = () => {
   return (

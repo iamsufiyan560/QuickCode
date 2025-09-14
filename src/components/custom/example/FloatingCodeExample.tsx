@@ -4,10 +4,9 @@ import React from "react";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 import { FloatingCode } from "@/components/animated/FloatingCode";
 
-// Default Floating Code Example
 export const DefaultFloatingCodeExample = () => {
   const defaultFloatingCode = `
-import { FloatingCode } from "@/components/animated/FloatingCode";
+import { FloatingCode } from "@/components/ui/FloatingCode";
 
 export const DefaultFloatingCodeExample = () => {
   return (

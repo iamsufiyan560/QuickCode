@@ -1,0 +1,38 @@
+import { DefaultSocialCardExample } from "@/components/custom/example/SocialCardExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# SocialCard
+
+An interactive card component that reveals action links on hover with smooth animations. Perfect for social media links, contact information, or any quick access buttons.
+
+<InstallTabs components="SocialCard" />
+
+## Default Usage
+
+<DefaultSocialCardExample />
+
+## Props
+
+| Prop          | Type                                        | Default   | Description                                |
+| ------------- | ------------------------------------------- | --------- | ------------------------------------------ |
+| `actionLinks` | `[ActionLink, ActionLink, ...ActionLink[]]` | -         | Array of action links (minimum 2 required) |
+| `label`       | `string`                                    | `"Links"` | Text displayed before hover                |
+| `className`   | `string`                                    | -         | Additional CSS classes for custom styling  |
+
+### ActionLink
+
+| Prop    | Type     | Description                                                                             |
+| ------- | -------- | --------------------------------------------------------------------------------------- |
+| `icon`  | `string` | Icon name (github, instagram, linkedin, twitter, facebook, youtube, globe, mail, phone) |
+| `url`   | `string` | Target URL for the link                                                                 |
+| `color` | `string` | Hex color code for the icon                                                             |
+
+## Features
+
+- **Smooth Hover Animation**: Reveals action links with sliding background effects
+- **Flexible Action Links**: Support for any number of links with custom icons and colors
+- **TypeScript Safe**: Enforces minimum 2 action links at compile time
+- **Responsive Design**: Automatically adjusts link widths based on count
+- **Dark Mode Ready**: Built-in support for light and dark themes
+- **Accessibility Focused**: Proper link structure with external link handling

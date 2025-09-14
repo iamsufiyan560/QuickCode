@@ -1,24 +1,100 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export function Card() {
-  return <Preview code={`
-function Card() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Card" language="jsx" />;
+export interface CardProps {
+  children: React.ReactNode;
+  className?: string;
 }
+
+export interface CardHeaderProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface CardContentProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface CardFooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface CardTitleProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface CardDescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const Card: React.FC<CardProps> = ({ children, className }) => {
+  return (
+    <div
+      className={cn(
+        "rounded-xl border border-border py-6 bg-card text-card-foreground shadow-sm hover:bg-card/80 hover:cursor-pointer flex flex-col gap-6 ",
+
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const CardHeader: React.FC<CardHeaderProps> = ({
+  children,
+  className,
+}) => {
+  return (
+    <div className={cn("flex flex-col space-y-1.5 px-6", className)}>
+      {children}
+    </div>
+  );
+};
+
+export const CardContent: React.FC<CardContentProps> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn("px-6", className)}>{children}</div>;
+};
+
+export const CardFooter: React.FC<CardFooterProps> = ({
+  children,
+  className,
+}) => {
+  return (
+    <div className={cn("flex items-center px-6 ", className)}>{children}</div>
+  );
+};
+
+export const CardTitle: React.FC<CardTitleProps> = ({
+  children,
+  className,
+}) => {
+  return (
+    <h3
+      className={cn(
+        "text-2xl font-semibold leading-none tracking-tight text-foreground",
+        className
+      )}
+    >
+      {children}
+    </h3>
+  );
+};
+
+export const CardDescription: React.FC<CardDescriptionProps> = ({
+  children,
+  className,
+}) => {
+  return (
+    <p className={cn("text-sm text-muted-foreground", className)}>{children}</p>
+  );
+};

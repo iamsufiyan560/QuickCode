@@ -6,12 +6,11 @@ import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 import { Pizza, Cat, Zap, Coffee, AlertCircle } from "lucide-react";
 import { Button } from "../Button";
 
-// Basic State-Controlled Dialog
 export const BasicControlledDialogExample = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const basicCode = `
-import { Dialog } from "@/components/custom/Dialog";
+import { Dialog } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 
 export const BasicControlledDialogExample = () => {
@@ -68,13 +67,12 @@ export const BasicControlledDialogExample = () => {
   );
 };
 
-// DialogTrigger Pattern (Compound Component)
 export const CompoundDialogExample = () => {
   const [selectedPizza, setSelectedPizza] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
 
   const compoundCode = `
-import { Dialog, DialogTrigger } from "@/components/custom/Dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Pizza } from "lucide-react";
 
@@ -220,12 +218,11 @@ export const CompoundDialogExample = () => {
   );
 };
 
-// Default Open Dialog
 export const DefaultOpenDialogExample = () => {
   const [isOpen, setIsOpen] = React.useState(true);
 
   const defaultOpenCode = `
-import { Dialog } from "@/components/custom/Dialog";
+import { Dialog } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Coffee } from "lucide-react";
 
@@ -292,12 +289,11 @@ export const DefaultOpenDialogExample = () => {
   );
 };
 
-// Prevent Overlay Click Dialog
 export const PreventOverlayClickDialogExample = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const preventOverlayCode = `
-import { Dialog } from "@/components/custom/Dialog";
+import { Dialog } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { AlertCircle } from "lucide-react";
 
@@ -380,12 +376,11 @@ export const PreventOverlayClickDialogExample = () => {
   );
 };
 
-// Custom Styled Dialog
 export const CustomStyledDialogExample = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const customStyledCode = `
-import { Dialog } from "@/components/custom/Dialog";
+import { Dialog } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Zap } from "lucide-react";
 

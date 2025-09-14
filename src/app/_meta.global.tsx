@@ -90,7 +90,7 @@ export default {
       MorphButton: "",
       CardStack: "",
       AnimatedList: "",
-
+      SocialCard: "",
       __3: {
         type: "separator",
         title: "Components",
@@ -99,6 +99,7 @@ export default {
       ActionSheet: "",
       Button: "",
       Checkbox: "",
+      Card: "",
       Dialog: "",
       Input: "",
       Label: "",
@@ -119,7 +120,6 @@ export default {
 
       ButtonGroup: "",
       Calendar: "",
-      Card: "",
       Carousel: "",
       Chatbot: "",
       Chart: {

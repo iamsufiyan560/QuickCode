@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 import { AnimatedList } from "@/components/animated/AnimatedList";
 
-// Default Animated List Example
 export const DefaultAnimatedListExample = () => {
   const [selectedItem, setSelectedItem] = useState<string>("");
 
@@ -24,7 +23,7 @@ export const DefaultAnimatedListExample = () => {
   ];
 
   const defaultAnimatedListCode = `
-import { AnimatedList } from "@/components/animated/AnimatedList";
+import { AnimatedList } from "@/components/ui/AnimatedList";
 
 
 export const DefaultAnimatedListExample = () => {

@@ -36,10 +36,27 @@ Contributions are welcome! To contribute:
 
 5. In `docs/<component-name>/page.mdx`, write detailed steps on how to use the component and provide example usage instructions (without including code directly in the MDX file).
 
-6. Make your changes and commit (`git commit -m 'Add your feature'`).
+6. Updating the Component Map
 
-7. Push to the branch (`git push origin feature/your-feature`).
+After creating your component file (e.g., `Checkbox.tsx`), add an entry to the `component-map.js` in your project:
 
-8. Open a pull request.
+```js
+Checkbox: {
+  url: `${BASE_URL}Checkbox.tsx`,
+  deps: {},
+  requires: ["Label"],
+}
+```
+
+- `url`: Points to the file location in your repo.
+- `deps`: List npm packages if needed (empty if none or used framer or lucide-react).
+- `requires`: List other components that this component depends on.
+- `hooks`: Include if your component uses custom hooks.
+
+7. Make your changes and commit (`git commit -m 'Add your feature'`).
+
+8. Push to the branch (`git push origin feature/your-feature`).
+
+9. Open a pull request.
 
 Please ensure your code follows the existing style, includes TypeScript types, and adheres to the project's structure.

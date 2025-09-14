@@ -6,9 +6,6 @@ import {
   ActionSheetAction,
 } from "@/components/custom/ActionSheet";
 
-// ------------------------
-// Bottom Example
-// ------------------------
 import { Copy, Edit3, Share2, Trash2 } from "lucide-react";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
@@ -37,7 +34,7 @@ export const BottomExample = () => {
   const bottomExampleCode = `
 import React from "react";
 import { Edit3, Share2, Trash2 } from "lucide-react";
-import { ActionSheet, ActionSheetAction } from "@/components/custom/ActionSheet";
+import { ActionSheet, ActionSheetAction } from "@/components/ui/ActionSheet";
 
 const bottomActions: ActionSheetAction[] = [
   { label: "Edit Document", onClick: () => console.log("Edit clicked"), icon: <Edit3 className="w-4 h-4 text-blue-600 dark:text-blue-400" /> },
@@ -79,10 +76,6 @@ export const BottomExample = () => {
   );
 };
 
-// ------------------------
-// Top Example
-// ------------------------
-
 const topActions: ActionSheetAction[] = [
   {
     label: "Copy Link",
@@ -103,7 +96,7 @@ export const TopExample = () => {
   const topExampleCode = `
 import React from "react";
 import { Copy, Trash2 } from "lucide-react";
-import { ActionSheet, ActionSheetAction } from "@/components/custom/ActionSheet";
+import { ActionSheet, ActionSheetAction } from "@/components/ui/ActionSheet";
 
 const topActions: ActionSheetAction[] = [
   { label: "Copy Link", onClick: () => console.log("Copy clicked"), icon: <Copy className="w-4 h-4 text-green-600 dark:text-green-400" /> },
@@ -144,10 +137,6 @@ export const TopExample = () => {
   );
 };
 
-// ------------------------
-// Left Example
-// ------------------------
-
 const leftActions: ActionSheetAction[] = [
   {
     label: "Edit File",
@@ -167,7 +156,7 @@ export const LeftExample = () => {
   const leftExampleCode = `
 import React from "react";
 import { Edit3, Share2 } from "lucide-react";
-import { ActionSheet, ActionSheetAction } from "@/components/custom/ActionSheet";
+import { ActionSheet, ActionSheetAction } from "@/components/ui/ActionSheet";
 
 const leftActions: ActionSheetAction[] = [
   { label: "Edit File", onClick: () => console.log("Edit File clicked"), icon: <Edit3 className="w-4 h-4 text-yellow-600 dark:text-yellow-400" /> },
@@ -208,10 +197,6 @@ export const LeftExample = () => {
   );
 };
 
-// ------------------------
-// Right Example
-// ------------------------
-
 const rightActions: ActionSheetAction[] = [
   {
     label: "Duplicate",
@@ -232,7 +217,7 @@ export const RightExample = () => {
   const rightExampleCode = `
 import React from "react";
 import { Copy, Trash2 } from "lucide-react";
-import { ActionSheet, ActionSheetAction } from "@/components/custom/ActionSheet";
+import { ActionSheet, ActionSheetAction } from "@/components/ui/ActionSheet";
 
 const rightActions: ActionSheetAction[] = [
   { label: "Duplicate", onClick: () => console.log("Duplicate clicked"), icon: <Copy className="w-4 h-4 text-purple-600 dark:text-purple-400" /> },

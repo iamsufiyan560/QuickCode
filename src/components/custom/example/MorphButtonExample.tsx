@@ -5,7 +5,6 @@ import { MorphButton } from "@/components/animated/MorphButton";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 import { Upload, Save, Send } from "lucide-react";
 
-// Example 1: Basic Form Submission
 export const FormSubmissionExample = () => {
   const [message, setMessage] = useState("");
 
@@ -30,7 +29,7 @@ export const FormSubmissionExample = () => {
   };
 
   const formSubmissionCode = `
-import { MorphButton } from "@/components/animated/MorphButton";
+import { MorphButton } from "@/components/ui/MorphButton";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
@@ -118,7 +117,6 @@ export const FormSubmissionExample = () => {
   );
 };
 
-// Example 2: File Upload with Progress
 export const FileUploadExample = () => {
   const [statusMessage, setStatusMessage] = useState("");
 
@@ -144,7 +142,7 @@ export const FileUploadExample = () => {
   };
 
   const fileUploadCode = `
-import { MorphButton } from "@/components/animated/MorphButton";
+import { MorphButton } from "@/components/ui/MorphButton";
 import { Upload } from "lucide-react";
 import { useState } from "react";
 
@@ -230,7 +228,6 @@ export const FileUploadExample = () => {
   );
 };
 
-// Example 3: Data Save with Auto-retry
 export const DataSaveExample = () => {
   const [saveStatus, setSaveStatus] = useState("");
 
@@ -260,7 +257,7 @@ export const DataSaveExample = () => {
   };
 
   const dataSaveCode = `
-import { MorphButton } from "@/components/animated/MorphButton";
+import { MorphButton } from "@/components/ui/MorphButton";
 import { Save } from "lucide-react";
 import { useState } from "react";
 

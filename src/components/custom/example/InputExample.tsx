@@ -5,11 +5,10 @@ import { Input } from "@/components/custom/Input";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 import { Label } from "@/components/custom/Label";
 
-// Default Input Example
 export const DefaultInputExample = () => {
   const defaultInputCode = `
-import { Input } from "@/components/custom/Input";
-import { Label } from "@/components/custom/Label";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 
 export const DefaultInputExample = () => {
   return (
@@ -32,11 +31,10 @@ export const DefaultInputExample = () => {
   );
 };
 
-// File Input Example
 export const FileInputExample = () => {
   const fileInputCode = `
-import { Input } from "@/components/custom/Input";
-import { Label } from "@/components/custom/Label";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 
 export const FileInputExample = () => {
   return (

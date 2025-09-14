@@ -4,10 +4,9 @@ import React from "react";
 import { Accordion } from "@/components/custom/Accordion";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
-// Default Accordion Example
 export const DefaultAccordionExample = () => {
   const defaultAccordionCode = `
-import { Accordion } from "@/components/custom/Accordion";
+import { Accordion } from "@/components/ui/Accordion";
 
 export const DefaultAccordionExample = () => {
   return <Accordion />;
@@ -21,10 +20,9 @@ export const DefaultAccordionExample = () => {
   );
 };
 
-// Allow Multiple Open Example
 export const AllowMultipleExample = () => {
   const allowMultipleCode = `
-import { Accordion } from "@/components/custom/Accordion";
+import { Accordion } from "@/components/ui/Accordion";
 
 export const AllowMultipleExample = () => {
   return (
@@ -78,10 +76,9 @@ export const AllowMultipleExample = () => {
   );
 };
 
-// Bordered Variant Example
 export const BorderedExample = () => {
   const borderedCode = `
-import { Accordion } from "@/components/custom/Accordion";
+import { Accordion } from "@/components/ui/Accordion";
 
 export const BorderedExample = () => {
   return (
@@ -125,10 +122,9 @@ export const BorderedExample = () => {
   );
 };
 
-// Filled Large Example
 export const FilledLargeExample = () => {
   const filledLargeCode = `
-import { Accordion } from "@/components/custom/Accordion";
+import { Accordion } from "@/components/ui/Accordion";
 
 export const FilledLargeExample = () => {
   return (
