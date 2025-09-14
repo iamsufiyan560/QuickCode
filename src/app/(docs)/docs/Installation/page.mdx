@@ -33,9 +33,48 @@ npx quickcode-ui add Button
   
 ## Manual Setup
 
-1. Replace your **globals.css** with QuickCode theme:
+Follow these steps if you prefer **not to use the CLI**:
 
-```css
+### 1. Install dependencies
+
+QuickCode components rely on these packages. Install them first:
+
+```sh
+npm install clsx tailwind-merge
+npm install -D tailwind-animatecss
+```
+
+> ⚠️ Depending on the component you use, you may also need:
+>
+> - [`framer-motion`](https://www.npmjs.com/package/framer-motion) (animations)
+> - [`lucide-react`](https://www.npmjs.com/package/lucide-react) (icons)
+> - [`recharts`](https://www.npmjs.com/package/recharts) (charts)
+
+Install only the ones required for your chosen component.
+
+---
+
+### 2. Add `lib/utils.ts`
+
+Create a file at `src/lib/utils.ts` and add this code:
+
+```ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+---
+
+### 3. Update your global CSS
+
+Replace your `globals.css` with the QuickCode theme:
+
+```js
+/* QuickCode Theme */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -199,13 +238,48 @@ npx quickcode-ui add Button
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html {
+  overflow: overlay;
+}
+
+html::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
 ```
 
-2. Copy the component code you need directly from the [GitHub components folder](https://github.com/iamsufiyan560/QuickCode/tree/main/src/components/custom).
+---
 
-3. Paste it inside `src/components/ui/` in your project.
+### 4. Copy component code
 
-That’s it — fully manual, no package required.
+Browse the [QuickCode GitHub components folder](https://github.com/iamsufiyan560/QuickCode/tree/main/src/components/custom), copy the component you need, and paste it into your project at:
+
+```
+src/components/ui/
+```
+
+---
+
+### 5. Copy hooks (if needed)
+
+Some components use custom hooks.
+If a component imports from `@/hooks`, copy the matching hook(s) from our repo into:
+
+```
+src/hooks/
+```
+
+You can find them here: [QuickCode GitHub hooks folder](https://github.com/iamsufiyan560/QuickCode/tree/main/src/hooks)
+
+---
+
+✅ Done! You now have QuickCode components installed manually.
 
 </Tabs.Tab>
 

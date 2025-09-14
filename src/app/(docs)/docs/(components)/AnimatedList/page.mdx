@@ -1,0 +1,47 @@
+import { DefaultAnimatedListExample } from "@/components/custom/example/AnimatedListExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# AnimatedList
+
+A smooth, interactive animated list component with keyboard navigation, scroll gradients, and customizable selection handling. Perfect for search results, menu options, or any selectable content.
+
+<InstallTabs components="AnimatedList" />
+
+## Interactive List with Keyboard Navigation
+
+<DefaultAnimatedListExample />
+
+## Props
+
+| Prop           | Type                                 | Default | Description                                                 |
+| -------------- | ------------------------------------ | ------- | ----------------------------------------------------------- |
+| `data`         | `string[]`                           | -       | Array of strings to display in the list (required)          |
+| `onPick`       | `(val: string, idx: number) => void` | -       | Callback function when an item is selected                  |
+| `gradients`    | `boolean`                            | `true`  | Whether to show fade gradients at top/bottom when scrolling |
+| `arrowKeys`    | `boolean`                            | `true`  | Enable keyboard navigation with arrow keys and Tab/Enter    |
+| `wrapperClass` | `string`                             | `""`    | Additional CSS classes for the wrapper container            |
+| `itemClass`    | `string`                             | `""`    | Additional CSS classes for individual list items            |
+| `showScroll`   | `boolean`                            | `true`  | Whether to show custom scrollbar styling                    |
+| `startIndex`   | `number`                             | `-1`    | Initial selected index (-1 for no selection)                |
+| `className`    | `string`                             | -       | Additional CSS classes for the main container               |
+
+## Features
+
+- **Smooth Animations**: Items animate in with staggered timing using Framer Motion
+- **Keyboard Navigation**: Full arrow key, Tab, and Enter key support for accessibility
+- **Auto-scroll**: Selected items automatically scroll into view when navigating with keyboard
+- **Smart Gradients**: Fade effects appear/disappear based on scroll position
+- **Custom Scrollbar**: Styled scrollbar that matches your theme
+- **Hover States**: Interactive hover effects with smooth transitions
+- **Responsive Design**: Adapts to different screen sizes
+- **Dark Mode Ready**: Built-in support for light and dark themes
+
+## Keyboard Controls
+
+- **Arrow Up/Down**: Navigate through list items
+- **Tab/Shift+Tab**: Alternative navigation method
+- **Enter**: Select the currently highlighted item
+- **Mouse**: Click or hover to select items
+
+The component automatically handles scrolling the selected item into view and provides visual feedback for the current selection.

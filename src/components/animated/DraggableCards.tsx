@@ -20,6 +20,11 @@ export interface DraggableCardsProps {
   cardClassName?: string;
   titleClassName?: string;
   descriptionClassName?: string;
+  dragScale?: number;
+  dragBoxShadow?: string;
+  normalBoxShadow?: string;
+  dragBackground?: string;
+  normalBackground?: string;
 }
 
 export const DraggableCards: React.FC<DraggableCardsProps> = ({
@@ -34,11 +39,6 @@ export const DraggableCards: React.FC<DraggableCardsProps> = ({
       title: "Beautiful UI",
       description: "Tailwind + Framer Motion magic",
     },
-    {
-      id: 3,
-      title: "Easy Integration",
-      description: "Drop-in component ready to use",
-    },
   ],
   horizontal = false,
   variant = "default",
@@ -48,6 +48,11 @@ export const DraggableCards: React.FC<DraggableCardsProps> = ({
   cardClassName,
   titleClassName,
   descriptionClassName,
+  dragScale,
+  dragBoxShadow,
+  normalBoxShadow,
+  dragBackground,
+  normalBackground,
 }) => {
   const [localCards, setLocalCards] = useState(cards);
   const [draggingId, setDraggingId] = useState<number | null>(null);
@@ -103,15 +108,22 @@ export const DraggableCards: React.FC<DraggableCardsProps> = ({
             >
               <motion.div
                 animate={{
-                  scale: isDragging ? 1.02 : 1,
+                  scale: isDragging ? dragScale ?? 1.02 : 1,
                   boxShadow: isDragging
-                    ? "0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 4px 6px -2px hsl(0 0% 0% / 0.1)"
-                    : "0px 4px 6px -1px hsl(0 0% 0% / 0.1), 0px 2px 4px -2px hsl(0 0% 0% / 0.1)",
+                    ? dragBoxShadow ??
+                      "0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 4px 6px -2px hsl(0 0% 0% / 0.1)"
+                    : normalBoxShadow ??
+                      "0px 4px 6px -1px hsl(0 0% 0% / 0.1), 0px 2px 4px -2px hsl(0 0% 0% / 0.1)",
+                  ...(dragBackground || normalBackground
+                    ? {
+                        background: isDragging
+                          ? dragBackground ?? ""
+                          : normalBackground ?? "",
+                      }
+                    : {}),
                 }}
                 whileHover={{
                   scale: 1.01,
-                  boxShadow:
-                    "0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 4px 6px -2px hsl(0 0% 0% / 0.1)",
                 }}
                 transition={{
                   type: "spring",

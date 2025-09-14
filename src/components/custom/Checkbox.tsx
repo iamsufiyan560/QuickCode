@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Label } from "./Label"; // Adjust import path as needed
+import { Label } from "./Label";
 
 export interface CheckboxProps {
   checked?: boolean;

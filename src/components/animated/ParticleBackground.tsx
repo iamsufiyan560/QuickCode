@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export interface ParticleBackgroundProps {
   particleCount?: number;
@@ -9,6 +10,7 @@ export interface ParticleBackgroundProps {
   speed?: "slow" | "medium" | "fast";
   size?: "sm" | "md" | "lg";
   blur?: boolean;
+  className?: string;
 }
 
 export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
@@ -17,6 +19,7 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   speed = "medium",
   size = "md",
   blur = true,
+  className,
 }) => {
   const speedMultipliers = {
     slow: { min: 8, max: 15 },
@@ -34,7 +37,12 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
 
   return (
     <div className={` inset-0 z-[10] overflow-hidden absolute`}>
-      <div className="absolute inset-0 bg-gray-100 dark:bg-black" />
+      <div
+        className={cn("absolute inset-0 bg-gray-100 dark:bg-black", className)}
+      />
+
+      {/* <div className={cn("group/cardstack flex flex-col gap-4", className)}> */}
+
       {[...Array(particleCount)].map((_, i) => (
         <motion.div
           key={i}

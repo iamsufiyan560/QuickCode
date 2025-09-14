@@ -1,0 +1,41 @@
+import { DefaultCardStackExample } from "@/components/custom/example/CardStackExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Card Stack
+
+An interactive card stack component that displays cards with hover effects. Features smooth animations where non-hovered cards blur and scale down while the hovered card scales up and stays sharp.
+
+<InstallTabs components="CardStack" />
+
+## Default Usage
+
+<DefaultCardStackExample />
+
+## Props
+
+| Prop        | Type         | Default | Description                                                                |
+| ----------- | ------------ | ------- | -------------------------------------------------------------------------- |
+| `cards`     | `CardItem[]` | -       | **Required.** Array of card objects with title, subtitle, image, and color |
+| `className` | `string`     | -       | Additional CSS classes to apply to the container                           |
+
+### CardItem Interface
+
+| Property   | Type               | Description                                                |
+| ---------- | ------------------ | ---------------------------------------------------------- |
+| `id`       | `string \| number` | Optional unique identifier for the card                    |
+| `title`    | `string`           | **Required.** Main heading text                            |
+| `subtitle` | `string`           | **Required.** Secondary description text                   |
+| `image`    | `string`           | **Required.** Image URL for the card background            |
+| `color`    | `string`           | **Required.** Background color class (e.g., "bg-rose-500") |
+
+## Features
+
+- **Interactive Hover Effects**: Cards blur and scale down when hovering over siblings, while the hovered card scales up
+- **Background Images**: Each card supports a background image with overlay effects
+- **Smooth Animations**: Powered by CSS transitions for fluid scaling and blur effects
+- **Flexible Styling**: Customizable background colors and overlay effects
+- **Responsive Design**: Works well across different screen sizes
+- **Theme Independent**: Uses fixed white text that works well over images with dark overlay
+
+Perfect for showcasing featured content, team members, or any collection of items that benefit from an engaging hover interaction.

@@ -1,5 +1,83 @@
-import { Tabs } from "@/components/custom/Tabs";
+import {
+  DefaultTabsExample,
+  CustomColorTabsExample,
+  GlassTabsExample,
+  VerticalTabsExample,
+} from "@/components/custom/example/TabsExample";
 
-# Tabs Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Tabs />
+# Tabs
+
+A flexible and accessible tabs component with smooth gliding animations. Features customizable colors, gradients, horizontal and vertical orientations with smooth transitions between tabs.
+
+<InstallTabs components="Tabs" />
+
+## Default Usage
+
+<DefaultTabsExample />
+
+## Custom Colors
+
+Each tab trigger can have its own custom color using hex, RGB, or gradient values.
+
+<CustomColorTabsExample />
+
+## Vertical Orientation
+
+Perfect for sidebar navigation with smooth vertical gliding animation.
+
+<VerticalTabsExample />
+
+## Premium Gems
+
+Create beautiful glass-morphism effects inspired by modern design trends.
+
+<GlassTabsExample />
+
+## Props
+
+### Tabs
+
+| Prop           | Type                         | Default        | Description                                   |
+| -------------- | ---------------------------- | -------------- | --------------------------------------------- |
+| `defaultValue` | `string`                     | -              | The default active tab value                  |
+| `children`     | `React.ReactNode`            | -              | TabsList and TabsContent components           |
+| `orientation`  | `"horizontal" \| "vertical"` | `"horizontal"` | Layout orientation of the tabs                |
+| `className`    | `string`                     | -              | Additional CSS classes for the tabs container |
+
+### TabsList
+
+| Prop          | Type                         | Default | Description                              |
+| ------------- | ---------------------------- | ------- | ---------------------------------------- |
+| `children`    | `React.ReactNode`            | -       | TabsTrigger components                   |
+| `orientation` | `"horizontal" \| "vertical"` | -       | Override orientation from parent         |
+| `className`   | `string`                     | -       | Additional CSS classes for the tabs list |
+
+### TabsTrigger
+
+| Prop          | Type              | Default          | Description                                        |
+| ------------- | ----------------- | ---------------- | -------------------------------------------------- |
+| `value`       | `string`          | -                | Unique identifier for the tab                      |
+| `children`    | `React.ReactNode` | -                | Content to display in the tab trigger              |
+| `activeColor` | `string`          | `var(--primary)` | Custom color for active state (hex, rgb, gradient) |
+| `className`   | `string`          | -                | Additional CSS classes for the tab trigger         |
+
+### TabsContent
+
+| Prop        | Type              | Default | Description                                |
+| ----------- | ----------------- | ------- | ------------------------------------------ |
+| `value`     | `string`          | -       | Tab value that this content corresponds to |
+| `children`  | `React.ReactNode` | -       | Content to display when tab is active      |
+| `className` | `string`          | -       | Additional CSS classes for the tab content |
+
+## Features
+
+- **Smooth Gliding Animation**: Beautiful sliding background that flows from tab to tab in both horizontal and vertical orientations
+- **Dual Orientation**: Support for both horizontal and vertical layouts perfect for different UI patterns
+- **Custom Colors**: Support for hex, RGB, gradients, and any CSS color format
+- **Sidebar Ready**: Vertical orientation with fixed width ideal for sidebar navigation
+- **Keyboard Accessible**: Full keyboard navigation support with proper ARIA labels
+- **Context-Based State**: Uses React Context for clean state management
+- **Responsive Design**: Adapts beautifully to different screen sizes
+- **Dark Mode Ready**: Built with CSS custom properties for seamless theme switching

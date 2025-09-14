@@ -1,3 +1,19 @@
+/**
+ * Copyright (c) 2025 SUFIYAN CHAUDHARI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ */
+
 "use client";
 import React, {
   useRef,
@@ -32,15 +48,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import clsx from "clsx";
 import { Dialog, DialogTrigger } from "@/components/custom/Dialog";
-import { link } from "fs";
+import { CardStack } from "@/components/animated/CardStack";
+import { cards } from "@/components/custom/example/CardStackExample";
+import { ParticleBackground } from "@/components/animated/ParticleBackground";
+import { FloatingCode } from "@/components/animated/FloatingCode";
+import { DraggableCards } from "@/components/animated/DraggableCards";
+import { AnimatedList } from "@/components/animated/AnimatedList";
 
-// Main Landing Page Component
 export default function QuickCodeLanding() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 5); // change 5 to whatever threshold you want
+      setScrolled(window.scrollY > 5);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -55,16 +75,15 @@ export default function QuickCodeLanding() {
     selection:bg-[#aa5aff] selection:text-[#aa5aff]-foreground
     min-h-screen text-[#fbf8f5] overflow-x-hidden"
     >
-      <AnimatedBackground />
+      <ParticleBackground className=" bg-[#000000]" />
 
       {/* Navigation */}
       <nav
-        // className="fixed  top-0 w-full  z-50 bg-[#000000]/80 border-b border-[#00182a] backdrop-blur-md"
         className={`fixed top-0 w-full z-50 bg-[#000000]/80 backdrop-blur-md ${
           scrolled ? "border-b " : "border-none"
         }`}
       >
-        <div className="  px-4 sm:px-6 lg:px-8">
+        <div className="   sm:px-6 lg:px-8">
           <div className="flex mx-8 items-center justify-between h-16">
             <div className="flex  cursor-pointer">
               <Image
@@ -81,7 +100,7 @@ export default function QuickCodeLanding() {
               />
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex  items-center space-x-4">
               <Button
                 variant="ghost"
                 size="sm"
@@ -161,64 +180,6 @@ function SocialCard() {
   );
 }
 
-// Animated Background Component
-const AnimatedBackground = () => {
-  return (
-    <div className="fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-[#000000]" />
-      {[...Array(50)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full blur-[2px]"
-          style={{
-            backgroundColor: ["#06b6d4", "#a855f7", "#ec4899"][
-              Math.floor(Math.random() * 3)
-            ],
-            left: Math.random() * 100 + "%",
-            top: Math.random() * 100 + "%",
-          }}
-          animate={{
-            x: [0, Math.random() * 1000],
-            y: [0, Math.random() * 1000],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 5,
-            repeat: Infinity,
-            repeatType: "loop",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-const FloatingCode = ({
-  code,
-  className = "",
-}: {
-  code: string;
-  className?: string;
-}) => {
-  return (
-    <motion.div
-      className={`absolute font-mono text-xs text-white ${className}`}
-      animate={{
-        y: [-20, 20],
-        opacity: [0.3, 0.7, 0.3],
-      }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        repeatType: "reverse",
-      }}
-    >
-      {code}
-    </motion.div>
-  );
-};
-
-// Quote Section Component
 const QuoteSection = () => {
   return (
     <motion.section
@@ -277,7 +238,6 @@ const QuoteSection = () => {
   );
 };
 
-// Hero Section
 const Hero = () => {
   const [currentWord, setCurrentWord] = useState(0);
   const words = ["Components", "UI Blocks", "Code Samples", "Fire Shit"];
@@ -291,14 +251,23 @@ const Hero = () => {
 
   return (
     <motion.section
-      className="min-h-screen flex items-center justify-center relative px-4"
+      className="min-h-screen flex items-center justify-center relative px-4 z-10"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <FloatingCode code="<QuickCode />" className="top-20 left-10" />
-      <FloatingCode code="export default Hero" className="top-40 right-20" />
-      <FloatingCode code="className='fire'" className="bottom-40 left-20" />
+      <FloatingCode
+        code="<QuickCode />"
+        className="top-20 left-10 text-white "
+      />
+      <FloatingCode
+        code="export default Hero"
+        className="top-40 right-20 text-white"
+      />
+      <FloatingCode
+        code="className='fire'"
+        className="bottom-40 left-20 text-white"
+      />
 
       <div className="text-center max-w-4xl mx-auto">
         <motion.div
@@ -364,7 +333,6 @@ const Hero = () => {
   );
 };
 
-// Why Section
 const WhySection = () => {
   return (
     <motion.section
@@ -445,8 +413,6 @@ const WhySection = () => {
   );
 };
 
-// Featured Components
-
 const FeaturedComponents = () => {
   const items = [
     "Item 1",
@@ -459,30 +425,33 @@ const FeaturedComponents = () => {
     "Item 8",
     "Item 9",
     "Item 10",
-    "Item 10",
-    "Item 10",
-    "Item 10",
-    "Item 10",
-    "Item 10",
+    "Item 11",
+    "Item 12",
+    "Item 13",
+    "Item 14",
+
+    "Item 15",
   ];
   const components = [
     {
-      name: "Hover Cards",
-      preview: "Premium cards with hover effects",
-      component: <HoverCards />,
-      link: "/docs/components/hover-card",
+      name: "Card Stack",
+      preview: "Interactive stack of cards with hover effects",
+      component: <CardStack cards={cards} />,
+      link: "/docs/CardStack",
     },
     {
       name: "Animated List",
       preview: "Smooth animated scrollable list",
       component: (
         <AnimatedList
+          className="min-w-72"
           data={items}
           onPick={(val, idx) => console.log(val, idx)}
           gradients
           arrowKeys
           showScroll={true}
           wrapperClass="w-auto"
+          itemClass="bg-primary/30 hover:bg-primary/60 "
         />
       ),
       link: "/docs/components/hover-card",
@@ -490,7 +459,19 @@ const FeaturedComponents = () => {
     {
       name: "Premium Draggable Cards",
       preview: "High-end dark-mode cards with smooth drag and glow effects",
-      component: <DraggableCards />,
+      component: (
+        <DraggableCards
+          className="max-w-5xl mx-auto py-16 px-4"
+          titleClassName="text-teal-400"
+          dragScale={1.05}
+          dragBoxShadow="0 15px 35px rgba(72, 209, 204, 0.6)"
+          normalBoxShadow="0 8px 20px rgba(0,0,0,0.4)"
+          dragBackground="linear-gradient(135deg, rgba(72,209,204,0.15), rgba(72,209,204,0.05))"
+          normalBackground="#1B1F3B"
+          cardClassName="rounded-xl p-6 text-gray-100 border border-[#272B4D] shadow-lg"
+          descriptionClassName="text-gray-30"
+        />
+      ),
       link: "/docs/DraggableCards",
     },
   ];
@@ -521,7 +502,7 @@ const FeaturedComponents = () => {
         </motion.div>
 
         {/* Grid of cards */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {components.map((component, index) => (
             <motion.div
               key={index}
@@ -531,8 +512,8 @@ const FeaturedComponents = () => {
               viewport={{ once: true }}
               className="group"
             >
-              <Card className="h-full bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer ">
-                <CardContent className="p-6">
+              <Card className="h-full bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer  flex items-center justify-center ">
+                <CardContent className="p-6 ">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">{component.name}</h3>
                     <Link href={component.link}>
@@ -716,7 +697,6 @@ const PricingSection = () => {
   );
 };
 
-// Social Proof Section
 const SocialProof = () => {
   const testimonials = [
     {
@@ -796,7 +776,6 @@ const SocialProof = () => {
   );
 };
 
-// Footer
 const Footer = () => {
   return (
     <motion.footer
@@ -908,301 +887,3 @@ const Footer = () => {
     </motion.footer>
   );
 };
-
-// Animated List comp
-interface ItemProps {
-  children: ReactNode;
-  delay?: number;
-  idx: number;
-  onHover?: MouseEventHandler<HTMLDivElement>;
-  onPress?: MouseEventHandler<HTMLDivElement>;
-}
-
-const ListItem: React.FC<ItemProps> = ({
-  children,
-  delay = 0,
-  idx,
-  onHover,
-  onPress,
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const visible = useInView(ref, { amount: 0.5 });
-
-  return (
-    <motion.div
-      ref={ref}
-      data-id={idx}
-      onMouseEnter={onHover}
-      onClick={onPress}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-      transition={{ duration: 0.25, delay }}
-      className="mb-3 cursor-pointer"
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-interface ListProps {
-  data?: string[];
-  onPick?: (val: string, idx: number) => void;
-  gradients?: boolean;
-  arrowKeys?: boolean;
-  wrapperClass?: string;
-  itemClass?: string;
-  showScroll?: boolean;
-  startIndex?: number;
-}
-
-const AnimatedList: React.FC<ListProps> = ({
-  data = Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`),
-  onPick,
-  gradients = true,
-  arrowKeys = true,
-  wrapperClass = "",
-  itemClass = "",
-  showScroll = true,
-  startIndex = -1,
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState<number>(startIndex);
-  const [usingKeys, setUsingKeys] = useState(false);
-  const [topFade, setTopFade] = useState(0);
-  const [bottomFade, setBottomFade] = useState(1);
-
-  // handle scroll → fade opacity
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    setTopFade(Math.min(el.scrollTop / 50, 1));
-    const remaining = el.scrollHeight - (el.scrollTop + el.clientHeight);
-    setBottomFade(
-      el.scrollHeight <= el.clientHeight ? 0 : Math.min(remaining / 50, 1)
-    );
-  };
-
-  // keyboard nav
-  useEffect(() => {
-    if (!arrowKeys) return;
-    const handleKeys = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" || (e.key === "Tab" && !e.shiftKey)) {
-        e.preventDefault();
-        setUsingKeys(true);
-        setActive((prev) => Math.min(prev + 1, data.length - 1));
-      } else if (e.key === "ArrowUp" || (e.key === "Tab" && e.shiftKey)) {
-        e.preventDefault();
-        setUsingKeys(true);
-        setActive((prev) => Math.max(prev - 1, 0));
-      } else if (e.key === "Enter" && active >= 0) {
-        e.preventDefault();
-        onPick?.(data[active], active);
-      }
-    };
-    window.addEventListener("keydown", handleKeys);
-    return () => window.removeEventListener("keydown", handleKeys);
-  }, [data, active, arrowKeys, onPick]);
-
-  // auto-scroll selected into view
-  useEffect(() => {
-    if (!usingKeys || active < 0 || !containerRef.current) return;
-    const el = containerRef.current;
-    const chosen = el.querySelector(
-      `[data-id="${active}"]`
-    ) as HTMLElement | null;
-    if (chosen) {
-      const margin = 40;
-      if (chosen.offsetTop < el.scrollTop + margin) {
-        el.scrollTo({ top: chosen.offsetTop - margin, behavior: "smooth" });
-      } else if (
-        chosen.offsetTop + chosen.offsetHeight >
-        el.scrollTop + el.clientHeight - margin
-      ) {
-        el.scrollTo({
-          top:
-            chosen.offsetTop + chosen.offsetHeight - el.clientHeight + margin,
-          behavior: "smooth",
-        });
-      }
-    }
-    setUsingKeys(false);
-  }, [active, usingKeys]);
-
-  return (
-    <div className={`relative w-[480px] ${wrapperClass}`}>
-      <div
-        ref={containerRef}
-        onScroll={handleScroll}
-        className={`max-h-[380px] overflow-y-auto p-4 ${
-          showScroll
-            ? "[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-track]:bg-[#060010] [&::-webkit-scrollbar-thumb]:bg-[#222] [&::-webkit-scrollbar-thumb]:rounded-[4px]"
-            : "scrollbar-hide"
-        }`}
-        style={{
-          scrollbarWidth: showScroll ? "thin" : "none",
-          scrollbarColor: "#222 #060010",
-        }}
-      >
-        {data.map((txt, idx) => (
-          <ListItem
-            key={idx}
-            idx={idx}
-            delay={0.1}
-            onHover={() => setActive(idx)}
-            onPress={() => {
-              setActive(idx);
-              onPick?.(txt, idx);
-            }}
-          >
-            <div
-              className={`p-3 rounded-lg transition-colors ${
-                active === idx ? "bg-neutral-800" : "bg-neutral-900"
-              } ${itemClass}`}
-            >
-              <p className="text-white text-sm">{txt}</p>
-            </div>
-          </ListItem>
-        ))}
-      </div>
-
-      {gradients && (
-        <>
-          <div
-            className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black to-transparent pointer-events-none transition-opacity duration-300"
-            style={{ opacity: topFade }}
-          />
-          <div
-            className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black to-transparent pointer-events-none transition-opacity duration-300"
-            style={{ opacity: bottomFade }}
-          />
-        </>
-      )}
-    </div>
-  );
-};
-
-// Draggable Cards component
-
-interface Card {
-  id: number;
-  title: string;
-  description: string;
-}
-
-const initialCards: Card[] = [
-  {
-    id: 1,
-    title: "Fast API Calls",
-    description: "Optimized for speed and efficiency",
-  },
-  {
-    id: 2,
-    title: "Beautiful UI",
-    description: "Tailwind + Framer Motion magic",
-  },
-];
-
-function DraggableCards() {
-  const [cards, setCards] = useState(initialCards);
-  const [draggingId, setDraggingId] = useState<number | null>(null);
-
-  return (
-    <div className="max-w-5xl mx-auto py-16 px-4">
-      <Reorder.Group
-        axis="y"
-        values={cards}
-        onReorder={setCards}
-        className="space-y-4"
-      >
-        {cards.map((card) => {
-          const isDragging = draggingId === card.id;
-
-          return (
-            <Reorder.Item
-              key={card.id}
-              value={card}
-              onDragStart={() => setDraggingId(card.id)}
-              onDragEnd={() => setDraggingId(null)}
-              dragListener
-              className="cursor-grab"
-            >
-              <motion.div
-                animate={{
-                  scale: isDragging ? 1.05 : 1,
-                  boxShadow: isDragging
-                    ? "0 15px 35px rgba(72, 209, 204, 0.6)"
-                    : "0 8px 20px rgba(0,0,0,0.4)",
-                  background: isDragging
-                    ? "linear-gradient(135deg, rgba(72,209,204,0.15), rgba(72,209,204,0.05))"
-                    : "#1B1F3B",
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="rounded-xl p-6 text-gray-100 border border-[#272B4D] shadow-lg"
-              >
-                <h3 className="text-xl font-semibold mb-2 text-teal-400">
-                  {card.title}
-                </h3>
-                <p className="text-gray-300">{card.description}</p>
-              </motion.div>
-            </Reorder.Item>
-          );
-        })}
-      </Reorder.Group>
-    </div>
-  );
-}
-
-// Hover Cards component
-const cards = [
-  {
-    color: "bg-rose-500",
-    title: "Curious Cat",
-    subtitle: "Always exploring",
-    img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2F0fGVufDB8fDB8fHww",
-  },
-  {
-    color: "bg-blue-500",
-    title: "Chill Cat",
-    subtitle: "Cool and calm",
-    img: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2F0fGVufDB8fDB8fHww",
-  },
-  {
-    color: "bg-green-500",
-    title: "Playful Cat",
-    subtitle: "Full of energy",
-    img: "https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fGNhdHxlbnwwfHwwfHx8MA%3D%3D",
-  },
-];
-
-function HoverCards() {
-  return (
-    <div className="group flex flex-col gap-4">
-      {cards.map((card, i) => (
-        <div
-          key={i}
-          className={`
-            relative flex h-[100px] w-[250px] flex-col items-center justify-center
-            rounded-lg text-white cursor-pointer transition-all duration-500
-            ${card.color}
-            group-hover:blur-sm group-hover:scale-90
-            hover:!scale-110 hover:!blur-none
-          `}
-        >
-          {/* Background image with opacity overlay */}
-          <Image
-            src={card.img}
-            alt={card.title}
-            fill
-            className="absolute inset-0 rounded-lg object-cover opacity-70"
-          />
-          <div className="absolute inset-0 rounded-lg bg-black/40" />
-
-          {/* Text */}
-          <div className="relative z-10 text-center">
-            <p className="text-lg font-bold">{card.title}</p>
-            <p className="text-sm">{card.subtitle}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}

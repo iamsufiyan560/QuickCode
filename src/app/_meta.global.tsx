@@ -81,6 +81,18 @@ export default {
 
       __2: {
         type: "separator",
+        title: "Backgrounds & Effects",
+      },
+
+      FloatingCode: "",
+      ParticleBackground: "",
+      DraggableCards: "",
+      MorphButton: "",
+      CardStack: "",
+      AnimatedList: "",
+
+      __3: {
+        type: "separator",
         title: "Components",
       },
       Accordion: "",
@@ -90,16 +102,7 @@ export default {
       Dialog: "",
       Input: "",
       Label: "",
-
-      __3: {
-        type: "separator",
-        title: "Backgrounds & Effects",
-      },
-
-      FloatingCode: "",
-      ParticleBackground: "",
-      DraggableCards: "",
-      MorphButton: "",
+      Tabs: "",
 
       __4: {
         type: "separator",
@@ -215,7 +218,6 @@ export default {
       Stepper: "",
       Switch: "",
       Table: "",
-      Tabs: "",
       Tag: "",
       TagInput: "",
       TeamCard: "",
