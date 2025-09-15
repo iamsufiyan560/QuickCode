@@ -1,5 +1,31 @@
-import { Tooltip } from "@/components/custom/Tooltip";
+import { DefaultTooltipExample } from "@/components/custom/example/TooltipExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Tooltip Example
+# Tooltip
 
-<Tooltip />
+A robust tooltip component that works anywhere in your application, even inside containers with overflow:hidden or high z-index values. Uses portal rendering to escape stacking contexts.
+
+<InstallTabs components="Tooltip" />
+
+## Default Usage
+
+<DefaultTooltipExample />
+
+## Props
+
+| Prop        | Type                                     | Default    | Description                                |
+| ----------- | ---------------------------------------- | ---------- | ------------------------------------------ |
+| `children`  | `React.ReactNode`                        | -          | Element that triggers the tooltip on hover |
+| `content`   | `string`                                 | -          | Text content to display in the tooltip     |
+| `side`      | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Preferred side to display the tooltip      |
+| `className` | `string`                                 | -          | Additional CSS classes to apply            |
+
+## Features
+
+- **Portal Rendering**: Escapes any overflow:hidden or z-index constraints by rendering at document.body
+- **Smart Sizing**: Automatically adjusts size based on content length (compact/default/expanded)
+- **Multi-directional**: Supports top, bottom, left, and right positioning with proper arrows
+- **Smooth Animations**: Subtle scale and opacity transitions with proper transform origins
+- **High Z-Index**: Always appears above modals, dialogs, and other overlays (z-index: 99999)
+- **Accessible**: Proper pointer-events handling to prevent tooltip interference
+- **Dark Mode Ready**: Uses design tokens for consistent theming

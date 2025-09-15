@@ -1,5 +1,3 @@
-import { Select } from "nextra/components";
-
 export const BASE_URL =
   "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/custom/";
 
@@ -21,6 +19,10 @@ export const components = {
   },
   Button: {
     url: `${BASE_URL}Button.tsx`,
+    deps: {},
+  },
+  Badge: {
+    url: `${BASE_URL}Badge.tsx`,
     deps: {},
   },
   Checkbox: {
@@ -54,16 +56,21 @@ export const components = {
     url: `${BASE_URL}Select.tsx`,
     deps: {},
   },
+  MultiSelect: {
+    url: `${BASE_URL}MultiSelect.tsx`,
+    deps: {},
+  },
   Switch: {
     url: `${BASE_URL}Switch.tsx`,
     deps: {},
   },
-  Textarea: {
-    url: `${BASE_URL}Textarea.tsx`,
-    deps: {},
-  },
+
   Slider: {
     url: `${BASE_URL}Slider.tsx`,
+    deps: {},
+  },
+  Separator: {
+    url: `${BASE_URL}Separator.tsx`,
     deps: {},
   },
   RangeSlider: {
@@ -72,6 +79,18 @@ export const components = {
   },
   Tabs: {
     url: `${BASE_URL}Tabs.tsx`,
+    deps: {},
+  },
+  Textarea: {
+    url: `${BASE_URL}Textarea.tsx`,
+    deps: {},
+  },
+  Tooltip: {
+    url: `${BASE_URL}Tooltip.tsx`,
+    deps: {},
+  },
+  MultiTooltip: {
+    url: `${BASE_URL}MultiTooltip.tsx`,
     deps: {},
   },
 

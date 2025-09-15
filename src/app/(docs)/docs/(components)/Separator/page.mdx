@@ -1,5 +1,29 @@
-import { Separator } from "@/components/custom/Separator";
+import { DefaultSeparatorExample } from "@/components/custom/example/SeparatorExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Separator Example
+# Separator
 
-<Separator />
+A simple line separator component for creating visual divisions between content sections. Supports both horizontal and vertical orientations.
+
+<InstallTabs components="Separator" />
+
+## Default Usage
+
+<DefaultSeparatorExample />
+
+## Props
+
+| Prop          | Type                                   | Default        | Description                                      |
+| ------------- | -------------------------------------- | -------------- | ------------------------------------------------ |
+| `className`   | `string`                               | -              | Additional CSS classes to apply to the separator |
+| `orientation` | `"horizontal" \| "vertical"`           | `"horizontal"` | Direction of the separator line                  |
+| `decorative`  | `boolean`                              | `true`         | Whether the separator is purely decorative       |
+| `...props`    | `React.HTMLAttributes<HTMLDivElement>` | -              | All standard HTML div attributes                 |
+
+## Features
+
+- **Flexible Orientation**: Support for both horizontal and vertical separators
+- **Accessible**: Proper ARIA attributes for screen readers
+- **Semantic HTML**: Uses appropriate roles based on decorative property
+- **Responsive Design**: Adapts beautifully to different screen sizes
+- **Dark Mode Ready**: Built-in support for light and dark themes

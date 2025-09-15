@@ -1,24 +1,48 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export function Badge() {
-  return <Preview code={`
-function Badge() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Badge" language="jsx" />;
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  variant?: "default" | "secondary" | "destructive" | "outline";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  children: React.ReactNode;
 }
+
+export const Badge: React.FC<BadgeProps> = ({
+  variant = "default",
+  size = "md",
+  className,
+  children,
+  ...props
+}) => {
+  const variantStyles = {
+    default: "border-transparent bg-primary text-primary-foreground",
+    secondary: "border-transparent bg-secondary text-secondary-foreground",
+    destructive:
+      "border-transparent bg-destructive text-destructive-foreground",
+    outline: "border-border text-foreground bg-background",
+  };
+
+  const sizeStyles = {
+    sm: "px-1.5 py-0.5 text-xs",
+    md: "px-2 py-0.5 text-xs",
+    lg: "px-2.5 py-1 text-sm",
+  };
+
+  return (
+    <span
+      title="badge"
+      className={cn(
+        "inline-flex items-center justify-center rounded-md border font-medium w-fit whitespace-nowrap transition-colors",
+        variantStyles[variant],
+        sizeStyles[size],
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </span>
+  );
+};

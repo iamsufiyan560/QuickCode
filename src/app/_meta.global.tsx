@@ -98,6 +98,8 @@ export default {
       Accordion: "",
       ActionSheet: "",
       Button: "",
+      Badge: "",
+
       Checkbox: "",
       Card: "",
       Dialog: "",
@@ -106,11 +108,16 @@ export default {
       RadioGroup: "",
       RangeSlider: "",
       Select: "",
+      MultiSelect: "",
+
       Switch: "",
       Slider: "",
+      Separator: "",
 
       Tabs: "",
       TextArea: "",
+      Tooltip: "",
+      MultiTooltip: "",
 
       __4: {
         type: "separator",
@@ -121,7 +128,6 @@ export default {
       Analytics: "",
       Avatar: "",
       AvatarGroup: "",
-      Badge: "",
       Banner: "",
       Breadcrumb: "",
 
@@ -208,7 +214,6 @@ export default {
       Section: {
         items: SECTION,
       },
-      Separator: "",
       Sheet: "",
       Sidebar: "",
       Skeleton: "",
@@ -228,7 +233,6 @@ export default {
       Toast: "",
       Toggle: "",
       Toolbar: "",
-      Tooltip: "",
       TreeView: "",
       UploadZone: "",
       UserProfile: "",

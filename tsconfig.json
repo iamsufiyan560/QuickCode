@@ -30,7 +30,8 @@
     "next.config.mjs",
     "src/app/(docs)/docs/page.mdx",
     "src/app/(docs)/docs/_meta.js",
-    "src/app/(docs)/docs/(components)/Accordion/page.mdx"
+    "src/app/(docs)/docs/(components)/Accordion/page.mdx",
+    "src/app/(docs)/docs/(components)/MultiSelect/page.mdx"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,95 @@
+import {
+  DefaultMultiSelectExample,
+  GroupedMultiSelectExample,
+  MaxDisplayMultiSelectExample,
+  DisabledMultiSelectExample,
+} from "@/components/custom/example/MultiSelectExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Multi Select
+
+A flexible multi-select dropdown component that allows users to select multiple options from a list. Features smooth animations, keyboard navigation, and customizable display options.
+
+<InstallTabs components="MultiSelect" />
+
+## Default Usage
+
+<DefaultMultiSelectExample />
+
+## Grouped Options
+
+<GroupedMultiSelectExample />
+
+## Max Display with Overflow
+
+<MaxDisplayMultiSelectExample />
+
+## Disabled State
+
+<DisabledMultiSelectExample />
+
+## Props
+
+### MultiSelect
+
+| Prop             | Type                         | Default | Description                                        |
+| ---------------- | ---------------------------- | ------- | -------------------------------------------------- |
+| `values`         | `string[]`                   | `[]`    | Controlled array of selected values                |
+| `defaultValues`  | `string[]`                   | `[]`    | Default selected values for uncontrolled component |
+| `onValuesChange` | `(values: string[]) => void` | -       | Callback fired when the selection changes          |
+| `disabled`       | `boolean`                    | `false` | Whether the multi-select is disabled               |
+| `className`      | `string`                     | -       | Additional CSS classes for the container           |
+
+### MultiSelectTrigger
+
+| Prop        | Type     | Default | Description                        |
+| ----------- | -------- | ------- | ---------------------------------- |
+| `className` | `string` | -       | Additional CSS classes for trigger |
+
+### MultiSelectValue
+
+| Prop          | Type     | Default          | Description                                  |
+| ------------- | -------- | ---------------- | -------------------------------------------- |
+| `placeholder` | `string` | "Select options" | Placeholder text when no values are selected |
+| `maxDisplay`  | `number` | `3`              | Maximum number of selected values to display |
+| `className`   | `string` | -                | Additional CSS classes                       |
+
+### MultiSelectContent
+
+| Prop        | Type     | Default | Description                        |
+| ----------- | -------- | ------- | ---------------------------------- |
+| `className` | `string` | -       | Additional CSS classes for content |
+
+### MultiSelectItem
+
+| Prop        | Type      | Default | Description                         |
+| ----------- | --------- | ------- | ----------------------------------- |
+| `value`     | `string`  | -       | The value of the option             |
+| `disabled`  | `boolean` | `false` | Whether the item is disabled        |
+| `className` | `string`  | -       | Additional CSS classes for the item |
+
+### MultiSelectGroup
+
+| Prop        | Type     | Default | Description                          |
+| ----------- | -------- | ------- | ------------------------------------ |
+| `className` | `string` | -       | Additional CSS classes for the group |
+
+### MultiSelectLabel
+
+| Prop        | Type     | Default | Description                          |
+| ----------- | -------- | ------- | ------------------------------------ |
+| `className` | `string` | -       | Additional CSS classes for the label |
+
+## Features
+
+- **Multiple Selection**: Select and deselect multiple options with visual feedback
+- **Visual Tags**: Selected values display as removable tags in the trigger
+- **Overflow Handling**: Configurable maximum display with "+X more" indicator
+- **Grouped Options**: Organize options into labeled groups for better UX
+- **Smooth Animations**: Powered by Framer Motion for fluid open/close transitions
+- **Keyboard Accessible**: Full keyboard navigation with proper focus management
+- **Portal Rendering**: Dropdown content renders in a portal to avoid z-index issues
+- **Smart Positioning**: Automatically positions dropdown based on available space
+- **Responsive Design**: Adapts beautifully across all device sizes
+- **Dark Mode Ready**: Built-in support for light and dark themes

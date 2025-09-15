@@ -1,0 +1,49 @@
+import { MultiTooltipExample } from "@/components/custom/example/MultiTooltipExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Multi Tooltip
+
+A powerful tooltip component that displays multiple tooltips around a single trigger element. Perfect for complex UI elements that need multiple contextual hints or actions.
+
+<InstallTabs components="MultiTooltip" />
+
+## Usage
+
+<MultiTooltipExample />
+
+## Props
+
+| Prop               | Type                                           | Default | Description                                                    |
+| ------------------ | ---------------------------------------------- | ------- | -------------------------------------------------------------- |
+| `tooltips`         | `Array<{content: string, position: Position}>` | -       | Array of tooltip objects with content and position             |
+| `gap`              | `number`                                       | `8`     | Distance in pixels between trigger and tooltips                |
+| `hideDelay`        | `number`                                       | `100`   | Delay in milliseconds before hiding tooltips after mouse leave |
+| `className`        | `string`                                       | -       | Additional CSS classes for the trigger container               |
+| `tooltipClassName` | `string`                                       | -       | Additional CSS classes applied to all tooltip elements         |
+
+### Position Options
+
+The `position` property accepts these 8 directional values:
+
+- `"top"` - Center above the trigger
+- `"top-right"` - Top-right corner
+- `"right"` - Center to the right
+- `"bottom-right"` - Bottom-right corner
+- `"bottom"` - Center below the trigger
+- `"bottom-left"` - Bottom-left corner
+- `"left"` - Center to the left
+- `"top-left"` - Top-left corner
+
+## Features
+
+- **Multiple Tooltips**: Display 2-3 tooltips simultaneously around one trigger
+- **8 Directional Positioning**: Comprehensive positioning options for optimal tooltip placement
+- **Smart Collision Detection**: Automatically adjusts position to keep tooltips visible within viewport
+- **Staggered Animations**: Each tooltip appears with a subtle delay for polished visual effect
+- **Hover Persistence**: Tooltips remain visible when hovering over them for interaction
+- **Portal Rendering**: Tooltips render in document body to avoid z-index issues
+- **Responsive Positioning**: Dynamically updates position on scroll and resize events
+- **Keyboard Accessible**: Supports focus and blur events for keyboard navigation
+- **Content-Aware Sizing**: Automatically adjusts padding and text size based on content length
+- **Dark Mode Ready**: Full support for light and dark themes using CSS tokens

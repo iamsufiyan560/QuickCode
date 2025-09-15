@@ -1,24 +1,30 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export function Separator() {
-  return <Preview code={`
-function Separator() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Separator" language="jsx" />;
+export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  orientation?: "horizontal" | "vertical";
+  decorative?: boolean;
 }
+
+export const Separator: React.FC<SeparatorProps> = ({
+  className,
+  orientation = "horizontal",
+  decorative = false,
+  ...props
+}) => {
+  return (
+    <div
+      className={cn(
+        "bg-border shrink-0",
+        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+        className
+      )}
+      role={decorative ? "none" : "separator"}
+      aria-orientation={orientation}
+      {...props}
+    />
+  );
+};

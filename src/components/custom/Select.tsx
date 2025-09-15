@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// -------------------- Context --------------------
 const SelectContext = React.createContext<{
   value?: string;
   onValueChange?: (value: string) => void;
@@ -18,7 +17,6 @@ const SelectContext = React.createContext<{
   setOpen: () => {},
 });
 
-// -------------------- Select --------------------
 export interface SelectProps {
   value?: string;
   defaultValue?: string;
@@ -54,7 +52,6 @@ export const Select: React.FC<SelectProps> = ({
     if (value !== undefined) setSelectedValue(value);
   }, [value]);
 
-  // Close on outside click + disable scroll when open
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -95,7 +92,6 @@ export const Select: React.FC<SelectProps> = ({
   );
 };
 
-// -------------------- Trigger --------------------
 export interface SelectTriggerProps {
   className?: string;
   children: React.ReactNode;
@@ -129,7 +125,6 @@ export const SelectTrigger: React.FC<SelectTriggerProps> = ({
   );
 };
 
-// -------------------- Value --------------------
 export interface SelectValueProps {
   placeholder?: string;
   className?: string;
@@ -152,7 +147,6 @@ export const SelectValue: React.FC<SelectValueProps> = ({
   );
 };
 
-// -------------------- Content --------------------
 export interface SelectContentProps {
   className?: string;
   children: React.ReactNode;
@@ -238,7 +232,6 @@ export const SelectContent: React.FC<SelectContentProps> = ({
   );
 };
 
-// -------------------- Group --------------------
 export interface SelectGroupProps {
   className?: string;
   children: React.ReactNode;
@@ -251,7 +244,6 @@ export const SelectGroup: React.FC<SelectGroupProps> = ({
   return <div className={cn("p-1", className)}>{children}</div>;
 };
 
-// -------------------- Label --------------------
 export interface SelectLabelProps {
   className?: string;
   children: React.ReactNode;
@@ -273,7 +265,6 @@ export const SelectLabel: React.FC<SelectLabelProps> = ({
   );
 };
 
-// -------------------- Item --------------------
 export interface SelectItemProps {
   value: string;
   disabled?: boolean;

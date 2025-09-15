@@ -1,5 +1,33 @@
-import { Badge } from "@/components/custom/Badge";
+import { AllBadgeVariantsExample } from "@/components/custom/example/BadgeExample";
 
-# Badge Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Badge />
+# Badge
+
+A versatile badge component for displaying status indicators, labels, and tags with multiple visual variants and sizes.
+
+<InstallTabs components="Badge" />
+
+## All Variants and Sizes
+
+<AllBadgeVariantsExample />
+
+## Props
+
+| Prop        | Type                                                     | Default     | Description                                  |
+| ----------- | -------------------------------------------------------- | ----------- | -------------------------------------------- |
+| `variant`   | `"default" \| "secondary" \| "destructive" \| "outline"` | `"default"` | Visual style variant of the badge            |
+| `size`      | `"sm" \| "md" \| "lg"`                                   | `"md"`      | Size variant affecting padding and font size |
+| `className` | `string`                                                 | -           | Additional CSS classes for customization     |
+| `children`  | `React.ReactNode`                                        | -           | Content to display inside the badge          |
+
+## Features
+
+- **Multiple Variants**: Choose from default, secondary, destructive, and outline styles
+- **Three Sizes**: Small, medium, and large options for different use cases
+- **Icon Support**: Seamlessly integrates with Lucide icons
+- **Flexible Content**: Supports text, icons, or combined content
+- **Responsive Design**: Maintains consistent appearance across screen sizes
+- **Dark Mode Ready**: Full support for light and dark themes
+- **Semantic HTML**: Uses proper span elements with accessible attributes
+- **Transition Effects**: Smooth color transitions for better user experience
