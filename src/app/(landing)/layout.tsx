@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { ThemeProvider } from "@/extras/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,40 +58,64 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Script
-        id="person-schema"
+        id="schema-graph"
         type="application/ld+json"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Sufiyan Chaudhari",
-            url: "https://quickcode.space",
-            sameAs: [
-              "https://github.com/iamsufiyan560",
-              "https://www.linkedin.com/in/sufiyan-chaudhari-8a55502ab/",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                name: "QuickCode UI",
+                url: "https://quickcode.space",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: "https://quickcode.space/?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+              },
+              {
+                "@type": "WebPage",
+                name: "QuickCode UI - Animated Next.js Components",
+                description:
+                  "QuickCode UI offers reusable, easy-to-use components for fast, consistent interface design.",
+                url: "https://quickcode.space",
+              },
+              {
+                "@type": "Person",
+                name: "Sufiyan Chaudhari",
+                url: "https://quickcode.space",
+                sameAs: [
+                  "https://github.com/iamsufiyan560",
+                  "https://www.linkedin.com/in/sufiyan-chaudhari-8a55502ab/",
+                ],
+              },
+              {
+                "@type": "SoftwareApplication",
+                name: "QuickCode UI",
+                operatingSystem: "Web",
+                applicationCategory: "DeveloperApplication",
+                url: "https://quickcode.space",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "USD",
+                },
+                sameAs: ["https://github.com/iamsufiyan560/QuickCode"],
+              },
             ],
           }),
         }}
       />
 
-      <Script
-        id="project-schema"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "QuickCode UI",
-            operatingSystem: "Web",
-            applicationCategory: "DeveloperApplication",
-            url: "https://quickcode.space",
-            sameAs: ["https://github.com/iamsufiyan560/QuickCode"],
-          }),
-        }}
-      />
-      <body className={`${inter.className}  antialiased `}>{children}</body>
+      <body className={`${inter.className}  antialiased `}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <main className="flex-auto min-w-0  flex flex-col  md:px-0">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

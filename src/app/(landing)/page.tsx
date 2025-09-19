@@ -15,871 +15,570 @@
  */
 
 "use client";
-import React, { useState, useEffect } from "react";
 
-import { motion, AnimatePresence, useInView, Reorder } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  Zap,
-  Star,
-  Download,
-  Sparkles,
-  Terminal,
-  Rocket,
-  Coffee,
-  Heart,
-  QrCode,
   Github,
-  TwitterIcon,
-  ArrowUpRight,
-  HeartIcon,
+  Star,
+  Heart,
+  Code2,
+  Zap,
+  Layers,
+  Palette,
+  Sparkles,
+  Play,
+  CircleArrowUp,
 } from "lucide-react";
 import { Button } from "@/components/custom/Button";
-import { Card, CardContent } from "@/components/custom/Card";
+import { cn } from "@/lib/utils";
+import Particles from "@/extras/particles";
+import QuickCodePromoPage from "@/extras/VsCode";
+import { ThemeToggle } from "@/extras/ThemeToggle";
 
-import Image from "next/image";
-import clsx from "clsx";
-import { Dialog, DialogTrigger } from "@/components/custom/Dialog";
-import { CardStack } from "@/components/animated/CardStack";
-import { cards } from "@/components/custom/example/CardStackExample";
-import { ParticleBackground } from "@/components/animated/ParticleBackground";
-import { FloatingCode } from "@/components/animated/FloatingCode";
-import { DraggableCards } from "@/components/animated/DraggableCards";
-import { AnimatedList } from "@/components/animated/AnimatedList";
-import { ActionLink, SocialCard } from "@/components/animated/SocialCard";
-
-export default function QuickCodeLanding() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 5);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+function FullscreenDemo({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  if (!isOpen) return null;
 
   return (
-    <div
-      className="
-   
-      max-w-[1600px] mx-auto justify-center items-center
-    selection:bg-[#aa5aff] selection:text-[#aa5aff]-foreground
-    min-h-screen text-[#fbf8f5] overflow-x-hidden"
+    <motion.div
+      className="fixed inset-0 z-[100] bg-background overflow-auto"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      <ParticleBackground className=" bg-[#000000]" />
+      <div className="h-full  flex items-center justify-center relative">
+        <QuickCodePromoPage onClose={onClose} />
+      </div>
+    </motion.div>
+  );
+}
 
-      {/* Navigation */}
-      <nav
-        className={`fixed top-0 w-full z-50 bg-[#000000]/80 backdrop-blur-md ${
-          scrolled ? "border-b " : "border-none"
-        }`}
+export default function QuickCodeLanding() {
+  const [showDemo, setShowDemo] = useState(false);
+
+  return (
+    <div className=" selection:bg-transparent  min-h-screen max-w-6xl mx-auto shadow-2xl  relative ">
+      <Particles
+        className="absolute inset-0 -z-10 animate-fade-in"
+        quantity={400}
+      />
+
+      <motion.nav
+        className="fixed max-w-6xl mx-auto top-0 w-full z-50 bg-background/80 backdrop-blur-sm border-b border-border"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        <div className="   sm:px-6 lg:px-8">
-          <div className="flex mx-8 items-center justify-between h-16">
-            <div className="flex  cursor-pointer">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center cursor-pointer">
+              <Image
+                src="/logo-light.svg"
+                alt="Logo"
+                width={150}
+                height={80}
+                className={cn(
+                  "object-contain dark:hidden",
+                  "hover:transition-all hover:duration-1000 motion-reduce:hover:transition-none",
+                  "[mask-image:linear-gradient(60deg,#000_25%,rgba(0,0,0,.2)_50%,#000_75%)] [mask-position:0] [mask-size:400%]",
+                  "hover:[mask-position:100%]"
+                )}
+              />
               <Image
                 src="/logo-dark.svg"
                 alt="Logo White"
                 width={150}
                 height={80}
-                className={clsx(
-                  "object-contain  block",
+                className={cn(
+                  "object-contain hidden dark:block",
                   "hover:transition-all hover:duration-1000 motion-reduce:hover:transition-none",
                   "[mask-image:linear-gradient(60deg,#000_25%,rgba(0,0,0,.2)_50%,#000_75%)] [mask-position:0] [mask-size:400%]",
                   "hover:[mask-position:100%]"
                 )}
               />
             </div>
-
-            <div className="flex  items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="rounded-lg cursor-pointer"
-              >
-                <Github className="size-5 hover:text-black " />
-              </Button>
-              <Link href="/docs">
-                <Button
-                  size="sm"
-                  className="rounded-md bg-gradient-to-r from-primary to-accent cursor-pointer"
-                >
-                  <Rocket className="w-4 h-4 mr-2" />
-                  Docs
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main>
-        <Hero />
-
-        <WhySection />
-        <FeaturedComponents />
-
-        <PricingSection />
-        <SocialProof />
-        <QuoteSection />
-      </main>
-
-      <Footer />
-    </div>
-  );
-}
-
-const SocialComponent = () => {
-  const socialData: [ActionLink, ActionLink, ...ActionLink[]] = [
-    {
-      icon: "github",
-      url: "https://github.com/iamsufiyan560",
-      color: "#6b7280",
-    },
-    {
-      icon: "instagram",
-      url: "https://www.instagram.com/iamsufiyan_560/#",
-      color: "#f97316",
-    },
-    {
-      icon: "linkedin",
-      url: "https://www.linkedin.com/in/sufiyan-chaudhari-8a55502ab/",
-      color: "#3b82f6",
-    },
-    {
-      icon: "twitter",
-      url: "https://x.com/iamsufiyan560",
-      color: "#000000",
-    },
-  ];
-
-  return (
-    <SocialCard
-      iconClassName="hover:bg-gray-300"
-      className="bg-foreground"
-      actionLinks={socialData}
-      label="Connect"
-    />
-  );
-};
-
-const QuoteSection = () => {
-  return (
-    <motion.section
-      className="py-16 px-4 relative"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, margin: "-100px" }}
-    >
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="relative"
-        >
-          {/* Quote mark decoration */}
-          <div className="absolute -top-4 -left-4 text-6xl text-[#aa5aff]/80 font-serif">
-            "
-          </div>
-
-          <blockquote className=" max-[327px]:text-[20px] text-2xl md:text-3xl font-light text-[#fbf8f5] leading-relaxed mb-6 italic">
-            Build something meaningful that Atleast two people can use make a
-            real impact.
-          </blockquote>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center space-x-3"
-          >
-            <div className="w-12 h-[1px] bg-gradient-to-r from-transparent to-[#aa5aff]"></div>
-            <div className="flex gap-1">
-              <cite className="text-[#65859b] font-medium not-italic selection:text-white">
-                Hitesh Choudhary
-              </cite>
-              <Image
-                className="selection:bg-transparent"
-                src={"/chai.svg"}
-                alt="img"
-                width={28}
-                height={28}
-              />
-            </div>
-            <div className="w-12 h-[1px] bg-gradient-to-l from-transparent to-[#aa5aff]"></div>
-          </motion.div>
-
-          {/* Subtle glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#aa5aff]/5 to-[#00d2a6]/5 rounded-lg blur-3xl -z-10"></div>
-        </motion.div>
-      </div>
-    </motion.section>
-  );
-};
-
-const Hero = () => {
-  const [currentWord, setCurrentWord] = useState(0);
-  const words = ["Components", "UI Blocks", "Code Samples", "Fire Shit"];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % words.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <motion.section
-      className="min-h-screen flex items-center justify-center relative px-4 z-10"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <FloatingCode
-        code="<QuickCode />"
-        className="top-20 left-10 text-white "
-      />
-      <FloatingCode
-        code="export default Hero"
-        className="top-40 right-20 text-white"
-      />
-      <FloatingCode
-        code="className='fire'"
-        className="bottom-40 left-20 text-white"
-      />
-
-      <div className="text-center max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="max-[327px]:text-[40px] text-6xl sm:text-8xl  font-black mb-6">
-            <span className="bg-gradient-to-r from-primary via-accent to-destructive bg-clip-text text-transparent selection:text-black ">
-              Quick
-            </span>
-            <span className="text-[#fbf8f5]">Code</span>
-          </h1>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="h-16 mb-8"
-        >
-          <p className="text-xl md:text-2xl text-[#65859b] selection:text-white">
-            Copy-paste ready{" "}
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentWord}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="text-[#00d2a6] font-bold"
-              >
-                {words[currentWord]}
-              </motion.span>
-            </AnimatePresence>
-            <br />
-            that don't suck ass.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="space-y-4"
-        >
-          <Link href="/docs">
-            <Button
-              size="md"
-              className="text-md  py-4 rounded-lg bg-gradient-to-r from-primary to-accent hover:from-primary/80 hover:to-accent/80 transition-all duration-300 transform hover:scale-105 px-5 mb-8"
-            >
-              <Zap className="mr-2" />
-              Get the damn code
-            </Button>
-          </Link>
-
-          <p className="text-sm text-[#65859b] selection:text-white">
-            Free forever • No BS • Just pure fire
-          </p>
-        </motion.div>
-      </div>
-    </motion.section>
-  );
-};
-
-const WhySection = () => {
-  return (
-    <motion.section
-      className="py-20 px-4"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, margin: "-100px" }}
-    >
-      <div className="max-w-4xl mx-auto ">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            Why this exists?
-          </h2>
-          <p className="text-xl text-[#65859b] max-w-2xl mx-auto leading-relaxed selection:text-white">
-            Because I’m sick of wasting time asking AI for half-baked code. This
-            isn’t another damn library—it’s just straight-up copy-paste
-            <span className="text-[#aa5aff] font-bold "> good shit</span> with
-            best practices, so you don’t ship{" "}
-            <span className="text-[#ff1c5c] font-bold selection:!text-[#ff1c5c] ">
-              trash
-            </span>
-            .
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: <Terminal className="w-8 h-8" />,
-              title: "Copy-Paste Ready",
-              description:
-                "Practical, production-friendly code you can grab and use immediately in your project.",
-            },
-            {
-              icon: <Sparkles className="w-8 h-8" />,
-              title: "Premium Look",
-              description:
-                "Components styled to feel polished and premium right out of the box.",
-            },
-            {
-              icon: <Coffee className="w-8 h-8" />,
-              title: "Minimal Setup",
-              description:
-                "No complex configs—just install once and focus on building, not boilerplate.",
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full bg-secondary/80 border-[#00182a] hover:bg-secondary/70 transition-all duration-300 group cursor-pointer outline-1">
-                <CardContent className="p-8 text-center">
-                  <div className="text-[#aa5aff] mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-
-                  <p className="text-[#65859b] selection:text-white">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.section>
-  );
-};
-
-const FeaturedComponents = () => {
-  const items = [
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
-    "Item 6",
-    "Item 7",
-    "Item 8",
-    "Item 9",
-    "Item 10",
-    "Item 11",
-    "Item 12",
-    "Item 13",
-    "Item 14",
-
-    "Item 15",
-  ];
-  const components = [
-    {
-      name: "Card Stack",
-      preview: "Interactive stack of cards with hover effects",
-      component: <CardStack cards={cards} />,
-      link: "/docs/CardStack",
-    },
-    {
-      name: "Animated List",
-      preview: "Smooth animated scrollable list",
-      component: (
-        <AnimatedList
-          className="md:min-w-72 w-full"
-          data={items}
-          onPick={(val, idx) => console.log(val, idx)}
-          gradients
-          arrowKeys
-          showScroll={true}
-          wrapperClass="w-auto"
-          itemClass="bg-primary/30 hover:bg-primary/60 "
-        />
-      ),
-      link: "/docs/components/hover-card",
-    },
-    {
-      name: "Premium Draggable Cards",
-      preview: "High-end dark-mode cards with smooth drag and glow effects",
-      component: (
-        <DraggableCards
-          className="max-w-5xl mx-auto mt-16 px-4"
-          titleClassName="text-teal-400"
-          dragScale={1.05}
-          dragBoxShadow="0 15px 35px rgba(72, 209, 204, 0.6)"
-          normalBoxShadow="0 8px 20px rgba(0,0,0,0.4)"
-          dragBackground="linear-gradient(135deg, rgba(72,209,204,0.15), rgba(72,209,204,0.05))"
-          normalBackground="#1B1F3B"
-          cardClassName="rounded-xl p-6 text-gray-100 border border-[#272B4D] shadow-lg"
-          descriptionClassName="text-gray-30"
-        />
-      ),
-      link: "/docs/DraggableCards",
-    },
-  ];
-
-  return (
-    <motion.section
-      className="py-20 md:px-4 px-2 "
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, margin: "-100px" }}
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            Featured Components
-          </h2>
-          <p className="text-xl text-[#65859b] selection:text-white">
-            The good shit that makes developers wet themselves
-          </p>
-        </motion.div>
-
-        {/* Grid of cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {components.map((component, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="group "
-            >
-              <Card className="h-full 5:w-[300px]   bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer  flex items-center justify-center  ">
-                <CardContent>
-                  <div className="flex items-center justify-between mb-4 ">
-                    <h3 className="text-xl font-bold">{component.name}</h3>
-                    <Link href={component.link}>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer"
-                      >
-                        <ArrowUpRight className="w-4 h-4" />
-                      </Button>
-                    </Link>
-                  </div>
-                  <p className="text-[#65859b] mb-4 selection:text-white">
-                    {component.preview}
-                  </p>
-
-                  {/* Render actual component */}
-                  <div className="bg-[#000713]/30 rounded-lg p-4 overflow-hidden">
-                    {component.component}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.section>
-  );
-};
-
-const PricingSection = () => {
-  return (
-    <motion.section
-      className="py-20 px-4"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, margin: "-100px" }}
-    >
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-6xl font-black mb-6 max-[375px]:text-3xl">
-            Pricing
-          </h2>
-          <p className="text-xl selection:text-white text-[#65859b] max-[375px]:text-lg">
-            Seriously though, it's fucking free
-          </p>
-        </motion.div>
-
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Free Tier */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Card className="h-full bg-[#000207]/50 border-[#00182a] cursor-pointer">
-              <CardContent className="p-8 text-center max-[375px]:p-4">
-                <h3 className="text-2xl font-bold mb-4 max-[375px]:text-xl">
-                  Free Tier
-                </h3>
-                <div className="text-5xl font-black mb-6 max-[375px]:text-4xl">
-                  <span className="text-[#aa5aff]">$0</span>
-                  <span className="text-lg text-[#65859b] max-[375px]:text-base">
-                    /forever
-                  </span>
-                </div>
-                <ul className="text-left space-y-3 mb-8">
-                  <li className="flex items-center">
-                    <Star className="w-5 h-5 text-[#aa5aff] mr-2" />
-                    All components & UI blocks
-                  </li>
-                  <li className="flex items-center">
-                    <Star className="w-5 h-5 text-[#aa5aff] mr-2" />
-                    Copy-paste ready code
-                  </li>
-                  <li className="flex items-center">
-                    <Star className="w-5 h-5 text-[#aa5aff] mr-2" />
-                    Regular updates
-                  </li>
-                  <li className="flex items-center">
-                    <Star className="w-5 h-5 text-[#aa5aff] mr-2" />
-                    My eternal gratitude
-                  </li>
-                </ul>
-                <Link href="/docs">
-                  <Button className="w-full rounded-full bg-gradient-to-r from-primary to-accent cursor-pointer">
-                    <Download className="w-4 h-4 mr-2" />
-                    Get Started (It's Free!)
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Fake Support Tier */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Card className="h-full bg-gradient-to-br from-primary/10 to-accent/10 border-[#aa5aff]/30 cursor-pointer">
-              <CardContent className="p-8 text-center max-[375px]:p-4">
-                <h3 className="text-2xl font-bold mb-4 max-[375px]:text-xl">
-                  Support Tier
-                </h3>
-                <div className="text-5xl font-black mb-6 max-[375px]:text-4xl">
-                  <span className="text-[#00d2a6]">$69</span>
-                  <span className="text-lg text-[#65859b] max-[375px]:text-base selection:text-white">
-                    /because why not
-                  </span>
-                </div>
-                <ul className="text-left space-y-3 mb-8">
-                  <li className="flex items-center">
-                    <Heart className="w-5 h-5 text-[#ff1c5c] mr-2" />
-                    Everything from Free tier
-                  </li>
-                  <li className="flex items-center">
-                    <Heart className="w-5 h-5 text-[#ff1c5c] mr-2" />
-                    Make me cry tears of joy
-                  </li>
-                  <li className="flex items-center">
-                    <Heart className="w-5 h-5 text-[#ff1c5c] mr-2" />
-                    Feel good about yourself
-                  </li>
-                  <li className="flex items-center">
-                    <Heart className="w-5 h-5 text-[#ff1c5c] mr-2" />
-                    Currently unemployed, hire me bro
-                  </li>
-                </ul>
-
-                <Dialog
-                  title="Sponsor this project 💖"
-                  description="If you find QuickCode useful, consider sponsoring me! Your support helps me build more awesome components 🚀"
-                  contentClassName="text-center bg-secondary"
-                  titleClassName="text-xl font-bold mb-4"
-                  descriptionClassName="text-sm text-[#65859b] mb-6"
-                >
-                  <DialogTrigger asChild>
-                    <Button className="w-full rounded-full bg-gradient-to-r from-destructive to-primary hover:from-destructive/80 hover:to-primary/80 cursor-pointer">
-                      <QrCode className="w-4 h-4 mr-2" />
-                      I'm feeling generous
-                    </Button>
-                  </DialogTrigger>
-
-                  <div className="flex flex-col gap-3">
-                    <Link
-                      href="https://github.com/sponsors/iamsufiyan560"
-                      target="_blank"
-                    >
-                      <Button className="w-full rounded-full bg-destructive hover:bg-destructive/80 cursor-pointer">
-                        <HeartIcon className="w-4 h-4 mr-2 fill-white" />
-                        Sponsor me
-                      </Button>
-                    </Link>
-
-                    <Link
-                      href="https://github.com/iamsufiyan560/QuickCode"
-                      target="_blank"
-                    >
-                      <Button className="w-full rounded-full bg-primary cursor-pointer">
-                        <Star className="fill-yellow-500 mr-2 text-yellow-500" />
-                        Star on GitHub
-                      </Button>
-                    </Link>
-
-                    <Link href="https://x.com/iamsufiyan560" target="_blank">
-                      <Button className="w-full rounded-full bg-accent hover:bg-accent/80 cursor-pointer">
-                        <TwitterIcon className="fill-white text-black" />
-                        Follow on X/Twitter
-                      </Button>
-                    </Link>
-                  </div>
-                </Dialog>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </div>
-    </motion.section>
-  );
-};
-
-const SocialProof = () => {
-  const testimonials = [
-    {
-      text: "This is actually fire. Used it for my startup and VCs thought we had a massive design team.",
-      author: "Sarah Chen",
-      role: "Founder @ TechFlow",
-    },
-    {
-      text: "No cap, saved me 50+ hours of component building. Now I can focus on actual features.",
-      author: "Marcus Johnson",
-      role: "Senior Dev @ Google",
-    },
-    {
-      text: "My designer quit after seeing what I built with QuickCode. Now I'm the design team.",
-      author: "Alex Kumar",
-      role: "Solo Developer",
-    },
-  ];
-
-  return (
-    <motion.section
-      className="py-20 px-4"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, margin: "-100px" }}
-    >
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            Social Proof (But Fake)
-          </h2>
-          <p className="text-xl text-[#65859b] selection:text-white">
-            What people actually say when they use this
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full bg-[#000207]/50 border-[#00182a] hover:bg-[#000207]/70 transition-all duration-300 cursor-pointer">
-                <CardContent className="p-8">
-                  <div className="flex mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-5 h-5 fill-[#aa5aff] text-[#aa5aff]"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-lg mb-6">"{testimonial.text}"</p>
-                  <div>
-                    <p className="font-bold">{testimonial.author}</p>
-                    <p className="text-sm text-[#65859b] selection:text-white">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.section>
-  );
-};
-
-const Footer = () => {
-  return (
-    <motion.footer
-      className="py-20 px-4"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: false, margin: "-100px" }}
-    >
-      <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-12">
-          <div className=" flex flex-col justify-center items-center md:block">
-            <h3 className="text-3xl font-black mb-4 cursor-pointer">
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent ">
-                QuickCode
-              </span>
-            </h3>
-            <p className="text-[#65859b] mb-6 selection:text-white">
-              Premium components for developers who give a damn about design.
-            </p>
-            <div className="flex justify-center md:block">
-              <SocialComponent />
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-center items-center md:block">
-            <h4 className="font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2 selection:text-white">
-              <li>
-                <Link
-                  href="/docs/Accordion"
-                  className="text-[#65859b] hover:text-[#fbf8f5] transition-colors cursor-pointer"
-                >
-                  Components
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#"
-                  className="text-[#65859b] hover:text-[#fbf8f5] transition-colors cursor-pointer"
-                >
-                  UI Blocks{" "}
-                  <span className="text-xs text-[#00d2a6] ml-1">
-                    (Coming soon)
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#"
-                  className="text-[#65859b] hover:text-[#fbf8f5] transition-colors cursor-pointer"
-                >
-                  Templates{" "}
-                  <span className="text-xs text-[#00d2a6] ml-1">
-                    (Coming soon)
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#"
-                  className="text-[#65859b] hover:text-[#fbf8f5] transition-colors cursor-pointer"
-                >
-                  Blog{" "}
-                  <span className="text-xs text-[#00d2a6] ml-1">
-                    (Coming soon)
-                  </span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="text-center">
-            <h4 className="font-bold mb-4">This shit is free.</h4>
-            <p className="text-sm text-[#65859b] mb-4">
-              Wanna help out? Just star the repo and spread the love 🫶
-            </p>
-
-            <div className="mx-auto flex flex-col items-center justify-center">
-              <div className="text-5xl animate-bounce mt-2 mb-4">🦄</div>
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <Link
                 href="https://github.com/iamsufiyan560/QuickCode"
                 target="_blank"
               >
-                <Button className="rounded-full bg-gradient-to-r from-primary to-accent cursor-pointer">
-                  ⭐ Star on GitHub
+                <Button variant="ghost" size="sm" className="cursor-pointer">
+                  <Github className="w-4 h-4 mr" />
                 </Button>
               </Link>
-              <p className="mt-3 text-xs text-[#65859b] selection:text-white">
-                No hidden fees, just magic ✨
-              </p>
+              <Link href="/docs">
+                <Button size="sm" className="cursor-pointer">
+                  <Code2 className="w-4 h-4 mr-2" />
+                  Documentation
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
+      </motion.nav>
 
-        <div className="border-t border-[#00182a]/50 mt-12 pt-8 text-center">
-          <p className="text-[#65859b] selection:text-white">
-            © 2025 QuickCode. Made with{" "}
-            <Heart className="w-4 h-4 inline text-[#ff1c5c]" /> and by
-            <Link target="_blank" href="https://github.com/iamsufiyan560">
-              {" "}
-              <span className="text-[#aa5aff] hover:text-white underline-offset-3 hover:underline uppercase">
-                Sufiyan
-              </span>
-            </Link>
-          </p>
-        </div>
+      <div className="   max-w-6xl mx-auto shadow-2xl min-h-screen">
+        <motion.section
+          className="relative pt-32 pb-20 px-8 overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="relative z-10 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-6xl lg:text-8xl font-black mb-8 text-foreground">
+                Build
+                <span className="relative inline-block mx-4">
+                  <span className="text-primary">Faster</span>
+                  <motion.div
+                    className="absolute -inset-2 bg-primary/10 rounded-lg"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                      opacity: [0.5, 0.8, 0.5],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                </span>
+                Ship
+                <span className=" text-accent dark:text-white font-black">
+                  {" "}
+                  Better
+                </span>
+              </h1>
+            </motion.div>
+
+            <motion.p
+              className="text-xl lg:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Professional React components that developers actually want to
+              use. No learning curve, no vendor lock-in, just production-ready
+              code.
+            </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <Link href="/docs">
+                <Button
+                  size="lg"
+                  className="relative h-13 cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px]  rounded-[16px] bg-gradient-to-t from-primary to-primary/30   active:scale-95 hover:bg-transparent"
+                >
+                  <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-[14px] bg-gradient-to-t from-[var(--primary)] to-[var(--ring)]">
+                    <Code2 className="w-5 h-5 mr-2" />
+                    Start Building
+                  </span>
+                </Button>
+              </Link>
+
+              <Link
+                href="https://github.com/sponsors/iamsufiyan560"
+                target="_blank"
+              >
+                <Button
+                  size="lg"
+                  className="relative h-13 cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px]  rounded-[16px] bg-gradient-to-t from-primary to-primary/30   active:scale-95 hover:bg-transparent"
+                >
+                  <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-primary-foreground text-primary rounded-[14px] group ">
+                    <Heart className="w-5 h-5 mr-2 text-destructive group-hover:fill-destructive transition-all duration-200" />
+                    Support Project
+                  </span>
+                </Button>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              className="mt-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              <Button
+                size="lg"
+                onClick={() => {
+                  setShowDemo(true);
+                  try {
+                    document.documentElement.requestFullscreen();
+                  } catch (err) {
+                    console.log("Fullscreen not supported");
+                  }
+                }}
+                className=" cursor-pointer inline-flex items-center justify-center text-2xl text-primary uppercase py-2.5 px-5 rounded-lg border-2 border-primary bg-muted shadow-[3px_3px_0px_0px_var(--primary)]  my-8 active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all group h-14  hover:bg-transparent "
+              >
+                <Play className="w-5 h-5 mr-2 group-hover:fill-primary/70 transition-all duration-200" />
+                Start Demo
+              </Button>
+            </motion.div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="py-20 px-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <div className="text-center mb-16">
+            <motion.h2
+              className="text-4xl lg:text-6xl font-bold text-foreground mb-6"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              Built for Modern Development
+            </motion.h2>
+            <motion.p
+              className="text-xl text-muted-foreground max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              Everything you need to create exceptional user interfaces
+            </motion.p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Zap className="w-8 h-8 text-primary" />,
+                title: "Zero Config",
+                description:
+                  "Drop in components that work immediately. No complex setup, no configuration hell.",
+              },
+              {
+                icon: <Layers className="w-8 h-8 text-primary" />,
+                title: "Composable",
+                description:
+                  "Build complex interfaces by combining simple, well-designed building blocks.",
+              },
+              {
+                icon: <Palette className="w-8 h-8 text-primary" />,
+                title: "Fully Customizable",
+                description:
+                  "Your brand, your colors, your design. Components adapt to your design system.",
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="group p-8 bg-card border border-border rounded-xl cursor-pointer"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5, scale: 1.02 }}
+              >
+                <div className="mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="py-20 px-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <div className="text-center">
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-12"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              {[
+                {
+                  number: "50+",
+                  label: "Components",
+                  icon: <Code2 className="w-6 h-6" />,
+                },
+                {
+                  number: "100%",
+                  label: "TypeScript",
+                  icon: <Sparkles className="w-6 h-6" />,
+                },
+                {
+                  number: "Modern",
+                  label: "Architecture",
+                  icon: <Sparkles className="w-6 h-6" />,
+                },
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="text-center"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="flex justify-center mb-4 text-primary">
+                    {stat.icon}
+                  </div>
+                  <div className="text-4xl lg:text-5xl font-black text-foreground mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-muted-foreground text-lg">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="py-20 px-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <motion.div
+            className="text-center bg-card border border-border rounded-2xl p-12"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
+              Ready to build something amazing?
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Join developers who are already shipping better products with
+              QuickCode UI.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/docs">
+                <Button size="lg" className="text-lg px-8 py-4 cursor-pointer">
+                  Explore Components
+                  <CircleArrowUp className=" w-5 h-5 ml-2 rotate-45" />
+                </Button>
+              </Link>
+
+              <Link
+                href="https://github.com/iamsufiyan560/QuickCode"
+                target="_blank"
+              >
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="hover:bg-none text-lg px-8 py-4 cursor-pointer group relative overflow-hidden border-2 hover:border-primary transition-all duration-300 hover:ring-2 hover:ring-primary hover:ring-offset-2"
+                >
+                  <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-70" />
+                  <Github className="w-5 h-5 mr-2" />
+                  Star on GitHub
+                  <Star className="w-5 h-5 ml-2 group-hover:fill-[#fbbf24] transition-all duration-300" />
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </motion.section>
+
+        <motion.footer
+          className="py-16 px-8 border-t border-border"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div>
+              <div className="mb-6">
+                <Image
+                  src="/logo-light.svg"
+                  alt="QuickCode UI"
+                  width={150}
+                  height={80}
+                  className={cn(
+                    "object-contain dark:hidden",
+                    "hover:transition-all hover:duration-1000 motion-reduce:hover:transition-none",
+                    "[mask-image:linear-gradient(60deg,#000_25%,rgba(0,0,0,.2)_50%,#000_75%)] [mask-position:0] [mask-size:400%]",
+                    "hover:[mask-position:100%] cursor-pointer"
+                  )}
+                />
+                <Image
+                  src="/logo-dark.svg"
+                  alt="QuickCode UI"
+                  width={150}
+                  height={80}
+                  className={cn(
+                    "object-contain hidden dark:block",
+                    "hover:transition-all hover:duration-1000 motion-reduce:hover:transition-none",
+                    "[mask-image:linear-gradient(60deg,#000_25%,rgba(0,0,0,.2)_50%,#000_75%)] [mask-position:0] [mask-size:400%]",
+                    "hover:[mask-position:100%] cursor-pointer"
+                  )}
+                />
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Building the future of React component libraries, one component
+                at a time.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-foreground mb-4">Resources</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    href="/docs"
+                    className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
+                    Documentation
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://github.com/iamsufiyan560/QuickCode"
+                    target="_blank"
+                    className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
+                    GitHub Repository
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://github.com/sponsors/iamsufiyan560"
+                    target="_blank"
+                    className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
+                    Sponsor Project
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-foreground mb-4">Connect</h4>
+              <div className="flex space-x-4">
+                <Link
+                  href="https://github.com/iamsufiyan560"
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <Github className="w-5 h-5" />
+                </Link>
+                <Link
+                  href="https://x.com/iamsufiyan560"
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </Link>
+                <Link
+                  href="https://www.linkedin.com/in/sufiyan-chaudhari-8a55502ab/"
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </Link>
+                <Link
+                  href="https://www.instagram.com/iamsufiyan560/"
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                </Link>
+              </div>
+
+              <div className="mt-6">
+                <Link
+                  href="https://github.com/sponsors/iamsufiyan560"
+                  target="_blank"
+                >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="cursor-pointer group"
+                  >
+                    <Heart className="w-4 h-4 mr-2 text-destructive group-hover:fill-destructive transition-all duration-200" />
+                    Support the Project
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-border mt-12 pt-8 text-center">
+            <p className="text-muted-foreground">
+              © {new Date().getFullYear()} QuickCode UI. Built with passion by{" "}
+              <Link
+                href="https://github.com/iamsufiyan560"
+                target="_blank"
+                className="text-primary hover:text-primary/80 transition-colors cursor-pointer"
+              >
+                Sufiyan Chaudhari
+              </Link>
+            </p>
+          </div>
+        </motion.footer>
       </div>
-    </motion.footer>
+
+      <AnimatePresence>
+        {showDemo && (
+          <FullscreenDemo
+            isOpen={showDemo}
+            onClose={() => {
+              setShowDemo(false);
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              }
+            }}
+          />
+        )}
+      </AnimatePresence>
+    </div>
   );
-};
+}

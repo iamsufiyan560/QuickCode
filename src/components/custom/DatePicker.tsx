@@ -481,7 +481,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                   )
                 }
               >
-                <SelectTrigger className="w-24">
+                <SelectTrigger className="w-26">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

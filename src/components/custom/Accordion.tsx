@@ -58,7 +58,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className={cn("lg:w-3xl md:w-2xl w-full mx-auto", className)}>
+    <div className={cn("lg:max-w-3xl md:max-w-2xl w-full mx-auto", className)}>
       {items.map((item, index) => {
         const isOpen = openItems.has(index);
         return (
@@ -88,7 +88,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                   className="overflow-hidden w-full"
                 >
                   <div
-                    className={`${paddingClasses[size]} pt-0 text-muted-foreground ${sizeClasses[size]}`}
+                    className={`${paddingClasses[size]} pt-0 text-muted-foreground  text-wrap ${sizeClasses[size]}`}
                   >
                     {item.content}
                   </div>

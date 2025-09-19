@@ -28,7 +28,7 @@ export interface ActionSheetProps {
   triggerButtonProps?: Omit<ButtonProps, "size"> & {
     size?: "default" | "sm" | "md" | "lg";
   };
-  position?: "bottom" | "top" | "left" | "right"; // NEW
+  position?: "bottom" | "top" | "left" | "right";
   showScroll?: boolean;
 }
 
@@ -89,7 +89,6 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
     setIsOpen(true);
   };
 
-  // 🟢 Motion variants by position
   const getMotionProps = () => {
     switch (position) {
       case "top":
@@ -113,7 +112,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           exit: { x: "100%" },
           className: "fixed inset-y-0 right-0 z-50 h-full w-80 max-w-[90%]",
         };
-      default: // bottom
+      default:
         return {
           initial: { y: "100%" },
           animate: { y: 0 },
@@ -127,14 +126,12 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
 
   return (
     <div>
-      {/* Trigger Button */}
       <Button onClick={handleOpen} {...triggerButtonProps}>
         {triggerButtonLabel}
       </Button>
       <AnimatePresence mode="wait">
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -144,7 +141,6 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
               onClick={onClose}
             />
 
-            {/* Action Sheet */}
             <motion.div
               initial={motionProps.initial}
               animate={motionProps.animate}
@@ -172,10 +168,9 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                   maxHeight:
                     position === "bottom" || position === "top"
                       ? "24rem"
-                      : "100%", // max-h-96 = 24rem
+                      : "100%",
                 }}
               >
-                {/* Header */}
                 <div
                   className={`border-b border-border ${sizeClasses[size].padding} flex-shrink-0`}
                 >
