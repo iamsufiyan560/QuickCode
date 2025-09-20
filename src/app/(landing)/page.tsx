@@ -66,19 +66,19 @@ export default function QuickCodeLanding() {
   const [showDemo, setShowDemo] = useState(false);
 
   return (
-    <div className=" selection:bg-transparent  min-h-screen max-w-6xl mx-auto shadow-2xl  relative ">
+    <div className=" selection:bg-transparent  min-h-screen w-full md:max-w-6xl md:mx-auto shadow-2xl  relative ">
       <Particles
         className="absolute inset-0 -z-10 animate-fade-in"
         quantity={400}
       />
 
       <motion.nav
-        className="fixed max-w-6xl mx-auto top-0 w-full z-50 bg-background/80 backdrop-blur-sm border-b border-border"
+        className="fixed md:max-w-6xl md:mx-auto top-0 w-full z-50 bg-background/80 backdrop-blur-sm border-b border-border"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="md:max-w-6xl md:mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center cursor-pointer">
               <Image
@@ -127,7 +127,7 @@ export default function QuickCodeLanding() {
         </div>
       </motion.nav>
 
-      <div className="   max-w-6xl mx-auto shadow-2xl min-h-screen">
+      <div className="w-full   md:max-w-6xl md:mx-auto shadow-2xl min-h-screen">
         <motion.section
           className="relative pt-32 pb-20 px-8 overflow-hidden"
           initial={{ opacity: 0 }}
@@ -166,7 +166,7 @@ export default function QuickCodeLanding() {
             </motion.div>
 
             <motion.p
-              className="text-xl lg:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl lg:text-2xl text-muted-foreground mb-12 max-w-3xl md:mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -253,7 +253,7 @@ export default function QuickCodeLanding() {
               Built for Modern Development
             </motion.h2>
             <motion.p
-              className="text-xl text-muted-foreground max-w-2xl mx-auto"
+              className="text-xl text-muted-foreground max-w-2xl md:mx-auto"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -361,23 +361,23 @@ export default function QuickCodeLanding() {
         </motion.section>
 
         <motion.section
-          className="py-20 px-8"
+          className="py-20 sm:px-8 px-2"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: "-100px" }}
         >
           <motion.div
-            className="text-center bg-card border border-border rounded-2xl p-12"
+            className="text-center bg-card border border-border rounded-2xl sm:p-12 px-4 py-6"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               Ready to build something amazing?
             </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl md:mx-auto">
               Join developers who are already shipping better products with
               QuickCode UI.
             </p>
