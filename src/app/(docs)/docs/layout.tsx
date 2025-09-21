@@ -128,47 +128,45 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <Head />
+    <>
+      {/* <Head /> */}
 
-      <body>
-        <Layout
-          banner={banner}
-          navbar={navbar}
-          pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/iamsufiyan560/QuickCode"
-          // footer={footer}
-          search={search}
-          editLink={null}
-          feedback={{ content: null }}
-          darkMode={true}
-          sidebar={{
-            toggleButton: true,
-            defaultMenuCollapseLevel: 1,
-          }}
-          toc={{
-            extraContent: (
-              <div className="mt-2 text-sm flex flex-col items-start gap-3">
-                <b>Sponsored by:</b>
-                <div className="p-2 border-2 border-dashed border-gray-400 rounded flex justify-center w-full">
-                  <Armchair className="w-8 h-8 text-gray-400" />
-                </div>
-                <span className="italic text-base text-gray-500">
-                  This comfy seat is waiting for a brave sponsor… maybe you? 😏
-                </span>
+      <Layout
+        banner={banner}
+        navbar={navbar}
+        pageMap={await getPageMap()}
+        docsRepositoryBase="https://github.com/iamsufiyan560/QuickCode"
+        // footer={footer}
+        search={search}
+        editLink={null}
+        feedback={{ content: null }}
+        darkMode={true}
+        sidebar={{
+          toggleButton: true,
+          defaultMenuCollapseLevel: 1,
+        }}
+        toc={{
+          extraContent: (
+            <div className="mt-2 text-sm flex flex-col items-start gap-3">
+              <b>Sponsored by:</b>
+              <div className="p-2 border-2 border-dashed border-gray-400 rounded flex justify-center w-full">
+                <Armchair className="w-8 h-8 text-gray-400" />
               </div>
-            ),
-          }}
+              <span className="italic text-base text-gray-500">
+                This comfy seat is waiting for a brave sponsor… maybe you? 😏
+              </span>
+            </div>
+          ),
+        }}
+      >
+        <div
+          className={clsx(
+            "min-w-full bg-[#f8fafc]  dark:bg-[#0f172a]    transition-colors duration-300"
+          )}
         >
-          <main
-            className={clsx(
-              "min-w-full bg-[#f8fafc]  dark:bg-[#0f172a]    transition-colors duration-300"
-            )}
-          >
-            {children}
-          </main>
-        </Layout>
-      </body>
-    </html>
+          {children}
+        </div>
+      </Layout>
+    </>
   );
 }
