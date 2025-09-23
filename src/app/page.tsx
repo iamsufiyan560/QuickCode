@@ -78,9 +78,9 @@ export default function QuickCodeLanding() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="md:max-w-6xl md:mx-auto px-6 lg:px-8">
+        <div className="md:max-w-6xl md:mx-auto max-[350px]:px-4  px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center cursor-pointer">
+            <div className="hidden  sm:flex items-center cursor-pointer">
               <Image
                 src="/logo-light.svg"
                 alt="Logo"
@@ -106,20 +106,64 @@ export default function QuickCodeLanding() {
                 )}
               />
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="hidden sm:flex items-center space-x-4">
               <ThemeToggle />
               <Link
                 href="https://github.com/iamsufiyan560/QuickCode"
                 target="_blank"
               >
                 <Button variant="ghost" size="sm" className="cursor-pointer">
-                  <Github className="w-4 h-4 mr" />
+                  <Github className="w-6 h-6" />
                 </Button>
               </Link>
               <Link href="/docs">
-                <Button size="sm" className="cursor-pointer">
+                <Button size="sm" className="cursor-pointer  ">
                   <Code2 className="w-4 h-4 mr-2" />
                   Documentation
+                </Button>
+              </Link>
+            </div>
+
+            <div className="sm:hidden  flex items-center cursor-pointer">
+              <Image
+                src="/logo-light.svg"
+                alt="Logo"
+                width={100}
+                height={80}
+                className={cn(
+                  "object-contain dark:hidden",
+                  "hover:transition-all hover:duration-1000 motion-reduce:hover:transition-none",
+                  "[mask-image:linear-gradient(60deg,#000_25%,rgba(0,0,0,.2)_50%,#000_75%)] [mask-position:0] [mask-size:400%]",
+                  "hover:[mask-position:100%]"
+                )}
+              />
+              <Image
+                src="/logo-dark.svg"
+                alt="Logo White"
+                width={100}
+                height={80}
+                className={cn(
+                  "object-contain hidden dark:block",
+                  "hover:transition-all hover:duration-1000 motion-reduce:hover:transition-none",
+                  "[mask-image:linear-gradient(60deg,#000_25%,rgba(0,0,0,.2)_50%,#000_75%)] [mask-position:0] [mask-size:400%]",
+                  "hover:[mask-position:100%]"
+                )}
+              />
+            </div>
+
+            <div className="flex items-center  sm:hidden">
+              <ThemeToggle />
+              <Link
+                href="https://github.com/iamsufiyan560/QuickCode"
+                target="_blank"
+              >
+                <Button variant="ghost" size="sm" className="cursor-pointer">
+                  <Github className="w-5 h-5 " />
+                </Button>
+              </Link>
+              <Link href="/docs">
+                <Button size="sm" className=" cursor-pointer ">
+                  Docs
                 </Button>
               </Link>
             </div>

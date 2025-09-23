@@ -134,6 +134,11 @@ export const components = {
     url: `${BASE_URL}Tooltip.tsx`,
     deps: {},
   },
+  Toast: {
+    url: `${BASE_URL}Toast.tsx`,
+    deps: {},
+    hooks: ["useToast"],
+  },
   MultiTooltip: {
     url: `${BASE_URL}MultiTooltip.tsx`,
     deps: {},

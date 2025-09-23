@@ -125,6 +125,8 @@ export default {
       Tabs: "",
       TextArea: "",
       Tooltip: "",
+      Toast: "",
+
       MultiTooltip: "",
 
       // __4: {
@@ -242,7 +244,6 @@ export default {
       TestimonialCard: { type: "page", display: "hidden" },
       Timeline: { type: "page", display: "hidden" },
       TimePicker: { type: "page", display: "hidden" },
-      Toast: { type: "page", display: "hidden" },
       Toggle: { type: "page", display: "hidden" },
       Toolbar: { type: "page", display: "hidden" },
       TreeView: { type: "page", display: "hidden" },

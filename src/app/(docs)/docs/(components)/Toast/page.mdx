@@ -1,5 +1,62 @@
-import { Toast } from "@/components/custom/Toast";
+import {
+  DefaultExample,
+  PositionExample,
+  CustomConfigExample,
+} from "@/components/custom/example/ToastExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Toast Example
+# Toast
 
-<Toast />
+A notification system that displays brief messages to users with support for multiple types, positions, and custom configurations.
+
+<InstallTabs components="Toast" />
+
+## Examples
+
+<DefaultExample />
+
+<PositionExample />
+
+<CustomConfigExample />
+
+## ToastProvider Props
+
+| Prop         | Type                                                                                                        | Default       | Description                          |
+| ------------ | ----------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------ |
+| `children`   | `ReactNode`                                                                                                 | —             | Child components                     |
+| `position?`  | `'top-left'` \| `'top-center'` \| `'top-right'` \| `'bottom-left'` \| `'bottom-center'` \| `'bottom-right'` | `'top-right'` | Position where toasts appear         |
+| `config?`    | `{ success?: { icon?: Icon, className?: string }, error?: { icon?: Icon, className?: string } }`            | `{}`          | Custom configuration for toast types |
+| `maxToasts?` | `5` \| `10` \| `15`                                                                                         | `10`          | Maximum number of toasts             |
+| `className?` | `'custom-class'`                                                                                            | `''`          | Additional CSS classes               |
+
+## useToast Hook
+
+| Method                           | Returns  | Description            |
+| -------------------------------- | -------- | ---------------------- |
+| `success({ title: 'Success!' })` | `string` | Show success toast     |
+| `error({ title: 'Error!' })`     | `string` | Show error toast       |
+| `warning({ title: 'Warning!' })` | `string` | Show warning toast     |
+| `info({ title: 'Info!' })`       | `string` | Show info toast        |
+| `dismiss('toast-id')`            | `void`   | Dismiss specific toast |
+| `dismissAll()`                   | `void`   | Dismiss all toasts     |
+
+## ShowToastOptions
+
+| Prop               | Example Value                    | Default | Description             |
+| ------------------ | -------------------------------- | ------- | ----------------------- |
+| `title`            | `'Order confirmed!'`             | —       | Toast title             |
+| `description?`     | `'Your order has been placed'`   | —       | Optional description    |
+| `duration?`        | `3000` \| `5000` \| `0`          | `4000`  | Auto-dismiss time in ms |
+| `showCloseButton?` | `true` \| `false`                | `true`  | Show close button       |
+| `position?`        | `'top-left'` \| `'bottom-right'` | —       | Override position       |
+| `icon?`            | `CheckCircle` \| `AlertTriangle` | —       | Custom icon component   |
+| `className?`       | `'bg-green-500 text-white'`      | —       | Custom CSS classes      |
+
+## Config Object
+
+| Key       | Example Value                                | Description          |
+| --------- | -------------------------------------------- | -------------------- |
+| `success` | `{ icon: Heart, className: 'bg-green-500' }` | Success toast config |
+| `error`   | `{ icon: Zap, className: 'bg-red-500' }`     | Error toast config   |
+| `warning` | `{ icon: Bell, className: 'bg-yellow-500' }` | Warning toast config |
+| `info`    | `{ icon: Info, className: 'bg-blue-500' }`   | Info toast config    |
