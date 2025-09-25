@@ -81,18 +81,6 @@ export default {
 
       __2: {
         type: "separator",
-        title: "Animations & Motion",
-      },
-
-      FloatingCode: "",
-      ParticleBackground: "",
-      DraggableCards: "",
-      MorphButton: "",
-      CardStack: "",
-      AnimatedList: "",
-      SocialCard: "",
-      __3: {
-        type: "separator",
         title: "Components",
       },
       AdvancedForm: "",
@@ -126,8 +114,29 @@ export default {
       TextArea: "",
       Tooltip: "",
       Toast: "",
+      Table: {
+        theme: {
+          // sidebar: false,
+          toc: false,
+
+          layout: "full",
+        },
+      },
 
       MultiTooltip: "",
+
+      __3: {
+        type: "separator",
+        title: "Animations & Motion",
+      },
+
+      FloatingCode: "",
+      ParticleBackground: "",
+      DraggableCards: "",
+      MorphButton: "",
+      CardStack: "",
+      AnimatedList: "",
+      SocialCard: "",
 
       // __4: {
       //   type: "separator",
@@ -237,7 +246,6 @@ export default {
       Stack: { type: "page", display: "hidden" },
       Statistic: { type: "page", display: "hidden" },
       StatusIndicator: { type: "page", display: "hidden" },
-      Table: { type: "page", display: "hidden" },
       Tag: { type: "page", display: "hidden" },
       TagInput: { type: "page", display: "hidden" },
       TeamCard: { type: "page", display: "hidden" },

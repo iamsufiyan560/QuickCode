@@ -1,5 +1,331 @@
-import { Table } from "@/components/custom/Table";
+---
+title: Table
+layout: full
+---
 
-# Table Example
+import {
+  BasicTableExample,
+  ExpandableTableExample,
+} from "@/components/custom/example/TableExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Table />
+# Table
+
+A powerful and flexible data table component with advanced features including sorting, filtering, pagination, row selection, and export capabilities. Built using compound components for maximum flexibility.
+
+<InstallTabs components="Table" />
+
+## Example
+
+<BasicTableExample />
+<ExpandableTableExample />
+
+## Table.Root Props
+
+| Prop                | Type                                                       | Default               | Description                                      |
+| ------------------- | ---------------------------------------------------------- | --------------------- | ------------------------------------------------ |
+| `data`              | `T[]`                                                      | -                     | Array of data objects to display                 |
+| `columns`           | `Column<T>[]`                                              | -                     | Column configuration array                       |
+| `children`          | `React.ReactNode`                                          | -                     | Child components                                 |
+| `className`         | `string`                                                   | -                     | Additional CSS classes                           |
+| `loading`           | `boolean`                                                  | `false`               | Show loading state                               |
+| `error`             | `string`                                                   | -                     | Error message to display                         |
+| `totalItems`        | `number`                                                   | -                     | Total number of items for server-side pagination |
+| `serverSide`        | `boolean`                                                  | `false`               | Enable server-side data handling                 |
+| `selectable`        | `boolean`                                                  | `false`               | Enable row selection                             |
+| `expandable`        | `boolean`                                                  | `false`               | Enable row expansion                             |
+| `multiSort`         | `boolean`                                                  | `false`               | Allow multiple column sorting                    |
+| `stickyHeader`      | `boolean`                                                  | `false`               | Make table header sticky                         |
+| `showPagination`    | `boolean`                                                  | `true`                | Show pagination controls                         |
+| `showSearch`        | `boolean`                                                  | `true`                | Show search input                                |
+| `showExport`        | `boolean`                                                  | `false`               | Show export buttons                              |
+| `columnResizable`   | `boolean`                                                  | `false`               | Enable column resizing                           |
+| `rowActions`        | `RowAction<T>[]`                                           | `[]`                  | Array of row actions                             |
+| `searchPlaceholder` | `string`                                                   | `"Search..."`         | Search input placeholder                         |
+| `emptyMessage`      | `string`                                                   | `"No data available"` | Empty state message                              |
+| `pageSize`          | `number`                                                   | `10`                  | Default page size                                |
+| `onSort`            | `(sorts: SortState[]) => void`                             | -                     | Sort change callback                             |
+| `onSearch`          | `(query: string) => void`                                  | -                     | Search callback                                  |
+| `onPageChange`      | `(pagination: PaginationState) => void`                    | -                     | Page change callback                             |
+| `onRowSelect`       | `(selectedRows: T[], row: T, isSelected: boolean) => void` | -                     | Row selection callback                           |
+| `onRowClick`        | `(row: T, index: number) => void`                          | -                     | Row click callback                               |
+| `onRowDoubleClick`  | `(row: T, index: number) => void`                          | -                     | Row double click callback                        |
+| `onRowExpand`       | `(row: T, isExpanded: boolean) => void`                    | -                     | Row expand callback                              |
+| `onExport`          | `(type: "csv" \| "json", data: T[]) => void`               | -                     | Export callback                                  |
+
+## Column Props
+
+| Prop         | Type                                         | Default  | Description                 |
+| ------------ | -------------------------------------------- | -------- | --------------------------- |
+| `key`        | `keyof T \| string`                          | -        | Data key or accessor string |
+| `title`      | `string`                                     | -        | Column header title         |
+| `sortable`   | `boolean`                                    | `false`  | Enable column sorting       |
+| `filterable` | `boolean`                                    | `false`  | Enable column filtering     |
+| `render`     | `(row: T, index: number) => React.ReactNode` | -        | Custom cell render function |
+| `width`      | `string \| number`                           | -        | Column width                |
+| `minWidth`   | `string \| number`                           | -        | Minimum column width        |
+| `maxWidth`   | `string \| number`                           | -        | Maximum column width        |
+| `align`      | `"left" \| "center" \| "right"`              | `"left"` | Text alignment              |
+| `sticky`     | `boolean`                                    | `false`  | Make column sticky          |
+| `tooltip`    | `string`                                     | -        | Column header tooltip       |
+| `className`  | `string`                                     | -        | Additional CSS classes      |
+
+## RowAction Props
+
+| Prop       | Type                              | Default | Description                |
+| ---------- | --------------------------------- | ------- | -------------------------- |
+| `label`    | `string`                          | -       | Action label               |
+| `onClick`  | `(row: T, index: number) => void` | -       | Click handler              |
+| `icon`     | `React.ReactNode`                 | -       | Action icon                |
+| `color`    | `string`                          | -       | Icon color                 |
+| `disabled` | `(row: T) => boolean`             | -       | Disable condition function |
+| `tooltip`  | `string`                          | -       | Action tooltip             |
+
+## Table.Toolbar Props
+
+| Prop        | Type              | Default | Description                |
+| ----------- | ----------------- | ------- | -------------------------- |
+| `children`  | `React.ReactNode` | -       | Additional toolbar content |
+| `className` | `string`          | -       | Additional CSS classes     |
+
+## Table.Container Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | -       | Table content          |
+| `className` | `string`          | -       | Additional CSS classes |
+
+## Table.Header Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | -       | Header rows            |
+| `className` | `string`          | -       | Additional CSS classes |
+
+## Table.Body Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | -       | Body rows              |
+| `className` | `string`          | -       | Additional CSS classes |
+
+## Table.Row Props
+
+| Prop            | Type              | Default | Description              |
+| --------------- | ----------------- | ------- | ------------------------ |
+| `children`      | `React.ReactNode` | -       | Row cells                |
+| `className`     | `string`          | -       | Additional CSS classes   |
+| `onClick`       | `() => void`      | -       | Row click handler        |
+| `onDoubleClick` | `() => void`      | -       | Row double click handler |
+
+## Table.Head Props
+
+| Prop         | Type              | Default | Description                        |
+| ------------ | ----------------- | ------- | ---------------------------------- |
+| `children`   | `React.ReactNode` | -       | Header cell content                |
+| `column`     | `Column<T>`       | -       | Column configuration               |
+| `className`  | `string`          | -       | Additional CSS classes             |
+| `sortable`   | `boolean`         | -       | Override column sortable setting   |
+| `filterable` | `boolean`         | -       | Override column filterable setting |
+
+## Table.Cell Props
+
+| Prop        | Type                            | Default  | Description            |
+| ----------- | ------------------------------- | -------- | ---------------------- |
+| `children`  | `React.ReactNode`               | -        | Cell content           |
+| `className` | `string`                        | -        | Additional CSS classes |
+| `align`     | `"left" \| "center" \| "right"` | `"left"` | Text alignment         |
+
+## Table.DataRow Props
+
+| Prop        | Type                                         | Default | Description                      |
+| ----------- | -------------------------------------------- | ------- | -------------------------------- |
+| `row`       | `T`                                          | -       | Data row object                  |
+| `index`     | `number`                                     | -       | Row index                        |
+| `children`  | `(row: T, index: number) => React.ReactNode` | -       | Expanded content render function |
+| `className` | `string`                                     | -       | Additional CSS classes           |
+
+## Table.Pagination Props
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | -       | Additional CSS classes |
+
+## Usage Examples
+
+### Basic Table Setup
+
+```tsx
+import { Table, Column, RowAction } from "@/components/ui/Table";
+import { Button } from "@/components/ui/Button";
+import { Edit, Trash2 } from "lucide-react";
+
+const data = [
+  { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
+  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
+];
+
+const columns: Column<User>[] = [
+  { key: "name", title: "Name", sortable: true },
+  { key: "email", title: "Email", sortable: true },
+  { key: "role", title: "Role", filterable: true },
+];
+
+export function UserTable() {
+  return (
+    <Table.Root data={data} columns={columns} selectable showSearch>
+      <Table.Toolbar>
+        <Button>Add User</Button>
+      </Table.Toolbar>
+
+      <Table.Container>
+        <Table.Header>
+          <Table.Row>
+            <Table.SelectHeader />
+            {columns.map((column) => (
+              <Table.Head key={column.key as string} column={column}>
+                {column.title}
+              </Table.Head>
+            ))}
+          </Table.Row>
+        </Table.Header>
+        <Table.Body />
+      </Table.Container>
+
+      <Table.Pagination />
+    </Table.Root>
+  );
+}
+```
+
+### Advanced Table with Expandable Rows & Actions
+
+```tsx
+import { Table, Column, RowAction } from "@/components/ui/Table";
+import { Button } from "@/components/ui/Button";
+import { Edit, Trash2, Eye, Plus } from "lucide-react";
+
+interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  department: string;
+  salary?: number;
+  phone?: string;
+  address?: string;
+}
+
+const employees: Employee[] = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    email: "sarah@company.com",
+    department: "Engineering",
+    salary: 95000,
+    phone: "555-0101",
+    address: "123 Main St, NY",
+  },
+];
+
+const columns: Column<Employee>[] = [
+  {
+    key: "name",
+    title: "Name",
+    sortable: true,
+    render: (row) => (
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm">
+          {row.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}
+        </div>
+        <span className="font-medium">{row.name}</span>
+      </div>
+    ),
+  },
+  { key: "email", title: "Email", sortable: true },
+  { key: "department", title: "Department", filterable: true },
+];
+
+const rowActions: RowAction<Employee>[] = [
+  {
+    label: "View",
+    icon: <Eye size={16} />,
+    onClick: (row) => console.log("View:", row.name),
+  },
+  {
+    label: "Edit",
+    icon: <Edit size={16} />,
+    onClick: (row) => console.log("Edit:", row.name),
+  },
+  {
+    label: "Delete",
+    icon: <Trash2 size={16} />,
+    onClick: (row) => console.log("Delete:", row.name),
+  },
+];
+
+export function EmployeeTable() {
+  return (
+    <Table.Root
+      data={employees}
+      columns={columns}
+      expandable
+      selectable
+      showSearch
+      showExport
+      rowActions={rowActions}
+      onRowSelect={(selected) => console.log("Selected:", selected.length)}
+    >
+      <Table.Toolbar>
+        <Button className="flex items-center gap-2">
+          <Plus size={16} />
+          Add Employee
+        </Button>
+      </Table.Toolbar>
+
+      <Table.Container>
+        <Table.Header>
+          <Table.Row>
+            <Table.SelectHeader />
+            <Table.ExpandHeader />
+            {columns.map((column) => (
+              <Table.Head
+                key={column.key as string}
+                column={column}
+                sortable={column.sortable}
+                filterable={column.filterable}
+              >
+                {column.title}
+              </Table.Head>
+            ))}
+            <Table.ActionsHeader />
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body
+          renderExpandedRow={(row) => (
+            <div className="p-4 space-y-2">
+              <h4 className="font-semibold">Details for {row.name}</h4>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <strong>Salary:</strong> ${row.salary?.toLocaleString()}
+                </div>
+                <div>
+                  <strong>Phone:</strong> {row.phone}
+                </div>
+                <div>
+                  <strong>Address:</strong> {row.address}
+                </div>
+              </div>
+            </div>
+          )}
+        />
+      </Table.Container>
+
+      <Table.Pagination />
+    </Table.Root>
+  );
+}
+```

@@ -4,17 +4,20 @@ import { Tabs } from "nextra/components";
 import { Copy, Check } from "lucide-react";
 import React from "react";
 import { LiveProvider, LiveEditor, LiveError } from "react-live";
+import { cn } from "@/lib/utils";
 
 interface ShowcaseProps {
   children: React.ReactElement;
   code: string; // full code in backticks
   title?: string;
+  className?: string;
 }
 
 export const SnippetPreview: React.FC<ShowcaseProps> = ({
   children,
   code,
   title,
+  className,
 }) => {
   const [copied, setCopied] = React.useState(false);
 
@@ -42,9 +45,10 @@ export const SnippetPreview: React.FC<ShowcaseProps> = ({
         {/* Preview tab */}
         <Tabs.Tab>
           <div
-            className="p-2 min-h-[200px] bg-gradient-to-br 
-          bg-background
-          flex items-center justify-center "
+            className={cn(
+              "p-2 min-h-[200px] bg-gradient-to-br bg-background flex items-center justify-center overflow-auto",
+              className
+            )}
           >
             {children}
           </div>
