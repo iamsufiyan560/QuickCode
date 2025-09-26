@@ -107,6 +107,8 @@ export default {
       MultiSelect: "",
 
       Switch: "",
+      Sidebar: "",
+
       Slider: "",
       Separator: "",
 
@@ -240,7 +242,6 @@ export default {
         items: SECTION,
       },
       Sheet: { type: "page", display: "hidden" },
-      Sidebar: { type: "page", display: "hidden" },
       Snackbar: { type: "page", display: "hidden" },
       Spinner: { type: "page", display: "hidden" },
       Stack: { type: "page", display: "hidden" },

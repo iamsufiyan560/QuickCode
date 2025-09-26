@@ -110,6 +110,12 @@ export const components = {
     deps: {},
   },
 
+  Sidebar: {
+    url: `${BASE_URL}Sidebar.tsx`,
+    deps: {},
+    requires: ["Button"],
+  },
+
   Slider: {
     url: `${BASE_URL}Slider.tsx`,
     deps: {},

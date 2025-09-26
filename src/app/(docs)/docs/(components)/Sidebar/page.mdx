@@ -1,5 +1,76 @@
-import { Sidebar } from "@/components/custom/Sidebar";
+import {
+  DefaultExample,
+  CollapsibleExample,
 
-# Sidebar Example
+} from "@/components/custom/example/SidebarExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<Sidebar />
+# Sidebar
+
+A versatile sidebar component with collapsible navigation, mobile overlay, and flexible layout system for modern web applications.
+
+<InstallTabs components="Sidebar" />
+
+## Examples
+
+<DefaultExample />
+
+<CollapsibleExample />
+
+## Props
+
+### Sidebar
+
+| Prop               | Type              | Default | Description                                   |
+| ------------------ | ----------------- | ------- | --------------------------------------------- |
+| `children`         | `React.ReactNode` | —       | The sidebar layout content                    |
+| `defaultCollapsed` | `boolean`         | `false` | Initial collapsed state of the sidebar        |
+| `className`        | `string`          | —       | Additional CSS classes for the root container |
+
+### Sidebar.Root
+
+| Prop        | Type              | Default | Description                            |
+| ----------- | ----------------- | ------- | -------------------------------------- |
+| `children`  | `React.ReactNode` | —       | The sidebar content                    |
+| `className` | `string`          | —       | Additional CSS classes for the sidebar |
+
+### Sidebar.Header
+
+| Prop        | Type              | Default | Description                           |
+| ----------- | ----------------- | ------- | ------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Header content that stays at the top  |
+| `className` | `string`          | —       | Additional CSS classes for the header |
+
+### Sidebar.Content
+
+| Prop        | Type              | Default | Description                            |
+| ----------- | ----------------- | ------- | -------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Scrollable main content area           |
+| `className` | `string`          | —       | Additional CSS classes for the content |
+
+### Sidebar.Group
+
+| Prop        | Type              | Default | Description                          |
+| ----------- | ----------------- | ------- | ------------------------------------ |
+| `children`  | `React.ReactNode` | —       | Grouped navigation items             |
+| `className` | `string`          | —       | Additional CSS classes for the group |
+
+### Sidebar.Footer
+
+| Prop        | Type              | Default | Description                             |
+| ----------- | ----------------- | ------- | --------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Footer content that stays at the bottom |
+| `className` | `string`          | —       | Additional CSS classes for the footer   |
+
+### Sidebar.Main
+
+| Prop        | Type              | Default | Description                                 |
+| ----------- | ----------------- | ------- | ------------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Main content area next to the sidebar       |
+| `className` | `string`          | —       | Additional CSS classes for the main content |
+
+### Sidebar.Mobile
+
+| Prop       | Type              | Default | Description                             |
+| ---------- | ----------------- | ------- | --------------------------------------- |
+| `children` | `React.ReactNode` | —       | Mobile sidebar content (custom overlay) |
