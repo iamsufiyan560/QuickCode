@@ -155,6 +155,12 @@ export const components = {
     deps: {},
   },
 
+  //Charts
+  AreaChart: {
+    url: `${BASE_URL}AreaChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
+
   //Animated Components
 
   FloatingCode: {

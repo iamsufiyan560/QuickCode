@@ -16,19 +16,6 @@
 
 import type { MetaRecord } from "nextra";
 
-const CHART: MetaRecord = {
-  AreaChart: "",
-  BarChart: "",
-  CandlestickChart: "",
-  DonutChart: "",
-  GaugeChart: "",
-  Heatmap: "",
-  LineChart: "",
-  PieChart: "",
-  RadarChart: "",
-  ScatterChart: "",
-};
-
 const DATA_DISPLAY: MetaRecord = {
   DataGrid: "",
   DataTable: "",
@@ -127,7 +114,13 @@ export default {
 
       MultiTooltip: "",
 
-      __3: {
+      _3: {
+        type: "separator",
+        title: "Charts",
+      },
+      AreaChart: "",
+
+      __4: {
         type: "separator",
         title: "Animations & Motion",
       },
@@ -145,6 +138,16 @@ export default {
       //   title: "Coming Soon",
       // },
 
+      BarChart: { type: "page", display: "hidden" },
+      CandlestickChart: { type: "page", display: "hidden" },
+      DonutChart: { type: "page", display: "hidden" },
+      GaugeChart: { type: "page", display: "hidden" },
+      Heatmap: { type: "page", display: "hidden" },
+      LineChart: { type: "page", display: "hidden" },
+      PieChart: { type: "page", display: "hidden" },
+      RadarChart: { type: "page", display: "hidden" },
+      ScatterChart: { type: "page", display: "hidden" },
+
       Alert: { type: "page", display: "hidden" },
       Analytics: { type: "page", display: "hidden" },
       Avatar: { type: "page", display: "hidden" },
@@ -156,11 +159,6 @@ export default {
       Calendar: { type: "page", display: "hidden" },
       Carousel: { type: "page", display: "hidden" },
       Chatbot: { type: "page", display: "hidden" },
-      Chart: {
-        type: "page",
-        display: "hidden",
-        items: CHART,
-      },
 
       CheckboxGroup: { type: "page", display: "hidden" },
       Chip: { type: "page", display: "hidden" },

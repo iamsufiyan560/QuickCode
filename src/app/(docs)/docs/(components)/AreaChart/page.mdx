@@ -1,0 +1,63 @@
+import {
+  BasicExample,
+  LinearExample,
+  StepExample,
+  StackedExample,
+  LegendExample,
+} from "@/components/custom/example/AreaChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# AreaChart
+
+A responsive area chart component built on Recharts for visualizing data trends and comparisons over time.
+
+<InstallTabs components="AreaChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### Linear
+
+<LinearExample />
+
+### Step
+
+<StepExample />
+
+### Stacked
+
+<StackedExample />
+
+### With Legend
+
+<LegendExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type          | Default | Description                                           |
+| ----------- | ------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig` | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactNode`   | —       | Chart components to render                            |
+| `className` | `string`      | —       | Additional CSS classes                                |
+
+### AreaChart
+
+| Prop        | Type     | Default | Description                        |
+| ----------- | -------- | ------- | ---------------------------------- |
+| `data`      | `any[]`  | —       | Array of data objects to visualize |
+| `margin`    | `object` | —       | Chart margins configuration        |
+| `className` | `string` | —       | Additional CSS classes             |
+
+### ChartTooltipContent
+
+| Prop            | Type                          | Default | Description               |
+| --------------- | ----------------------------- | ------- | ------------------------- |
+| `indicator`     | `'line' \| 'dot' \| 'dashed'` | `'dot'` | Visual indicator style    |
+| `hideLabel`     | `boolean`                     | `false` | Hide the tooltip label    |
+| `hideIndicator` | `boolean`                     | `false` | Hide the visual indicator |
+| `className`     | `string`                      | —       | Additional CSS classes    |
