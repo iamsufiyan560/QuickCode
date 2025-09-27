@@ -1,5 +1,85 @@
-import { BarChart } from "@/components/custom/Chart/BarChart";
+import {
+  BasicExample,
+  HorizontalExample,
+  MultipleExample,
+  StackedExample,
+  LabelExample,
+  CustomLabelExample,
+  MixedExample,
+  ActiveExample,
+  NegativeExample,
+} from "@/components/custom/example/BarChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# BarChart Example
+# BarChart
 
-<BarChart />
+A responsive bar chart component built on Recharts for comparing data across categories with multiple visualization options.
+
+<InstallTabs components="BarChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### Horizontal
+
+<HorizontalExample />
+
+### Multiple
+
+<MultipleExample />
+
+### Stacked + Legend
+
+<StackedExample />
+
+### Label
+
+<LabelExample />
+
+### Custom Label
+
+<CustomLabelExample />
+
+### Mixed
+
+<MixedExample />
+
+### Active
+
+<ActiveExample />
+
+### Negative
+
+<NegativeExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type           | Default | Description                                           |
+| ----------- | -------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig`  | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactElement` | —       | Chart components to render                            |
+| `className` | `string`       | —       | Additional CSS classes                                |
+
+### BarChart
+
+| Prop        | Type                         | Default        | Description                        |
+| ----------- | ---------------------------- | -------------- | ---------------------------------- |
+| `data`      | `any[]`                      | —              | Array of data objects to visualize |
+| `layout`    | `'horizontal' \| 'vertical'` | `'horizontal'` | Chart orientation                  |
+| `margin`    | `object`                     | —              | Chart margins configuration        |
+| `className` | `string`                     | —              | Additional CSS classes             |
+
+### Bar
+
+| Prop        | Type                 | Default | Description                   |
+| ----------- | -------------------- | ------- | ----------------------------- |
+| `dataKey`   | `string`             | —       | Key from data array to plot   |
+| `stackId`   | `string`             | —       | ID for stacking bars together |
+| `fill`      | `string`             | —       | Bar fill color                |
+| `radius`    | `number \| number[]` | —       | Bar corner radius             |
+| `className` | `string`             | —       | Additional CSS classes        |

@@ -119,6 +119,7 @@ export default {
         title: "Charts",
       },
       AreaChart: "",
+      BarChart: "",
 
       __4: {
         type: "separator",
@@ -138,7 +139,6 @@ export default {
       //   title: "Coming Soon",
       // },
 
-      BarChart: { type: "page", display: "hidden" },
       CandlestickChart: { type: "page", display: "hidden" },
       DonutChart: { type: "page", display: "hidden" },
       GaugeChart: { type: "page", display: "hidden" },
