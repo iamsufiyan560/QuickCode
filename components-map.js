@@ -171,6 +171,11 @@ export const components = {
     deps: { recharts: "^3.2.1" },
   },
 
+  PieChart: {
+    url: `${BASE_URL}PieChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
+
   //Animated Components
 
   FloatingCode: {

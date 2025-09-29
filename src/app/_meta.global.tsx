@@ -121,6 +121,7 @@ export default {
       AreaChart: "",
       BarChart: "",
       LineChart: "",
+      PieChart: "",
 
       __4: {
         type: "separator",
@@ -144,7 +145,6 @@ export default {
       DonutChart: { type: "page", display: "hidden" },
       GaugeChart: { type: "page", display: "hidden" },
       Heatmap: { type: "page", display: "hidden" },
-      PieChart: { type: "page", display: "hidden" },
       RadarChart: { type: "page", display: "hidden" },
       ScatterChart: { type: "page", display: "hidden" },
 

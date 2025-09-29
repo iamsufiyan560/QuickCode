@@ -1,5 +1,93 @@
-import { PieChart } from "@/components/custom/Chart/PieChart";
+import {
+  BasicExample,
+  LabelExample,
+  CustomLabelExample,
+  LegendExample,
+  DonutExample,
+  DonutTextExample,
+  SeparatorExample,
+  StackedExample,
+} from "@/components/custom/example/PieChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# PieChart Example
+# PieChart
 
-<PieChart />
+A responsive pie chart component built on Recharts for visualizing data proportions and distributions.
+
+<InstallTabs components="PieChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### With Labels
+
+<LabelExample />
+
+### Custom Labels
+
+<CustomLabelExample />
+
+### With Legend
+
+<LegendExample />
+
+### Donut
+
+<DonutExample />
+
+### Stacked
+
+<StackedExample />
+
+### Donut with Text
+
+<DonutTextExample />
+
+### With Separator
+
+<SeparatorExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type          | Default | Description                                           |
+| ----------- | ------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig` | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactNode`   | —       | Chart components to render                            |
+| `className` | `string`      | —       | Additional CSS classes                                |
+
+### PieChart
+
+| Prop        | Type     | Default | Description                 |
+| ----------- | -------- | ------- | --------------------------- |
+| `margin`    | `object` | —       | Chart margins configuration |
+| `className` | `string` | —       | Additional CSS classes      |
+
+### Pie
+
+| Prop           | Type                  | Default | Description                              |
+| -------------- | --------------------- | ------- | ---------------------------------------- |
+| `data`         | `any[]`               | —       | Array of data objects to visualize       |
+| `dataKey`      | `string`              | —       | Key for accessing values in data objects |
+| `nameKey`      | `string`              | —       | Key for accessing names in data objects  |
+| `cx`           | `string`              | `'50%'` | X coordinate of pie center               |
+| `cy`           | `string`              | `'50%'` | Y coordinate of pie center               |
+| `innerRadius`  | `number`              | `0`     | Inner radius for donut charts            |
+| `outerRadius`  | `number`              | —       | Outer radius of the pie                  |
+| `paddingAngle` | `number`              | `0`     | Padding angle between slices             |
+| `label`        | `boolean \| function` | `false` | Show labels or custom label renderer     |
+| `activeIndex`  | `number`              | —       | Index of active slice for interactions   |
+| `activeShape`  | `object`              | —       | Custom shape properties for active slice |
+
+### ChartTooltipContent
+
+| Prop            | Type                          | Default | Description               |
+| --------------- | ----------------------------- | ------- | ------------------------- |
+| `indicator`     | `'line' \| 'dot' \| 'dashed'` | `'dot'` | Visual indicator style    |
+| `hideLabel`     | `boolean`                     | `false` | Hide the tooltip label    |
+| `hideIndicator` | `boolean`                     | `false` | Hide the visual indicator |
+| `className`     | `string`                      | —       | Additional CSS classes    |
