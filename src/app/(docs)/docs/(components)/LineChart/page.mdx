@@ -1,5 +1,63 @@
-import { LineChart } from "@/components/custom/Chart/LineChart";
+import {
+  BasicExample,
+  LinearExample,
+  StepExample,
+  MultipleExample,
+  LegendExample,
+} from "@/components/custom/example/LineChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# LineChart Example
+# LineChart
 
-<LineChart />
+A responsive line chart component built on Recharts for visualizing trends and data changes over time.
+
+<InstallTabs components="LineChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### Linear
+
+<LinearExample />
+
+### Step
+
+<StepExample />
+
+### Multiple Lines
+
+<MultipleExample />
+
+### With Legend
+
+<LegendExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type          | Default | Description                                           |
+| ----------- | ------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig` | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactNode`   | —       | Chart components to render                            |
+| `className` | `string`      | —       | Additional CSS classes                                |
+
+### LineChart
+
+| Prop        | Type     | Default | Description                        |
+| ----------- | -------- | ------- | ---------------------------------- |
+| `data`      | `any[]`  | —       | Array of data objects to visualize |
+| `margin`    | `object` | —       | Chart margins configuration        |
+| `className` | `string` | —       | Additional CSS classes             |
+
+### ChartTooltipContent
+
+| Prop            | Type                          | Default | Description               |
+| --------------- | ----------------------------- | ------- | ------------------------- |
+| `indicator`     | `'line' \| 'dot' \| 'dashed'` | `'dot'` | Visual indicator style    |
+| `hideLabel`     | `boolean`                     | `false` | Hide the tooltip label    |
+| `hideIndicator` | `boolean`                     | `false` | Hide the visual indicator |
+| `className`     | `string`                      | —       | Additional CSS classes    |

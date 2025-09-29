@@ -165,6 +165,12 @@ export const components = {
     url: `${BASE_URL}BarChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
+
+  LineChart: {
+    url: `${BASE_URL}LineChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
+
   //Animated Components
 
   FloatingCode: {
