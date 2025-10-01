@@ -176,6 +176,11 @@ export const components = {
     deps: { recharts: "^3.2.1" },
   },
 
+  RadarChart: {
+    url: `${BASE_URL}RadarChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
+
   //Animated Components
 
   FloatingCode: {

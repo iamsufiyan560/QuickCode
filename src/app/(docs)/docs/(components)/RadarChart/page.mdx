@@ -1,5 +1,133 @@
-import { RadarChart } from "@/components/custom/Chart/RadarChart";
+import {
+  BasicExample,
+  DotsExample,
+  LinesOnlyExample,
+  CustomLabelExample,
+  GridCustomExample,
+  GridRadiusExample,
+  GridCircleExample,
+  GridCircleNoBasisExample,
+  GridCircleFilledExample,
+  GridFilledExample,
+  MultipleExample,
+  LegendExample,
+} from "@/components/custom/example/RadarChartExample";
 
-# RadarChart Example
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-<RadarChart />
+# RadarChart
+
+A responsive radar chart component built on Recharts for visualizing multivariate data and comparing multiple variables across different categories.
+
+<InstallTabs components="RadarChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### With Dots
+
+<DotsExample />
+
+### Lines Only
+
+<LinesOnlyExample />
+
+### Custom Label
+
+<CustomLabelExample />
+
+### Grid Custom
+
+<GridCustomExample />
+
+### Grid Radius
+
+<GridRadiusExample />
+
+### Grid Circle
+
+<GridCircleExample />
+
+### Grid Circle No Basis
+
+<GridCircleNoBasisExample />
+
+### Grid Circle Filled
+
+<GridCircleFilledExample />
+
+### Grid Filled
+
+<GridFilledExample />
+
+### Multiple
+
+<MultipleExample />
+
+### With Legend
+
+<LegendExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type          | Default | Description                                           |
+| ----------- | ------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig` | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactNode`   | —       | Chart components to render                            |
+| `className` | `string`      | —       | Additional CSS classes                                |
+
+### RadarChart
+
+| Prop          | Type     | Default | Description                        |
+| ------------- | -------- | ------- | ---------------------------------- |
+| `data`        | `any[]`  | —       | Array of data objects to visualize |
+| `outerRadius` | `string` | —       | Outer radius of the radar chart    |
+| `className`   | `string` | —       | Additional CSS classes             |
+
+### Radar
+
+| Prop          | Type     | Default | Description                           |
+| ------------- | -------- | ------- | ------------------------------------- |
+| `dataKey`     | `string` | —       | Key in data object for this radar     |
+| `fill`        | `string` | —       | Fill color for the radar area         |
+| `fillOpacity` | `number` | —       | Opacity of the fill                   |
+| `stroke`      | `string` | —       | Stroke color for the radar line       |
+| `strokeWidth` | `number` | —       | Width of the stroke line              |
+| `dot`         | `object` | —       | Configuration for dots at data points |
+
+### ChartTooltipContent
+
+| Prop            | Type                          | Default | Description               |
+| --------------- | ----------------------------- | ------- | ------------------------- |
+| `indicator`     | `'line' \| 'dot' \| 'dashed'` | `'dot'` | Visual indicator style    |
+| `hideLabel`     | `boolean`                     | `false` | Hide the tooltip label    |
+| `hideIndicator` | `boolean`                     | `false` | Hide the visual indicator |
+| `className`     | `string`                      | —       | Additional CSS classes    |
+
+### PolarGrid
+
+| Prop              | Type                    | Default | Description                 |
+| ----------------- | ----------------------- | ------- | --------------------------- |
+| `gridType`        | `'polygon' \| 'circle'` | —       | Type of grid to display     |
+| `stroke`          | `string`                | —       | Color of the grid lines     |
+| `strokeDasharray` | `string`                | —       | Dash pattern for grid lines |
+| `polarRadius`     | `number[]`              | —       | Custom radius values        |
+
+### PolarAngleAxis
+
+| Prop      | Type     | Default | Description                   |
+| --------- | -------- | ------- | ----------------------------- |
+| `dataKey` | `string` | —       | Key in data for axis labels   |
+| `stroke`  | `string` | —       | Color of the axis lines       |
+| `tick`    | `object` | —       | Configuration for axis labels |
+
+### PolarRadiusAxis
+
+| Prop     | Type     | Default | Description             |
+| -------- | -------- | ------- | ----------------------- |
+| `stroke` | `string` | —       | Color of the axis lines |
