@@ -181,6 +181,10 @@ export const components = {
     deps: { recharts: "^3.2.1" },
   },
 
+  ComposedChart: {
+    url: `${BASE_URL}ComposedChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
   //Animated Components
 
   FloatingCode: {

@@ -123,6 +123,7 @@ export default {
       LineChart: "",
       PieChart: "",
       RadarChart: "",
+      ComposedChart: "",
 
       __4: {
         type: "separator",
