@@ -1,5 +1,59 @@
-import { ScatterChart } from "@/components/custom/Chart/ScatterChart";
+import {
+  BasicExample,
+  BubbleExample,
+  MultiScatterExample,
+} from "@/components/custom/example/ScatterChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# ScatterChart Example
+# ScatterChart
 
-<ScatterChart />
+A scatter chart component for visualizing correlations and relationships between two or three variables with optional bubble sizing.
+
+<InstallTabs components="ScatterChart" />
+
+## Examples
+
+### Basic
+
+<BasicExample />
+
+### Bubble Chart
+
+<BubbleExample />
+
+### Multiple Series
+
+<MultiScatterExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type          | Default | Description                                           |
+| ----------- | ------------- | ------- | ----------------------------------------------------- |
+| `config`    | `ChartConfig` | —       | Configuration object defining chart colors and labels |
+| `children`  | `ReactNode`   | —       | Chart components to render                            |
+| `className` | `string`      | —       | Additional CSS classes                                |
+
+### ScatterChart
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `margin`    | `object` | —       | Chart margins          |
+| `className` | `string` | —       | Additional CSS classes |
+
+### Scatter
+
+| Prop    | Type     | Default | Description                       |
+| ------- | -------- | ------- | --------------------------------- |
+| `data`  | `any[]`  | —       | Array of data points to visualize |
+| `fill`  | `string` | —       | Fill color for scatter points     |
+| `name`  | `string` | —       | Name for legend display           |
+| `shape` | `string` | —       | Shape of scatter points           |
+
+### ChartTooltipContent
+
+| Prop        | Type      | Default | Description            |
+| ----------- | --------- | ------- | ---------------------- |
+| `hideLabel` | `boolean` | `false` | Hide the tooltip label |
+| `className` | `string`  | —       | Additional CSS classes |

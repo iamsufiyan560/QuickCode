@@ -189,6 +189,10 @@ export const components = {
     url: `${BASE_URL}FunnelChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
+  ScatterChart: {
+    url: `${BASE_URL}ScatterChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
   //Animated Components
 
   FloatingCode: {

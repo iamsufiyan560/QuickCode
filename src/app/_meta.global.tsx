@@ -125,6 +125,7 @@ export default {
       RadarChart: "",
       ComposedChart: "",
       FunnelChart: "",
+      ScatterChart: "",
 
       __4: {
         type: "separator",
@@ -148,7 +149,6 @@ export default {
       DonutChart: { type: "page", display: "hidden" },
       GaugeChart: { type: "page", display: "hidden" },
       Heatmap: { type: "page", display: "hidden" },
-      ScatterChart: { type: "page", display: "hidden" },
 
       Alert: { type: "page", display: "hidden" },
       Analytics: { type: "page", display: "hidden" },
