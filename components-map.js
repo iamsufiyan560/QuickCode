@@ -56,6 +56,10 @@ export const components = {
     url: `${BASE_URL}Card.tsx`,
     deps: {},
   },
+  ContextMenu: {
+    url: `${BASE_URL}ContextMenu.tsx`,
+    deps: {},
+  },
   DatePicker: {
     url: `${BASE_URL}DatePicker.tsx`,
     deps: {},

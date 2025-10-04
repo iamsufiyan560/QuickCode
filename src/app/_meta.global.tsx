@@ -78,6 +78,8 @@ export default {
 
       Checkbox: "",
       Card: "",
+      ContextMenu: "",
+
       DatePicker: "",
       DateRangePicker: "",
 
@@ -168,7 +170,6 @@ export default {
       ColorPicker: { type: "page", display: "hidden" },
       ComboBox: { type: "page", display: "hidden" },
       CommandPalette: { type: "page", display: "hidden" },
-      ContextMenu: { type: "page", display: "hidden" },
       CookieBanner: { type: "page", display: "hidden" },
       CopyButton: { type: "page", display: "hidden" },
       CreditCardInput: { type: "page", display: "hidden" },

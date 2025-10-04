@@ -1,5 +1,132 @@
-import { ContextMenu } from "@/components/custom/ContextMenu";
+import {
+  RightClickExample,
+  HoverIconNavigationExample,
+  AdvancedFeaturesExample,
+} from "@/components/custom/example/ContextMenuExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# ContextMenu Example
+# ContextMenu
 
-<ContextMenu />
+A versatile context menu component that supports right-click, left-click, and hover interactions with intelligent positioning and keyboard navigation.
+
+<InstallTabs components="ContextMenu" />
+
+## Right Click
+
+<RightClickExample />
+
+## Hover
+
+<HoverIconNavigationExample />
+
+## onClick
+
+<AdvancedFeaturesExample />
+
+## Props
+
+### ContextMenu
+
+Root component that provides context for all child components.
+
+| Prop       | Type              | Default | Description                                    |
+| ---------- | ----------------- | ------- | ---------------------------------------------- |
+| `children` | `React.ReactNode` | —       | Child components including Trigger and Content |
+
+### ContextMenu.Trigger
+
+| Prop        | Type                                  | Default         | Description                            |
+| ----------- | ------------------------------------- | --------------- | -------------------------------------- |
+| `children`  | `React.ReactNode`                     | —               | Element that triggers the context menu |
+| `triggerOn` | `"contextmenu" \| "click" \| "hover"` | `"contextmenu"` | Determines how the menu is triggered   |
+| `className` | `string`                              | `undefined`     | Additional CSS classes                 |
+
+### ContextMenu.Content
+
+| Prop        | Type              | Default     | Description                  |
+| ----------- | ----------------- | ----------- | ---------------------------- |
+| `children`  | `React.ReactNode` | —           | Menu items and other content |
+| `className` | `string`          | `undefined` | Additional CSS classes       |
+
+### ContextMenu.Item
+
+| Prop        | Type                         | Default     | Description                                                |
+| ----------- | ---------------------------- | ----------- | ---------------------------------------------------------- |
+| `children`  | `React.ReactNode`            | —           | Item content                                               |
+| `inset`     | `boolean`                    | `false`     | Adds left padding for alignment with items that have icons |
+| `disabled`  | `boolean`                    | `false`     | Disables the menu item                                     |
+| `variant`   | `"default" \| "destructive"` | `"default"` | Visual style of the item                                   |
+| `onClick`   | `() => void`                 | `undefined` | Click handler function                                     |
+| `className` | `string`                     | `undefined` | Additional CSS classes                                     |
+
+### ContextMenu.CheckboxItem
+
+| Prop              | Type                         | Default     | Description                         |
+| ----------------- | ---------------------------- | ----------- | ----------------------------------- |
+| `children`        | `React.ReactNode`            | —           | Item content                        |
+| `checked`         | `boolean`                    | `false`     | Checkbox checked state              |
+| `onCheckedChange` | `(checked: boolean) => void` | `undefined` | Callback when checked state changes |
+| `disabled`        | `boolean`                    | `false`     | Disables the checkbox item          |
+| `className`       | `string`                     | `undefined` | Additional CSS classes              |
+
+### ContextMenu.RadioGroup
+
+| Prop            | Type                      | Default     | Description                     |
+| --------------- | ------------------------- | ----------- | ------------------------------- |
+| `value`         | `string`                  | `undefined` | Currently selected radio value  |
+| `onValueChange` | `(value: string) => void` | `undefined` | Callback when selection changes |
+| `children`      | `React.ReactNode`         | —           | RadioItem components            |
+
+### ContextMenu.RadioItem
+
+| Prop        | Type              | Default     | Description                        |
+| ----------- | ----------------- | ----------- | ---------------------------------- |
+| `value`     | `string`          | —           | Unique value for this radio option |
+| `children`  | `React.ReactNode` | —           | Item content                       |
+| `className` | `string`          | `undefined` | Additional CSS classes             |
+
+### ContextMenu.Sub
+
+Container for submenu functionality.
+
+| Prop       | Type              | Default | Description                          |
+| ---------- | ----------------- | ------- | ------------------------------------ |
+| `children` | `React.ReactNode` | —       | SubTrigger and SubContent components |
+
+### ContextMenu.SubTrigger
+
+| Prop        | Type              | Default     | Description                                    |
+| ----------- | ----------------- | ----------- | ---------------------------------------------- |
+| `children`  | `React.ReactNode` | —           | Trigger content with automatic arrow indicator |
+| `inset`     | `boolean`         | `false`     | Adds left padding for alignment                |
+| `className` | `string`          | `undefined` | Additional CSS classes                         |
+
+### ContextMenu.SubContent
+
+| Prop        | Type              | Default     | Description            |
+| ----------- | ----------------- | ----------- | ---------------------- |
+| `children`  | `React.ReactNode` | —           | Submenu items          |
+| `className` | `string`          | `undefined` | Additional CSS classes |
+
+### ContextMenu.Separator
+
+Visual separator between menu sections.
+
+| Prop        | Type     | Default     | Description            |
+| ----------- | -------- | ----------- | ---------------------- |
+| `className` | `string` | `undefined` | Additional CSS classes |
+
+### ContextMenu.Label
+
+| Prop        | Type              | Default     | Description                     |
+| ----------- | ----------------- | ----------- | ------------------------------- |
+| `children`  | `React.ReactNode` | —           | Label text                      |
+| `inset`     | `boolean`         | `false`     | Adds left padding for alignment |
+| `className` | `string`          | `undefined` | Additional CSS classes          |
+
+### ContextMenu.Shortcut
+
+| Prop        | Type              | Default     | Description            |
+| ----------- | ----------------- | ----------- | ---------------------- |
+| `children`  | `React.ReactNode` | —           | Keyboard shortcut text |
+| `className` | `string`          | `undefined` | Additional CSS classes |
