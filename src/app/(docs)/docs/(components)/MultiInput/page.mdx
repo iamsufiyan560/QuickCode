@@ -1,0 +1,27 @@
+import { DefaultMultiInputExample } from "@/components/custom/example/MultiInputExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# MultiInput
+
+An input field that allows users to add multiple values displayed as badges. Values can be added by pressing Enter, comma, or space, and removed by clicking the X button or pressing Backspace.
+
+<InstallTabs components="MultiInput" />
+
+## Usage
+
+<DefaultMultiInputExample />
+
+## Props
+
+| Prop           | Type                                                                    | Default                     | Description                           |
+| -------------- | ----------------------------------------------------------------------- | --------------------------- | ------------------------------------- |
+| `value`        | `string[]`                                                              | `[]`                        | Array of current values               |
+| `onChange`     | `(values: string[]) => void`                                            | —                           | Callback when values change           |
+| `placeholder`  | `string`                                                                | `"Type and press Enter..."` | Placeholder text                      |
+| `separator`    | `"enter" \| "comma" \| "space" \| Array<"enter" \| "comma" \| "space">` | `["enter","comma"]`         | Trigger to add new values             |
+| `max`          | `number`                                                                | —                           | Maximum number of values allowed      |
+| `onMaxReached` | `() => void`                                                            | —                           | Callback when max limit is reached    |
+| `disabled`     | `boolean`                                                               | `false`                     | Whether the input is disabled         |
+| `showMaxLabel` | `boolean`                                                               | `true`                      | Whether to show remaining items label |
+| `className`    | `string`                                                                | —                           | Additional custom classes             |
+| `id`           | `string`                                                                | —                           | ID for associating with label         |

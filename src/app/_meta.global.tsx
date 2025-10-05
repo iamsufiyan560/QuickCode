@@ -94,6 +94,8 @@ export default {
       Skeleton: "",
       Stepper: "",
       MultiSelect: "",
+      MultiInput: "",
+      MultiTooltip: "",
 
       Switch: "",
       Sidebar: "",
@@ -113,8 +115,6 @@ export default {
           layout: "full",
         },
       },
-
-      MultiTooltip: "",
 
       _3: {
         type: "separator",

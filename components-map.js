@@ -109,6 +109,11 @@ export const components = {
     url: `${BASE_URL}MultiSelect.tsx`,
     deps: {},
   },
+  MultiInput: {
+    url: `${BASE_URL}MultiInput.tsx`,
+    deps: {},
+    requires: ["Badge"],
+  },
   Switch: {
     url: `${BASE_URL}Switch.tsx`,
     deps: {},
