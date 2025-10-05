@@ -1,5 +1,32 @@
-import { ButtonGroup } from "@/components/custom/ButtonGroup";
+import {
+  DefaultButtonGroupExample,
+  TextAlignmentExample,
+  VerticalButtonGroupExample,
+} from "@/components/custom/example/ButtonGroupExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# ButtonGroup Example
+# ButtonGroup
 
-<ButtonGroup />
+Groups multiple related buttons together as a cohesive unit with connected borders and shared styling.
+
+<InstallTabs components="ButtonGroup" />
+
+## Default Usage
+
+<DefaultButtonGroupExample />
+
+## Single Selection
+
+<TextAlignmentExample />
+
+## Vertical Orientation
+
+<VerticalButtonGroupExample />
+
+## Props
+
+| Prop          | Type                         | Default        | Description                                  |
+| ------------- | ---------------------------- | -------------- | -------------------------------------------- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Direction buttons are arranged in the group. |
+| `className`   | `string`                     | `undefined`    | Additional CSS classes for custom styling.   |
+| `children`    | `React.ReactNode`            | —              | Button components to group together.         |

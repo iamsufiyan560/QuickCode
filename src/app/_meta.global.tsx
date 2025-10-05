@@ -74,6 +74,8 @@ export default {
       Accordion: "",
       ActionSheet: "",
       Button: "",
+      ButtonGroup: "",
+
       Badge: "",
 
       Checkbox: "",
@@ -159,7 +161,6 @@ export default {
       Banner: { type: "page", display: "hidden" },
       Breadcrumb: { type: "page", display: "hidden" },
 
-      ButtonGroup: { type: "page", display: "hidden" },
       Calendar: { type: "page", display: "hidden" },
       Carousel: { type: "page", display: "hidden" },
       Chatbot: { type: "page", display: "hidden" },

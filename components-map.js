@@ -43,6 +43,10 @@ export const components = {
     url: `${BASE_URL}Button.tsx`,
     deps: {},
   },
+  ButtonGroup: {
+    url: `${BASE_URL}ButtonGroup.tsx`,
+    deps: {},
+  },
   Badge: {
     url: `${BASE_URL}Badge.tsx`,
     deps: {},
