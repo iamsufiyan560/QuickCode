@@ -1,5 +1,69 @@
-import { KanbanBoard } from "@/components/custom/KanbanBoard";
+import { ComprehensiveExample } from "@/components/custom/example/KanbanBoardExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# KanbanBoard Example
+# KanbanBoard
 
-<KanbanBoard />
+A fully customizable Kanban board component with drag-and-drop functionality, auto-scroll support, and compound component pattern for maximum flexibility.
+
+<InstallTabs components="KanbanBoard" />
+
+## Example
+
+<ComprehensiveExample />
+
+## KanbanBoard Props
+
+| Prop         | Type                                                                               | Default | Description                                         |
+| ------------ | ---------------------------------------------------------------------------------- | ------- | --------------------------------------------------- |
+| `children`   | `React.ReactNode`                                                                  | —       | KanbanBoard.Column components                       |
+| `onCardMove` | `(cardId: string, fromColumn: string, toColumn: string, newIndex: number) => void` | —       | Callback fired when a card is moved between columns |
+| `className`  | `string`                                                                           | —       | Additional CSS classes for the board container      |
+
+## KanbanBoard.Column Props
+
+| Prop              | Type              | Default | Description                              |
+| ----------------- | ----------------- | ------- | ---------------------------------------- |
+| `id`              | `string`          | —       | Unique identifier for the column         |
+| `title`           | `string`          | —       | Column title displayed in header         |
+| `children`        | `React.ReactNode` | —       | KanbanBoard.Card components              |
+| `className`       | `string`          | —       | Additional CSS classes for column        |
+| `headerClassName` | `string`          | —       | Additional CSS classes for column header |
+| `bodyClassName`   | `string`          | —       | Additional CSS classes for column body   |
+
+## KanbanBoard.Card Props
+
+| Prop             | Type              | Default | Description                                |
+| ---------------- | ----------------- | ------- | ------------------------------------------ |
+| `id`             | `string`          | —       | Unique identifier for the card             |
+| `children`       | `React.ReactNode` | —       | Card content                               |
+| `className`      | `string`          | —       | Additional CSS classes for card            |
+| `showDragHandle` | `boolean`         | `true`  | Show drag handle icon on hover             |
+| `draggable`      | `boolean`         | `true`  | Enable/disable drag functionality for card |
+
+## KanbanBoard.Card.Header Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | —       | Header content         |
+| `className` | `string`          | —       | Additional CSS classes |
+
+## KanbanBoard.Card.Title Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | —       | Title text             |
+| `className` | `string`          | —       | Additional CSS classes |
+
+## KanbanBoard.Card.Content Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | —       | Content body           |
+| `className` | `string`          | —       | Additional CSS classes |
+
+## KanbanBoard.Card.Footer Props
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `children`  | `React.ReactNode` | —       | Footer content         |
+| `className` | `string`          | —       | Additional CSS classes |

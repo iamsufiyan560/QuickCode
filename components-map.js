@@ -177,6 +177,10 @@ export const components = {
     url: `${BASE_URL}MultiTooltip.tsx`,
     deps: {},
   },
+  KanbanBoard: {
+    url: `${BASE_URL}KanbanBoard.tsx`,
+    deps: {},
+  },
 
   //Charts
   AreaChart: {

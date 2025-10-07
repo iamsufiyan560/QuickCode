@@ -106,6 +106,7 @@ export default {
       MultiSelect: "",
       MultiInput: "",
       MultiTooltip: "",
+      KanbanBoard: "",
 
       Tabs: "",
       TextArea: "",
@@ -208,7 +209,6 @@ export default {
       InfiniteScroll: { type: "page", display: "hidden" },
       Invoice: { type: "page", display: "hidden" },
       JsonViewer: { type: "page", display: "hidden" },
-      KanbanBoard: { type: "page", display: "hidden" },
       KeyboardShortcut: { type: "page", display: "hidden" },
       LazyLoad: { type: "page", display: "hidden" },
       Link: { type: "page", display: "hidden" },
