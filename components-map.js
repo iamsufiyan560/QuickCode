@@ -84,6 +84,28 @@ export const components = {
     deps: {},
     requires: ["Button"],
   },
+  Filter: {
+    url: `${BASE_URL}Filter.tsx`,
+    deps: {},
+    requires: [
+      "Input",
+      "Checkbox",
+      "CheckboxGroup",
+      "RadioGroup",
+      "Select",
+      "MultiSelect",
+      "MultiInput",
+      "Slider",
+      "RangeSlider",
+      "Switch",
+      "DatePicker",
+      "DateRangePicker",
+      "Textarea",
+      "Badge",
+      "Separator",
+      "Label",
+    ],
+  },
 
   Input: {
     url: `${BASE_URL}Input.tsx`,

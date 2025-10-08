@@ -88,6 +88,7 @@ export default {
       DateRangePicker: "",
 
       Dialog: "",
+      Filter: "",
 
       Input: "",
       ImageInput: "",
@@ -192,7 +193,6 @@ export default {
       FeatureGrid: { type: "page", display: "hidden" },
       Feedback: { type: "page", display: "hidden" },
       FileUpload: { type: "page", display: "hidden" },
-      Filter: { type: "page", display: "hidden" },
       Footer: { type: "page", display: "hidden" },
       Form: {
         type: "page",

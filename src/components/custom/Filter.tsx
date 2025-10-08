@@ -1,24 +1,1074 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { X, Search, ChevronDown, ChevronUp } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/custom/Input";
+import { Checkbox } from "@/components/custom/Checkbox";
+import { CheckboxGroup } from "@/components/custom/CheckboxGroup";
+import { RadioGroup } from "@/components/custom/RadioGroup";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/custom/Select";
+import {
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectGroup,
+  MultiSelectTrigger,
+  MultiSelectValue,
+} from "@/components/custom/MultiSelect";
+import { MultiInput } from "@/components/custom/MultiInput";
+import { Slider } from "@/components/custom/Slider";
+import { RangeSlider } from "@/components/custom/RangeSlider";
+import { Switch } from "@/components/custom/Switch";
+import { DatePicker } from "@/components/custom/DatePicker";
+import {
+  DateRangePicker,
+  DateRange,
+} from "@/components/custom/DateRangePicker";
+import { Textarea } from "@/components/custom/TextArea";
+import { Button } from "@/components/custom/Button";
+import { Badge } from "@/components/custom/Badge";
+import { Separator } from "@/components/custom/Separator";
+import { Label } from "@/components/custom/Label";
 
-export function Filter() {
-  return <Preview code={`
-function Filter() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Filter" language="jsx" />;
+interface FilterContextValue {
+  activeFilters: Set<string>;
+  setFilterActive: (id: string, active: boolean) => void;
+  incrementFilters: () => void;
+  decrementFilters: () => void;
+  resetFilters: () => void;
+  onClear?: () => void;
+  onApply?: () => void;
 }
+
+const FilterContext = createContext<FilterContextValue | undefined>(undefined);
+
+const useFilterContext = () => {
+  const context = useContext(FilterContext);
+  if (!context) {
+    throw new Error("Filter components must be used within Filter");
+  }
+  return context;
+};
+
+export interface FilterProps {
+  onClear?: () => void;
+  onApply?: () => void;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FilterRoot: React.FC<FilterProps> = ({
+  onClear,
+  onApply,
+  className,
+  children,
+}) => {
+  const [activeFilters, setActiveFilters] = useState(new Set<string>());
+
+  const setFilterActive = (id: string, active: boolean) => {
+    setActiveFilters((prev) => {
+      const newSet = new Set(prev);
+      if (active) newSet.add(id);
+      else newSet.delete(id);
+      return newSet;
+    });
+  };
+
+  const incrementFilters = () => {
+    setActiveFilters((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(`generic-filter-${prev.size}`);
+      return newSet;
+    });
+  };
+
+  const decrementFilters = () => {
+    setActiveFilters((prev) => {
+      const newSet = new Set(prev);
+      const genericFilters = Array.from(newSet).filter((id) =>
+        id.startsWith("generic-filter")
+      );
+      if (genericFilters.length > 0) {
+        newSet.delete(genericFilters[genericFilters.length - 1]);
+      }
+      return newSet;
+    });
+  };
+
+  const resetFilters = () => {
+    setActiveFilters(new Set());
+    onClear?.();
+  };
+
+  return (
+    <FilterContext.Provider
+      value={{
+        activeFilters,
+        setFilterActive,
+        incrementFilters,
+        decrementFilters,
+        resetFilters,
+        onClear,
+        onApply,
+      }}
+    >
+      <div className={cn("space-y-6", className)}>{children}</div>
+    </FilterContext.Provider>
+  );
+};
+
+export interface FilterHeaderProps {
+  title?: string;
+  description?: string;
+  showCount?: boolean;
+  className?: string;
+}
+
+const FilterHeader: React.FC<FilterHeaderProps> = ({
+  title = "Filters",
+  description,
+  showCount = true,
+  className,
+}) => {
+  const { activeFilters } = useFilterContext();
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      <div className="flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+        {showCount && activeFilters.size > 0 && (
+          <Badge variant="secondary" size="sm">
+            {activeFilters.size}
+          </Badge>
+        )}
+      </div>
+      {description && (
+        <p className="text-sm text-muted-foreground">{description}</p>
+      )}
+    </div>
+  );
+};
+
+export interface FilterSearchProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}
+
+const FilterSearch: React.FC<FilterSearchProps> = ({
+  value,
+  onChange,
+  placeholder = "Search...",
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState(value || "");
+  const [wasActive, setWasActive] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const isActive = newValue.trim().length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.trim().length > 0;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("relative", className)}>
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <Input
+        type="text"
+        value={value !== undefined ? value : internalValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+        className="pl-9"
+      />
+    </div>
+  );
+};
+
+export interface FilterGroupProps {
+  title?: string;
+  collapsible?: boolean;
+  defaultCollapsed?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FilterGroup: React.FC<FilterGroupProps> = ({
+  title,
+  collapsible = false,
+  defaultCollapsed = false,
+  className,
+  children,
+}) => {
+  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      {title && (
+        <div
+          className={cn(
+            "flex items-center justify-between w-full text-sm font-medium text-foreground",
+            collapsible && "cursor-default"
+          )}
+        >
+          <span>{title}</span>
+
+          {collapsible && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              aria-expanded={!isCollapsed}
+              aria-label={isCollapsed ? "Expand" : "Collapse"}
+              title={isCollapsed ? "Expand" : "Collapse"}
+              className=" size-6"
+            >
+              {isCollapsed ? (
+                <ChevronDown className="h-4 w-4" />
+              ) : (
+                <ChevronUp className="h-4 w-4" />
+              )}
+            </Button>
+          )}
+        </div>
+      )}
+      {!isCollapsed && <div className="space-y-2">{children}</div>}
+    </div>
+  );
+};
+
+export interface FilterInputProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  label?: string;
+  type?: string;
+  className?: string;
+}
+
+const FilterInput: React.FC<FilterInputProps> = ({
+  value,
+  onChange,
+  placeholder,
+  label,
+  type = "text",
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState(value || "");
+  const [wasActive, setWasActive] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const isActive = newValue.trim().length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.trim().length > 0;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <Input
+        type={type}
+        value={value !== undefined ? value : internalValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
+
+export interface FilterTextareaProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  label?: string;
+  rows?: number;
+  className?: string;
+}
+
+const FilterTextarea: React.FC<FilterTextareaProps> = ({
+  value,
+  onChange,
+  placeholder,
+  label,
+  rows = 3,
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState(value || "");
+  const [wasActive, setWasActive] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    const isActive = newValue.trim().length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.trim().length > 0;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <Textarea
+        value={value !== undefined ? value : internalValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+        rows={rows}
+      />
+    </div>
+  );
+};
+
+export interface FilterCheckboxProps {
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+  label?: string;
+  id: string;
+  className?: string;
+}
+
+const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
+  checked = false,
+  onChange,
+  label,
+  id,
+  className,
+}) => {
+  const { setFilterActive } = useFilterContext();
+
+  const handleChange = (newChecked: boolean) => {
+    setFilterActive(id, newChecked);
+    onChange?.(newChecked);
+  };
+
+  return (
+    <Checkbox
+      id={id}
+      checked={checked}
+      onChange={handleChange}
+      label={label}
+      className={className}
+    />
+  );
+};
+
+export interface FilterCheckboxGroupProps {
+  value?: string[];
+  onValueChange?: (value: string[]) => void;
+  label?: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FilterCheckboxGroup: React.FC<FilterCheckboxGroupProps> = ({
+  value = [],
+  onValueChange,
+  label,
+  className,
+  children,
+}) => {
+  const { setFilterActive } = useFilterContext();
+
+  const handleChange = (newValue: string[]) => {
+    setFilterActive(`checkbox-group-${label || "group"}`, newValue.length > 0);
+    onValueChange?.(newValue);
+  };
+
+  return (
+    <CheckboxGroup
+      value={value}
+      onValueChange={handleChange}
+      label={label}
+      className={className}
+    >
+      {children}
+    </CheckboxGroup>
+  );
+};
+
+export interface FilterSliderProps {
+  value?: number;
+  onChange?: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  defaultValue?: number;
+  label?: string;
+  showValue?: boolean;
+  formatValue?: (value: number) => string;
+  className?: string;
+}
+
+const FilterSlider: React.FC<FilterSliderProps> = ({
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  step = 1,
+  defaultValue,
+  label,
+  showValue = true,
+  formatValue = (v) => v.toString(),
+  className,
+}) => {
+  const { setFilterActive } = useFilterContext();
+  const initialDefault = defaultValue !== undefined ? defaultValue : min;
+  const currentValue = value !== undefined ? value : initialDefault;
+
+  const handleChange = (newValue: number) => {
+    setFilterActive(`slider-${label || "slider"}`, newValue !== initialDefault);
+    onChange?.(newValue);
+  };
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      {label && (
+        <div className="flex items-center justify-between">
+          <Label>{label}</Label>
+          {showValue && (
+            <span className="text-sm text-muted-foreground">
+              {formatValue(currentValue)}
+            </span>
+          )}
+        </div>
+      )}
+      <Slider
+        value={currentValue}
+        onChange={handleChange}
+        min={min}
+        max={max}
+        step={step}
+      />
+    </div>
+  );
+};
+
+export interface FilterRangeProps {
+  value?: [number, number];
+  onChange?: (value: [number, number]) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  defaultValue?: [number, number];
+  label?: string;
+  showValues?: boolean;
+  formatValue?: (value: number) => string;
+  className?: string;
+}
+
+const FilterRange: React.FC<FilterRangeProps> = ({
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  step = 1,
+  defaultValue,
+  label,
+  showValues = true,
+  formatValue = (v) => v.toString(),
+  className,
+}) => {
+  const { setFilterActive } = useFilterContext();
+  const initialDefault: [number, number] = defaultValue || [min, max];
+  const currentValue: [number, number] =
+    value !== undefined ? value : initialDefault;
+
+  const handleChange = (newValue: [number, number]) => {
+    const isActive =
+      newValue[0] !== initialDefault[0] || newValue[1] !== initialDefault[1];
+    setFilterActive(`range-${label || "range"}`, isActive);
+    onChange?.(newValue);
+  };
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      {label && (
+        <div className="flex items-center justify-between">
+          <Label>{label}</Label>
+
+          {showValues && (
+            <span className="text-sm text-muted-foreground">
+              {formatValue(currentValue[0])} - {formatValue(currentValue[1])}
+            </span>
+          )}
+        </div>
+      )}
+
+      <RangeSlider
+        value={currentValue}
+        onChange={handleChange}
+        min={min}
+        max={max}
+        step={step}
+      />
+    </div>
+  );
+};
+
+export interface FilterRadioGroupProps {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  label?: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FilterRadioGroup: React.FC<FilterRadioGroupProps> = ({
+  value,
+  onValueChange,
+  label,
+  className,
+  children,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState(value || "");
+  const [wasActive, setWasActive] = useState((value || "").length > 0);
+
+  const handleChange = (newValue: string) => {
+    const isActive = newValue.trim().length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onValueChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.trim().length > 0;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <RadioGroup
+        value={value !== undefined ? value : internalValue}
+        onValueChange={handleChange}
+      >
+        {children}
+      </RadioGroup>
+    </div>
+  );
+};
+
+export interface FilterSwitchProps {
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  label?: string;
+  description?: string;
+  id: string;
+  className?: string;
+}
+
+const FilterSwitch: React.FC<FilterSwitchProps> = ({
+  checked,
+  onCheckedChange,
+  label,
+  description,
+  id,
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalChecked, setInternalChecked] = useState(checked || false);
+  const [wasActive, setWasActive] = useState(checked || false);
+
+  const handleChange = (newChecked: boolean) => {
+    if (!wasActive && newChecked) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !newChecked) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalChecked(newChecked);
+    onCheckedChange?.(newChecked);
+  };
+
+  useEffect(() => {
+    const currentChecked = checked !== undefined ? checked : internalChecked;
+    setWasActive(currentChecked);
+  }, [checked, internalChecked]);
+
+  return (
+    <div
+      className={cn("flex items-center justify-between space-x-4", className)}
+    >
+      <div className="flex-1 space-y-1">
+        {label && <Label htmlFor={id}>{label}</Label>}
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
+      <Switch
+        id={id}
+        checked={checked !== undefined ? checked : internalChecked}
+        onCheckedChange={handleChange}
+      />
+    </div>
+  );
+};
+
+export interface FilterSelectProps {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  placeholder?: string;
+  label?: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FilterSelect: React.FC<FilterSelectProps> = ({
+  value,
+  onValueChange,
+  placeholder = "Select option",
+  label,
+  className,
+  children,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState(value || "");
+  const [wasActive, setWasActive] = useState((value || "").length > 0);
+
+  const handleChange = (newValue: string) => {
+    const isActive = newValue.trim().length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onValueChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.trim().length > 0;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <Select
+        value={value !== undefined ? value : internalValue}
+        onValueChange={handleChange}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>{children}</SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};
+
+export interface FilterMultiSelectProps {
+  values?: string[];
+  onValuesChange?: (values: string[]) => void;
+  placeholder?: string;
+  label?: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FilterMultiSelect: React.FC<FilterMultiSelectProps> = ({
+  values,
+  onValuesChange,
+  placeholder = "Select options",
+  label,
+  className,
+  children,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValues, setInternalValues] = useState<string[]>(values || []);
+  const [wasActive, setWasActive] = useState((values || []).length > 0);
+
+  const handleChange = (newValues: string[]) => {
+    const isActive = newValues.length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValues(newValues);
+    onValuesChange?.(newValues);
+  };
+
+  useEffect(() => {
+    const currentValues = values !== undefined ? values : internalValues;
+    const isActive = currentValues.length > 0;
+    setWasActive(isActive);
+  }, [values, internalValues]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <MultiSelect
+        values={values !== undefined ? values : internalValues}
+        onValuesChange={handleChange}
+      >
+        <MultiSelectTrigger>
+          <MultiSelectValue placeholder={placeholder} />
+        </MultiSelectTrigger>
+        <MultiSelectContent>
+          <MultiSelectGroup>{children}</MultiSelectGroup>
+        </MultiSelectContent>
+      </MultiSelect>
+    </div>
+  );
+};
+
+export interface FilterMultiInputProps {
+  value?: string[];
+  onChange?: (values: string[]) => void;
+  label?: string;
+  placeholder?: string;
+  max?: number;
+  className?: string;
+}
+
+const FilterMultiInput: React.FC<FilterMultiInputProps> = ({
+  value,
+  onChange,
+  label,
+  placeholder,
+  max,
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState<string[]>(value || []);
+  const [wasActive, setWasActive] = useState((value || []).length > 0);
+
+  const handleChange = (newValues: string[]) => {
+    const isActive = newValues.length > 0;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValues);
+    onChange?.(newValues);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.length > 0;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <MultiInput
+        value={value !== undefined ? value : internalValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+        max={max}
+      />
+    </div>
+  );
+};
+
+export interface FilterDateProps {
+  value?: Date | null;
+  onChange?: (date: Date | null) => void;
+  label?: string;
+  placeholder?: string;
+  includeTime?: boolean;
+  className?: string;
+}
+
+const FilterDate: React.FC<FilterDateProps> = ({
+  value,
+  onChange,
+  label,
+  placeholder = "Select date",
+  includeTime = false,
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState<Date | null>(
+    value || null
+  );
+  const [wasActive, setWasActive] = useState((value || null) !== null);
+
+  const handleChange = (newValue: Date | null) => {
+    const isActive = newValue !== null;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue !== null;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <DatePicker
+        value={value !== undefined ? value : internalValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+        includeTime={includeTime}
+      />
+    </div>
+  );
+};
+
+export interface FilterDateRangeProps {
+  value?: DateRange;
+  onChange?: (range: DateRange) => void;
+  label?: string;
+  placeholder?: string;
+  className?: string;
+}
+
+const FilterDateRange: React.FC<FilterDateRangeProps> = ({
+  value,
+  onChange,
+  label,
+  placeholder = "Select date range",
+  className,
+}) => {
+  const { incrementFilters, decrementFilters } = useFilterContext();
+  const [internalValue, setInternalValue] = useState<DateRange>(
+    value || { start: null, end: null }
+  );
+  const [wasActive, setWasActive] = useState(
+    (value || { start: null, end: null }).start !== null ||
+      (value || { start: null, end: null }).end !== null
+  );
+
+  const handleChange = (newValue: DateRange) => {
+    const isActive = newValue.start !== null || newValue.end !== null;
+
+    if (!wasActive && isActive) {
+      incrementFilters();
+      setWasActive(true);
+    } else if (wasActive && !isActive) {
+      decrementFilters();
+      setWasActive(false);
+    }
+
+    setInternalValue(newValue);
+    onChange?.(newValue);
+  };
+
+  useEffect(() => {
+    const currentValue = value !== undefined ? value : internalValue;
+    const isActive = currentValue.start !== null || currentValue.end !== null;
+    setWasActive(isActive);
+  }, [value, internalValue]);
+
+  return (
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <DateRangePicker
+        value={value !== undefined ? value : internalValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
+
+export interface FilterActionsProps {
+  showClear?: boolean;
+  showApply?: boolean;
+  clearLabel?: string;
+  applyLabel?: string;
+  className?: string;
+  showCountOnClear?: boolean;
+  showCountOnApply?: boolean;
+}
+
+const FilterActions: React.FC<FilterActionsProps> = ({
+  showClear = true,
+  showApply = true,
+  clearLabel = "Clear Filters",
+  applyLabel = "Apply Filters",
+  className,
+  showCountOnClear = false,
+  showCountOnApply = false,
+}) => {
+  const { activeFilters, resetFilters, onClear, onApply } = useFilterContext();
+
+  const handleClear = () => {
+    resetFilters();
+    onClear?.();
+  };
+
+  const handleApply = () => {
+    onApply?.();
+  };
+
+  return (
+    <div className={cn("flex items-center gap-2 pt-4", className)}>
+      {showClear && (
+        <Button
+          variant="outline"
+          onClick={handleClear}
+          disabled={activeFilters.size === 0}
+          className="flex-1 relative"
+        >
+          <X className="h-4 w-4 mr-2" />
+          {clearLabel}
+
+          {showCountOnClear && activeFilters.size > 0 && (
+            <Badge
+              className="rounded-full size-4 absolute right-2 top-1/2 -translate-y-1/2"
+              variant="secondary"
+              size="sm"
+            >
+              {activeFilters.size}
+            </Badge>
+          )}
+        </Button>
+      )}
+      {showApply && (
+        <Button onClick={handleApply} className="flex-1 relative">
+          {applyLabel}
+
+          {showCountOnApply && activeFilters.size > 0 && (
+            <Badge
+              className="rounded-full size-4 absolute right-2 top-1/2 -translate-y-1/2"
+              variant="secondary"
+              size="sm"
+            >
+              {activeFilters.size}
+            </Badge>
+          )}
+        </Button>
+      )}
+    </div>
+  );
+};
+
+export const Filter = Object.assign(FilterRoot, {
+  Header: FilterHeader,
+  Search: FilterSearch,
+  Group: FilterGroup,
+  Input: FilterInput,
+  Textarea: FilterTextarea,
+  Checkbox: FilterCheckbox,
+  CheckboxGroup: FilterCheckboxGroup,
+  RadioGroup: FilterRadioGroup,
+  Switch: FilterSwitch,
+  Select: FilterSelect,
+  MultiSelect: FilterMultiSelect,
+  MultiInput: FilterMultiInput,
+  Slider: FilterSlider,
+  Range: FilterRange,
+  Date: FilterDate,
+  DateRange: FilterDateRange,
+  Actions: FilterActions,
+  Separator,
+});
+
+export {
+  FilterRoot,
+  FilterHeader,
+  FilterSearch,
+  FilterGroup,
+  FilterInput,
+  FilterTextarea,
+  FilterCheckbox,
+  FilterCheckboxGroup,
+  FilterRadioGroup,
+  FilterSwitch,
+  FilterSelect,
+  FilterMultiSelect,
+  FilterMultiInput,
+  FilterSlider,
+  FilterRange,
+  FilterDate,
+  FilterDateRange,
+  FilterActions,
+};

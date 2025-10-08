@@ -1,5 +1,212 @@
-import { Filter } from "@/components/custom/Filter";
+import { ComprehensiveFilterExample } from "@/components/custom/example/FilterExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Filter Example
+# Filter
 
-<Filter />
+A comprehensive filtering system with 17 different input types. Built with compound component pattern for maximum flexibility and composability.
+
+<InstallTabs components="Filter" />
+
+## Example
+
+<ComprehensiveFilterExample />
+
+## Props
+
+### Filter
+
+| Prop        | Type              | Default     | Description                                   |
+| ----------- | ----------------- | ----------- | --------------------------------------------- |
+| `onClear`   | `() => void`      | `undefined` | Callback when clear filters button is clicked |
+| `onApply`   | `() => void`      | `undefined` | Callback when apply filters button is clicked |
+| `className` | `string`          | `undefined` | Additional CSS classes                        |
+| `children`  | `React.ReactNode` | —           | Filter components to render                   |
+
+### Filter.Header
+
+| Prop          | Type      | Default     | Description                      |
+| ------------- | --------- | ----------- | -------------------------------- |
+| `title`       | `string`  | `"Filters"` | Header title text                |
+| `description` | `string`  | `undefined` | Optional description below title |
+| `showCount`   | `boolean` | `true`      | Show active filter count badge   |
+| `className`   | `string`  | `undefined` | Additional CSS classes           |
+
+### Filter.Search
+
+| Prop          | Type                      | Default       | Description             |
+| ------------- | ------------------------- | ------------- | ----------------------- |
+| `value`       | `string`                  | `undefined`   | Controlled search value |
+| `onChange`    | `(value: string) => void` | `undefined`   | Search change handler   |
+| `placeholder` | `string`                  | `"Search..."` | Input placeholder text  |
+| `className`   | `string`                  | `undefined`   | Additional CSS classes  |
+
+### Filter.Group
+
+| Prop               | Type              | Default     | Description                          |
+| ------------------ | ----------------- | ----------- | ------------------------------------ |
+| `title`            | `string`          | `undefined` | Group title                          |
+| `collapsible`      | `boolean`         | `false`     | Enable collapse/expand functionality |
+| `defaultCollapsed` | `boolean`         | `false`     | Initial collapsed state              |
+| `className`        | `string`          | `undefined` | Additional CSS classes               |
+| `children`         | `React.ReactNode` | —           | Group content                        |
+
+### Filter.Input
+
+| Prop          | Type                      | Default     | Description            |
+| ------------- | ------------------------- | ----------- | ---------------------- |
+| `value`       | `string`                  | `undefined` | Input value            |
+| `onChange`    | `(value: string) => void` | `undefined` | Change handler         |
+| `placeholder` | `string`                  | `undefined` | Placeholder text       |
+| `label`       | `string`                  | `undefined` | Input label            |
+| `type`        | `string`                  | `"text"`    | Input type             |
+| `className`   | `string`                  | `undefined` | Additional CSS classes |
+
+### Filter.Textarea
+
+| Prop          | Type                      | Default     | Description            |
+| ------------- | ------------------------- | ----------- | ---------------------- |
+| `value`       | `string`                  | `undefined` | Textarea value         |
+| `onChange`    | `(value: string) => void` | `undefined` | Change handler         |
+| `placeholder` | `string`                  | `undefined` | Placeholder text       |
+| `label`       | `string`                  | `undefined` | Textarea label         |
+| `rows`        | `number`                  | `3`         | Number of rows         |
+| `className`   | `string`                  | `undefined` | Additional CSS classes |
+
+### Filter.Checkbox
+
+| Prop        | Type                         | Default     | Description            |
+| ----------- | ---------------------------- | ----------- | ---------------------- |
+| `checked`   | `boolean`                    | `undefined` | Checkbox checked state |
+| `onChange`  | `(checked: boolean) => void` | `undefined` | Change handler         |
+| `label`     | `string`                     | `undefined` | Checkbox label         |
+| `id`        | `string`                     | —           | Unique identifier      |
+| `className` | `string`                     | `undefined` | Additional CSS classes |
+
+### Filter.CheckboxGroup
+
+| Prop            | Type                        | Default     | Description                   |
+| --------------- | --------------------------- | ----------- | ----------------------------- |
+| `value`         | `string[]`                  | `undefined` | Selected checkbox values      |
+| `onValueChange` | `(value: string[]) => void` | `undefined` | Change handler                |
+| `label`         | `string`                    | `undefined` | Group label                   |
+| `className`     | `string`                    | `undefined` | Additional CSS classes        |
+| `children`      | `React.ReactNode`           | —           | CheckboxGroup.Item components |
+
+### Filter.RadioGroup
+
+| Prop            | Type                      | Default     | Description               |
+| --------------- | ------------------------- | ----------- | ------------------------- |
+| `value`         | `string`                  | `undefined` | Selected radio value      |
+| `onValueChange` | `(value: string) => void` | `undefined` | Change handler            |
+| `label`         | `string`                  | `undefined` | Group label               |
+| `className`     | `string`                  | `undefined` | Additional CSS classes    |
+| `children`      | `React.ReactNode`         | —           | RadioGroupItem components |
+
+### Filter.Switch
+
+| Prop              | Type                         | Default     | Description            |
+| ----------------- | ---------------------------- | ----------- | ---------------------- |
+| `checked`         | `boolean`                    | `undefined` | Switch checked state   |
+| `onCheckedChange` | `(checked: boolean) => void` | `undefined` | Change handler         |
+| `label`           | `string`                     | `undefined` | Switch label           |
+| `description`     | `string`                     | `undefined` | Helper text            |
+| `id`              | `string`                     | —           | Unique identifier      |
+| `className`       | `string`                     | `undefined` | Additional CSS classes |
+
+### Filter.Select
+
+| Prop            | Type                      | Default           | Description            |
+| --------------- | ------------------------- | ----------------- | ---------------------- |
+| `value`         | `string`                  | `undefined`       | Selected value         |
+| `onValueChange` | `(value: string) => void` | `undefined`       | Change handler         |
+| `placeholder`   | `string`                  | `"Select option"` | Placeholder text       |
+| `label`         | `string`                  | `undefined`       | Input label            |
+| `className`     | `string`                  | `undefined`       | Additional CSS classes |
+| `children`      | `React.ReactNode`         | —                 | SelectItem components  |
+
+### Filter.MultiSelect
+
+| Prop             | Type                         | Default            | Description                |
+| ---------------- | ---------------------------- | ------------------ | -------------------------- |
+| `values`         | `string[]`                   | `undefined`        | Selected values            |
+| `onValuesChange` | `(values: string[]) => void` | `undefined`        | Change handler             |
+| `placeholder`    | `string`                     | `"Select options"` | Placeholder text           |
+| `label`          | `string`                     | `undefined`        | Input label                |
+| `className`      | `string`                     | `undefined`        | Additional CSS classes     |
+| `children`       | `React.ReactNode`            | —                  | MultiSelectItem components |
+
+### Filter.MultiInput
+
+| Prop          | Type                         | Default     | Description             |
+| ------------- | ---------------------------- | ----------- | ----------------------- |
+| `value`       | `string[]`                   | `undefined` | Input values            |
+| `onChange`    | `(values: string[]) => void` | `undefined` | Change handler          |
+| `label`       | `string`                     | `undefined` | Input label             |
+| `placeholder` | `string`                     | `undefined` | Placeholder text        |
+| `max`         | `number`                     | `undefined` | Maximum number of items |
+| `className`   | `string`                     | `undefined` | Additional CSS classes  |
+
+### Filter.Slider
+
+| Prop          | Type                        | Default               | Description            |
+| ------------- | --------------------------- | --------------------- | ---------------------- |
+| `value`       | `number`                    | `undefined`           | Slider value           |
+| `onChange`    | `(value: number) => void`   | `undefined`           | Change handler         |
+| `min`         | `number`                    | `0`                   | Minimum value          |
+| `max`         | `number`                    | `100`                 | Maximum value          |
+| `step`        | `number`                    | `1`                   | Step increment         |
+| `label`       | `string`                    | `undefined`           | Slider label           |
+| `showValue`   | `boolean`                   | `true`                | Display current value  |
+| `formatValue` | `(value: number) => string` | `(v) => v.toString()` | Format value display   |
+| `className`   | `string`                    | `undefined`           | Additional CSS classes |
+
+### Filter.Range
+
+| Prop          | Type                                | Default               | Description             |
+| ------------- | ----------------------------------- | --------------------- | ----------------------- |
+| `value`       | `[number, number]`                  | `undefined`           | Range values [min, max] |
+| `onChange`    | `(value: [number, number]) => void` | `undefined`           | Change handler          |
+| `min`         | `number`                            | `0`                   | Minimum value           |
+| `max`         | `number`                            | `100`                 | Maximum value           |
+| `step`        | `number`                            | `1`                   | Step increment          |
+| `label`       | `string`                            | `undefined`           | Range label             |
+| `showValues`  | `boolean`                           | `true`                | Display current values  |
+| `formatValue` | `(value: number) => string`         | `(v) => v.toString()` | Format value display    |
+| `className`   | `string`                            | `undefined`           | Additional CSS classes  |
+
+### Filter.Date
+
+| Prop          | Type                           | Default         | Description            |
+| ------------- | ------------------------------ | --------------- | ---------------------- |
+| `value`       | `Date \| null`                 | `undefined`     | Selected date          |
+| `onChange`    | `(date: Date \| null) => void` | `undefined`     | Change handler         |
+| `label`       | `string`                       | `undefined`     | Input label            |
+| `placeholder` | `string`                       | `"Select date"` | Placeholder text       |
+| `includeTime` | `boolean`                      | `false`         | Include time picker    |
+| `className`   | `string`                       | `undefined`     | Additional CSS classes |
+
+### Filter.DateRange
+
+| Prop          | Type                         | Default               | Description            |
+| ------------- | ---------------------------- | --------------------- | ---------------------- |
+| `value`       | `DateRange`                  | `undefined`           | Selected date range    |
+| `onChange`    | `(range: DateRange) => void` | `undefined`           | Change handler         |
+| `label`       | `string`                     | `undefined`           | Input label            |
+| `placeholder` | `string`                     | `"Select date range"` | Placeholder text       |
+| `className`   | `string`                     | `undefined`           | Additional CSS classes |
+
+### Filter.Actions
+
+| Prop               | Type      | Default           | Description                                    |
+| ------------------ | --------- | ----------------- | ---------------------------------------------- |
+| `showClear`        | `boolean` | `true`            | Show clear button                              |
+| `showApply`        | `boolean` | `true`            | Show apply button                              |
+| `clearLabel`       | `string`  | `"Clear Filters"` | Clear button text                              |
+| `applyLabel`       | `string`  | `"Apply Filters"` | Apply button text                              |
+| `className`        | `string`  | `undefined`       | Additional CSS classes                         |
+| `showCountOnClear` | `boolean` | `false`           | Show active filter count badge on clear button |
+| `showCountOnApply` | `boolean` | `false`           | Show active filter count badge on apply button |
+
+### Filter.Separator
+
+Renders a horizontal separator line. Accepts all standard div props including `className`.
