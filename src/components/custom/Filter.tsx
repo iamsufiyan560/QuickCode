@@ -990,13 +990,13 @@ const FilterActions: React.FC<FilterActionsProps> = ({
   };
 
   return (
-    <div className={cn("flex items-center gap-2 pt-4", className)}>
+    <div className={cn("flex flex-wrap items-center gap-2 pt-4", className)}>
       {showClear && (
         <Button
           variant="outline"
           onClick={handleClear}
           disabled={activeFilters.size === 0}
-          className="flex-1 relative"
+          className="flex-1  relative"
         >
           <X className="h-4 w-4 mr-2" />
           {clearLabel}

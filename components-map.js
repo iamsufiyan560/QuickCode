@@ -39,6 +39,16 @@ export const components = {
     deps: {},
     requires: ["Button"],
   },
+
+  Avatar: {
+    url: `${BASE_URL}Avatar.tsx`,
+    deps: {},
+  },
+  AvatarGroup: {
+    url: `${BASE_URL}AvatarGroup.tsx`,
+    deps: {},
+    requires: ["Avatar"],
+  },
   Button: {
     url: `${BASE_URL}Button.tsx`,
     deps: {},

@@ -1,24 +1,138 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Preview } from "../ui/Preview";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export function Avatar() {
-  return <Preview code={`
-function Avatar() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-200 space-y-4"
-    >
-      <div className="text-4xl">🚧</div>
-      <div className="text-xl font-semibold">Component Under Construction</div>
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        This component is not ready yet. Check back later!
-      </div>
-    </motion.div>
-  );
-}`} scope={{ motion }} title="Avatar" language="jsx" />;
+const AvatarContext = React.createContext<{
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  imageStatus: "idle" | "loading" | "loaded" | "error";
+  setImageStatus: (status: "idle" | "loading" | "loaded" | "error") => void;
+}>({
+  imageStatus: "idle",
+  setImageStatus: () => {},
+});
+
+export interface AvatarProps {
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  className?: string;
+  children: React.ReactNode;
 }
+
+const sizeClasses = {
+  xs: "w-6 h-6 text-xs",
+  sm: "w-8 h-8 text-sm",
+  md: "w-10 h-10 text-base",
+  lg: "w-12 h-12 text-lg",
+  xl: "w-16 h-16 text-xl",
+};
+
+export const Avatar: React.FC<AvatarProps> = ({
+  size = "md",
+  className,
+  children,
+}) => {
+  const [imageStatus, setImageStatus] = React.useState<
+    "idle" | "loading" | "loaded" | "error"
+  >("idle");
+
+  return (
+    <AvatarContext.Provider value={{ size, imageStatus, setImageStatus }}>
+      <span
+        className={cn(
+          "relative inline-flex items-center justify-center overflow-hidden rounded-full shrink-0",
+          sizeClasses[size],
+          className
+        )}
+      >
+        {children}
+      </span>
+    </AvatarContext.Provider>
+  );
+};
+
+export interface AvatarImageProps
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
+  src: string;
+  alt: string;
+}
+
+export const AvatarImage: React.FC<AvatarImageProps> = ({
+  src,
+  alt,
+  className,
+  ...props
+}) => {
+  const { imageStatus, setImageStatus } = React.useContext(AvatarContext);
+
+  React.useEffect(() => {
+    if (!src) {
+      setImageStatus("error");
+      return;
+    }
+
+    setImageStatus("loading");
+    const img = new Image();
+    img.src = src;
+
+    img.onload = () => {
+      setImageStatus("loaded");
+    };
+
+    img.onerror = () => {
+      setImageStatus("error");
+    };
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [src, setImageStatus]);
+
+  if (imageStatus === "loading") {
+    return <div className="absolute inset-0 bg-muted animate-pulse" />;
+  }
+
+  if (imageStatus !== "loaded") {
+    return null;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={cn("aspect-square h-full w-full object-cover", className)}
+      {...props}
+    />
+  );
+};
+
+export interface AvatarFallbackProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const AvatarFallback: React.FC<AvatarFallbackProps> = ({
+  children,
+  className,
+}) => {
+  const { imageStatus } = React.useContext(AvatarContext);
+
+  if (imageStatus === "loaded") {
+    return null;
+  }
+
+  if (imageStatus === "loading") {
+    return null;
+  }
+
+  return (
+    <span
+      className={cn(
+        "flex h-full w-full items-center justify-center bg-secondary text-secondary-foreground font-semibold uppercase select-none",
+        className
+      )}
+    >
+      {children}
+    </span>
+  );
+};

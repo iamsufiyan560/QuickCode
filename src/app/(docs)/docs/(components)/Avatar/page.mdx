@@ -1,5 +1,41 @@
-import { Avatar } from "@/components/custom/Avatar";
+import {
+  DefaultAvatarExample
 
-# Avatar Example
+} from "@/components/custom/example/AvatarExample";
 
-<Avatar />
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Avatar
+
+Display user profile pictures with automatic fallback to initials when images fail to load.
+
+<InstallTabs components="Avatar" />
+
+## Examples
+
+<DefaultAvatarExample />
+
+## Props
+
+### Avatar
+
+| Prop        | Type                                   | Default      | Description                            |
+| ----------- | -------------------------------------- | ------------ | -------------------------------------- |
+| `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"md"`       | Size of the avatar                     |
+| `className` | `string`                               | `undefined`  | Additional CSS classes                 |
+| `children`  | `React.ReactNode`                      | **required** | AvatarImage and AvatarFallback content |
+
+### AvatarImage
+
+| Prop        | Type     | Default      | Description                    |
+| ----------- | -------- | ------------ | ------------------------------ |
+| `src`       | `string` | **required** | Image source URL               |
+| `alt`       | `string` | **required** | Alternative text for the image |
+| `className` | `string` | `undefined`  | Additional CSS classes         |
+
+### AvatarFallback
+
+| Prop        | Type              | Default      | Description                           |
+| ----------- | ----------------- | ------------ | ------------------------------------- |
+| `children`  | `React.ReactNode` | **required** | Fallback content (typically initials) |
+| `className` | `string`          | `undefined`  | Additional CSS classes                |
