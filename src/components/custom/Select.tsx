@@ -92,7 +92,8 @@ export const Select: React.FC<SelectProps> = ({
   );
 };
 
-export interface SelectTriggerProps {
+export interface SelectTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children: React.ReactNode;
 }
@@ -100,6 +101,7 @@ export interface SelectTriggerProps {
 export const SelectTrigger: React.FC<SelectTriggerProps> = ({
   className,
   children,
+  ...props
 }) => {
   const context = React.useContext(SelectContext);
 
@@ -113,6 +115,7 @@ export const SelectTrigger: React.FC<SelectTriggerProps> = ({
         "disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
+      {...props}
     >
       {children}
       <ChevronDown

@@ -1,15 +1,28 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+  useMemo,
+  useCallback,
+  memo,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
-import { z } from "zod";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/custom/Button";
 import { Input } from "@/components/custom/Input";
 import { Checkbox } from "@/components/custom/Checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/custom/RadioGroup";
+import {
+  RadioGroup as RadioGroupBase,
+  RadioGroupItem,
+} from "@/components/custom/RadioGroup";
 import { Switch } from "@/components/custom/Switch";
 import {
   Select,
@@ -28,1332 +41,1886 @@ import {
   MultiSelectValue,
 } from "@/components/custom/MultiSelect";
 import { Textarea } from "@/components/custom/TextArea";
-import { Label } from "@/components/custom/Label";
+import { Label as LabelBase } from "@/components/custom/Label";
 import { Stepper } from "./Stepper";
 import { Tooltip } from "@/components/custom/Tooltip";
 import { ImageInput } from "@/components/custom/ImageInput";
 import { FormSkeleton, FormSkeletonProps } from "./FormSkeleton";
 import Image from "next/image";
 import { DatePicker } from "./DatePicker";
-export interface FormFieldValidation {
-  [key: string]: any;
-  min?: number;
-  max?: number;
+import { PasswordInput } from "./PasswordInput";
+import { DateRangePicker } from "./DateRangePicker";
+import { MultiInput } from "./MultiInput";
+import { CheckboxGroup as CheckboxGroupBase } from "./CheckboxGroup";
+
+interface FormFieldValidation {
+  required?: boolean;
   minLength?: number;
   maxLength?: number;
-  required?: boolean;
-  pattern?: string;
-  email?: boolean;
-  url?: boolean;
+  min?: number;
+  max?: number;
+  pattern?: RegExp;
+  override?: boolean;
   custom?: (value: any) => string | null;
   requiredError?: string;
   minLengthError?: string;
   maxLengthError?: string;
   minError?: string;
   maxError?: string;
+  patternError?: string;
   emailError?: string;
   urlError?: string;
-  patternError?: string;
+  telError?: string;
+  passwordError?: string;
   customFileError?: string;
-  acceptedTypes?: string[];
   maxSize?: number;
+  acceptedTypes?: string[];
 }
 
-export interface FormFieldOption {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
-}
-
-export interface FormField {
+interface FieldContextValue {
   id: string;
-  label: string;
-  type:
-    | "text"
-    | "email"
-    | "password"
-    | "number"
-    | "checkbox"
-    | "radio"
-    | "switch"
-    | "select"
-    | "multi-select"
-    | "slider"
-    | "range-slider"
-    | "textarea"
-    | "date"
-    | "datetime-local"
-    | "tel"
-    | "url"
-    | "file"
-    | "image";
-  placeholder?: string;
-  description?: string;
-  options?: FormFieldOption[] | string[];
   validation?: FormFieldValidation;
-  defaultValue?: any;
-  disabled?: boolean;
-  hidden?: boolean;
-  className?: string;
-  conditional?: (values: Record<string, any>) => boolean;
-  sliderProps?: {
-    min?: number;
-    max?: number;
-    step?: number;
-  };
-  inputProps?: Record<string, any>;
+  error?: string;
+  touched: boolean;
 }
 
-export interface FormStep {
-  id: string;
-  title: string;
-  description?: string;
-  fields: FormField[];
-  className?: string;
+interface StepContextValue {
+  stepId: string;
+  stepIndex: number;
 }
 
-export interface FormHeader {
-  title?: string;
-  description?: string;
-  className?: string;
-  children?: React.ReactNode;
+interface FormContextValue {
+  formData: Record<string, any>;
+  errors: Record<string, string>;
+  touched: Record<string, boolean>;
+  currentStep: number;
+  steps: Array<{ id: string; title: string; description?: string }>;
+  fields: Map<string, { validation?: FormFieldValidation; stepId?: string }>;
+  setFormData: Dispatch<SetStateAction<Record<string, any>>>;
+  setErrors: Dispatch<SetStateAction<Record<string, string>>>;
+  setTouched: Dispatch<SetStateAction<Record<string, boolean>>>;
+  setCurrentStep: Dispatch<SetStateAction<number>>;
+  setFieldValue: (id: string, value: any) => void;
+  setFieldTouched: (id: string) => void;
+  registerField: (
+    id: string,
+    validation?: FormFieldValidation,
+    stepId?: string
+  ) => void;
+  unregisterField: (id: string) => void;
+  registerStep: (id: string, title: string, description?: string) => void;
+  validateField: (id: string, value?: any, inputType?: string) => void;
+  canProceed: () => boolean;
+  loading: boolean;
+  disabled: boolean;
+  onChange?: (data: Record<string, any>) => void;
+  autoSave: boolean;
+  autoSaveKey?: string;
+  clearStorage: () => void;
+  isSubmitting: boolean;
+  setIsSubmitting: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface FormFooter {
-  className?: string;
-  children?: React.ReactNode;
-}
+const FormContext = createContext<FormContextValue | null>(null);
+const FieldContext = createContext<FieldContextValue | null>(null);
+const StepContext = createContext<StepContextValue | null>(null);
 
-export interface AdvancedFormProps {
-  fields?: FormField[];
-  steps?: FormStep[];
+const useFormContext = () => {
+  const context = useContext(FormContext);
+  if (!context) {
+    console.error("Form components must be used within AdvancedForm");
+  }
+  return context!;
+};
+
+const useFieldContext = () => {
+  const context = useContext(FieldContext);
+  if (!context) {
+    console.error("This component must be used within AdvancedForm.Field");
+  }
+  return context!;
+};
+
+const useStepContext = () => {
+  return useContext(StepContext);
+};
+
+const getDefaultValidation = (type: string) => {
+  switch (type) {
+    case "email":
+      return {
+        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: "Invalid email address",
+      };
+    case "url":
+      return {
+        pattern: /^https?:\/\/.+/,
+        message: "Invalid URL",
+      };
+    case "tel":
+      return {
+        pattern: /^[\+]?[0-9\s\-\(\)]+$/,
+        message: "Invalid phone number",
+      };
+    case "password":
+      return {
+        pattern:
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        message:
+          "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
+      };
+    default:
+      return null;
+  }
+};
+
+const validateSingleField = (
+  fieldId: string,
+  value: any,
+  fieldConfig: { validation?: FormFieldValidation; stepId?: string },
+  inputType?: string
+): string | null => {
+  const validation = fieldConfig.validation || {};
+  const errors: string[] = [];
+
+  if (validation.required) {
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        errors.push(validation.requiredError || "This field is required");
+      }
+    } else if (typeof value === "boolean") {
+      if (value !== true) {
+        errors.push(validation.requiredError || "This field is required");
+      }
+    } else if (
+      value === undefined ||
+      value === null ||
+      value === "" ||
+      (typeof value === "string" && value.trim() === "")
+    ) {
+      errors.push(validation.requiredError || "This field is required");
+    }
+  }
+
+  if (value !== undefined && value !== null && value !== "") {
+    const defaultValidation = inputType
+      ? getDefaultValidation(inputType)
+      : null;
+
+    if (defaultValidation && !validation.override) {
+      if (!defaultValidation.pattern.test(String(value))) {
+        const errorKey = `${inputType}Error` as keyof FormFieldValidation;
+        errors.push(
+          (validation[errorKey] as string) || defaultValidation.message
+        );
+      }
+    }
+
+    if (validation.pattern) {
+      if (!validation.pattern.test(String(value))) {
+        errors.push(validation.patternError || "Invalid format");
+      }
+    }
+
+    if (validation.minLength !== undefined && typeof value === "string") {
+      if (value.length < validation.minLength) {
+        errors.push(
+          validation.minLengthError ||
+            `Minimum length is ${validation.minLength}`
+        );
+      }
+    }
+
+    if (validation.maxLength !== undefined && typeof value === "string") {
+      if (value.length > validation.maxLength) {
+        errors.push(
+          validation.maxLengthError ||
+            `Maximum length is ${validation.maxLength}`
+        );
+      }
+    }
+
+    if (validation.min !== undefined && typeof value === "number") {
+      if (value < validation.min) {
+        errors.push(
+          validation.minError || `Minimum value is ${validation.min}`
+        );
+      }
+    }
+
+    if (validation.max !== undefined && typeof value === "number") {
+      if (value > validation.max) {
+        errors.push(
+          validation.maxError || `Maximum value is ${validation.max}`
+        );
+      }
+    }
+
+    if (validation.custom) {
+      const customError = validation.custom(value);
+      if (customError) {
+        errors.push(customError);
+      }
+    }
+  }
+
+  return errors[0] || null;
+};
+
+interface AdvancedFormProps {
+  children: React.ReactNode;
   onSubmit: (data: Record<string, any>) => void | Promise<void>;
   onChange?: (data: Record<string, any>) => void;
   initialValues?: Record<string, any>;
-  header?: FormHeader;
-  footer?: FormFooter;
-  submitText?: string;
-  resetText?: string;
-  nextText?: string;
-  backText?: string;
-  showReset?: boolean;
-  showStepProgress?: boolean;
   autoSave?: boolean;
+  autoSaveKey?: string;
   className?: string;
-  stepperClassName?: string;
-  formClassName?: string;
   loading?: boolean;
-  isSubmitLoading?: boolean;
   isFormLoading?: boolean;
   skeletonProps?: FormSkeletonProps;
-  logo?: string;
-  logoClassName?: string;
 }
 
-export const AdvancedForm: React.FC<AdvancedFormProps> = ({
-  fields = [],
-  steps = [],
-  onSubmit,
+const AdvancedFormRoot: React.FC<AdvancedFormProps> = ({
+  children,
   onChange,
   initialValues = {},
-  header,
-  footer,
-  submitText = "Submit",
-  resetText = "Reset",
-  nextText = "Next",
-  backText = "Back",
-  showReset = false,
-  showStepProgress = true,
   autoSave = false,
+  autoSaveKey,
   className,
-  stepperClassName,
-  formClassName,
   loading = false,
   isFormLoading = false,
-  isSubmitLoading = false,
-
   skeletonProps,
-  logo,
-  logoClassName,
 }) => {
   const [formData, setFormData] = useState<Record<string, any>>({});
-  const [currentStep, setCurrentStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [resetCounter, setResetCounter] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [steps, setSteps] = useState<
+    Array<{ id: string; title: string; description?: string }>
+  >([]);
   const [isInitializing, setIsInitializing] = useState(true);
-  const shouldShowSkeleton = isFormLoading || isInitializing;
-  const isSteppedForm = steps.length > 0;
-  const currentFields = isSteppedForm
-    ? steps[currentStep]?.fields || []
-    : fields;
-  const totalSteps = steps.length;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const getStorageKey = () => {
-    return `form-auto-save-${
-      header?.title?.toLowerCase().replace(/\s+/g, "-") ||
-      steps[0]?.title?.toLowerCase().replace(/\s+/g, "-") ||
-      "default"
-    }`;
-  };
+  const fields = useRef(
+    new Map<string, { validation?: FormFieldValidation; stepId?: string }>()
+  );
 
-  const getErrorMessage = (
-    validation: FormFieldValidation,
-    errorType: string,
-    defaultMessage: string
-  ) => {
-    return validation[`${errorType}Error`] || defaultMessage;
-  };
+  const formInstanceId = useRef(
+    `form-${Math.random().toString(36).substr(2, 9)}`
+  ).current;
 
-  const createValidationSchema = (fieldsToValidate: FormField[]) => {
-    const schemaObject: Record<string, z.ZodTypeAny> = {};
+  const autoSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    fieldsToValidate.forEach((field) => {
-      if (field.hidden) return;
+  const getStorageKey = useCallback(() => {
+    return autoSaveKey || `form-auto-save-${formInstanceId}`;
+  }, [autoSaveKey, formInstanceId]);
 
-      let schema: z.ZodTypeAny;
-      const validation = field.validation || {};
-
-      switch (field.type) {
-        case "email":
-          schema = z.email(
-            getErrorMessage(validation, "email", "Invalid email address")
-          );
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-
-        case "url":
-          schema = z.url(getErrorMessage(validation, "url", "Invalid URL"));
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-        case "tel":
-          schema = z
-            .string()
-            .regex(
-              /^[\+]?[0-9\s\-\(\)]+$/,
-              getErrorMessage(validation, "pattern", "Invalid phone number")
-            )
-            .refine((val) => {
-              if (!val) return true;
-              const digitsOnly = val.replace(/[^\d]/g, "");
-              return digitsOnly.length >= (validation.minLength || 10);
-            }, getErrorMessage(validation, "minLength", "Phone number too short"));
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-
-        case "password":
-          schema = z
-            .string()
-            .regex(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-              getErrorMessage(
-                validation,
-                "pattern",
-                "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character"
-              )
-            );
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-
-        case "number":
-          schema = z.coerce.number("Invalid number");
-          if (validation.min !== undefined) {
-            schema = (schema as z.ZodNumber).min(
-              validation.min,
-              getErrorMessage(
-                validation,
-                "min",
-                `Minimum value is ${validation.min}`
-              )
-            );
-          }
-          if (validation.max !== undefined) {
-            schema = (schema as z.ZodNumber).max(
-              validation.max,
-              getErrorMessage(
-                validation,
-                "max",
-                `Maximum value is ${validation.max}`
-              )
-            );
-          }
-          if (!validation.required) {
-            schema = schema.optional();
-          }
-          break;
-
-        case "checkbox":
-          if (validation.required) {
-            schema = z
-              .boolean()
-              .refine(
-                (val) => val === true,
-                getErrorMessage(
-                  validation,
-                  "required",
-                  "This field is required"
-                )
-              );
-          } else {
-            schema = z.boolean().optional().default(false);
-          }
-          break;
-
-        case "switch":
-          schema = z.boolean().optional().default(false);
-          break;
-
-        case "radio":
-          if (validation.required) {
-            schema = z
-              .string()
-              .min(
-                1,
-                getErrorMessage(
-                  validation,
-                  "required",
-                  "Please select an option"
-                )
-              );
-          } else {
-            schema = z.string().optional().or(z.literal(""));
-          }
-          break;
-
-        case "multi-select":
-          schema = z.array(z.string());
-          if (validation.required) {
-            schema = (schema as z.ZodArray<any>).min(
-              1,
-              getErrorMessage(
-                validation,
-                "required",
-                "Please select at least one option"
-              )
-            );
-          } else {
-            schema = schema.optional().default([]);
-          }
-          break;
-
-        case "slider":
-          schema = z.number();
-          if (validation.min !== undefined) {
-            schema = (schema as z.ZodNumber).min(
-              validation.min,
-              getErrorMessage(
-                validation,
-                "min",
-                `Minimum value is ${validation.min}`
-              )
-            );
-          }
-          if (validation.max !== undefined) {
-            schema = (schema as z.ZodNumber).max(
-              validation.max,
-              getErrorMessage(
-                validation,
-                "max",
-                `Maximum value is ${validation.max}`
-              )
-            );
-          }
-          if (!validation.required) {
-            schema = schema.optional();
-          }
-          break;
-
-        case "range-slider":
-          schema = z.array(z.number()).length(2);
-          if (!validation.required) {
-            schema = schema.optional();
-          }
-          break;
-
-        case "textarea":
-          schema = z.string();
-          if (validation.minLength) {
-            schema = (schema as z.ZodString).min(
-              validation.minLength,
-              getErrorMessage(
-                validation,
-                "minLength",
-                `Minimum length is ${validation.minLength}`
-              )
-            );
-          }
-          if (validation.maxLength) {
-            schema = (schema as z.ZodString).max(
-              validation.maxLength,
-              getErrorMessage(
-                validation,
-                "maxLength",
-                `Maximum length is ${validation.maxLength}`
-              )
-            );
-          }
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-
-        case "date":
-        case "datetime-local":
-          schema = z
-            .string()
-            .min(
-              1,
-              getErrorMessage(
-                validation,
-                "required",
-                "Please select a valid date/time"
-              )
-            );
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-
-        case "file":
-          schema = z.any();
-
-          if (validation.required) {
-            schema = z
-              .any()
-              .refine(
-                (file) => file && file.length > 0,
-                getErrorMessage(validation, "required", "Please select a file")
-              )
-              .refine(
-                (file) =>
-                  !file || file[0]?.size <= (validation.maxSize || 5000000),
-                getErrorMessage(
-                  validation,
-                  "customFile",
-                  `File must be under ${(
-                    (validation.maxSize || 5000000) / 1000000
-                  ).toFixed(1)}MB`
-                )
-              );
-          } else {
-            schema = z
-              .any()
-              .optional()
-              .refine(
-                (file) =>
-                  !file ||
-                  file.length === 0 ||
-                  file[0]?.size <= (validation.maxSize || 5000000),
-                getErrorMessage(
-                  validation,
-                  "customFile",
-                  `File must be under ${(
-                    (validation.maxSize || 5000000) / 1000000
-                  ).toFixed(1)}MB`
-                )
-              );
-          }
-          break;
-
-        case "image":
-          schema = z.any();
-          if (validation.required) {
-            schema = z
-              .any()
-              .refine((value) => {
-                if (typeof value === "string" && value.length > 0) return true;
-                return value && value.length > 0;
-              }, getErrorMessage(validation, "required", "Please select an image"))
-              .refine((value) => {
-                if (typeof value === "string") return true;
-                return (
-                  !value ||
-                  [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/webp",
-                  ].includes(value[0]?.type)
-                );
-              }, getErrorMessage(validation, "customFile", "Please select a valid image file"))
-              .refine((value) => {
-                if (typeof value === "string") return true;
-                return (
-                  !value || value[0]?.size <= (validation.maxSize || 2000000)
-                );
-              }, getErrorMessage(validation, "customFile", `Image must be under ${((validation.maxSize || 2000000) / 1000000).toFixed(1)}MB`));
-          } else {
-            schema = z
-              .any()
-              .optional()
-              .refine((value) => {
-                if (typeof value === "string") return true;
-                return (
-                  !value ||
-                  value.length === 0 ||
-                  [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/webp",
-                  ].includes(value[0]?.type)
-                );
-              }, getErrorMessage(validation, "customFile", "Please select a valid image file"))
-              .refine((value) => {
-                if (typeof value === "string") return true;
-                return (
-                  !value ||
-                  value.length === 0 ||
-                  value[0]?.size <= (validation.maxSize || 2000000)
-                );
-              }, getErrorMessage(validation, "customFile", `Image must be under ${((validation.maxSize || 2000000) / 1000000).toFixed(1)}MB`));
-          }
-          break;
-
-        default:
-          schema = z.string();
-          if (validation.minLength) {
-            schema = (schema as z.ZodString).min(
-              validation.minLength,
-              getErrorMessage(
-                validation,
-                "minLength",
-                `Minimum length is ${validation.minLength}`
-              )
-            );
-          }
-          if (validation.maxLength) {
-            schema = (schema as z.ZodString).max(
-              validation.maxLength,
-              getErrorMessage(
-                validation,
-                "maxLength",
-                `Maximum length is ${validation.maxLength}`
-              )
-            );
-          }
-          if (validation.pattern) {
-            schema = (schema as z.ZodString).regex(
-              new RegExp(validation.pattern),
-              getErrorMessage(validation, "pattern", "Invalid format")
-            );
-          }
-          if (!validation.required) {
-            schema = schema.optional().or(z.literal(""));
-          }
-          break;
-      }
-
-      schemaObject[field.id] = schema;
-    });
-
-    return z.object(schemaObject);
-  };
-
-  const validateFields = (
-    fieldsToValidate: FormField[],
-    dataToValidate: Record<string, any>
-  ) => {
-    const newErrors: Record<string, string> = {};
-
-    const cleanData: Record<string, any> = {};
-    fieldsToValidate.forEach((field) => {
-      if (field.hidden) return;
-
-      let value = dataToValidate[field.id];
-
-      if (typeof value === "string") {
-        value = value.trim();
-        if (value === "") {
-          value = undefined;
-        }
-      }
-
-      if (field.type === "checkbox" || field.type === "switch") {
-        cleanData[field.id] = value ?? false;
-      } else if (field.type === "multi-select") {
-        cleanData[field.id] = value ?? [];
-      } else if (
-        field.type === "number" &&
-        (value === "" || value === undefined)
-      ) {
-        cleanData[field.id] = undefined;
-      } else if (field.type === "slider") {
-        cleanData[field.id] = value ?? field.sliderProps?.min ?? 0;
-      } else if (field.type === "range-slider") {
-        cleanData[field.id] = value ?? [
-          field.sliderProps?.min ?? 0,
-          field.sliderProps?.max ?? 100,
-        ];
-      } else {
-        cleanData[field.id] = value ?? "";
-      }
-    });
-
-    try {
-      const schema = createValidationSchema(fieldsToValidate);
-      schema.parse(cleanData);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        error.issues.forEach((err) => {
-          const fieldPath = err.path.join(".");
-          newErrors[fieldPath] = err.message;
-        });
-      }
-    }
-
-    fieldsToValidate.forEach((field) => {
-      if (
-        field.validation?.custom &&
-        cleanData[field.id] !== undefined &&
-        cleanData[field.id] !== ""
-      ) {
-        const customError = field.validation.custom(cleanData[field.id]);
-        if (customError) {
-          newErrors[field.id] = customError;
-        }
-      }
-    });
-
-    return newErrors;
-  };
-
-  const handleFieldChange = (fieldId: string, value: any) => {
-    const trimmedValue = value;
-    const newData = { ...formData, [fieldId]: trimmedValue };
-    setFormData(newData);
-    setTouched({ ...touched, [fieldId]: true });
-
-    if (touched[fieldId]) {
-      const field = currentFields.find((f) => f.id === fieldId);
-      if (field) {
-        const fieldErrors = validateFields([field], newData);
-        setErrors((prev) => {
-          const updated = { ...prev };
-          if (fieldErrors[fieldId]) {
-            updated[fieldId] = fieldErrors[fieldId];
-          } else {
-            delete updated[fieldId];
-          }
-          return updated;
-        });
-      }
-    }
-
-    onChange?.(newData);
-
-    if (autoSave) {
-      localStorage.setItem(getStorageKey(), JSON.stringify(newData));
-    }
-  };
-
-  const handleNext = (e?: React.MouseEvent) => {
-    e?.preventDefault();
-
-    const visibleFields = currentFields.filter(
-      (field) =>
-        !field.hidden && (!field.conditional || field.conditional(formData))
-    );
-
-    const newTouched = { ...touched };
-    visibleFields.forEach((field) => {
-      newTouched[field.id] = true;
-    });
-    setTouched(newTouched);
-
-    const trimmedFormData = { ...formData };
-    Object.keys(trimmedFormData).forEach((key) => {
-      if (typeof trimmedFormData[key] === "string") {
-        trimmedFormData[key] = trimmedFormData[key].trim();
-      }
-    });
-    setFormData(trimmedFormData);
-    const stepErrors = validateFields(visibleFields, trimmedFormData);
-
-    setErrors((prev) => ({ ...prev, ...stepErrors }));
-
-    if (Object.keys(stepErrors).length === 0) {
-      setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
-    }
-  };
-
-  const handleBack = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 0));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const fieldsToValidate = isSteppedForm
-      ? steps.flatMap((step) => step.fields)
-      : fields;
-
-    const visibleFields = fieldsToValidate.filter(
-      (field) =>
-        !field.hidden && (!field.conditional || field.conditional(formData))
-    );
-
-    const newTouched = { ...touched };
-    visibleFields.forEach((field) => {
-      newTouched[field.id] = true;
-    });
-    setTouched(newTouched);
-
-    const trimmedFormData = { ...formData };
-    Object.keys(trimmedFormData).forEach((key) => {
-      if (typeof trimmedFormData[key] === "string") {
-        trimmedFormData[key] = trimmedFormData[key].trim();
-      }
-    });
-    setFormData(trimmedFormData);
-    const allErrors = validateFields(visibleFields, trimmedFormData);
-    setErrors(allErrors);
-    if (Object.keys(allErrors).length === 0) {
-      try {
-        await onSubmit(formData);
-        if (autoSave) {
-          localStorage.removeItem(getStorageKey());
-        }
-        setFormData({});
-        setResetCounter((prev) => prev + 1);
-      } catch (error) {
-        console.error("Form submission error:", error);
-      }
-    }
-
-    setIsSubmitting(false);
-  };
-
-  const handleReset = () => {
-    setFormData(initialValues);
-    setErrors({});
-    setTouched({});
-    setCurrentStep(0);
-    setResetCounter((prev) => prev + 1);
-    onChange?.({});
+  const clearStorage = useCallback(() => {
     if (autoSave) {
       localStorage.removeItem(getStorageKey());
     }
-  };
+  }, [autoSave, getStorageKey]);
+
+  const debouncedAutoSave = useCallback(
+    (data: Record<string, any>) => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+      autoSaveTimeoutRef.current = setTimeout(() => {
+        localStorage.setItem(getStorageKey(), JSON.stringify(data));
+      }, 500);
+    },
+    [getStorageKey]
+  );
+
+  const setFieldValue = useCallback(
+    (id: string, value: any) => {
+      setFormData((prev) => {
+        const newData = { ...prev, [id]: value };
+        onChange?.(newData);
+
+        if (autoSave && !isInitializing) {
+          debouncedAutoSave(newData);
+        }
+
+        return newData;
+      });
+    },
+    [onChange, autoSave, isInitializing, debouncedAutoSave]
+  );
+
+  const setFieldTouched = useCallback((id: string) => {
+    setTouched((prev) => {
+      if (prev[id]) return prev;
+      return { ...prev, [id]: true };
+    });
+  }, []);
+
+  const validateField = useCallback(
+    (id: string, value?: any, inputType?: string) => {
+      const fieldConfig = fields.current.get(id);
+      if (!fieldConfig) return;
+
+      setFormData((currentFormData) => {
+        const fieldValue = value !== undefined ? value : currentFormData[id];
+        const error = validateSingleField(
+          id,
+          fieldValue,
+          fieldConfig,
+          inputType
+        );
+
+        setErrors((prev) => {
+          const updated = { ...prev };
+          if (error) {
+            updated[id] = error;
+          } else {
+            delete updated[id];
+          }
+          return updated;
+        });
+
+        return currentFormData;
+      });
+    },
+    []
+  );
+
+  const registerField = useCallback(
+    (id: string, validation?: FormFieldValidation, stepId?: string) => {
+      fields.current.set(id, { validation, stepId });
+    },
+    []
+  );
+
+  const unregisterField = useCallback((id: string) => {
+    // fields.current.delete(id);
+  }, []);
+
+  const registerStep = useCallback(
+    (id: string, title: string, description?: string) => {
+      setSteps((prev) => {
+        const exists = prev.find((s) => s.id === id);
+        if (exists) return prev;
+        return [...prev, { id, title, description }];
+      });
+    },
+    []
+  );
+
+  const canProceed = useCallback(() => {
+    const currentStepFields = Array.from(fields.current.entries()).filter(
+      ([_, config]) =>
+        steps.length === 0 || config.stepId === steps[currentStep]?.id
+    );
+
+    if (currentStepFields.length === 0) return false;
+
+    const hasRequiredErrors = currentStepFields.some(([fieldId, config]) => {
+      if (!config.validation?.required) return false;
+      const value = formData[fieldId];
+
+      if (Array.isArray(value)) return value.length === 0;
+      if (typeof value === "boolean") return value !== true;
+      return (
+        value === undefined ||
+        value === null ||
+        value === "" ||
+        (typeof value === "string" && value.trim() === "")
+      );
+    });
+
+    return !hasRequiredErrors;
+  }, [formData, currentStep, steps]);
 
   useEffect(() => {
     setIsInitializing(true);
-    const allFields = isSteppedForm
-      ? steps.flatMap((step) => step.fields)
-      : fields;
-    const initialData = { ...initialValues };
+    let initialData = { ...initialValues };
 
-    allFields.forEach((field) => {
-      if (initialData[field.id] === undefined) {
-        switch (field.type) {
-          case "checkbox":
-          case "switch":
-            initialData[field.id] = field.defaultValue ?? false;
-            break;
-          case "multi-select":
-            initialData[field.id] = field.defaultValue ?? [];
-            break;
-          case "slider":
-            initialData[field.id] =
-              field.defaultValue ?? field.sliderProps?.min ?? 0;
-            break;
-          case "range-slider":
-            initialData[field.id] = field.defaultValue ?? [
-              field.sliderProps?.min ?? 0,
-              field.sliderProps?.max ?? 100,
-            ];
-            break;
-          default:
-            initialData[field.id] = field.defaultValue ?? "";
-        }
-      }
-    });
-    setTimeout(() => {
-      setFormData(initialData);
-      setIsInitializing(false);
-    }, 0);
-  }, [resetCounter]);
-
-  useEffect(() => {
-    if (autoSave) {
+    if (autoSave && Object.keys(initialValues).length === 0) {
       const saved = localStorage.getItem(getStorageKey());
       if (saved) {
         try {
           const parsedData = JSON.parse(saved);
-          setFormData({ ...initialValues, ...parsedData });
+          initialData = { ...parsedData };
         } catch (error) {
           console.error("Failed to parse auto-saved data:", error);
         }
       }
     }
-  }, [autoSave]);
 
-  const renderField = (field: FormField) => {
-    if (field.hidden || (field.conditional && !field.conditional(formData))) {
+    setFormData(initialData);
+    setTimeout(() => setIsInitializing(false), 0);
+  }, [autoSave, getStorageKey]);
+
+  useEffect(() => {
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const contextValue = useMemo<FormContextValue>(
+    () => ({
+      formData,
+      errors,
+      touched,
+      currentStep,
+      steps,
+      fields: fields.current,
+      setFormData,
+      setErrors,
+      setTouched,
+      setCurrentStep,
+      setFieldValue,
+      setFieldTouched,
+      registerField,
+      unregisterField,
+      registerStep,
+      validateField,
+      canProceed,
+      loading: loading || isFormLoading,
+      disabled: loading || isFormLoading,
+      onChange,
+      autoSave,
+      autoSaveKey,
+      clearStorage,
+      isSubmitting,
+      setIsSubmitting,
+    }),
+    [
+      formData,
+      errors,
+      touched,
+      currentStep,
+      steps,
+      loading,
+      isFormLoading,
+      onChange,
+      autoSave,
+      autoSaveKey,
+      isSubmitting,
+      setFieldValue,
+      setFieldTouched,
+      registerField,
+      unregisterField,
+      registerStep,
+      validateField,
+      canProceed,
+      clearStorage,
+    ]
+  );
+
+  return (
+    <FormContext.Provider value={contextValue}>
+      <div
+        className={cn(
+          "border border-border rounded-lg p-4 sm:p-6 w-full max-w-6xl mx-auto space-y-6 bg-white dark:bg-muted",
+          className
+        )}
+      >
+        {isFormLoading || isInitializing ? (
+          <FormSkeleton {...skeletonProps} />
+        ) : (
+          children
+        )}
+      </div>
+    </FormContext.Provider>
+  );
+};
+
+interface HeaderProps {
+  title?: string;
+  description?: string;
+  logo?: string;
+  logoClassName?: string;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+const Header: React.FC<HeaderProps> = memo(
+  ({ title, description, logo, logoClassName, className, children }) => {
+    return (
+      <>
+        {logo && (
+          <div className="flex justify-center mb-4">
+            <Image
+              src={logo}
+              alt="Logo"
+              width={120}
+              height={80}
+              className={cn("object-contain", logoClassName)}
+              priority
+            />
+          </div>
+        )}
+        <div className={cn("space-y-2", className)}>
+          {title && (
+            <h1 className="text-2xl text-center font-bold text-foreground">
+              {title}
+            </h1>
+          )}
+          {description && (
+            <p className="text-muted-foreground text-center">{description}</p>
+          )}
+          {children}
+        </div>
+      </>
+    );
+  }
+);
+Header.displayName = "Header";
+
+interface StepperProgressProps {
+  className?: string;
+  size?: "sm" | "md" | "lg";
+  showLabels?: boolean;
+}
+
+const StepperProgress: React.FC<StepperProgressProps> = memo(
+  ({ className, size = "md", showLabels = true }) => {
+    const { steps, currentStep } = useFormContext();
+
+    if (steps.length === 0) return null;
+
+    return (
+      <div className={cn("w-full mx-auto", className)}>
+        <Stepper
+          steps={steps}
+          currentStep={currentStep}
+          size={size}
+          showLabels={showLabels}
+          className="max-w-full"
+        />
+      </div>
+    );
+  }
+);
+StepperProgress.displayName = "StepperProgress";
+
+interface StepProps {
+  id: string;
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Step: React.FC<StepProps> = memo(
+  ({ id, title, description, children, className }) => {
+    const { currentStep, steps, registerStep } = useFormContext();
+
+    useEffect(() => {
+      registerStep(id, title, description);
+    }, [id, title, description, registerStep]);
+
+    const stepIndex = steps.findIndex((s) => s.id === id);
+    const isActive = stepIndex === currentStep;
+
+    if (!isActive) return null;
+
+    return (
+      <StepContext.Provider value={{ stepId: id, stepIndex }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={id}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+            className={cn("space-y-6", className)}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </StepContext.Provider>
+    );
+  }
+);
+Step.displayName = "Step";
+
+interface GroupProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Group: React.FC<GroupProps> = memo(({ children, className }) => {
+  return (
+    <div className={cn("grid grid-cols-1 gap-4 sm:gap-6", className)}>
+      {children}
+    </div>
+  );
+});
+Group.displayName = "Group";
+
+interface FieldProps {
+  id: string;
+  validation?: FormFieldValidation;
+  defaultValue?: any;
+  conditional?: (values: Record<string, any>) => boolean;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Field: React.FC<FieldProps> = memo(
+  ({ id, validation, defaultValue, conditional, children, className }) => {
+    const {
+      formData,
+      errors,
+      touched,
+      registerField,
+      unregisterField,
+      setFieldValue,
+      setErrors,
+      setTouched,
+    } = useFormContext();
+    const stepContext = useStepContext();
+    const hasSetDefault = useRef(false);
+
+    const isVisible = useMemo(
+      () => (conditional ? conditional(formData) : true),
+      [conditional, formData]
+    );
+
+    useEffect(() => {
+      if (isVisible) {
+        registerField(id, validation, stepContext?.stepId);
+
+        if (
+          defaultValue !== undefined &&
+          formData[id] === undefined &&
+          !hasSetDefault.current
+        ) {
+          setFieldValue(id, defaultValue);
+          hasSetDefault.current = true;
+        }
+      } else {
+        unregisterField(id);
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors[id];
+          return newErrors;
+        });
+        setTouched((prev) => {
+          const newTouched = { ...prev };
+          delete newTouched[id];
+          return newTouched;
+        });
+      }
+
+      return () => {
+        unregisterField(id);
+      };
+    }, [
+      id,
+      validation,
+      stepContext?.stepId,
+      isVisible,
+      registerField,
+      unregisterField,
+    ]);
+
+    if (!isVisible) {
       return null;
     }
 
-    const getFieldValue = (field: FormField) => {
-      const formValue = formData[field.id];
-
-      if (formValue !== undefined) {
-        if (touched[field.id] || formValue !== "") return formValue;
-
-        if (formValue === "" && !touched[field.id]) {
-        } else {
-          return formValue;
-        }
-      }
-
-      if (field.defaultValue !== undefined) return field.defaultValue;
-
-      switch (field.type) {
-        case "checkbox":
-        case "switch":
-          return false;
-        case "multi-select":
-          return [];
-        case "number":
-          return "";
-        case "slider":
-          return field.sliderProps?.min ?? 0;
-        case "range-slider":
-          return [field.sliderProps?.min ?? 0, field.sliderProps?.max ?? 100];
-        default:
-          return "";
-      }
+    const fieldContext: FieldContextValue = {
+      id,
+      validation,
+      error: errors[id],
+      touched: touched[id] || false,
     };
 
-    const value = getFieldValue(field);
+    return (
+      <FieldContext.Provider value={fieldContext}>
+        <div className={cn("space-y-2", className)}>{children}</div>
+      </FieldContext.Provider>
+    );
+  }
+);
+Field.displayName = "Field";
 
-    const error = errors[field.id];
-    const hasError = !!error && touched[field.id];
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+  children: React.ReactNode;
+}
 
-    const getFieldClassName = (type: string) => {
-      switch (type) {
-        case "checkbox":
-        case "switch":
-          return "col-span-full";
-        case "textarea":
-          return "col-span-full";
-        case "slider":
-        case "range-slider":
-          return "col-span-full sm:col-span-2";
-        default:
-          return "col-span-full sm:col-span-1";
-      }
-    };
+const Label: React.FC<LabelProps> = memo(
+  ({ required, children, className, ...props }) => {
+    const fieldContext = useFieldContext();
 
-    const fieldWrapper = (component: React.ReactNode) => (
-      <div
-        key={field.id}
-        className={cn("space-y-2", getFieldClassName(field.type))}
+    return (
+      <LabelBase
+        htmlFor={fieldContext?.id}
+        required={required}
+        className={cn("block", className)}
+        {...props}
       >
-        <Label
-          htmlFor={field.id}
-          required={field.validation?.required}
-          className="block"
-        >
-          {field.label}
-        </Label>
+        {children}
+      </LabelBase>
+    );
+  }
+);
+Label.displayName = "Label";
 
-        {component}
-        {field.description && (
-          <p className="text-xs text-muted-foreground">{field.description}</p>
-        )}
-        <AnimatePresence>
-          {hasError && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="flex items-center space-x-1 text-destructive"
-            >
-              <AlertCircle className="w-3 h-3" />
-              <span className="text-xs">{error}</span>
-            </motion.div>
+interface DescriptionProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Description: React.FC<DescriptionProps> = memo(
+  ({ children, className }) => {
+    return (
+      <p className={cn("text-xs text-muted-foreground", className)}>
+        {children}
+      </p>
+    );
+  }
+);
+Description.displayName = "Description";
+
+const Error: React.FC<{ className?: string }> = memo(({ className }) => {
+  const { error, touched } = useFieldContext();
+
+  return (
+    <AnimatePresence>
+      {error && touched && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          className={cn(
+            "flex items-center space-x-1 text-destructive",
+            className
           )}
-        </AnimatePresence>
+        >
+          <AlertCircle className="w-3 h-3" />
+          <span className="text-xs">{error}</span>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+});
+Error.displayName = "Error";
+
+interface FormInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const FormInput: React.FC<FormInputProps> = memo(
+  ({ type = "text", onChange: customOnChange, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || "";
+
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        let inputValue = e.target.value;
+
+        if (type === "tel") {
+          inputValue = inputValue.replace(/[^0-9+\-\s()]/g, "");
+        }
+
+        setFieldTouched(id);
+        setFieldValue(id, inputValue);
+        validateField(id, inputValue, type);
+        customOnChange?.(e);
+      },
+      [id, type, setFieldTouched, setFieldValue, validateField, customOnChange]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <Input
+        {...props}
+        id={id}
+        type={type}
+        value={value}
+        onChange={handleChange}
+        disabled={disabled || props.disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormInput.displayName = "FormInput";
+
+interface FormTextareaProps
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> {
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
+
+const FormTextarea: React.FC<FormTextareaProps> = memo(
+  ({ onChange: customOnChange, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || "";
+
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const inputValue = e.target.value;
+        setFieldTouched(id);
+        setFieldValue(id, inputValue);
+        validateField(id, inputValue);
+        customOnChange?.(e);
+      },
+      [id, setFieldTouched, setFieldValue, validateField, customOnChange]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <Textarea
+        {...props}
+        id={id}
+        value={value}
+        onChange={handleChange}
+        disabled={disabled || props.disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormTextarea.displayName = "FormTextarea";
+
+interface FormPasswordInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const FormPasswordInput: React.FC<FormPasswordInputProps> = memo(
+  ({ onChange: customOnChange, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || "";
+
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        setFieldTouched(id);
+        setFieldValue(id, inputValue);
+        validateField(id, inputValue, "password");
+        customOnChange?.(e);
+      },
+      [id, setFieldTouched, setFieldValue, validateField, customOnChange]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <PasswordInput
+        {...props}
+        id={id}
+        value={value}
+        onChange={handleChange}
+        disabled={disabled || props.disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormPasswordInput.displayName = "FormPasswordInput";
+
+interface FormCheckboxProps
+  extends Omit<React.ComponentProps<typeof Checkbox>, "onChange" | "checked"> {
+  children?: React.ReactNode;
+}
+
+const FormCheckbox: React.FC<FormCheckboxProps> = memo(
+  ({ children, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const checked = formData[id] || false;
+
+    const handleChange = useCallback(
+      (value: boolean) => {
+        setFieldTouched(id);
+        setFieldValue(id, value);
+        validateField(id, value);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          {...props}
+          id={id}
+          checked={checked}
+          onChange={handleChange}
+          disabled={disabled || props.disabled}
+          className={cn(hasError && "border-destructive", className)}
+        />
+        {children && (
+          <label htmlFor={id} className="text-sm cursor-pointer">
+            {children}
+          </label>
+        )}
       </div>
     );
+  }
+);
+FormCheckbox.displayName = "FormCheckbox";
 
-    const normalizeOptions = (
-      options: FormFieldOption[] | string[] | undefined
-    ) => {
-      if (!options) return [];
-      return options.map((opt) =>
-        typeof opt === "string" ? { label: opt, value: opt } : opt
-      );
-    };
+interface FormSwitchProps
+  extends Omit<
+    React.ComponentProps<typeof Switch>,
+    "onCheckedChange" | "checked"
+  > {
+  children?: React.ReactNode;
+}
 
-    switch (field.type) {
-      case "checkbox":
-        return fieldWrapper(
-          <Checkbox
-            id={field.id}
-            checked={value || false}
-            onChange={(checked) => handleFieldChange(field.id, checked)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-            {...field.inputProps}
-          />
-        );
+const FormSwitch: React.FC<FormSwitchProps> = memo(
+  ({ children, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const checked = formData[id] || false;
 
-      case "switch":
-        return fieldWrapper(
-          <Switch
-            id={field.id}
-            checked={value || false}
-            onCheckedChange={(checked) => handleFieldChange(field.id, checked)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-            {...field.inputProps}
-          />
-        );
-
-      case "radio":
-        return fieldWrapper(
-          <RadioGroup
-            value={value || ""}
-            onValueChange={(val) => handleFieldChange(field.id, val)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          >
-            {normalizeOptions(field.options).map((option) => (
-              <div key={option.value} className="flex items-center space-x-2">
-                <RadioGroupItem
-                  {...field.inputProps}
-                  value={String(option.value)}
-                  id={`${field.id}-${option.value}`}
-                  disabled={option.disabled || field.disabled || loading}
-                />
-                <Label
-                  htmlFor={`${field.id}-${option.value}`}
-                  className="cursor-pointer"
-                >
-                  {option.label}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        );
-
-      case "select":
-        return fieldWrapper(
-          <Select
-            value={value || ""}
-            onValueChange={(val) => handleFieldChange(field.id, val)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder={field.placeholder} />
-            </SelectTrigger>
-            <SelectContent>
-              {normalizeOptions(field.options).map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={String(option.value)}
-                  disabled={option.disabled}
-                >
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
-
-      case "multi-select":
-        return fieldWrapper(
-          <MultiSelect
-            values={value || []}
-            onValuesChange={(vals) => handleFieldChange(field.id, vals)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          >
-            <MultiSelectTrigger>
-              <MultiSelectValue placeholder={field.placeholder} />
-            </MultiSelectTrigger>
-            <MultiSelectContent>
-              {normalizeOptions(field.options).map((option) => (
-                <MultiSelectItem
-                  key={option.value}
-                  value={String(option.value)}
-                  disabled={option.disabled}
-                >
-                  {option.label}
-                </MultiSelectItem>
-              ))}
-            </MultiSelectContent>
-          </MultiSelect>
-        );
-
-      case "slider":
-        return fieldWrapper(
-          <div className="space-y-3">
-            <Slider
-              value={value ?? field.sliderProps?.min ?? 0}
-              onChange={(val) => handleFieldChange(field.id, val)}
-              min={field.sliderProps?.min ?? 0}
-              max={field.sliderProps?.max ?? 100}
-              step={field.sliderProps?.step ?? 1}
-              disabled={field.disabled || loading}
-              className={cn(field.className, hasError && "border-destructive")}
-            />
-            <div className="text-center text-sm text-muted-foreground">
-              Value: {value ?? field.sliderProps?.min ?? 0}
-            </div>
-          </div>
-        );
-
-      case "range-slider":
-        return fieldWrapper(
-          <div className="space-y-3">
-            <RangeSlider
-              value={
-                value || [
-                  field.sliderProps?.min ?? 0,
-                  field.sliderProps?.max ?? 100,
-                ]
-              }
-              onChange={(val) => handleFieldChange(field.id, val)}
-              min={field.sliderProps?.min ?? 0}
-              max={field.sliderProps?.max ?? 100}
-              step={field.sliderProps?.step ?? 1}
-              disabled={field.disabled || loading}
-              className={cn(field.className, hasError && "border-destructive")}
-            />
-            <div className="text-center text-sm text-muted-foreground">
-              Range: {value?.[0] ?? field.sliderProps?.min ?? 0} -{" "}
-              {value?.[1] ?? field.sliderProps?.max ?? 100}
-            </div>
-          </div>
-        );
-
-      case "textarea":
-        return fieldWrapper(
-          <Textarea
-            {...field.inputProps}
-            id={field.id}
-            value={value || ""}
-            onChange={(e) => handleFieldChange(field.id, e.target.value)}
-            placeholder={field.placeholder}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          />
-        );
-
-      case "number":
-        return fieldWrapper(
-          <Input
-            {...field.inputProps}
-            id={field.id}
-            type="number"
-            value={value || ""}
-            onChange={(e) =>
-              handleFieldChange(
-                field.id,
-                e.target.value ? Number(e.target.value) : ""
-              )
-            }
-            placeholder={field.placeholder}
-            min={field.validation?.min}
-            max={field.validation?.max}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          />
-        );
-
-      case "file":
-        return fieldWrapper(
-          <Input
-            {...field.inputProps}
-            id={field.id}
-            type="file"
-            onChange={(e) => handleFieldChange(field.id, e.target.files)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          />
-        );
-      case "image":
-        return fieldWrapper(
-          <ImageInput
-            {...field.inputProps}
-            id={field.id}
-            onChange={(e) => handleFieldChange(field.id, e.target.files)}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-            previewUrl={field.defaultValue}
-          />
-        );
-      case "date":
-      case "datetime-local":
-        return fieldWrapper(
-          <DatePicker
-            {...field.inputProps}
-            value={value ? new Date(value) : null}
-            onChange={(date) =>
-              handleFieldChange(
-                field.id,
-                date ? date.toLocaleDateString("en-CA") : ""
-              )
-            }
-            placeholder={field.placeholder}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-            includeTime={field.type === "datetime-local"}
-            minDate={
-              field.validation?.min ? new Date(field.validation.min) : undefined
-            }
-            maxDate={
-              field.validation?.max ? new Date(field.validation.max) : undefined
-            }
-          />
-        );
-      default:
-        return fieldWrapper(
-          <Input
-            {...field.inputProps}
-            id={field.id}
-            type={field.type}
-            value={value || ""}
-            onChange={(e) => {
-              const inputValue =
-                field.type === "tel"
-                  ? e.target.value.replace(/[^0-9+\-\s()]/g, "")
-                  : e.target.value;
-              handleFieldChange(field.id, inputValue);
-            }}
-            placeholder={field.placeholder}
-            disabled={field.disabled || loading}
-            className={cn(field.className, hasError && "border-destructive")}
-          />
-        );
-    }
-  };
-
-  const canProceed = () => {
-    const visibleFields = currentFields.filter(
-      (field) =>
-        !field.hidden && (!field.conditional || field.conditional(formData))
+    const handleChange = useCallback(
+      (value: boolean) => {
+        setFieldTouched(id);
+        setFieldValue(id, value);
+        validateField(id, value);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
     );
 
-    const requiredFields = visibleFields.filter(
-      (field) => field.validation?.required
+    const hasError = !!error && touched;
+
+    return (
+      <div className="flex items-center space-x-2">
+        <Switch
+          {...props}
+          id={id}
+          checked={checked}
+          onCheckedChange={handleChange}
+          disabled={disabled || props.disabled}
+          className={cn(hasError && "border-destructive", className)}
+        />
+        {children && (
+          <label htmlFor={id} className="text-sm cursor-pointer">
+            {children}
+          </label>
+        )}
+      </div>
     );
-    const hasRequiredErrors = requiredFields.some((field) => {
-      const value = formData[field.id];
-      if (field.type === "checkbox" || field.type === "switch") {
-        return !value;
-      }
-      if (field.type === "multi-select") {
-        return !value || value.length === 0;
-      }
+  }
+);
+FormSwitch.displayName = "FormSwitch";
 
-      if (field.type === "slider") {
-        if (value === undefined || value === null) return true;
-        if (field.validation?.min !== undefined && value < field.validation.min)
-          return true;
-        return false;
-      }
-      if (field.type === "range-slider") {
-        if (!value || !Array.isArray(value) || value.length !== 2) return true;
-        if (
-          field.validation?.min !== undefined &&
-          value[0] < field.validation.min
-        )
-          return true;
-        return false;
-      }
+interface FormRadioGroupProps {
+  className?: string;
+  children: React.ReactNode;
+}
 
-      return !value || (typeof value === "string" && value.trim() === "");
-    });
+const FormRadioGroup: React.FC<FormRadioGroupProps> = memo(
+  ({ className, children }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || "";
 
-    return !hasRequiredErrors;
-  };
+    const handleChange = useCallback(
+      (val: string) => {
+        setFieldTouched(id);
+        setFieldValue(id, val);
+        validateField(id, val);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
 
-  const isLastStep = currentStep === totalSteps - 1;
+    const hasError = !!error && touched;
 
+    return (
+      <RadioGroupBase
+        value={value}
+        onValueChange={handleChange}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      >
+        {children}
+      </RadioGroupBase>
+    );
+  }
+);
+FormRadioGroup.displayName = "FormRadioGroup";
+
+const FormRadioGroupItem = RadioGroupItem;
+Object.assign(FormRadioGroup, { Item: FormRadioGroupItem });
+
+interface FormSelectProps {
+  placeholder?: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FormSelect: React.FC<FormSelectProps> = memo(
+  ({ placeholder, className, children }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || "";
+
+    const handleChange = useCallback(
+      (val: string) => {
+        setFieldTouched(id);
+        setFieldValue(id, val);
+        validateField(id, val);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <Select
+        value={value}
+        onValueChange={handleChange}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      >
+        <SelectTrigger id={id}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>{children}</SelectContent>
+      </Select>
+    );
+  }
+);
+FormSelect.displayName = "FormSelect";
+
+const FormSelectItem = SelectItem;
+Object.assign(FormSelect, { Item: FormSelectItem });
+
+interface FormMultiSelectProps {
+  placeholder?: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FormMultiSelect: React.FC<FormMultiSelectProps> = memo(
+  ({ placeholder, className, children }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const values = formData[id] || [];
+
+    const handleChange = useCallback(
+      (vals: string[]) => {
+        setFieldTouched(id);
+        setFieldValue(id, vals);
+        validateField(id, vals);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <MultiSelect
+        values={values}
+        onValuesChange={handleChange}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      >
+        <MultiSelectTrigger id={id}>
+          <MultiSelectValue placeholder={placeholder} />
+        </MultiSelectTrigger>
+        <MultiSelectContent>{children}</MultiSelectContent>
+      </MultiSelect>
+    );
+  }
+);
+FormMultiSelect.displayName = "FormMultiSelect";
+
+const FormMultiSelectItem = MultiSelectItem;
+Object.assign(FormMultiSelect, { Item: FormMultiSelectItem });
+
+interface FormSliderProps {
+  min?: number;
+  max?: number;
+  step?: number;
+  showValue?: boolean;
+  className?: string;
+}
+
+const FormSlider: React.FC<FormSliderProps> = memo(
+  ({ min = 0, max = 100, step = 1, showValue = true, className }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] ?? min;
+
+    const handleChange = useCallback(
+      (val: number) => {
+        setFieldTouched(id);
+        setFieldValue(id, val);
+        validateField(id, val);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <div className="space-y-3">
+        <Slider
+          value={value}
+          onChange={handleChange}
+          min={min}
+          max={max}
+          step={step}
+          disabled={disabled}
+          className={cn(hasError && "border-destructive", className)}
+        />
+        {showValue && (
+          <div className="text-center text-sm text-muted-foreground">
+            Value: {value}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+FormSlider.displayName = "FormSlider";
+
+interface FormRangeSliderProps {
+  min?: number;
+  max?: number;
+  step?: number;
+  showValue?: boolean;
+  className?: string;
+}
+
+const FormRangeSlider: React.FC<FormRangeSliderProps> = memo(
+  ({ min = 0, max = 100, step = 1, showValue = true, className }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || [min, max];
+
+    const handleChange = useCallback(
+      (val: [number, number]) => {
+        setFieldTouched(id);
+        setFieldValue(id, val);
+        validateField(id, val);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <div className="space-y-3">
+        <RangeSlider
+          value={value}
+          onChange={handleChange}
+          min={min}
+          max={max}
+          step={step}
+          disabled={disabled}
+          className={cn(hasError && "border-destructive", className)}
+        />
+        {showValue && (
+          <div className="text-center text-sm text-muted-foreground">
+            Range: {value[0]} - {value[1]}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+FormRangeSlider.displayName = "FormRangeSlider";
+
+interface FormCheckboxGroupProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+const FormCheckboxGroup: React.FC<FormCheckboxGroupProps> = memo(
+  ({ className, children }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const values = formData[id] || [];
+
+    const handleChange = useCallback(
+      (vals: string[]) => {
+        setFieldTouched(id);
+        setFieldValue(id, vals);
+        validateField(id, vals);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <CheckboxGroupBase
+        value={values}
+        onValueChange={handleChange}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      >
+        {children}
+      </CheckboxGroupBase>
+    );
+  }
+);
+FormCheckboxGroup.displayName = "FormCheckboxGroup";
+
+Object.assign(FormCheckboxGroup, { Item: CheckboxGroupBase.Item });
+
+interface FormMultiInputProps {
+  placeholder?: string;
+  max?: number;
+  className?: string;
+}
+
+const FormMultiInput: React.FC<FormMultiInputProps> = memo(
+  ({ placeholder, max, className }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const values = formData[id] || [];
+
+    const handleChange = useCallback(
+      (vals: string[]) => {
+        setFieldTouched(id);
+        setFieldValue(id, vals);
+        validateField(id, vals);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <MultiInput
+        id={id}
+        value={values}
+        onChange={handleChange}
+        placeholder={placeholder}
+        max={max}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormMultiInput.displayName = "FormMultiInput";
+
+interface FormDatePickerProps {
+  placeholder?: string;
+  includeTime?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
+  className?: string;
+}
+
+const FormDatePicker: React.FC<FormDatePickerProps> = memo(
+  ({ placeholder, includeTime = false, minDate, maxDate, className }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id];
+
+    const handleChange = useCallback(
+      (date: Date | null) => {
+        const dateValue = date ? date.toLocaleDateString("en-CA") : "";
+        setFieldTouched(id);
+        setFieldValue(id, dateValue);
+        validateField(id, dateValue);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <DatePicker
+        id={id}
+        value={value ? new Date(value) : null}
+        onChange={handleChange}
+        placeholder={placeholder}
+        includeTime={includeTime}
+        minDate={minDate}
+        maxDate={maxDate}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormDatePicker.displayName = "FormDatePicker";
+
+interface FormDateRangePickerProps {
+  placeholder?: string;
+  minDate?: Date;
+  maxDate?: Date;
+  className?: string;
+}
+
+const FormDateRangePicker: React.FC<FormDateRangePickerProps> = memo(
+  ({ placeholder, minDate, maxDate, className }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      formData,
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+    } = useFormContext();
+    const value = formData[id] || { start: null, end: null };
+
+    const handleChange = useCallback(
+      (range: { start: Date | null; end: Date | null }) => {
+        setFieldTouched(id);
+        setFieldValue(id, range);
+        validateField(id, range);
+      },
+      [id, setFieldTouched, setFieldValue, validateField]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <DateRangePicker
+        id={id}
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+        minDate={minDate}
+        maxDate={maxDate}
+        disabled={disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormDateRangePicker.displayName = "FormDateRangePicker";
+
+interface FormFileInputProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "type" | "onChange"
+  > {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const FormFileInput: React.FC<FormFileInputProps> = memo(
+  ({ onChange: customOnChange, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const { setFieldValue, setFieldTouched, validateField, disabled } =
+      useFormContext();
+
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFieldTouched(id);
+        setFieldValue(id, e.target.files);
+        validateField(id, e.target.files);
+        customOnChange?.(e);
+      },
+      [id, setFieldTouched, setFieldValue, validateField, customOnChange]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <Input
+        {...props}
+        id={id}
+        type="file"
+        onChange={handleChange}
+        disabled={disabled || props.disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormFileInput.displayName = "FormFileInput";
+
+interface FormImageInputProps
+  extends Omit<React.ComponentProps<typeof ImageInput>, "onChange"> {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  previewUrl?: string;
+}
+
+const FormImageInput: React.FC<FormImageInputProps> = memo(
+  ({ onChange: customOnChange, previewUrl, className, ...props }) => {
+    const { id, error, touched } = useFieldContext();
+    const {
+      setFieldValue,
+      setFieldTouched,
+      validateField,
+      disabled,
+      formData,
+    } = useFormContext();
+
+    const value = formData[id] || null;
+
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFieldTouched(id);
+        setFieldValue(id, e.target.files);
+        validateField(id, e.target.files);
+        customOnChange?.(e);
+      },
+      [id, setFieldTouched, setFieldValue, validateField, customOnChange]
+    );
+
+    const hasError = !!error && touched;
+
+    return (
+      <ImageInput
+        {...props}
+        id={id}
+        onChange={handleChange}
+        previewUrl={value ? previewUrl : null}
+        disabled={disabled || props.disabled}
+        className={cn(hasError && "border-destructive", className)}
+      />
+    );
+  }
+);
+FormImageInput.displayName = "FormImageInput";
+
+interface ActionsProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Actions: React.FC<ActionsProps> = memo(({ children, className }) => {
   return (
     <div
       className={cn(
-        "border border-border rounded-lg p-4 sm:p-6 w-full max-w-6xl mx-auto space-y-6 bg-secondary dark:bg-muted",
+        "flex flex-col sm:flex-row gap-3 items-center justify-between pt-6 border-t border-border",
         className
       )}
     >
-      {logo && (
-        <div className="flex justify-center mb-4">
-          <Image
-            src={logo}
-            alt="Logo"
-            width={120}
-            height={80}
-            className={cn("object-contain", logoClassName)}
-            priority
-          />
-        </div>
-      )}
-
-      {header && (
-        <div className={cn("space-y-2", header.className)}>
-          {header.title && (
-            <h1 className="text-2xl text-center font-bold text-foreground">
-              {header.title}
-            </h1>
-          )}
-          {header.description && (
-            <p className="text-muted-foreground text-center">
-              {header.description}
-            </p>
-          )}
-          {header.children}
-        </div>
-      )}
-
-      {isSteppedForm && showStepProgress && (
-        <div className={cn("w-full mx-auto", stepperClassName)}>
-          <Stepper
-            steps={steps.map((step) => ({
-              id: step.id,
-              title: step.title,
-              description: step.description,
-            }))}
-            currentStep={currentStep}
-            size="md"
-            showLabels={true}
-            className="max-w-full"
-          />
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className={cn("space-y-6", formClassName)}>
-        {shouldShowSkeleton ? (
-          <FormSkeleton
-            {...skeletonProps}
-            className={cn(skeletonProps?.className)}
-          />
-        ) : (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={isSteppedForm ? currentStep : "form"}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-6"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {currentFields.map(renderField)}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        )}
-
-        <div className="flex flex-col sm:flex-row gap-3 items-center justify-between pt-6 border-t border-border">
-          <div className="flex flex-wrap gap-3 items-center justify-center sm:justify-start">
-            {isSteppedForm && currentStep > 0 && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleBack}
-                disabled={loading}
-                className="flex items-center space-x-2 min-w-[100px]"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>{backText}</span>
-              </Button>
-            )}
-            {showReset && (
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={handleReset}
-                disabled={loading}
-                className="min-w-[100px]"
-              >
-                {resetText}
-              </Button>
-            )}
-          </div>
-
-          <div className="flex items-center justify-center sm:justify-end">
-            {isSteppedForm && !isLastStep ? (
-              !canProceed() ? (
-                <Tooltip
-                  content="Fill all the required fields marked with *"
-                  side="top"
-                >
-                  <div>
-                    <Button
-                      type="button"
-                      onClick={handleNext}
-                      disabled={true}
-                      className="flex items-center space-x-2 min-w-[100px]"
-                    >
-                      <span>{nextText}</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </Tooltip>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={loading}
-                  className="flex items-center space-x-2 min-w-[100px]"
-                >
-                  <span>{nextText}</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              )
-            ) : !canProceed() &&
-              !loading &&
-              !isSubmitting &&
-              !isSubmitLoading ? (
-              <Tooltip
-                content="Fill all the required fields marked with *"
-                side="top"
-              >
-                <div>
-                  <Button
-                    type="submit"
-                    disabled={true}
-                    className="min-w-[120px]"
-                    isLoading={isSubmitting || isSubmitLoading}
-                  >
-                    {submitText}
-                  </Button>
-                </div>
-              </Tooltip>
-            ) : (
-              <Button
-                type="submit"
-                disabled={false}
-                className="min-w-[120px]"
-                isLoading={isSubmitting || isSubmitLoading}
-              >
-                {submitText}
-              </Button>
-            )}
-          </div>
-        </div>
-      </form>
-
-      {footer && (
-        <div className={cn("pt-4 border-t border-border", footer.className)}>
-          {footer.children}
-        </div>
-      )}
+      {children}
     </div>
   );
+});
+Actions.displayName = "Actions";
+
+interface BackButtonProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const BackButton: React.FC<BackButtonProps> = memo(
+  ({ children = "Back", className }) => {
+    const { currentStep, steps, setCurrentStep } = useFormContext();
+
+    const handleBack = useCallback(() => {
+      setCurrentStep((prev) => Math.max(prev - 1, 0));
+    }, [setCurrentStep]);
+
+    if (steps.length === 0 || currentStep === 0) return null;
+
+    return (
+      <Button
+        type="button"
+        variant="outline"
+        onClick={handleBack}
+        className={cn("flex items-center space-x-2 min-w-[100px]", className)}
+      >
+        <ChevronLeft className="w-4 h-4" />
+        <span>{children}</span>
+      </Button>
+    );
+  }
+);
+BackButton.displayName = "BackButton";
+
+interface NextButtonProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const NextButton: React.FC<NextButtonProps> = memo(
+  ({ children = "Next", className }) => {
+    const {
+      currentStep,
+      steps,
+      canProceed,
+      fields,
+      formData,
+      setFieldTouched,
+      setErrors,
+      setCurrentStep,
+    } = useFormContext();
+
+    const handleNext = useCallback(() => {
+      const currentStepId = steps[currentStep]?.id;
+      const currentStepFields = Array.from(fields.entries()).filter(
+        ([_, config]) => config.stepId === currentStepId
+      );
+
+      currentStepFields.forEach(([fieldId]) => {
+        setFieldTouched(fieldId);
+      });
+
+      const newErrors: Record<string, string> = {};
+      currentStepFields.forEach(([fieldId, config]) => {
+        const value = formData[fieldId];
+        const error = validateSingleField(fieldId, value, config);
+        if (error) {
+          newErrors[fieldId] = error;
+        }
+      });
+
+      setErrors((prev) => ({ ...prev, ...newErrors }));
+
+      if (Object.keys(newErrors).length === 0) {
+        setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+      }
+    }, [
+      currentStep,
+      steps,
+      fields,
+      formData,
+      setFieldTouched,
+      setErrors,
+      setCurrentStep,
+    ]);
+
+    if (steps.length === 0) return null;
+
+    const isLastStep = currentStep === steps.length - 1;
+    if (isLastStep) return null;
+
+    const canMove = canProceed();
+
+    if (!canMove) {
+      return (
+        <Tooltip
+          content="Fill all the required fields marked with *"
+          side="top"
+        >
+          <div>
+            <Button
+              type="button"
+              disabled={true}
+              className={cn(
+                "flex items-center space-x-2 min-w-[100px]",
+                className
+              )}
+            >
+              <span>{children}</span>
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </Tooltip>
+      );
+    }
+
+    return (
+      <Button
+        type="button"
+        onClick={handleNext}
+        className={cn("flex items-center space-x-2 min-w-[100px]", className)}
+      >
+        <span>{children}</span>
+        <ChevronRight className="w-4 h-4" />
+      </Button>
+    );
+  }
+);
+NextButton.displayName = "NextButton";
+
+interface SubmitButtonProps {
+  children?: React.ReactNode;
+  isLoading?: boolean;
+  className?: string;
+}
+
+const SubmitButton: React.FC<SubmitButtonProps> = memo(
+  ({ children = "Submit", isLoading, className }) => {
+    const { canProceed, currentStep, steps, isSubmitting } = useFormContext();
+
+    const isLastStep = steps.length === 0 || currentStep === steps.length - 1;
+
+    if (!isLastStep) return null;
+
+    const canSubmit = canProceed();
+    const loading = isLoading || isSubmitting;
+
+    if (!canSubmit) {
+      return (
+        <Tooltip
+          content="Fill all the required fields marked with *"
+          side="top"
+        >
+          <div>
+            <Button
+              type="submit"
+              disabled={true}
+              isLoading={loading}
+              className={cn("min-w-[120px]", className)}
+            >
+              {children}
+            </Button>
+          </div>
+        </Tooltip>
+      );
+    }
+
+    return (
+      <Button
+        type="submit"
+        isLoading={loading}
+        className={cn("min-w-[120px]", className)}
+      >
+        {children}
+      </Button>
+    );
+  }
+);
+SubmitButton.displayName = "SubmitButton";
+
+interface ResetButtonProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const ResetButton: React.FC<ResetButtonProps> = memo(
+  ({ children = "Reset", className }) => {
+    const { setFormData, setErrors, setTouched, setCurrentStep, clearStorage } =
+      useFormContext();
+
+    const handleReset = useCallback(() => {
+      setFormData({});
+      setErrors({});
+      setTouched({});
+      setCurrentStep(0);
+      clearStorage();
+    }, [setFormData, setErrors, setTouched, setCurrentStep, clearStorage]);
+
+    return (
+      <Button
+        type="button"
+        variant="destructive"
+        onClick={handleReset}
+        className={cn("min-w-[100px]", className)}
+      >
+        {children}
+      </Button>
+    );
+  }
+);
+ResetButton.displayName = "ResetButton";
+
+interface FormProps {
+  children: React.ReactNode;
+  onSubmit: (data: Record<string, any>) => void | Promise<void>;
+  className?: string;
+}
+
+const Form: React.FC<FormProps> = ({ children, onSubmit, className }) => {
+  const {
+    formData,
+    fields,
+    setFieldTouched,
+    setErrors,
+    clearStorage,
+    setFormData,
+    setTouched,
+    setCurrentStep,
+    setIsSubmitting,
+  } = useFormContext();
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+
+      Array.from(fields.keys()).forEach((fieldId) => {
+        setFieldTouched(fieldId);
+      });
+
+      const newErrors: Record<string, string> = {};
+      Array.from(fields.entries()).forEach(([fieldId, config]) => {
+        const value = formData[fieldId];
+        const error = validateSingleField(fieldId, value, config);
+        if (error) {
+          newErrors[fieldId] = error;
+        }
+      });
+
+      setErrors(newErrors);
+
+      const allFieldsData: Record<string, any> = {};
+      Array.from(fields.keys()).forEach((fieldId) => {
+        const value = formData[fieldId];
+        if (value === undefined || value === null) {
+          allFieldsData[fieldId] = "";
+        } else {
+          allFieldsData[fieldId] = value;
+        }
+      });
+
+      try {
+        await onSubmit(allFieldsData);
+
+        if (Object.keys(newErrors).length === 0) {
+          clearStorage();
+          setFormData({});
+          setErrors({});
+          setTouched({});
+          setCurrentStep(0);
+        }
+      } catch (error) {
+        console.error("Form submission error:", error);
+      }
+
+      setIsSubmitting(false);
+    },
+    [
+      formData,
+      fields,
+      onSubmit,
+      setFieldTouched,
+      setErrors,
+      clearStorage,
+      setFormData,
+      setTouched,
+      setCurrentStep,
+      setIsSubmitting,
+    ]
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
+      {children}
+    </form>
+  );
 };
+
+interface FooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Footer: React.FC<FooterProps> = memo(({ children, className }) => {
+  return (
+    <div className={cn("pt-4 border-t border-border", className)}>
+      {children}
+    </div>
+  );
+});
+Footer.displayName = "Footer";
+
+export const AdvancedForm = Object.assign(AdvancedFormRoot, {
+  Header,
+  StepperProgress,
+  Step,
+  Group,
+  Field,
+  Label,
+  Description,
+  Error,
+  Input: FormInput,
+  Textarea: FormTextarea,
+  PasswordInput: FormPasswordInput,
+  Checkbox: FormCheckbox,
+  Switch: FormSwitch,
+  RadioGroup: Object.assign(FormRadioGroup, { Item: RadioGroupItem }),
+  Select: Object.assign(FormSelect, { Item: SelectItem }),
+  MultiSelect: Object.assign(FormMultiSelect, { Item: MultiSelectItem }),
+  Slider: FormSlider,
+  RangeSlider: FormRangeSlider,
+  CheckboxGroup: Object.assign(FormCheckboxGroup, {
+    Item: CheckboxGroupBase.Item,
+  }),
+  MultiInput: FormMultiInput,
+  DatePicker: FormDatePicker,
+  DateRangePicker: FormDateRangePicker,
+  FileInput: FormFileInput,
+  ImageInput: FormImageInput,
+  Actions,
+  BackButton,
+  NextButton,
+  SubmitButton,
+  ResetButton,
+  Form,
+  Footer,
+});
+
+export type { FormFieldValidation };

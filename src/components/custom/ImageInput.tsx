@@ -10,7 +10,7 @@ export interface ImageInputProps
   onImageChange?: (file: File | null) => void;
   previewClassName?: string;
   showRemoveButton?: boolean;
-  previewUrl?: string;
+  previewUrl?: string | null;
 }
 
 export const ImageInput: React.FC<ImageInputProps> = ({

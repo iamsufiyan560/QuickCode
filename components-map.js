@@ -10,7 +10,7 @@ export const HOOK_BASE_URL =
 export const components = {
   AdvancedForm: {
     url: `${BASE_URL}AdvancedForm.tsx`,
-    deps: { zod: "^4.1.8" },
+    deps: {},
     requires: [
       "Button",
       "Input",
@@ -28,6 +28,11 @@ export const components = {
       "RangeSlider",
       "FormSkeleton",
       "DatePicker",
+      "MultiInput",
+      "CheckboxGroup",
+      "ImageInput",
+      "DateRangePicker",
+      "PasswordInput",
     ],
   },
   Accordion: {

@@ -111,13 +111,16 @@ function ActionSheetProvider({
 
   React.Children.forEach(children, (child) => {
     if (React.isValidElement(child)) {
-      if (child.type === ActionSheetTrigger) {
+      const childType =
+        (child.type as any).displayName || (child.type as any).name;
+
+      if (childType === "ActionSheetTrigger") {
         triggerContent = child;
-      } else if (child.type === ActionSheetHeader) {
+      } else if (childType === "ActionSheetHeader") {
         headerContent = child;
-      } else if (child.type === ActionSheetContent) {
+      } else if (childType === "ActionSheetContent") {
         mainContent = child;
-      } else if (child.type === ActionSheetFooter) {
+      } else if (childType === "ActionSheetFooter") {
         footerContent = child;
       }
     }
@@ -197,6 +200,7 @@ function ActionSheetTrigger({ children, className }: ActionSheetTriggerProps) {
     </Button>
   );
 }
+ActionSheetTrigger.displayName = "ActionSheetTrigger";
 
 interface ActionSheetHeaderProps {
   children: React.ReactNode;
@@ -241,6 +245,7 @@ function ActionSheetHeader({
     </div>
   );
 }
+ActionSheetHeader.displayName = "ActionSheetHeader";
 
 interface ActionSheetTitleProps {
   children: React.ReactNode;
@@ -316,6 +321,7 @@ function ActionSheetContent({
     </div>
   );
 }
+ActionSheetContent.displayName = "ActionSheetContent";
 
 export interface ActionSheetAction {
   label: string;
@@ -399,7 +405,12 @@ function ActionSheetFooter({
   }
 
   return (
-    <div className={cn("border-t border-border py-2 flex-shrink-0", className)}>
+    <div
+      className={cn(
+        "border-t border-border py-2 px-4 flex-shrink-0",
+        className
+      )}
+    >
       {children || (
         <Button
           onClick={onClose}
@@ -416,6 +427,7 @@ function ActionSheetFooter({
     </div>
   );
 }
+ActionSheetFooter.displayName = "ActionSheetFooter";
 
 const ActionSheet = ActionSheetProvider as any;
 ActionSheet.Trigger = ActionSheetTrigger;

@@ -303,120 +303,152 @@ export const CompactRegistrationForm = () => {
     console.log("Registration completed:", data);
   };
 
-  const handleFormChange = (data: any) => {};
-
-  const registrationSteps = {
-    steps: [
-      {
-        id: "account",
-        title: "Account Setup",
-        description: "Create your account",
-        fields: [
-          {
-            id: "fullName",
-            label: "Full Name",
-            type: "text" as const,
-            placeholder: "John Doe",
-            validation: {
-              required: true,
-              minLength: 2,
-              minLengthError: "Name must be at least 2 characters",
-            },
-          },
-          {
-            id: "email",
-            label: "Email Address",
-            type: "email" as const,
-            placeholder: "john@company.com",
-            validation: { required: true },
-          },
-          {
-            id: "password",
-            label: "Password",
-            type: "password" as const,
-            placeholder: "Choose a strong password",
-            validation: { required: true, minLength: 8 },
-          },
-        ],
-      },
-      {
-        id: "profile",
-        title: "Profile Info",
-        description: "Tell us about yourself",
-        fields: [
-          {
-            id: "role",
-            label: "Your Role",
-            type: "select" as const,
-            options: [
-              { label: "Developer", value: "developer" },
-              { label: "Designer", value: "designer" },
-              { label: "Product Manager", value: "pm" },
-              { label: "Marketing", value: "marketing" },
-            ],
-            validation: { required: true },
-          },
-          {
-            id: "company",
-            label: "Company Name",
-            type: "text" as const,
-            placeholder: "Acme Corporation",
-            validation: { required: true },
-          },
-          {
-            id: "experience",
-            label: "Years of Experience",
-            type: "slider" as const,
-            sliderProps: { min: 0, max: 20, step: 1 },
-            validation: { required: true },
-          },
-        ],
-      },
-      {
-        id: "preferences",
-        title: "Preferences",
-        description: "Customize your experience",
-        fields: [
-          {
-            id: "notifications",
-            label: "Enable Email Notifications",
-            type: "switch" as const,
-            validation: { required: false },
-          },
-          {
-            id: "newsletter",
-            label: "Subscribe to Product Updates",
-            type: "checkbox" as const,
-            validation: { required: false },
-          },
-          {
-            id: "terms",
-            label: "I agree to the Terms of Service",
-            type: "checkbox" as const,
-            validation: { required: true },
-          },
-        ],
-      },
-    ],
-    header: {
-      title: "Join QuickCode UI",
-      description: "Get started with our component library",
-    },
-    submitText: "Create Account",
-    showReset: true,
-    autoSave: false,
-  };
-
   return (
     <AdvancedForm
-      steps={registrationSteps.steps}
       onSubmit={handleSubmit}
-      onChange={handleFormChange}
-      header={registrationSteps.header}
-      submitText={registrationSteps.submitText}
-      showReset={registrationSteps.showReset}
-      autoSave={registrationSteps.autoSave}
+      autoSave={false}
       className="max-w-3xl mx-auto"
-    />
+    >
+      <AdvancedForm.Header
+        title="Join QuickCode UI"
+        description="Get started with our component library"
+      />
+
+      <AdvancedForm.StepperProgress />
+
+      <AdvancedForm.Form onSubmit={handleSubmit}>
+        <AdvancedForm.Step
+          id="account"
+          title="Account Setup"
+          description="Create your account"
+        >
+          <AdvancedForm.Group className="space-y-4">
+            <AdvancedForm.Field
+              id="fullName"
+              validation={{
+                required: true,
+                minLength: 2,
+                minLengthError: "Name must be at least 2 characters",
+              }}
+            >
+              <AdvancedForm.Label required>Full Name</AdvancedForm.Label>
+              <AdvancedForm.Input type="text" placeholder="John Doe" />
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+
+            <AdvancedForm.Field id="email" validation={{ required: true }}>
+              <AdvancedForm.Label required>Email Address</AdvancedForm.Label>
+              <AdvancedForm.Input type="email" placeholder="john@company.com" />
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+
+            <AdvancedForm.Field
+              id="password"
+              validation={{ required: true, minLength: 8 }}
+            >
+              <AdvancedForm.Label required>Password</AdvancedForm.Label>
+              <AdvancedForm.PasswordInput placeholder="Choose a strong password" />
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+          </AdvancedForm.Group>
+        </AdvancedForm.Step>
+
+        <AdvancedForm.Step
+          id="profile"
+          title="Profile Info"
+          description="Tell us about yourself"
+        >
+          <AdvancedForm.Group className="space-y-4">
+            <AdvancedForm.Field id="role" validation={{ required: true }}>
+              <AdvancedForm.Label required>Your Role</AdvancedForm.Label>
+              <AdvancedForm.Select placeholder="Select your role">
+                <AdvancedForm.Select.Item value="developer">
+                  Developer
+                </AdvancedForm.Select.Item>
+                <AdvancedForm.Select.Item value="designer">
+                  Designer
+                </AdvancedForm.Select.Item>
+                <AdvancedForm.Select.Item value="pm">
+                  Product Manager
+                </AdvancedForm.Select.Item>
+                <AdvancedForm.Select.Item value="marketing">
+                  Marketing
+                </AdvancedForm.Select.Item>
+              </AdvancedForm.Select>
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+
+            <AdvancedForm.Field id="company" validation={{ required: true }}>
+              <AdvancedForm.Label required>Company Name</AdvancedForm.Label>
+              <AdvancedForm.Input type="text" placeholder="Acme Corporation" />
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+
+            <AdvancedForm.Field
+              id="experience"
+              validation={{ required: true }}
+              defaultValue={0}
+            >
+              <AdvancedForm.Label required>
+                Years of Experience
+              </AdvancedForm.Label>
+              <AdvancedForm.Slider min={0} max={20} step={1} />
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+          </AdvancedForm.Group>
+        </AdvancedForm.Step>
+
+        <AdvancedForm.Step
+          id="preferences"
+          title="Preferences"
+          description="Customize your experience"
+        >
+          <AdvancedForm.Group className="space-y-4">
+            <AdvancedForm.Field id="notifications" defaultValue={false}>
+              <AdvancedForm.Label htmlFor="notifications">
+                Enable Email Notifications
+              </AdvancedForm.Label>
+              <AdvancedForm.Switch id="notifications">
+                Receive updates via email
+              </AdvancedForm.Switch>
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+
+            <AdvancedForm.Field id="newsletter" defaultValue={false}>
+              <AdvancedForm.Label htmlFor="newsletter">
+                Subscribe to Product Updates
+              </AdvancedForm.Label>
+              <AdvancedForm.Checkbox id="newsletter">
+                Subscribe to Product Updates
+              </AdvancedForm.Checkbox>
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+
+            <AdvancedForm.Field id="terms" validation={{ required: true }}>
+              <AdvancedForm.Label required htmlFor="terms">
+                Terms & Conditions
+              </AdvancedForm.Label>
+              <AdvancedForm.Checkbox id="terms">
+                I agree to the Terms of Service
+              </AdvancedForm.Checkbox>
+              <AdvancedForm.Error />
+            </AdvancedForm.Field>
+          </AdvancedForm.Group>
+        </AdvancedForm.Step>
+
+        <AdvancedForm.Actions>
+          <div className="flex gap-3">
+            <AdvancedForm.BackButton />
+            <AdvancedForm.ResetButton />
+          </div>
+          <div className="flex gap-3">
+            <AdvancedForm.NextButton />
+            <AdvancedForm.SubmitButton>
+              Create Account
+            </AdvancedForm.SubmitButton>
+          </div>
+        </AdvancedForm.Actions>
+      </AdvancedForm.Form>
+    </AdvancedForm>
   );
 };

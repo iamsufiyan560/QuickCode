@@ -61,6 +61,7 @@ export interface DateRangePickerProps {
   triggerClassName?: string;
   contentClassName?: string;
   format?: (range: DateRange) => string;
+  id?: string;
 }
 
 const MONTHS = [
@@ -148,6 +149,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   triggerClassName,
   contentClassName,
   format,
+  id,
 }) => {
   const [selectedRange, setSelectedRange] = React.useState<DateRange>(
     value || defaultValue || { start: null, end: null }
@@ -842,6 +844,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   return (
     <div ref={containerRef} className={cn("relative", className)}>
       <Button
+        id={id}
         variant="outline"
         ref={triggerRef}
         type="button"

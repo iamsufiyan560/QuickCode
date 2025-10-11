@@ -110,7 +110,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   );
 };
 
-export interface MultiSelectTriggerProps {
+export interface MultiSelectTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children: React.ReactNode;
 }
@@ -118,6 +119,7 @@ export interface MultiSelectTriggerProps {
 export const MultiSelectTrigger: React.FC<MultiSelectTriggerProps> = ({
   className,
   children,
+  ...props
 }) => {
   const context = React.useContext(MultiSelectContext);
 
@@ -132,6 +134,7 @@ export const MultiSelectTrigger: React.FC<MultiSelectTriggerProps> = ({
         className
       )}
       disabled={context.disabled || false}
+      {...props}
     >
       <div className="flex-1 flex flex-col items-start gap-2 overflow-hidden">
         {children}
