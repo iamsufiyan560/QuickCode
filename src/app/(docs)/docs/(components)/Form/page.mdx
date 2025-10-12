@@ -1,7 +1,55 @@
----
-asIndexPage: true
----
+import { CompleteFormExample } from "@/components/custom/example/FormExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Form Components
+# Form
 
-This folder contains child components for Form.
+A flexible, validation-agnostic form component that provides error management and semantic HTML structure. Works with any validation library.
+
+<InstallTabs components="Form" />
+
+## Example
+
+<CompleteFormExample />
+
+## Props
+
+### Form
+
+| Prop        | Type                                   | Default | Description                               |
+| ----------- | -------------------------------------- | ------- | ----------------------------------------- |
+| `errors`    | `Record<string, { message?: string }>` | —       | Error object from your validation library |
+| `onSubmit`  | `(e: FormEvent) => void`               | —       | Form submission handler                   |
+| `className` | `string`                               | —       | Additional CSS classes                    |
+| `children`  | `ReactNode`                            | —       | Form content                              |
+
+### Form.Field
+
+| Prop        | Type        | Default | Description                             |
+| ----------- | ----------- | ------- | --------------------------------------- |
+| `name`      | `string`    | —       | Field name for error tracking           |
+| `className` | `string`    | —       | Additional CSS classes                  |
+| `children`  | `ReactNode` | —       | Field content (Label, Control, Message) |
+
+### Form.Label
+
+Inherits all props from the [Label](/docs/components/label) component. Automatically turns red when field has an error.
+
+### Form.Control
+
+| Prop        | Type        | Default | Description                         |
+| ----------- | ----------- | ------- | ----------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes              |
+| `children`  | `ReactNode` | —       | Input component (from your library) |
+
+### Form.Description
+
+| Prop        | Type        | Default | Description               |
+| ----------- | ----------- | ------- | ------------------------- |
+| `className` | `string`    | —       | Additional CSS classes    |
+| `children`  | `ReactNode` | —       | Helper text for the field |
+
+### Form.Message
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | —       | Additional CSS classes |

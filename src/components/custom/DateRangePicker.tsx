@@ -17,8 +17,8 @@ import { Tooltip } from "@/components/custom/Tooltip";
 import { Button } from "./Button";
 
 export interface DateRange {
-  start: Date | null;
-  end: Date | null;
+  start: Date | null | any;
+  end: Date | null | any;
 }
 
 export interface DateRangePreset {
@@ -168,9 +168,31 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
 
+  function formatLocalDate(date: Date | null) {
+    if (!date) return null;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  // React.useEffect(() => {
+  //   if (value !== undefined) {
+  //     setSelectedRange(value);
+  //   }
+  // }, [value]);
+
   React.useEffect(() => {
     if (value !== undefined) {
-      setSelectedRange(value);
+      const start =
+        value.start && typeof value.start === "string"
+          ? new Date(value.start)
+          : value.start;
+      const end =
+        value.end && typeof value.end === "string"
+          ? new Date(value.end)
+          : value.end;
+      setSelectedRange({ start, end });
     }
   }, [value]);
 
@@ -183,17 +205,38 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
       day: "numeric",
       year: "numeric",
     };
+    const startDate = range.start
+      ? typeof range.start === "string"
+        ? new Date(range.start)
+        : range.start
+      : null;
+    const endDate = range.end
+      ? typeof range.end === "string"
+        ? new Date(range.end)
+        : range.end
+      : null;
 
-    if (range.start && range.end) {
-      return `${range.start.toLocaleDateString(
+    if (startDate && endDate) {
+      return `${startDate.toLocaleDateString(
         locale,
         options
-      )} - ${range.end.toLocaleDateString(locale, options)}`;
-    } else if (range.start) {
-      return `${range.start.toLocaleDateString(locale, options)} - ...`;
+      )} - ${endDate.toLocaleDateString(locale, options)}`;
+    } else if (startDate) {
+      return `${startDate.toLocaleDateString(locale, options)} - ...`;
     }
 
     return "";
+
+    // if (range.start && range.end) {
+    //   return `${range.start.toLocaleDateString(
+    //     locale,
+    //     options
+    //   )} - ${range.end.toLocaleDateString(locale, options)}`;
+    // } else if (range.start) {
+    //   return `${range.start.toLocaleDateString(locale, options)} - ...`;
+    // }
+
+    // return "";
   };
 
   const isDateInRange = (date: Date, start: Date | null, end: Date | null) => {
@@ -256,7 +299,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
       const newRange = { start, end };
       setSelectedRange(newRange);
       setIsSelectingEnd(false);
-      onChange?.(newRange);
+      // onChange?.(newRange);
+      onChange?.({
+        // start: start ? start.toISOString().split("T")[0] : null,
+        // end: end ? end.toISOString().split("T")[0] : null,
+        start: formatLocalDate(start),
+        end: formatLocalDate(end),
+      });
       setOpen(false);
     }
   };
@@ -287,7 +336,18 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
     }
 
     setSelectedRange(preset.range);
-    onChange?.(preset.range);
+    // onChange?.(preset.range);
+    onChange?.({
+      // start: preset.range.start
+      //   ? preset.range.start.toISOString().split("T")[0]
+      //   : null,
+      // end: preset.range.end
+      //   ? preset.range.end.toISOString().split("T")[0]
+      //   : null,
+      start: formatLocalDate(preset.range.start),
+      end: formatLocalDate(preset.range.end),
+    });
+
     setIsSelectingEnd(false);
     setOpen(false);
   };

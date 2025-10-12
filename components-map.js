@@ -128,6 +128,11 @@ export const components = {
     ],
   },
 
+  Form: {
+    url: `${BASE_URL}Form.tsx`,
+    deps: {},
+    requires: ["Label"],
+  },
   Input: {
     url: `${BASE_URL}Input.tsx`,
     deps: {},

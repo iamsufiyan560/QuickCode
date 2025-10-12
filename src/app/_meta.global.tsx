@@ -23,18 +23,18 @@ const DATA_DISPLAY: MetaRecord = {
   DataCard: "",
 };
 
-const FORM: MetaRecord = {
-  LoginForm: "",
-  RegisterForm: "",
-  ContactForm: "",
-  PaymentForm: "",
-  FeedbackForm: "",
-  SearchForm: "",
-  SubscriptionForm: "",
-  ProfileForm: "",
-  InvoiceForm: "",
-  SupportForm: "",
-};
+// const FORM: MetaRecord = {
+//   LoginForm: "",
+//   RegisterForm: "",
+//   ContactForm: "",
+//   PaymentForm: "",
+//   FeedbackForm: "",
+//   SearchForm: "",
+//   SubscriptionForm: "",
+//   ProfileForm: "",
+//   InvoiceForm: "",
+//   SupportForm: "",
+// };
 
 const SECTION: MetaRecord = {
   HeroSection: "",
@@ -93,6 +93,7 @@ export default {
 
       Dialog: "",
       Filter: "",
+      Form: "",
 
       Input: "",
       ImageInput: "",
@@ -199,11 +200,7 @@ export default {
       Feedback: { type: "page", display: "hidden" },
       FileUpload: { type: "page", display: "hidden" },
       Footer: { type: "page", display: "hidden" },
-      Form: {
-        type: "page",
-        display: "hidden",
-        items: FORM,
-      },
+
       Gallery: { type: "page", display: "hidden" },
       Grid: { type: "page", display: "hidden" },
       Header: { type: "page", display: "hidden" },

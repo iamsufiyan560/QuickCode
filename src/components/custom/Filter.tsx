@@ -3,38 +3,35 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { X, Search, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/custom/Input";
-import { Checkbox } from "@/components/custom/Checkbox";
-import { CheckboxGroup } from "@/components/custom/CheckboxGroup";
-import { RadioGroup } from "@/components/custom/RadioGroup";
+import { Input } from "./Input";
+import { Checkbox } from "./Checkbox";
+import { CheckboxGroup } from "./CheckboxGroup";
+import { RadioGroup } from "./RadioGroup";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectTrigger,
   SelectValue,
-} from "@/components/custom/Select";
+} from "./Select";
 import {
   MultiSelect,
   MultiSelectContent,
   MultiSelectGroup,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "@/components/custom/MultiSelect";
-import { MultiInput } from "@/components/custom/MultiInput";
-import { Slider } from "@/components/custom/Slider";
-import { RangeSlider } from "@/components/custom/RangeSlider";
-import { Switch } from "@/components/custom/Switch";
-import { DatePicker } from "@/components/custom/DatePicker";
-import {
-  DateRangePicker,
-  DateRange,
-} from "@/components/custom/DateRangePicker";
-import { Textarea } from "@/components/custom/TextArea";
-import { Button } from "@/components/custom/Button";
-import { Badge } from "@/components/custom/Badge";
-import { Separator } from "@/components/custom/Separator";
-import { Label } from "@/components/custom/Label";
+} from "./MultiSelect";
+import { MultiInput } from "./MultiInput";
+import { Slider } from "./Slider";
+import { RangeSlider } from "./RangeSlider";
+import { Switch } from "./Switch";
+import { DatePicker } from "./DatePicker";
+import { DateRangePicker, DateRange } from "./DateRangePicker";
+import { Textarea } from "./TextArea";
+import { Button } from "./Button";
+import { Badge } from "./Badge";
+import { Separator } from "./Separator";
+import { Label } from "./Label";
 
 interface FilterContextValue {
   activeFilters: Set<string>;
