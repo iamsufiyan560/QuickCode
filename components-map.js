@@ -1,6 +1,9 @@
 export const BASE_URL =
   "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/custom/";
 
+export const CHART_URL =
+  "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/custom/Chart/";
+
 export const ANIMATED_BASE_URL =
   "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/animated/";
 
@@ -248,40 +251,40 @@ export const components = {
 
   //Charts
   AreaChart: {
-    url: `${BASE_URL}AreaChart.tsx`,
+    url: `${CHART_URL}AreaChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
 
   BarChart: {
-    url: `${BASE_URL}BarChart.tsx`,
+    url: `${CHART_URL}BarChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
 
   LineChart: {
-    url: `${BASE_URL}LineChart.tsx`,
+    url: `${CHART_URL}LineChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
 
   PieChart: {
-    url: `${BASE_URL}PieChart.tsx`,
+    url: `${CHART_URL}PieChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
 
   RadarChart: {
-    url: `${BASE_URL}RadarChart.tsx`,
+    url: `${CHART_URL}RadarChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
 
   ComposedChart: {
-    url: `${BASE_URL}ComposedChart.tsx`,
+    url: `${CHART_URL}ComposedChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
   FunnelChart: {
-    url: `${BASE_URL}FunnelChart.tsx`,
+    url: `${CHART_URL}FunnelChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
   ScatterChart: {
-    url: `${BASE_URL}ScatterChart.tsx`,
+    url: `${CHART_URL}ScatterChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
   //Animated Components

@@ -268,7 +268,7 @@ function KanbanColumn({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={cn(
-        "flex min-w-[320px] max-w-[320px] flex-col rounded-lg border border-border bg-muted/30",
+        "flex min-w-[320px] max-w-[320px] flex-col rounded-lg border border-border bg-muted/30  max-h-[95vh]",
         isDragOver && "ring-2 ring-primary",
         className
       )}

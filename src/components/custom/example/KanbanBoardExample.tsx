@@ -140,7 +140,7 @@ export const ComprehensiveExample = () => {
 "use client";
 import React, { useState } from "react";
 import { Calendar, MessageSquare, Paperclip, User } from "lucide-react";
-import { KanbanBoard } from "@/components/custom/KanbanBoard";
+import { KanbanBoard } from "@/components/ui/KanbanBoard";
 
 interface Task {
   id: string;
@@ -150,7 +150,6 @@ interface Task {
   assignee: string;
   dueDate: string;
   comments: number;
-  attachments: number;
   status: string;
 }
 
@@ -163,10 +162,35 @@ const columns = [
   { id: "done", title: "Done" },
 ];
 
+
+const priorityConfig = {
+  low: {
+    label: "Low",
+    className: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
+  },
+  medium: {
+    label: "Medium",
+    className: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400",
+  },
+  high: {
+    label: "High",
+    className: "bg-orange-500/10 text-orange-700 dark:text-orange-400",
+  },
+  urgent: {
+    label: "Urgent",
+    className: "bg-red-500/10 text-red-700 dark:text-red-400",
+  },
+};
+
+
 export const ComprehensiveExample = () => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
-  const handleCardMove = (cardId: string, fromColumn: string, toColumn: string) => {
+   const handleCardMove = (
+    cardId: string,
+    fromColumn: string,
+    toColumn: string
+  ) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === cardId ? { ...task, status: toColumn } : task

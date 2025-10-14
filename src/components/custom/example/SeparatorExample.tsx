@@ -8,7 +8,7 @@ import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 export const DefaultSeparatorExample = () => {
   const defaultSeparatorCode = `
 import { Separator } from "@/components/ui/Separator";
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 
 export const DefaultSeparatorExample = () => {
   return (

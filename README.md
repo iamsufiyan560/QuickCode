@@ -20,7 +20,7 @@ A modern, high-quality library of copy-pasteable React components and UI blocks 
 Install the [package](https://www.npmjs.com/package/quickcode-ui) via npm:
 
 ```bash
-npm install quickcode-ui
+npx quickcode-ui init
 ```
 
 To add a specific component (e.g., Accordion), use:

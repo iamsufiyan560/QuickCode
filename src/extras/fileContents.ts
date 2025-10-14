@@ -1178,7 +1178,7 @@ We suggest that you begin by typing:
   npm run dev`,
   },
   {
-    command: "npm install quickcode-ui",
+    command: "npx quickcode-ui init",
     output: `added 1 package, and audited 329 packages in 3s
 ✅ Updated global.css with QuickCode UI theme 
 120 packages are looking for funding
