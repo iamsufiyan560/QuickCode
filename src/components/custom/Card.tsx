@@ -1,100 +1,63 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-}
+export interface BaseDivProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export interface CardHeaderProps {
-  children: React.ReactNode;
-  className?: string;
-}
+export const Card: React.FC<BaseDivProps> = ({ className, ...props }) => (
+  <div
+    data-slot="card"
+    className={cn(
+      "rounded-xl  bg-card text-card-foreground border border-border  shadow-sm",
+      className
+    )}
+    {...props}
+  />
+);
 
-export interface CardContentProps {
-  children: React.ReactNode;
-  className?: string;
-}
+export const CardHeader: React.FC<BaseDivProps> = ({ className, ...props }) => (
+  <div
+    data-slot="card-header"
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+);
 
-export interface CardFooterProps {
-  children: React.ReactNode;
-  className?: string;
-}
+export const CardTitle: React.FC<BaseDivProps> = ({ className, ...props }) => (
+  <h3
+    data-slot="card-title"
+    className={cn("font-semibold leading-none tracking-tight", className)}
+    {...props}
+  />
+);
 
-export interface CardTitleProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-export interface CardDescriptionProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const Card: React.FC<CardProps> = ({ children, className }) => {
-  return (
-    <div
-      className={cn(
-        "rounded-xl border border-border py-6 bg-card text-card-foreground shadow-sm hover:bg-card/80 hover:cursor-pointer flex flex-col gap-6 ",
-
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-};
-
-export const CardHeader: React.FC<CardHeaderProps> = ({
-  children,
+export const CardDescription: React.FC<BaseDivProps> = ({
   className,
-}) => {
-  return (
-    <div className={cn("flex flex-col space-y-1.5 px-6", className)}>
-      {children}
-    </div>
-  );
-};
+  ...props
+}) => (
+  <p
+    data-slot="card-description"
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+);
 
-export const CardContent: React.FC<CardContentProps> = ({
-  children,
+export const CardContent: React.FC<BaseDivProps> = ({
   className,
-}) => {
-  return <div className={cn("px-6", className)}>{children}</div>;
-};
+  ...props
+}) => (
+  <div
+    data-slot="card-content"
+    className={cn("p-6 pt-0", className)}
+    {...props}
+  />
+);
 
-export const CardFooter: React.FC<CardFooterProps> = ({
-  children,
-  className,
-}) => {
-  return (
-    <div className={cn("flex items-center px-6 ", className)}>{children}</div>
-  );
-};
-
-export const CardTitle: React.FC<CardTitleProps> = ({
-  children,
-  className,
-}) => {
-  return (
-    <h3
-      className={cn(
-        "text-2xl font-semibold leading-none tracking-tight text-foreground",
-        className
-      )}
-    >
-      {children}
-    </h3>
-  );
-};
-
-export const CardDescription: React.FC<CardDescriptionProps> = ({
-  children,
-  className,
-}) => {
-  return (
-    <p className={cn("text-sm text-muted-foreground", className)}>{children}</p>
-  );
-};
+export const CardFooter: React.FC<BaseDivProps> = ({ className, ...props }) => (
+  <div
+    data-slot="card-footer"
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+);
