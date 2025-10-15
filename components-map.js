@@ -317,13 +317,8 @@ export const components = {
     url: `${ANIMATED_BASE_URL}SocialCard.tsx`,
     deps: {},
   },
+  SwipeStack: {
+    url: `${ANIMATED_BASE_URL}SwipeStack.tsx`,
+    deps: {},
+  },
 };
-
-// "Chart/AreaChart": {
-//   url: `${BASE_URL}Chart/AreaChart.tsx`,
-//   deps: { recharts: "^2.13.0" },
-// },
-// "Chart/BarChart": {
-//   url: `${BASE_URL}Chart/BarChart.tsx`,
-//   deps: { recharts: "^2.13.0" },
-// },

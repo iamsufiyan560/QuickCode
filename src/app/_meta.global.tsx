@@ -113,6 +113,7 @@ export default {
       MorphButton: "",
       ParticleBackground: "",
       SocialCard: "",
+      SwipeStack: "",
       // __4: {
       //   type: "separator",
       //   title: "Coming Soon",

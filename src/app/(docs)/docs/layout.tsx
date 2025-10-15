@@ -55,21 +55,22 @@ export const metadata: Metadata = {
 
 const banner = (
   <Banner
-    dismissible={false}
     className="bg-primary relative max-w-[1440px] mx-auto"
-    storageKey="1.0-release"
+    storageKey="2.0-release"
   >
-    ✨ Just dropped my UI Library — still cooking up some magic! Stay tuned &
-    maybe…{" "}
+    ✨ QuickCode UI keeps growing! More components, more features, and more ways
+    to make your projects shine. Stay tuned & maybe…{" "}
     <Anchor
+      title="Hire Sufiyan Chaudhari"
       href="https://x.com/iamsufiyan560"
       target="_blank"
       className="hover:underline underline-offset-3 font-semibold"
     >
       hire me
-    </Anchor>{" "}
+    </Anchor>
     or{" "}
     <Anchor
+      title="Sponsor QuickCode UI"
       href="https://github.com/sponsors/iamsufiyan560"
       target="_blank"
       className="hover:underline underline-offset-3 font-semibold"

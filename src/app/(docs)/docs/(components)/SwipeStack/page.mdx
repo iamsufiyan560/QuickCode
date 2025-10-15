@@ -1,0 +1,57 @@
+import { DefaultExample } from "@/components/custom/example/SwipeStackExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# SwipeStack
+
+A flexible, swipeable stack component for creating interactive card-based UIs — great for Tinder-style layouts, quizzes, or deck interactions.
+
+<InstallTabs components="SwipeStack" />
+
+## Examples
+
+<DefaultExample />
+
+## Props
+
+### SwipeStack
+
+| Prop        | Type              | Default | Description                              |
+| ----------- | ----------------- | ------- | ---------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Stack items to render                    |
+| `className` | `string`          | —       | Additional CSS classes for the container |
+
+---
+
+### SwipeStack.Item
+
+| Prop              | Type                                                 | Default | Description                               |
+| ----------------- | ---------------------------------------------------- | ------- | ----------------------------------------- |
+| `id`              | `string`                                             | —       | Unique identifier for the item            |
+| `isActive`        | `boolean`                                            | `false` | Whether this card is currently active     |
+| `index`           | `number`                                             | `0`     | Position in the stack (used for rotation) |
+| `totalItems`      | `number`                                             | `1`     | Total number of items in the stack        |
+| `onSwipe`         | `(id: string, direction: "left" \| "right") => void` | —       | Callback triggered when an item is swiped |
+| `onSwipeComplete` | `(id: string) => void`                               | —       | Callback when swipe animation completes   |
+| `children`        | `React.ReactNode`                                    | —       | Content inside the card                   |
+| `className`       | `string`                                             | —       | Additional CSS classes for styling        |
+
+---
+
+### SwipeStack.Image
+
+| Prop        | Type     | Default | Description                              |
+| ----------- | -------- | ------- | ---------------------------------------- |
+| `src`       | `string` | —       | Image URL for the background             |
+| `alt`       | `string` | `""`    | Alt text for the image                   |
+| `className` | `string` | —       | Additional CSS classes for customization |
+
+---
+
+### SwipeStack.Overlay
+
+| Prop        | Type              | Default | Description                           |
+| ----------- | ----------------- | ------- | ------------------------------------- |
+| `children`  | `React.ReactNode` | —       | Overlay content (e.g., title, button) |
+| `className` | `string`          | —       | Additional CSS classes for styling    |
+
+---
