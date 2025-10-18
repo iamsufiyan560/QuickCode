@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface AccordionProps {
+export interface AccordionProps extends React.ComponentProps<"div"> {
   items?: Array<{ title: string; content: string }>;
   allowMultiple?: boolean;
   variant?: "default" | "bordered" | "filled";
@@ -34,7 +34,8 @@ export const Accordion: React.FC<AccordionProps> = ({
   allowMultiple = false,
   variant = "default",
   size = "md",
-  className, // ✅ added
+  className,
+  ...props
 }) => {
   const sizeClasses = { sm: "text-sm", md: "text-base", lg: "text-lg" };
   const paddingClasses = { sm: "px-3 py-2", md: "px-4 py-3", lg: "px-6 py-4" };
@@ -58,7 +59,10 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className={cn("lg:max-w-3xl md:max-w-2xl w-full mx-auto", className)}>
+    <div
+      {...props}
+      className={cn("lg:max-w-3xl md:max-w-2xl w-full mx-auto", className)}
+    >
       {items.map((item, index) => {
         const isOpen = openItems.has(index);
         return (

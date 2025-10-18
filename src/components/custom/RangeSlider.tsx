@@ -3,7 +3,11 @@
 import React, { useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-export interface RangeSliderProps {
+export interface RangeSliderProps
+  extends Omit<
+    React.ComponentProps<"div">,
+    "onChange" | "value" | "defaultValue"
+  > {
   className?: string;
   value?: [number, number];
   defaultValue?: [number, number];
@@ -23,6 +27,7 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
   step = 1,
   disabled = false,
   onChange,
+  ...props
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const currentValue = value ?? defaultValue;
@@ -126,6 +131,7 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
 
   return (
     <div
+      {...props}
       className={cn(
         "relative flex w-full touch-none items-center select-none",
         disabled && "opacity-50 pointer-events-none",

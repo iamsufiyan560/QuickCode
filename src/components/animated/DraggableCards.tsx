@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Reorder, motion } from "framer-motion";
+import { HTMLMotionProps, Reorder, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export interface Card {
@@ -10,7 +10,7 @@ export interface Card {
   description: string;
 }
 
-export interface DraggableCardsProps {
+export interface DraggableCardsProps extends HTMLMotionProps<"div"> {
   cards?: Card[];
   horizontal?: boolean;
   variant?: "default" | "bordered" | "filled";
@@ -52,7 +52,9 @@ export const DraggableCards: React.FC<DraggableCardsProps> = ({
   dragBoxShadow,
   normalBoxShadow,
   dragBackground,
+
   normalBackground,
+  ...props
 }) => {
   const [localCards, setLocalCards] = useState(cards);
   const [draggingId, setDraggingId] = useState<number | null>(null);
@@ -89,6 +91,7 @@ export const DraggableCards: React.FC<DraggableCardsProps> = ({
   return (
     <div className={cn("w-full  max-w-5xl mx-auto  ", className)}>
       <Reorder.Group
+        {...props}
         axis={horizontal ? "x" : "y"}
         values={localCards}
         onReorder={handleReorder}

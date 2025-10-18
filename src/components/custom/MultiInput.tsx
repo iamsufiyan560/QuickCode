@@ -6,10 +6,7 @@ import { X } from "lucide-react";
 import { Badge } from "@/components/custom/Badge";
 
 export interface MultiInputProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "value" | "onChange"
-  > {
+  extends Omit<React.ComponentProps<"input">, "value" | "onChange"> {
   value?: string[];
   onChange?: (values: string[]) => void;
   className?: string;

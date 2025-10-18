@@ -53,7 +53,7 @@ const useFilterContext = () => {
   return context;
 };
 
-export interface FilterProps {
+export interface FilterProps extends React.ComponentProps<"div"> {
   onClear?: () => void;
   onApply?: () => void;
   className?: string;
@@ -65,6 +65,7 @@ const FilterRoot: React.FC<FilterProps> = ({
   onApply,
   className,
   children,
+  ...props
 }) => {
   const [activeFilters, setActiveFilters] = useState(new Set<string>());
 
@@ -115,12 +116,14 @@ const FilterRoot: React.FC<FilterProps> = ({
         onApply,
       }}
     >
-      <div className={cn("space-y-6", className)}>{children}</div>
+      <div {...props} className={cn("space-y-6", className)}>
+        {children}
+      </div>
     </FilterContext.Provider>
   );
 };
 
-export interface FilterHeaderProps {
+export interface FilterHeaderProps extends React.ComponentProps<"div"> {
   title?: string;
   description?: string;
   showCount?: boolean;
@@ -132,11 +135,12 @@ const FilterHeader: React.FC<FilterHeaderProps> = ({
   description,
   showCount = true,
   className,
+  ...props
 }) => {
   const { activeFilters } = useFilterContext();
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div {...props} className={cn("space-y-2", className)}>
       <div className="flex items-center gap-2">
         <h3 className="text-lg font-semibold text-foreground">{title}</h3>
         {showCount && activeFilters.size > 0 && (
@@ -152,7 +156,8 @@ const FilterHeader: React.FC<FilterHeaderProps> = ({
   );
 };
 
-export interface FilterSearchProps {
+export interface FilterSearchProps
+  extends Omit<React.ComponentProps<typeof Input>, "onChange"> {
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
@@ -164,6 +169,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   onChange,
   placeholder = "Search...",
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState(value || "");
@@ -192,7 +198,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   }, [value, internalValue]);
 
   return (
-    <div className={cn("relative", className)}>
+    <div {...props} className={cn("relative", className)}>
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <Input
         type="text"
@@ -205,7 +211,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   );
 };
 
-export interface FilterGroupProps {
+export interface FilterGroupProps extends React.ComponentProps<"div"> {
   title?: string;
   collapsible?: boolean;
   defaultCollapsed?: boolean;
@@ -219,11 +225,12 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
   defaultCollapsed = false,
   className,
   children,
+  ...props
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div {...props} className={cn("space-y-3", className)}>
       {title && (
         <div
           className={cn(
@@ -258,7 +265,8 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
   );
 };
 
-export interface FilterInputProps {
+export interface FilterInputProps
+  extends Omit<React.ComponentProps<typeof Input>, "onChange"> {
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
@@ -274,6 +282,7 @@ const FilterInput: React.FC<FilterInputProps> = ({
   label,
   type = "text",
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState(value || "");
@@ -302,7 +311,7 @@ const FilterInput: React.FC<FilterInputProps> = ({
   }, [value, internalValue]);
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div {...props} className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <Input
         type={type}
@@ -314,7 +323,8 @@ const FilterInput: React.FC<FilterInputProps> = ({
   );
 };
 
-export interface FilterTextareaProps {
+export interface FilterTextareaProps
+  extends Omit<React.ComponentProps<typeof Textarea>, "onChange"> {
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
@@ -330,6 +340,7 @@ const FilterTextarea: React.FC<FilterTextareaProps> = ({
   label,
   rows = 3,
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState(value || "");
@@ -361,6 +372,7 @@ const FilterTextarea: React.FC<FilterTextareaProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <Textarea
+        {...props}
         value={value !== undefined ? value : internalValue}
         onChange={handleChange}
         placeholder={placeholder}
@@ -370,7 +382,8 @@ const FilterTextarea: React.FC<FilterTextareaProps> = ({
   );
 };
 
-export interface FilterCheckboxProps {
+export interface FilterCheckboxProps
+  extends Omit<React.ComponentProps<typeof Checkbox>, "onChange" | "checked"> {
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   label?: string;
@@ -384,6 +397,7 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
   label,
   id,
   className,
+  ...props
 }) => {
   const { setFilterActive } = useFilterContext();
 
@@ -394,6 +408,7 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
 
   return (
     <Checkbox
+      {...props}
       id={id}
       checked={checked}
       onChange={handleChange}
@@ -403,7 +418,11 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
   );
 };
 
-export interface FilterCheckboxGroupProps {
+export interface FilterCheckboxGroupProps
+  extends Omit<
+    React.ComponentProps<typeof CheckboxGroup>,
+    "onValueChange" | "value"
+  > {
   value?: string[];
   onValueChange?: (value: string[]) => void;
   label?: string;
@@ -417,6 +436,7 @@ const FilterCheckboxGroup: React.FC<FilterCheckboxGroupProps> = ({
   label,
   className,
   children,
+  ...props
 }) => {
   const { setFilterActive } = useFilterContext();
 
@@ -427,6 +447,7 @@ const FilterCheckboxGroup: React.FC<FilterCheckboxGroupProps> = ({
 
   return (
     <CheckboxGroup
+      {...props}
       value={value}
       onValueChange={handleChange}
       label={label}
@@ -437,7 +458,8 @@ const FilterCheckboxGroup: React.FC<FilterCheckboxGroupProps> = ({
   );
 };
 
-export interface FilterSliderProps {
+export interface FilterSliderProps
+  extends Omit<React.ComponentProps<typeof Slider>, "onChange" | "value"> {
   value?: number;
   onChange?: (value: number) => void;
   min?: number;
@@ -461,6 +483,7 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
   showValue = true,
   formatValue = (v) => v.toString(),
   className,
+  ...props
 }) => {
   const { setFilterActive } = useFilterContext();
   const initialDefault = defaultValue !== undefined ? defaultValue : min;
@@ -484,6 +507,7 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
         </div>
       )}
       <Slider
+        {...props}
         value={currentValue}
         onChange={handleChange}
         min={min}
@@ -494,7 +518,8 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
   );
 };
 
-export interface FilterRangeProps {
+export interface FilterRangeProps
+  extends Omit<React.ComponentProps<typeof RangeSlider>, "onChange" | "value"> {
   value?: [number, number];
   onChange?: (value: [number, number]) => void;
   min?: number;
@@ -518,6 +543,7 @@ const FilterRange: React.FC<FilterRangeProps> = ({
   showValues = true,
   formatValue = (v) => v.toString(),
   className,
+  ...props
 }) => {
   const { setFilterActive } = useFilterContext();
   const initialDefault: [number, number] = defaultValue || [min, max];
@@ -546,6 +572,7 @@ const FilterRange: React.FC<FilterRangeProps> = ({
       )}
 
       <RangeSlider
+        {...props}
         value={currentValue}
         onChange={handleChange}
         min={min}
@@ -556,7 +583,11 @@ const FilterRange: React.FC<FilterRangeProps> = ({
   );
 };
 
-export interface FilterRadioGroupProps {
+export interface FilterRadioGroupProps
+  extends Omit<
+    React.ComponentProps<typeof RadioGroup>,
+    "onValueChange" | "value"
+  > {
   value?: string;
   onValueChange?: (value: string) => void;
   label?: string;
@@ -570,6 +601,7 @@ const FilterRadioGroup: React.FC<FilterRadioGroupProps> = ({
   label,
   className,
   children,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState(value || "");
@@ -600,6 +632,7 @@ const FilterRadioGroup: React.FC<FilterRadioGroupProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <RadioGroup
+        {...props}
         value={value !== undefined ? value : internalValue}
         onValueChange={handleChange}
       >
@@ -609,7 +642,11 @@ const FilterRadioGroup: React.FC<FilterRadioGroupProps> = ({
   );
 };
 
-export interface FilterSwitchProps {
+export interface FilterSwitchProps
+  extends Omit<
+    React.ComponentProps<typeof Switch>,
+    "onCheckedChange" | "checked"
+  > {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   label?: string;
@@ -625,6 +662,7 @@ const FilterSwitch: React.FC<FilterSwitchProps> = ({
   description,
   id,
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalChecked, setInternalChecked] = useState(checked || false);
@@ -659,6 +697,7 @@ const FilterSwitch: React.FC<FilterSwitchProps> = ({
         )}
       </div>
       <Switch
+        {...props}
         id={id}
         checked={checked !== undefined ? checked : internalChecked}
         onCheckedChange={handleChange}
@@ -667,7 +706,8 @@ const FilterSwitch: React.FC<FilterSwitchProps> = ({
   );
 };
 
-export interface FilterSelectProps {
+export interface FilterSelectProps
+  extends Omit<React.ComponentProps<typeof Select>, "onValueChange" | "value"> {
   value?: string;
   onValueChange?: (value: string) => void;
   placeholder?: string;
@@ -683,6 +723,7 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   label,
   className,
   children,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState(value || "");
@@ -713,6 +754,7 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <Select
+        {...props}
         value={value !== undefined ? value : internalValue}
         onValueChange={handleChange}
       >
@@ -727,7 +769,11 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
   );
 };
 
-export interface FilterMultiSelectProps {
+export interface FilterMultiSelectProps
+  extends Omit<
+    React.ComponentProps<typeof MultiSelect>,
+    "onValuesChange" | "values"
+  > {
   values?: string[];
   onValuesChange?: (values: string[]) => void;
   placeholder?: string;
@@ -743,6 +789,7 @@ const FilterMultiSelect: React.FC<FilterMultiSelectProps> = ({
   label,
   className,
   children,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValues, setInternalValues] = useState<string[]>(values || []);
@@ -773,6 +820,7 @@ const FilterMultiSelect: React.FC<FilterMultiSelectProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <MultiSelect
+        {...props}
         values={values !== undefined ? values : internalValues}
         onValuesChange={handleChange}
       >
@@ -787,7 +835,8 @@ const FilterMultiSelect: React.FC<FilterMultiSelectProps> = ({
   );
 };
 
-export interface FilterMultiInputProps {
+export interface FilterMultiInputProps
+  extends Omit<React.ComponentProps<typeof MultiInput>, "onChange" | "value"> {
   value?: string[];
   onChange?: (values: string[]) => void;
   label?: string;
@@ -803,6 +852,7 @@ const FilterMultiInput: React.FC<FilterMultiInputProps> = ({
   placeholder,
   max,
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState<string[]>(value || []);
@@ -833,6 +883,7 @@ const FilterMultiInput: React.FC<FilterMultiInputProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <MultiInput
+        {...props}
         value={value !== undefined ? value : internalValue}
         onChange={handleChange}
         placeholder={placeholder}
@@ -842,7 +893,8 @@ const FilterMultiInput: React.FC<FilterMultiInputProps> = ({
   );
 };
 
-export interface FilterDateProps {
+export interface FilterDateProps
+  extends Omit<React.ComponentProps<typeof DatePicker>, "onChange" | "value"> {
   value?: Date | null;
   onChange?: (date: Date | null) => void;
   label?: string;
@@ -858,6 +910,7 @@ const FilterDate: React.FC<FilterDateProps> = ({
   placeholder = "Select date",
   includeTime = false,
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState<Date | null>(
@@ -890,6 +943,7 @@ const FilterDate: React.FC<FilterDateProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <DatePicker
+        {...props}
         value={value !== undefined ? value : internalValue}
         onChange={handleChange}
         placeholder={placeholder}
@@ -899,7 +953,11 @@ const FilterDate: React.FC<FilterDateProps> = ({
   );
 };
 
-export interface FilterDateRangeProps {
+export interface FilterDateRangeProps
+  extends Omit<
+    React.ComponentProps<typeof DateRangePicker>,
+    "onChange" | "value"
+  > {
   value?: DateRange;
   onChange?: (range: DateRange) => void;
   label?: string;
@@ -913,6 +971,7 @@ const FilterDateRange: React.FC<FilterDateRangeProps> = ({
   label,
   placeholder = "Select date range",
   className,
+  ...props
 }) => {
   const { incrementFilters, decrementFilters } = useFilterContext();
   const [internalValue, setInternalValue] = useState<DateRange>(
@@ -948,6 +1007,7 @@ const FilterDateRange: React.FC<FilterDateRangeProps> = ({
     <div className={cn("space-y-2", className)}>
       {label && <Label>{label}</Label>}
       <DateRangePicker
+        {...props}
         value={value !== undefined ? value : internalValue}
         onChange={handleChange}
         placeholder={placeholder}
@@ -956,7 +1016,7 @@ const FilterDateRange: React.FC<FilterDateRangeProps> = ({
   );
 };
 
-export interface FilterActionsProps {
+export interface FilterActionsProps extends React.ComponentProps<"div"> {
   showClear?: boolean;
   showApply?: boolean;
   clearLabel?: string;
@@ -974,6 +1034,7 @@ const FilterActions: React.FC<FilterActionsProps> = ({
   className,
   showCountOnClear = false,
   showCountOnApply = false,
+  ...props
 }) => {
   const { activeFilters, resetFilters, onClear, onApply } = useFilterContext();
 
@@ -987,7 +1048,10 @@ const FilterActions: React.FC<FilterActionsProps> = ({
   };
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-2 pt-4", className)}>
+    <div
+      {...props}
+      className={cn("flex flex-wrap items-center gap-2 pt-4", className)}
+    >
       {showClear && (
         <Button
           variant="outline"
@@ -1028,7 +1092,26 @@ const FilterActions: React.FC<FilterActionsProps> = ({
   );
 };
 
-export const Filter = Object.assign(FilterRoot, {
+export const Filter: React.FC<FilterProps> & {
+  Header: typeof FilterHeader;
+  Search: typeof FilterSearch;
+  Group: typeof FilterGroup;
+  Input: typeof FilterInput;
+  Textarea: typeof FilterTextarea;
+  Checkbox: typeof FilterCheckbox;
+  CheckboxGroup: typeof FilterCheckboxGroup;
+  RadioGroup: typeof FilterRadioGroup;
+  Switch: typeof FilterSwitch;
+  Select: typeof FilterSelect;
+  MultiSelect: typeof FilterMultiSelect;
+  MultiInput: typeof FilterMultiInput;
+  Slider: typeof FilterSlider;
+  Range: typeof FilterRange;
+  Date: typeof FilterDate;
+  DateRange: typeof FilterDateRange;
+  Actions: typeof FilterActions;
+  Separator: typeof Separator;
+} = Object.assign(FilterRoot, {
   Header: FilterHeader,
   Search: FilterSearch,
   Group: FilterGroup,

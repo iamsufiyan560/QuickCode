@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,7 @@ const SelectContext = React.createContext<{
   setOpen: () => {},
 });
 
-export interface SelectProps {
+export interface SelectProps extends React.ComponentProps<"div"> {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -33,6 +33,7 @@ export const Select: React.FC<SelectProps> = ({
   disabled = false,
   className,
   children,
+  ...props
 }) => {
   const [selectedValue, setSelectedValue] = React.useState(
     value ?? defaultValue ?? ""
@@ -85,15 +86,14 @@ export const Select: React.FC<SelectProps> = ({
         triggerRef,
       }}
     >
-      <div ref={containerRef} className={cn("relative", className)}>
+      <div {...props} ref={containerRef} className={cn("relative", className)}>
         {children}
       </div>
     </SelectContext.Provider>
   );
 };
 
-export interface SelectTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface SelectTriggerProps extends React.ComponentProps<"button"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -136,10 +136,12 @@ export interface SelectValueProps {
 export const SelectValue: React.FC<SelectValueProps> = ({
   placeholder = "Select an option",
   className,
+  ...props
 }) => {
   const context = React.useContext(SelectContext);
   return (
     <span
+      {...props}
       className={cn(
         !context.value ? "text-muted-foreground" : "text-foreground",
         className
@@ -150,7 +152,7 @@ export const SelectValue: React.FC<SelectValueProps> = ({
   );
 };
 
-export interface SelectContentProps {
+export interface SelectContentProps extends HTMLMotionProps<"div"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -158,6 +160,7 @@ export interface SelectContentProps {
 export const SelectContent: React.FC<SelectContentProps> = ({
   className,
   children,
+  ...props
 }) => {
   const context = React.useContext(SelectContext);
   const [position, setPosition] = React.useState({
@@ -211,6 +214,7 @@ export const SelectContent: React.FC<SelectContentProps> = ({
   return ReactDOM.createPortal(
     <AnimatePresence>
       <motion.div
+        {...props}
         onMouseDown={(e) => e.stopPropagation()}
         initial={{ opacity: 0, y: position.placement === "bottom" ? -10 : 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -235,7 +239,7 @@ export const SelectContent: React.FC<SelectContentProps> = ({
   );
 };
 
-export interface SelectGroupProps {
+export interface SelectGroupProps extends React.ComponentProps<"div"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -243,11 +247,16 @@ export interface SelectGroupProps {
 export const SelectGroup: React.FC<SelectGroupProps> = ({
   className,
   children,
+  ...props
 }) => {
-  return <div className={cn("p-1", className)}>{children}</div>;
+  return (
+    <div {...props} className={cn("p-1", className)}>
+      {children}
+    </div>
+  );
 };
 
-export interface SelectLabelProps {
+export interface SelectLabelProps extends React.ComponentProps<"div"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -255,9 +264,11 @@ export interface SelectLabelProps {
 export const SelectLabel: React.FC<SelectLabelProps> = ({
   className,
   children,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={cn(
         "px-2 py-1.5 text-sm font-semibold text-muted-foreground",
         className
@@ -268,7 +279,7 @@ export const SelectLabel: React.FC<SelectLabelProps> = ({
   );
 };
 
-export interface SelectItemProps {
+export interface SelectItemProps extends React.ComponentProps<"button"> {
   value: string;
   disabled?: boolean;
   className?: string;
@@ -280,12 +291,14 @@ export const SelectItem: React.FC<SelectItemProps> = ({
   disabled = false,
   className,
   children,
+  ...props
 }) => {
   const context = React.useContext(SelectContext);
   const isSelected = context.value === value;
 
   return (
     <button
+      {...props}
       type="button"
       disabled={disabled}
       onClick={() => !disabled && context.onValueChange?.(value)}

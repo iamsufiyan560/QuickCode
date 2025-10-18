@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface SkeletonProps {
+export interface SkeletonProps extends React.ComponentProps<"div"> {
   className?: string;
   variant?: "text" | "circular" | "rectangular" | "rounded";
   width?: string | number;
@@ -105,10 +105,9 @@ export const SkeletonCard: React.FC<{ className?: string }> = ({
   </div>
 );
 
-export const SkeletonAvatar: React.FC<{
-  size?: "sm" | "md" | "lg";
-  className?: string;
-}> = ({ size = "md", className }) => {
+export const SkeletonAvatar: React.FC<
+  React.ComponentProps<"div"> & { size?: "sm" | "md" | "lg" }
+> = ({ size = "md", className, ...props }) => {
   const sizeClasses = {
     sm: "w-8 h-8",
     md: "w-12 h-12",
@@ -116,14 +115,16 @@ export const SkeletonAvatar: React.FC<{
   };
 
   return (
-    <Skeleton variant="circular" className={cn(sizeClasses[size], className)} />
+    <Skeleton
+      variant="circular"
+      className={cn(sizeClasses[size], className)}
+      {...props}
+    />
   );
 };
-
-export const SkeletonButton: React.FC<{
-  size?: "sm" | "md" | "lg";
-  className?: string;
-}> = ({ size = "md", className }) => {
+export const SkeletonButton: React.FC<
+  React.ComponentProps<"div"> & { size?: "sm" | "md" | "lg" }
+> = ({ size = "md", className, ...props }) => {
   const sizeClasses = {
     sm: "h-8 w-16",
     md: "h-9 w-20",
@@ -131,6 +132,10 @@ export const SkeletonButton: React.FC<{
   };
 
   return (
-    <Skeleton variant="rounded" className={cn(sizeClasses[size], className)} />
+    <Skeleton
+      variant="rounded"
+      className={cn(sizeClasses[size], className)}
+      {...props}
+    />
   );
 };

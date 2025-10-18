@@ -11,7 +11,7 @@ const RadioGroupContext = React.createContext<{
   disabled?: boolean;
 }>({});
 
-export interface RadioGroupProps {
+export type RadioGroupProps = {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -19,7 +19,7 @@ export interface RadioGroupProps {
   disabled?: boolean;
   className?: string;
   children: React.ReactNode;
-}
+} & React.ComponentProps<"div">;
 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
   value,
@@ -29,6 +29,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   disabled = false,
   className,
   children,
+  ...props
 }) => {
   const [selectedValue, setSelectedValue] = React.useState(
     value ?? defaultValue ?? ""
@@ -55,25 +56,26 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         disabled,
       }}
     >
-      <div className={cn("grid gap-2", className)} role="radiogroup">
+      <div {...props} className={cn("grid gap-2", className)} role="radiogroup">
         {children}
       </div>
     </RadioGroupContext.Provider>
   );
 };
 
-export interface RadioGroupItemProps {
+export type RadioGroupItemProps = {
   value: string;
   id?: string;
   disabled?: boolean;
   className?: string;
-}
+} & Omit<React.ComponentProps<"input">, "value" | "id" | "disabled">;
 
 export const RadioGroupItem: React.FC<RadioGroupItemProps> = ({
   value,
   id,
   disabled: itemDisabled = false,
   className,
+  ...props
 }) => {
   const context = React.useContext(RadioGroupContext);
   const isSelected = context.value === value;
@@ -110,6 +112,7 @@ export const RadioGroupItem: React.FC<RadioGroupItemProps> = ({
       )}
     >
       <input
+        {...props}
         type="radio"
         name={context.name}
         value={value}

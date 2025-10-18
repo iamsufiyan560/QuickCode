@@ -3,7 +3,8 @@
 import React, { useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-export interface SliderProps {
+export interface SliderProps
+  extends Omit<React.ComponentProps<"div">, "onChange"> {
   className?: string;
   value?: number;
   defaultValue?: number;
@@ -23,6 +24,7 @@ export const Slider: React.FC<SliderProps> = ({
   step = 1,
   disabled = false,
   onChange,
+  ...props
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const currentValue = value ?? defaultValue;
@@ -86,6 +88,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   return (
     <div
+      {...props}
       className={cn(
         "relative flex w-full touch-none items-center select-none",
         disabled && "opacity-50 pointer-events-none",

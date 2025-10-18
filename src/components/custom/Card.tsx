@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface BaseDivProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface BaseDivProps extends React.ComponentProps<"div"> {}
 
 export const Card: React.FC<BaseDivProps> = ({ className, ...props }) => (
   <div
@@ -24,7 +24,12 @@ export const CardHeader: React.FC<BaseDivProps> = ({ className, ...props }) => (
   />
 );
 
-export const CardTitle: React.FC<BaseDivProps> = ({ className, ...props }) => (
+export interface CardTitleProps extends React.ComponentProps<"h3"> {}
+
+export const CardTitle: React.FC<CardTitleProps> = ({
+  className,
+  ...props
+}) => (
   <h3
     data-slot="card-title"
     className={cn("font-semibold leading-none tracking-tight", className)}
@@ -32,7 +37,9 @@ export const CardTitle: React.FC<BaseDivProps> = ({ className, ...props }) => (
   />
 );
 
-export const CardDescription: React.FC<BaseDivProps> = ({
+export interface CardDescriptionProps extends React.ComponentProps<"p"> {}
+
+export const CardDescription: React.FC<CardDescriptionProps> = ({
   className,
   ...props
 }) => (

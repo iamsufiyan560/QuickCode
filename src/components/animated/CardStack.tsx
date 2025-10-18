@@ -12,14 +12,21 @@ interface CardItem {
   color: string;
 }
 
-export interface CardStackProps {
+export interface CardStackProps extends React.ComponentProps<"div"> {
   cards: CardItem[];
   className?: string;
 }
 
-export const CardStack: React.FC<CardStackProps> = ({ cards, className }) => {
+export const CardStack: React.FC<CardStackProps> = ({
+  cards,
+  className,
+  ...props
+}) => {
   return (
-    <div className={cn("group/cardstack flex flex-col gap-4", className)}>
+    <div
+      {...props}
+      className={cn("group/cardstack flex flex-col gap-4", className)}
+    >
       {cards.map((card, index) => (
         <div
           key={card.id || index}

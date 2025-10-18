@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { Button, ButtonProps } from "./Button";
@@ -26,7 +26,7 @@ const useAlertDialog = () => {
   return context;
 };
 
-export interface AlertDialogProps {
+export interface AlertDialogProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
@@ -81,7 +81,8 @@ const AlertDialogRoot: React.FC<AlertDialogProps> = ({
   );
 };
 
-export interface AlertDialogTriggerProps {
+export interface AlertDialogTriggerProps
+  extends React.ComponentProps<"button"> {
   children: React.ReactNode;
   asChild?: boolean;
   className?: string;
@@ -91,6 +92,7 @@ const AlertDialogTrigger: React.FC<AlertDialogTriggerProps> = ({
   children,
   asChild = false,
   className,
+  ...props
 }) => {
   const { onOpenChange } = useAlertDialog();
 
@@ -125,6 +127,7 @@ const AlertDialogTrigger: React.FC<AlertDialogTriggerProps> = ({
 
   return (
     <button
+      {...props}
       type="button"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
@@ -135,7 +138,7 @@ const AlertDialogTrigger: React.FC<AlertDialogTriggerProps> = ({
   );
 };
 
-export interface AlertDialogContentProps {
+export interface AlertDialogContentProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -143,6 +146,7 @@ export interface AlertDialogContentProps {
 const AlertDialogContent: React.FC<AlertDialogContentProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { open, onOpenChange, titleId, descriptionId } = useAlertDialog();
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -226,6 +230,7 @@ const AlertDialogContent: React.FC<AlertDialogContentProps> = ({
           />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
+              {...props}
               ref={contentRef}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -252,7 +257,7 @@ const AlertDialogContent: React.FC<AlertDialogContentProps> = ({
   return createPortal(dialogContent, document.body);
 };
 
-export interface AlertDialogHeaderProps {
+export interface AlertDialogHeaderProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -260,9 +265,11 @@ export interface AlertDialogHeaderProps {
 const AlertDialogHeader: React.FC<AlertDialogHeaderProps> = ({
   children,
   className,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
     >
       {children}
@@ -270,7 +277,7 @@ const AlertDialogHeader: React.FC<AlertDialogHeaderProps> = ({
   );
 };
 
-export interface AlertDialogFooterProps {
+export interface AlertDialogFooterProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -278,9 +285,11 @@ export interface AlertDialogFooterProps {
 const AlertDialogFooter: React.FC<AlertDialogFooterProps> = ({
   children,
   className,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={cn(
         "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
         className
@@ -291,7 +300,7 @@ const AlertDialogFooter: React.FC<AlertDialogFooterProps> = ({
   );
 };
 
-export interface AlertDialogTitleProps {
+export interface AlertDialogTitleProps extends React.ComponentProps<"h2"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -299,17 +308,22 @@ export interface AlertDialogTitleProps {
 const AlertDialogTitle: React.FC<AlertDialogTitleProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { titleId } = useAlertDialog();
 
   return (
-    <h2 id={titleId} className={cn("text-lg font-semibold", className)}>
+    <h2
+      {...props}
+      id={titleId}
+      className={cn("text-lg font-semibold", className)}
+    >
       {children}
     </h2>
   );
 };
 
-export interface AlertDialogDescriptionProps {
+export interface AlertDialogDescriptionProps extends React.ComponentProps<"p"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -317,11 +331,13 @@ export interface AlertDialogDescriptionProps {
 const AlertDialogDescription: React.FC<AlertDialogDescriptionProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { descriptionId } = useAlertDialog();
 
   return (
     <p
+      {...props}
       id={descriptionId}
       className={cn("text-sm text-muted-foreground", className)}
     >

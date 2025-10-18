@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
-export interface TooltipProps {
+export interface TooltipProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   content: string;
   side?: "top" | "bottom" | "left" | "right";
@@ -27,6 +27,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   className,
   gap = 8,
   hideDelay = 100,
+  ...props
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [pos, setPos] = useState({ left: 0, top: 0 });
@@ -206,6 +207,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         onMouseLeave={onTriggerLeave}
         onFocus={onTriggerFocus}
         onBlur={onTriggerBlur}
+        {...props}
       >
         {children}
       </div>

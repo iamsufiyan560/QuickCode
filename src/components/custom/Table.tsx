@@ -205,7 +205,8 @@ const exportToJSON = <T extends Record<string, unknown>>(
   window.URL.revokeObjectURL(url);
 };
 
-export interface TableRootProps<T extends Record<string, unknown>> {
+export interface TableRootProps<T extends Record<string, unknown>>
+  extends React.ComponentProps<"div"> {
   data: T[];
   columns: Column<T>[];
   children: React.ReactNode;
@@ -265,6 +266,7 @@ function TableRoot<T extends Record<string, unknown>>({
   onRowDoubleClick,
   onRowExpand,
   onExport,
+  ...props
 }: TableRootProps<T>): JSX.Element {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -618,21 +620,30 @@ function TableRoot<T extends Record<string, unknown>>({
     <TableContext.Provider
       value={contextValue as TableContextValue<Record<string, unknown>>}
     >
-      <div className={cn("w-full space-y-4", className)}>{children}</div>
+      <div {...props} className={cn("w-full space-y-4", className)}>
+        {children}
+      </div>
     </TableContext.Provider>
   );
 }
 
-export interface TableToolbarProps {
+export interface TableToolbarProps extends React.ComponentProps<"div"> {
   children?: React.ReactNode;
   className?: string;
 }
 
-function TableToolbar({ children, className }: TableToolbarProps): JSX.Element {
+function TableToolbar({
+  children,
+  className,
+  ...props
+}: TableToolbarProps): JSX.Element {
   const { options, onSearch, onExportData, searchQuery } = useTable();
 
   return (
-    <div className={cn("flex items-center justify-between gap-4", className)}>
+    <div
+      {...props}
+      className={cn("flex items-center justify-between gap-4", className)}
+    >
       <div className="flex items-center gap-3">
         {options.showSearch && (
           <div className="relative">
@@ -679,7 +690,7 @@ function TableToolbar({ children, className }: TableToolbarProps): JSX.Element {
   );
 }
 
-export interface TableContainerProps {
+export interface TableContainerProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -687,12 +698,16 @@ export interface TableContainerProps {
 function TableContainer({
   children,
   className,
+  ...props
 }: TableContainerProps): JSX.Element {
   const { isLoading, error } = useTable();
 
   if (isLoading) {
     return (
-      <div className={cn("flex items-center justify-center p-8", className)}>
+      <div
+        {...props}
+        className={cn("flex items-center justify-center p-8", className)}
+      >
         <div className="flex items-center gap-3">
           <Loader2 size={24} className="animate-spin text-primary" />
           <span className="text-muted-foreground">Loading...</span>
@@ -729,16 +744,21 @@ function TableContainer({
   );
 }
 
-export interface TableHeaderProps {
+export interface TableHeaderProps extends React.ComponentProps<"thead"> {
   children: React.ReactNode;
   className?: string;
 }
 
-function TableHeader({ children, className }: TableHeaderProps): JSX.Element {
+function TableHeader({
+  children,
+  className,
+  ...props
+}: TableHeaderProps): JSX.Element {
   const { options } = useTable();
 
   return (
     <thead
+      {...props}
       className={cn(
         "bg-muted",
         options.stickyHeader && "sticky top-0 z-10",
@@ -750,7 +770,7 @@ function TableHeader({ children, className }: TableHeaderProps): JSX.Element {
   );
 }
 
-export interface TableRowProps {
+export interface TableRowProps extends React.ComponentProps<"tr"> {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
@@ -762,9 +782,11 @@ function TableRow({
   className,
   onClick,
   onDoubleClick,
+  ...props
 }: TableRowProps): JSX.Element {
   return (
     <tr
+      {...props}
       className={cn(
         "border-b  border-border  transition-colors hover:bg-muted/50",
         className
@@ -780,7 +802,7 @@ function TableRow({
 
 export interface TableHeadProps<
   T extends Record<string, unknown> = Record<string, unknown>
-> {
+> extends React.ComponentProps<"th"> {
   children: React.ReactNode;
   column?: Column<T>;
   className?: string;
@@ -794,6 +816,7 @@ function TableHead<T extends Record<string, unknown>>({
   className,
   sortable,
   filterable,
+  ...props
 }: TableHeadProps<T>): JSX.Element {
   const {
     sortStates,
@@ -826,6 +849,7 @@ function TableHead<T extends Record<string, unknown>>({
 
   return (
     <th
+      {...props}
       className={cn(
         "px-4 py-3 text-left font-semibold text-foreground",
         column?.align === "center" && "text-center",
@@ -891,7 +915,7 @@ function TableHead<T extends Record<string, unknown>>({
   );
 }
 
-export interface TableBodyProps {
+export interface TableBodyProps extends React.ComponentProps<"tbody"> {
   children?: React.ReactNode;
   className?: string;
   renderExpandedRow?: (row: any, index: number) => React.ReactNode;
@@ -900,6 +924,7 @@ export interface TableBodyProps {
 function TableBody<T extends Record<string, unknown>>({
   className,
   renderExpandedRow,
+  ...props
 }: TableBodyProps): JSX.Element {
   const { paginatedData, columns, options } = useTable<T>();
 
@@ -921,7 +946,10 @@ function TableBody<T extends Record<string, unknown>>({
   }
 
   return (
-    <tbody className={cn("bg-background   divide-y divide-border", className)}>
+    <tbody
+      {...props}
+      className={cn("bg-background   divide-y divide-border", className)}
+    >
       {paginatedData.map((row, index) => (
         <TableDataRow key={index} row={row} index={index}>
           {renderExpandedRow
@@ -933,7 +961,7 @@ function TableBody<T extends Record<string, unknown>>({
   );
 }
 
-export interface TableCellProps {
+export interface TableCellProps extends React.ComponentProps<"td"> {
   children: React.ReactNode;
   className?: string;
   align?: "left" | "center" | "right";
@@ -943,9 +971,11 @@ function TableCell({
   children,
   className,
   align = "left",
+  ...props
 }: TableCellProps): JSX.Element {
   return (
     <td
+      {...props}
       className={cn(
         "px-4 py-3 text-foreground [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent ",
         align === "center" && "text-center",
@@ -965,7 +995,8 @@ function TableCell({
   );
 }
 
-export interface TableDataRowProps<T extends Record<string, unknown>> {
+export interface TableDataRowProps<T extends Record<string, unknown>>
+  extends Omit<React.ComponentProps<"tr">, "children"> {
   row: T;
   index: number;
   children?: (row: T, index: number) => React.ReactNode;
@@ -977,6 +1008,7 @@ function TableDataRow<T extends Record<string, unknown>>({
   index,
   children,
   className,
+  ...props
 }: TableDataRowProps<T>): JSX.Element {
   const {
     columns,
@@ -1025,6 +1057,7 @@ function TableDataRow<T extends Record<string, unknown>>({
   return (
     <>
       <TableRow
+        {...props}
         className={cn(
           "cursor-pointer transition-colors  ",
           isSelected && "bg-muted",
@@ -1122,11 +1155,14 @@ function TableDataRow<T extends Record<string, unknown>>({
   );
 }
 
-export interface TableSelectHeaderProps {
+export interface TableSelectHeaderProps extends React.ComponentProps<"th"> {
   className?: string;
 }
 
-function TableSelectHeader({ className }: TableSelectHeaderProps): JSX.Element {
+function TableSelectHeader({
+  className,
+  ...props
+}: TableSelectHeaderProps): JSX.Element {
   const {
     paginatedData,
     selectedRows,
@@ -1148,7 +1184,7 @@ function TableSelectHeader({ className }: TableSelectHeaderProps): JSX.Element {
     pageIndices.every((idx) => selectedRows.has(idx));
 
   return (
-    <TableHead className={cn("w-12", className)}>
+    <TableHead {...props} className={cn("w-12", className)}>
       <Checkbox
         id={generateCheckboxId("select-all")}
         checked={allPageSelected}
@@ -1158,23 +1194,26 @@ function TableSelectHeader({ className }: TableSelectHeaderProps): JSX.Element {
   );
 }
 
-export interface TableExpandHeaderProps {
+export interface TableExpandHeaderProps extends React.ComponentProps<"th"> {
   className?: string;
 }
 
-function TableExpandHeader({ className }: TableExpandHeaderProps): JSX.Element {
+function TableExpandHeader({
+  className,
+  ...props
+}: TableExpandHeaderProps): JSX.Element {
   const { options } = useTable();
 
   if (!options.expandable) return <></>;
 
   return (
-    <TableHead className={cn("w-12", className)}>
+    <TableHead {...props} className={cn("w-12", className)}>
       <span className="sr-only">Expand</span>
     </TableHead>
   );
 }
 
-export interface TableActionsHeaderProps {
+export interface TableActionsHeaderProps extends React.ComponentProps<"th"> {
   className?: string;
   children?: React.ReactNode;
 }
@@ -1182,6 +1221,7 @@ export interface TableActionsHeaderProps {
 function TableActionsHeader({
   className,
   children,
+  ...props
 }: TableActionsHeaderProps): JSX.Element {
   const { options } = useTable();
 
@@ -1190,7 +1230,11 @@ function TableActionsHeader({
   return (
     <>
       {options.rowActions.map((action, index) => (
-        <TableHead key={index} className={cn("text-center w-full", className)}>
+        <TableHead
+          {...props}
+          key={index}
+          className={cn("text-center w-full", className)}
+        >
           {action.label}
         </TableHead>
       ))}
@@ -1198,11 +1242,14 @@ function TableActionsHeader({
   );
 }
 
-export interface TablePaginationProps {
+export interface TablePaginationProps extends React.ComponentProps<"div"> {
   className?: string;
 }
 
-function TablePagination({ className }: TablePaginationProps): JSX.Element {
+function TablePagination({
+  className,
+  ...props
+}: TablePaginationProps): JSX.Element {
   const {
     currentPage,
     totalPages,
@@ -1262,6 +1309,7 @@ function TablePagination({ className }: TablePaginationProps): JSX.Element {
 
   return (
     <div
+      {...props}
       className={cn(
         "flex items-center justify-between gap-4 py-4 px-2",
         className
@@ -1349,24 +1397,22 @@ function TablePagination({ className }: TablePaginationProps): JSX.Element {
   );
 }
 
-const Table = {
-  Root: TableRoot,
-  Toolbar: TableToolbar,
-  Container: TableContainer,
-  Header: TableHeader,
-  Body: TableBody,
-  Row: TableRow,
-  Head: TableHead,
-  Cell: TableCell,
-  DataRow: TableDataRow,
-  SelectHeader: TableSelectHeader,
-  ExpandHeader: TableExpandHeader,
-  ActionsHeader: TableActionsHeader,
-  Pagination: TablePagination,
+export const Table = {
+  Root: TableRoot as typeof TableRoot,
+  Toolbar: TableToolbar as typeof TableToolbar,
+  Container: TableContainer as typeof TableContainer,
+  Header: TableHeader as typeof TableHeader,
+  Body: TableBody as typeof TableBody,
+  Row: TableRow as typeof TableRow,
+  Head: TableHead as typeof TableHead,
+  Cell: TableCell as typeof TableCell,
+  DataRow: TableDataRow as typeof TableDataRow,
+  SelectHeader: TableSelectHeader as typeof TableSelectHeader,
+  ExpandHeader: TableExpandHeader as typeof TableExpandHeader,
+  ActionsHeader: TableActionsHeader as typeof TableActionsHeader,
+  Pagination: TablePagination as typeof TablePagination,
 };
-
 export {
-  Table,
   TableRoot,
   TableToolbar,
   TableContainer,

@@ -11,7 +11,7 @@ import React, {
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export interface AnimatedListProps {
+export interface AnimatedListProps extends React.ComponentProps<"div"> {
   data: string[];
   onPick?: (val: string, idx: number) => void;
   gradients?: boolean;
@@ -67,6 +67,7 @@ export const AnimatedList: React.FC<AnimatedListProps> = ({
   showScroll = true,
   startIndex = -1,
   className,
+  ...props
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<number>(startIndex);
@@ -133,6 +134,7 @@ export const AnimatedList: React.FC<AnimatedListProps> = ({
   return (
     <div className={cn("relative w-[480px]", wrapperClass, className)}>
       <div
+        {...props}
         ref={containerRef}
         onScroll={handleScroll}
         className={cn(

@@ -1,7 +1,12 @@
 "use client";
 
 import React from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  HTMLMotionProps,
+  motion,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface SwipeStackProps {
@@ -9,11 +14,16 @@ interface SwipeStackProps {
   className?: string;
 }
 
-function SwipeStackRoot({ children, className }: SwipeStackProps) {
+function SwipeStackRoot({
+  children,
+  className,
+  ...props
+}: SwipeStackProps & React.ComponentProps<"div">) {
   const hasItems = React.Children.count(children) > 0;
 
   return (
     <div
+      {...props}
       className={cn(
         "relative flex items-center justify-center min-h-[400px]  ",
         className
@@ -51,7 +61,7 @@ function SwipeStackItem({
   children,
   className,
   ...props
-}: SwipeStackItemProps) {
+}: SwipeStackItemProps & HTMLMotionProps<"div">) {
   const xPosition = useMotionValue(0);
   const rotation = useTransform(xPosition, [-150, 150], [-18, 18]);
   const fadeOut = useTransform(xPosition, [-150, 0, 150], [0, 1, 0]);
@@ -101,15 +111,21 @@ function SwipeStackItem({
   );
 }
 
-interface SwipeStackImageProps {
+interface SwipeStackImageProps extends React.ComponentProps<"img"> {
   src: string;
   alt?: string;
   className?: string;
 }
 
-function SwipeStackImage({ src, alt = "", className }: SwipeStackImageProps) {
+function SwipeStackImage({
+  src,
+  alt = "",
+  className,
+  ...props
+}: SwipeStackImageProps) {
   return (
     <img
+      {...props}
       src={src}
       alt={alt}
       className={cn(
@@ -125,9 +141,14 @@ interface SwipeStackOverlayProps {
   className?: string;
 }
 
-function SwipeStackOverlay({ children, className }: SwipeStackOverlayProps) {
+function SwipeStackOverlay({
+  children,
+  className,
+  ...props
+}: SwipeStackOverlayProps & React.ComponentProps<"div">) {
   return (
     <div
+      {...props}
       className={cn(
         "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6",
 

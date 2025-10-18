@@ -22,7 +22,7 @@ export interface ActionLink {
   color: string;
 }
 
-export interface SocialCardProps {
+export interface SocialCardProps extends React.ComponentProps<"div"> {
   actionLinks: [ActionLink, ActionLink, ...ActionLink[]];
   label?: string;
   className?: string;
@@ -46,6 +46,7 @@ export const SocialCard: React.FC<SocialCardProps> = ({
   label = "Social",
   className,
   iconClassName,
+  ...props
 }) => {
   const [open, setOpen] = useState(false);
   const [isHoverSupported, setIsHoverSupported] = useState(true);
@@ -77,6 +78,7 @@ export const SocialCard: React.FC<SocialCardProps> = ({
 
   return (
     <div
+      {...props}
       onClick={handleClick}
       onTouchStart={handleTouchStart}
       className={cn(

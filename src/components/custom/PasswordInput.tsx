@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
-import { Input, InputProps } from "./Input";
+import { Input } from "./Input";
 
-export interface PasswordInputProps extends Omit<InputProps, "type"> {
+export interface PasswordInputProps
+  extends Omit<React.ComponentProps<"input">, "type"> {
   className?: string;
 }
 

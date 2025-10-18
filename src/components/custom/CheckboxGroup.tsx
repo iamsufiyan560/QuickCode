@@ -14,7 +14,7 @@ const CheckboxGroupContext = createContext<
   CheckboxGroupContextValue | undefined
 >(undefined);
 
-export interface CheckboxGroupProps {
+export interface CheckboxGroupProps extends React.ComponentProps<"fieldset"> {
   value?: string[];
   onValueChange?: (value: string[]) => void;
   defaultValue?: string[];
@@ -36,6 +36,7 @@ const CheckboxGroupRoot: React.FC<CheckboxGroupProps> = ({
   error,
   className,
   children,
+  ...props
 }) => {
   const [uncontrolledValue, setUncontrolledValue] =
     React.useState<string[]>(defaultValue);
@@ -60,6 +61,7 @@ const CheckboxGroupRoot: React.FC<CheckboxGroupProps> = ({
       value={{ value, onChange: handleChange, disabled }}
     >
       <fieldset
+        {...props}
         className={cn("space-y-3", disabled && "opacity-50", className)}
         disabled={disabled}
       >

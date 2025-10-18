@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -80,7 +80,7 @@ const DialogRoot: React.FC<DialogProps> = ({
   );
 };
 
-export interface DialogTriggerProps {
+export interface DialogTriggerProps extends React.ComponentProps<"button"> {
   children: React.ReactNode;
   asChild?: boolean;
   className?: string;
@@ -90,6 +90,7 @@ const DialogTrigger: React.FC<DialogTriggerProps> = ({
   children,
   asChild = false,
   className,
+  ...props
 }) => {
   const { onOpenChange } = useDialog();
 
@@ -124,6 +125,7 @@ const DialogTrigger: React.FC<DialogTriggerProps> = ({
 
   return (
     <button
+      {...props}
       type="button"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
@@ -134,7 +136,7 @@ const DialogTrigger: React.FC<DialogTriggerProps> = ({
   );
 };
 
-export interface DialogContentProps {
+export interface DialogContentProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   className?: string;
   showCloseButton?: boolean;
@@ -144,6 +146,7 @@ const DialogContent: React.FC<DialogContentProps> = ({
   children,
   className,
   showCloseButton = true,
+  ...props
 }) => {
   const { open, onOpenChange, titleId, descriptionId } = useDialog();
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -227,6 +230,7 @@ const DialogContent: React.FC<DialogContentProps> = ({
           />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
+              {...props}
               ref={contentRef}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -264,14 +268,19 @@ const DialogContent: React.FC<DialogContentProps> = ({
   return createPortal(dialogContent, document.body);
 };
 
-export interface DialogHeaderProps {
+export interface DialogHeaderProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
 
-const DialogHeader: React.FC<DialogHeaderProps> = ({ children, className }) => {
+const DialogHeader: React.FC<DialogHeaderProps> = ({
+  children,
+  className,
+  ...props
+}) => {
   return (
     <div
+      {...props}
       className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
     >
       {children}
@@ -279,14 +288,19 @@ const DialogHeader: React.FC<DialogHeaderProps> = ({ children, className }) => {
   );
 };
 
-export interface DialogFooterProps {
+export interface DialogFooterProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
 
-const DialogFooter: React.FC<DialogFooterProps> = ({ children, className }) => {
+const DialogFooter: React.FC<DialogFooterProps> = ({
+  children,
+  className,
+  ...props
+}) => {
   return (
     <div
+      {...props}
       className={cn(
         "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-2",
         className
@@ -297,22 +311,30 @@ const DialogFooter: React.FC<DialogFooterProps> = ({ children, className }) => {
   );
 };
 
-export interface DialogTitleProps {
+export interface DialogTitleProps extends React.ComponentProps<"h2"> {
   children: React.ReactNode;
   className?: string;
 }
 
-const DialogTitle: React.FC<DialogTitleProps> = ({ children, className }) => {
+const DialogTitle: React.FC<DialogTitleProps> = ({
+  children,
+  className,
+  ...props
+}) => {
   const { titleId } = useDialog();
 
   return (
-    <h2 id={titleId} className={cn("text-lg font-semibold", className)}>
+    <h2
+      {...props}
+      id={titleId}
+      className={cn("text-lg font-semibold", className)}
+    >
       {children}
     </h2>
   );
 };
 
-export interface DialogDescriptionProps {
+export interface DialogDescriptionProps extends React.ComponentProps<"p"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -320,11 +342,13 @@ export interface DialogDescriptionProps {
 const DialogDescription: React.FC<DialogDescriptionProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { descriptionId } = useDialog();
 
   return (
     <p
+      {...props}
       id={descriptionId}
       className={cn("text-sm text-muted-foreground", className)}
     >
@@ -333,7 +357,7 @@ const DialogDescription: React.FC<DialogDescriptionProps> = ({
   );
 };
 
-export interface DialogCloseProps {
+export interface DialogCloseProps extends React.ComponentProps<"button"> {
   children: React.ReactNode;
   asChild?: boolean;
   className?: string;
@@ -343,6 +367,7 @@ const DialogClose: React.FC<DialogCloseProps> = ({
   children,
   asChild = false,
   className,
+  ...props
 }) => {
   const { onOpenChange } = useDialog();
 
@@ -365,7 +390,12 @@ const DialogClose: React.FC<DialogCloseProps> = ({
   }
 
   return (
-    <button type="button" onClick={handleClick} className={className}>
+    <button
+      {...props}
+      type="button"
+      onClick={handleClick}
+      className={className}
+    >
       {children}
     </button>
   );

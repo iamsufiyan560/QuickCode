@@ -35,7 +35,7 @@ function useKanbanBoard() {
   return context;
 }
 
-interface KanbanBoardProps {
+interface KanbanBoardProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   onCardMove?: (
     cardId: string,
@@ -50,6 +50,7 @@ function KanbanBoardRoot({
   children,
   onCardMove,
   className,
+  ...props
 }: KanbanBoardProps) {
   const [draggedCard, setDraggedCard] = useState<string | null>(null);
   const [draggedFromColumn, setDraggedFromColumn] = useState<string | null>(
@@ -167,6 +168,7 @@ function KanbanBoardRoot({
       }}
     >
       <div
+        {...props}
         ref={containerRef}
         className={cn(
           "flex p-4 gap-4 overflow-x-auto pb-4",
@@ -186,7 +188,7 @@ function KanbanBoardRoot({
   );
 }
 
-interface KanbanColumnProps {
+interface KanbanColumnProps extends React.ComponentProps<"section"> {
   id: string;
   title?: string;
   children: React.ReactNode;
@@ -202,6 +204,7 @@ function KanbanColumn({
   className,
   headerClassName,
   bodyClassName,
+  ...props
 }: KanbanColumnProps) {
   const {
     draggedCard,
@@ -262,6 +265,7 @@ function KanbanColumn({
 
   return (
     <section
+      {...props}
       ref={columnRef}
       data-kanban-column={id}
       onDragOver={handleDragOver}
@@ -303,7 +307,7 @@ function KanbanColumn({
   );
 }
 
-interface KanbanCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface KanbanCardProps extends React.ComponentProps<"div"> {
   id: string;
   children: React.ReactNode;
   className?: string;
@@ -456,7 +460,7 @@ function KanbanCard({
   );
 }
 
-interface KanbanCardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+interface KanbanCardHeaderProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -476,8 +480,7 @@ function KanbanCardHeader({
   );
 }
 
-interface KanbanCardTitleProps
-  extends React.HTMLAttributes<HTMLHeadingElement> {
+interface KanbanCardTitleProps extends React.ComponentProps<"h4"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -497,7 +500,7 @@ function KanbanCardTitle({
   );
 }
 
-interface KanbanCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
+interface KanbanCardContentProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -514,7 +517,7 @@ function KanbanCardContent({
   );
 }
 
-interface KanbanCardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+interface KanbanCardFooterProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }

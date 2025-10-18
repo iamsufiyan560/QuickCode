@@ -10,7 +10,7 @@ export interface StepperStep {
   description?: string;
 }
 
-export interface StepperProps {
+export interface StepperProps extends React.ComponentProps<"div"> {
   steps: StepperStep[];
   currentStep: number;
   className?: string;
@@ -26,6 +26,7 @@ export const Stepper: React.FC<StepperProps> = ({
   showLabels = true,
   size = "md",
   vertical = false,
+  ...props
 }) => {
   const sizeConfig = {
     sm: { circle: "w-6 h-6 text-xs", title: "text-xs", description: "text-xs" },
@@ -116,7 +117,7 @@ export const Stepper: React.FC<StepperProps> = ({
   }
 
   return (
-    <div className={cn("w-full", className)}>
+    <div {...props} className={cn("w-full", className)}>
       <div className="hidden md:block">
         <div className="flex items-start justify-between w-full flex-wrap gap-4">
           {steps.map((step, index) => (

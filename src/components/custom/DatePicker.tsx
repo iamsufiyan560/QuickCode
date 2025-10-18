@@ -24,7 +24,11 @@ export interface DateHighlight {
   disabled?: boolean;
 }
 
-export interface DatePickerProps {
+export interface DatePickerProps
+  extends Omit<
+    React.ComponentProps<"div">,
+    "onChange" | "value" | "defaultValue"
+  > {
   value?: Date | null;
   defaultValue?: Date;
   onChange?: (date: Date | null) => void;
@@ -111,6 +115,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   contentClassName,
   format,
   id,
+  ...props
 }) => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     value || defaultValue || null
@@ -697,7 +702,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   );
 
   return (
-    <div ref={containerRef} className={cn("relative", className)}>
+    <div {...props} ref={containerRef} className={cn("relative", className)}>
       <Button
         id={id}
         variant="outline"

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/custom/Input";
 
 export interface SearchBoxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  extends Omit<React.ComponentProps<"input">, "onChange"> {
   value?: string;
   onChange?: (value: string) => void;
   onSearch?: (value: string) => void;

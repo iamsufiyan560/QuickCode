@@ -1,14 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 
-export const FloatingCode = ({
-  code,
-  className = "",
-}: {
-  code: string;
-  className?: string;
-}) => {
+export const FloatingCode: React.FC<
+  { code: string } & HTMLMotionProps<"div">
+> = ({ code, className, ...props }) => {
   return (
     <motion.div
       className={cn("absolute font-mono text-xs  text-primary", className)}

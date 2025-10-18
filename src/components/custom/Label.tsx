@@ -3,8 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface LabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface LabelProps extends React.ComponentProps<"label"> {
   size?: "sm" | "md" | "lg";
   variant?: "default" | "muted" | "accent";
   required?: boolean;

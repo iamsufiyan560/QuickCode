@@ -13,7 +13,7 @@ const AvatarContext = React.createContext<{
   setImageStatus: () => {},
 });
 
-export interface AvatarProps {
+export interface AvatarProps extends React.ComponentProps<"span"> {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   className?: string;
   children: React.ReactNode;
@@ -35,6 +35,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   children,
   tooltipContent,
   showTooltip = false,
+  ...props
 }) => {
   const [imageStatus, setImageStatus] = React.useState<
     "idle" | "loading" | "loaded" | "error"
@@ -42,6 +43,7 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   const avatarElement = (
     <span
+      {...props}
       className={cn(
         "relative inline-flex items-center justify-center overflow-hidden rounded-full shrink-0",
         sizeClasses[size],
@@ -121,7 +123,7 @@ export const AvatarImage: React.FC<AvatarImageProps> = ({
   );
 };
 
-export interface AvatarFallbackProps {
+export interface AvatarFallbackProps extends React.ComponentProps<"span"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -129,6 +131,7 @@ export interface AvatarFallbackProps {
 export const AvatarFallback: React.FC<AvatarFallbackProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { imageStatus } = React.useContext(AvatarContext);
 
@@ -142,6 +145,7 @@ export const AvatarFallback: React.FC<AvatarFallbackProps> = ({
 
   return (
     <span
+      {...props}
       className={cn(
         "flex h-full w-full items-center justify-center bg-secondary text-secondary-foreground font-semibold uppercase select-none",
         className

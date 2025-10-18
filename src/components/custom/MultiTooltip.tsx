@@ -21,7 +21,7 @@ type Position =
   | "left"
   | "top-left";
 
-export interface MultiTooltipProps {
+export interface MultiTooltipProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   tooltips: Array<{
     content: string;
@@ -40,6 +40,7 @@ export const MultiTooltip: React.FC<MultiTooltipProps> = ({
   hideDelay = 100,
   className,
   tooltipClassName,
+  ...props
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [positions, setPositions] = useState<
@@ -200,6 +201,7 @@ export const MultiTooltip: React.FC<MultiTooltipProps> = ({
   return (
     <>
       <div
+        {...props}
         ref={triggerRef}
         className={cn("relative inline-block w-fit", className)}
         onMouseEnter={onTriggerEnter}

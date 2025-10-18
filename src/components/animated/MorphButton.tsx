@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { Loader2, Check, X, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface MorphButtonProps {
+export interface MorphButtonProps extends HTMLMotionProps<"button"> {
   state?: "idle" | "loading" | "success" | "error";
   onStateChange?: (state: "idle" | "loading" | "success" | "error") => void;
   idleText?: string;
@@ -49,6 +49,7 @@ export const MorphButton: React.FC<MorphButtonProps> = ({
   disabled = false,
   className,
   children,
+  ...props
 }) => {
   const [internalState, setInternalState] = React.useState<
     "idle" | "loading" | "success" | "error"
@@ -195,6 +196,7 @@ export const MorphButton: React.FC<MorphButtonProps> = ({
 
   return (
     <motion.button
+      {...props}
       className={cn(
         "relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ease-in-out overflow-hidden w-auto",
         stateConfig.bgColor,

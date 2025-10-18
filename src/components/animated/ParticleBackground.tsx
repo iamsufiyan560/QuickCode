@@ -13,13 +13,16 @@ export interface ParticleBackgroundProps {
   className?: string;
 }
 
-export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
+export const ParticleBackground: React.FC<
+  ParticleBackgroundProps & React.ComponentProps<"div">
+> = ({
   particleCount = 50,
   colors = ["#06b6d4", "#a855f7", "#ec4899"],
   speed = "medium",
   size = "md",
   blur = true,
   className,
+  ...props
 }) => {
   const speedMultipliers = {
     slow: { min: 8, max: 15 },
@@ -38,6 +41,7 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   return (
     <div className={` inset-0 z-[10] overflow-hidden absolute`}>
       <div
+        {...props}
         className={cn("absolute inset-0 bg-gray-100 dark:bg-black", className)}
       />
 

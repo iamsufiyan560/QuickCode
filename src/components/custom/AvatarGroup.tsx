@@ -15,7 +15,7 @@ export interface AvatarData {
   tooltipContent?: string;
 }
 
-export interface AvatarGroupProps {
+export interface AvatarGroupProps extends React.ComponentProps<"div"> {
   avatars: AvatarData[];
   max?: number;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
@@ -29,12 +29,13 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   size = "md",
   className,
   showTooltip = false,
+  ...props
 }) => {
   const visibleAvatars = avatars.slice(0, max);
   const remainingCount = avatars.length - max;
 
   return (
-    <div className={cn("flex items-center", className)}>
+    <div {...props} className={cn("flex items-center", className)}>
       {visibleAvatars.map((avatar, index) => (
         <Avatar
           key={index}

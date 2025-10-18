@@ -155,7 +155,7 @@ const ContextMenuRoot: React.FC<ContextMenuProps> = ({ children }) => {
   );
 };
 
-interface ContextMenuTriggerProps {
+interface ContextMenuTriggerProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   triggerOn?: "contextmenu" | "click" | "hover";
   className?: string;
@@ -165,6 +165,7 @@ const ContextMenuTrigger: React.FC<ContextMenuTriggerProps> = ({
   children,
   triggerOn = "contextmenu",
   className,
+  ...props
 }) => {
   const { openMenu, closeMenu, triggerRef } = useContextMenu();
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -258,6 +259,7 @@ const ContextMenuTrigger: React.FC<ContextMenuTriggerProps> = ({
 
   return (
     <div
+      {...props}
       ref={triggerRef as React.RefObject<HTMLDivElement>}
       onContextMenu={handleContextMenu}
       onClick={handleClick}
@@ -270,7 +272,7 @@ const ContextMenuTrigger: React.FC<ContextMenuTriggerProps> = ({
   );
 };
 
-interface ContextMenuContentProps {
+interface ContextMenuContentProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -278,6 +280,7 @@ interface ContextMenuContentProps {
 const ContextMenuContent: React.FC<ContextMenuContentProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { isOpen, position, closeMenu, triggerRef, adjustPosition } =
     useContextMenu();
@@ -384,6 +387,7 @@ const ContextMenuContent: React.FC<ContextMenuContentProps> = ({
 
   return createPortal(
     <div
+      {...props}
       ref={contentRef}
       data-context-menu-content
       className={cn(
@@ -404,8 +408,7 @@ const ContextMenuContent: React.FC<ContextMenuContentProps> = ({
   );
 };
 
-interface ContextMenuItemProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ContextMenuItemProps extends React.ComponentProps<"button"> {
   inset?: boolean;
   disabled?: boolean;
   variant?: "default" | "destructive";
@@ -482,7 +485,7 @@ const ContextMenuCheckboxItem: React.FC<ContextMenuCheckboxItemProps> = ({
   );
 };
 
-interface ContextMenuRadioGroupProps {
+interface ContextMenuRadioGroupProps extends React.ComponentProps<"div"> {
   value?: string;
   onValueChange?: (value: string) => void;
   children: React.ReactNode;
@@ -492,9 +495,10 @@ const ContextMenuRadioGroup: React.FC<ContextMenuRadioGroupProps> = ({
   value,
   onValueChange,
   children,
+  ...props
 }) => {
   return (
-    <div role="radiogroup">
+    <div {...props} role="radiogroup">
       {React.Children.map(children, (child) => {
         if (
           React.isValidElement(child) &&
@@ -553,7 +557,7 @@ const ContextMenuSeparator: React.FC<{ className?: string }> = ({
   return <div className={cn("-mx-1 my-1 h-px bg-border", className)} />;
 };
 
-interface ContextMenuLabelProps {
+interface ContextMenuLabelProps extends React.ComponentProps<"div"> {
   inset?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -563,9 +567,11 @@ const ContextMenuLabel: React.FC<ContextMenuLabelProps> = ({
   inset,
   children,
   className,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={cn(
         "px-2 py-1.5 text-sm font-semibold text-foreground",
         inset && "pl-8",
@@ -577,12 +583,12 @@ const ContextMenuLabel: React.FC<ContextMenuLabelProps> = ({
   );
 };
 
-const ContextMenuShortcut: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => {
+const ContextMenuShortcut: React.FC<
+  React.ComponentProps<"span"> & { className?: string }
+> = ({ children, className, ...props }) => {
   return (
     <span
+      {...props}
       className={cn(
         "ml-auto text-xs tracking-widest text-muted-foreground",
         className
@@ -611,9 +617,9 @@ const useSubMenu = () => {
   return context;
 };
 
-const ContextMenuSub: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const ContextMenuSub: React.FC<
+  React.ComponentProps<"div"> & { children: React.ReactNode }
+> = ({ children, ...props }) => {
   const [isSubOpen, setIsSubOpen] = useState(false);
   const [submenuRect, setSubmenuRect] = useState<DOMRect | null>(null);
 
@@ -627,7 +633,9 @@ const ContextMenuSub: React.FC<{ children: React.ReactNode }> = ({
         submenuRect,
       }}
     >
-      <div className="relative">{children}</div>
+      <div {...props} className="relative">
+        {children}
+      </div>
     </SubMenuContext.Provider>
   );
 };
@@ -778,6 +786,7 @@ const ContextMenuSubTrigger: React.FC<ContextMenuItemProps> = ({
 const ContextMenuSubContent: React.FC<ContextMenuContentProps> = ({
   children,
   className,
+  ...props
 }) => {
   const { isSubOpen, closeSub, setSubmenuRect } = useSubMenu();
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -857,6 +866,7 @@ const ContextMenuSubContent: React.FC<ContextMenuContentProps> = ({
 
   return (
     <div
+      {...props}
       ref={subContentRef}
       data-submenu-content
       className={cn(

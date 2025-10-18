@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SeparatorProps extends React.ComponentProps<"div"> {
   className?: string;
   orientation?: "horizontal" | "vertical";
   decorative?: boolean;

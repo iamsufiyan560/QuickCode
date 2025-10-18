@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { Button } from "./Button";
+import { Button, ButtonProps } from "./Button";
 import { cn } from "@/lib/utils";
 
 interface ActionSheetContextValue {
@@ -186,23 +186,27 @@ function ActionSheetProvider({
   );
 }
 
-interface ActionSheetTriggerProps {
+interface ActionSheetTriggerProps extends ButtonProps {
   children: React.ReactNode;
   className?: string;
 }
 
-function ActionSheetTrigger({ children, className }: ActionSheetTriggerProps) {
+function ActionSheetTrigger({
+  children,
+  className,
+  ...props
+}: ActionSheetTriggerProps) {
   const { setIsOpen } = useActionSheet();
 
   return (
-    <Button onClick={() => setIsOpen(true)} className={className}>
+    <Button {...props} onClick={() => setIsOpen(true)} className={className}>
       {children}
     </Button>
   );
 }
 ActionSheetTrigger.displayName = "ActionSheetTrigger";
 
-interface ActionSheetHeaderProps {
+interface ActionSheetHeaderProps extends ButtonProps {
   children: React.ReactNode;
   showCloseButton?: boolean;
   className?: string;
@@ -212,6 +216,7 @@ function ActionSheetHeader({
   children,
   showCloseButton = true,
   className,
+  ...props
 }: ActionSheetHeaderProps) {
   const { onClose, size } = useActionSheet();
 
@@ -233,6 +238,7 @@ function ActionSheetHeader({
         <div className="flex-1">{children}</div>
         {showCloseButton && (
           <Button
+            {...props}
             onClick={onClose}
             size="icon"
             variant="ghost"
@@ -247,12 +253,16 @@ function ActionSheetHeader({
 }
 ActionSheetHeader.displayName = "ActionSheetHeader";
 
-interface ActionSheetTitleProps {
+interface ActionSheetTitleProps extends React.ComponentProps<"h3"> {
   children: React.ReactNode;
   className?: string;
 }
 
-function ActionSheetTitle({ children, className }: ActionSheetTitleProps) {
+function ActionSheetTitle({
+  children,
+  className,
+  ...props
+}: ActionSheetTitleProps) {
   const { size } = useActionSheet();
 
   const sizeClasses = {
@@ -263,6 +273,7 @@ function ActionSheetTitle({ children, className }: ActionSheetTitleProps) {
 
   return (
     <h3
+      {...props}
       className={cn(
         "font-semibold text-foreground",
         sizeClasses[size],
@@ -274,7 +285,7 @@ function ActionSheetTitle({ children, className }: ActionSheetTitleProps) {
   );
 }
 
-interface ActionSheetDescriptionProps {
+interface ActionSheetDescriptionProps extends React.ComponentProps<"p"> {
   children: React.ReactNode;
   className?: string;
 }
@@ -282,15 +293,19 @@ interface ActionSheetDescriptionProps {
 function ActionSheetDescription({
   children,
   className,
+  ...props
 }: ActionSheetDescriptionProps) {
   return (
-    <p className={cn("mt-1 text-sm text-muted-foreground", className)}>
+    <p
+      {...props}
+      className={cn("mt-1 text-sm text-muted-foreground", className)}
+    >
       {children}
     </p>
   );
 }
 
-interface ActionSheetContentProps {
+interface ActionSheetContentProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   showScroll?: boolean;
   className?: string;
@@ -300,6 +315,7 @@ function ActionSheetContent({
   children,
   showScroll = true,
   className,
+  ...props
 }: ActionSheetContentProps) {
   const { variant } = useActionSheet();
 
@@ -311,6 +327,7 @@ function ActionSheetContent({
 
   return (
     <div
+      {...props}
       className={cn(
         "flex-1 overflow-y-auto px-6 py-4",
         scrollClasses,
@@ -331,12 +348,16 @@ export interface ActionSheetAction {
   icon?: React.ReactNode;
 }
 
-interface ActionSheetActionsProps {
+interface ActionSheetActionsProps extends React.ComponentProps<"div"> {
   actions: ActionSheetAction[];
   className?: string;
 }
 
-function ActionSheetActions({ actions, className }: ActionSheetActionsProps) {
+function ActionSheetActions({
+  actions,
+  className,
+  ...props
+}: ActionSheetActionsProps) {
   const { onClose, size, variant } = useActionSheet();
 
   const sizeClasses = {
@@ -353,7 +374,7 @@ function ActionSheetActions({ actions, className }: ActionSheetActionsProps) {
   };
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div {...props} className={cn("space-y-2", className)}>
       {actions.map((action, index) => (
         <Button
           key={index}
@@ -381,7 +402,8 @@ function ActionSheetActions({ actions, className }: ActionSheetActionsProps) {
   );
 }
 
-interface ActionSheetFooterProps {
+interface ActionSheetFooterProps
+  extends Omit<React.ComponentProps<typeof Button>, "children"> {
   children?: React.ReactNode;
   cancelLabel?: string;
   className?: string;
@@ -391,6 +413,7 @@ function ActionSheetFooter({
   children,
   cancelLabel = "Cancel",
   className,
+  ...props
 }: ActionSheetFooterProps) {
   const { onClose, position, size } = useActionSheet();
 
@@ -413,6 +436,7 @@ function ActionSheetFooter({
     >
       {children || (
         <Button
+          {...props}
           onClick={onClose}
           size="default"
           variant="ghost"
@@ -429,7 +453,19 @@ function ActionSheetFooter({
 }
 ActionSheetFooter.displayName = "ActionSheetFooter";
 
-const ActionSheet = ActionSheetProvider as any;
+interface ActionSheetComposition {
+  Trigger: typeof ActionSheetTrigger;
+  Header: typeof ActionSheetHeader;
+  Title: typeof ActionSheetTitle;
+  Description: typeof ActionSheetDescription;
+  Content: typeof ActionSheetContent;
+  Actions: typeof ActionSheetActions;
+  Footer: typeof ActionSheetFooter;
+}
+
+const ActionSheet = ActionSheetProvider as React.FC<ActionSheetProps> &
+  ActionSheetComposition;
+
 ActionSheet.Trigger = ActionSheetTrigger;
 ActionSheet.Header = ActionSheetHeader;
 ActionSheet.Title = ActionSheetTitle;

@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "./Label";
 
-export interface CheckboxProps {
+export type CheckboxProps = {
   checked?: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
@@ -14,7 +14,7 @@ export interface CheckboxProps {
   label?: string;
   className?: string;
   id: string;
-}
+} & Omit<React.ComponentProps<"input">, "checked" | "onChange" | "size" | "id">;
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked = false,
@@ -24,6 +24,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   label,
   className,
   id,
+  ...props
 }) => {
   const sizeClasses = {
     sm: "w-4 h-4",
@@ -45,6 +46,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
   return (
     <div
+      {...props}
       className={cn(
         "relative inline-flex items-center gap-2",
         disabled && "opacity-50",

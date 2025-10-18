@@ -3,12 +3,11 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  className?: string;
-}
-
-export const Input: React.FC<InputProps> = ({ className, ...props }) => {
+export const Input = ({
+  className,
+  type,
+  ...props
+}: React.ComponentProps<"input">) => {
   return (
     <input
       className={cn(

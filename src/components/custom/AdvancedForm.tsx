@@ -12,7 +12,7 @@ import React, {
   useCallback,
   memo,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +42,7 @@ import {
 } from "@/components/custom/MultiSelect";
 import { Textarea } from "@/components/custom/TextArea";
 import { Label as LabelBase } from "@/components/custom/Label";
-import { Stepper } from "./Stepper";
+import { Stepper, StepperProps } from "./Stepper";
 import { Tooltip } from "@/components/custom/Tooltip";
 import { ImageInput } from "@/components/custom/ImageInput";
 import { FormSkeleton, FormSkeletonProps } from "./FormSkeleton";
@@ -267,7 +267,11 @@ const validateSingleField = (
   return errors[0] || null;
 };
 
-interface AdvancedFormProps {
+interface AdvancedFormProps
+  extends Omit<
+    React.ComponentProps<"div">,
+    "onChange" | "autoSave" | "loading"
+  > {
   children: React.ReactNode;
   onSubmit: (data: Record<string, any>) => void | Promise<void>;
   onChange?: (data: Record<string, any>) => void;
@@ -290,6 +294,7 @@ const AdvancedFormRoot: React.FC<AdvancedFormProps> = ({
   loading = false,
   isFormLoading = false,
   skeletonProps,
+  ...props
 }) => {
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -515,6 +520,7 @@ const AdvancedFormRoot: React.FC<AdvancedFormProps> = ({
   return (
     <FormContext.Provider value={contextValue}>
       <div
+        {...props}
         className={cn(
           "border border-border rounded-lg p-4 sm:p-6 w-full max-w-6xl mx-auto space-y-6 bg-white dark:bg-muted",
           className
@@ -530,7 +536,7 @@ const AdvancedFormRoot: React.FC<AdvancedFormProps> = ({
   );
 };
 
-interface HeaderProps {
+interface HeaderProps extends React.ComponentProps<"div"> {
   title?: string;
   description?: string;
   logo?: string;
@@ -540,7 +546,15 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = memo(
-  ({ title, description, logo, logoClassName, className, children }) => {
+  ({
+    title,
+    description,
+    logo,
+    logoClassName,
+    className,
+    children,
+    ...props
+  }) => {
     return (
       <>
         {logo && (
@@ -555,7 +569,7 @@ const Header: React.FC<HeaderProps> = memo(
             />
           </div>
         )}
-        <div className={cn("space-y-2", className)}>
+        <div {...props} className={cn("space-y-2", className)}>
           {title && (
             <h1 className="text-2xl text-center font-bold text-foreground">
               {title}
@@ -572,20 +586,20 @@ const Header: React.FC<HeaderProps> = memo(
 );
 Header.displayName = "Header";
 
-interface StepperProgressProps {
+interface StepperProgressProps extends React.ComponentProps<"div"> {
   className?: string;
   size?: "sm" | "md" | "lg";
   showLabels?: boolean;
 }
 
 const StepperProgress: React.FC<StepperProgressProps> = memo(
-  ({ className, size = "md", showLabels = true }) => {
+  ({ className, size = "md", showLabels = true, ...props }) => {
     const { steps, currentStep } = useFormContext();
 
     if (steps.length === 0) return null;
 
     return (
-      <div className={cn("w-full mx-auto", className)}>
+      <div {...props} className={cn("w-full mx-auto", className)}>
         <Stepper
           steps={steps}
           currentStep={currentStep}
@@ -599,7 +613,7 @@ const StepperProgress: React.FC<StepperProgressProps> = memo(
 );
 StepperProgress.displayName = "StepperProgress";
 
-interface StepProps {
+interface StepProps extends HTMLMotionProps<"div"> {
   id: string;
   title: string;
   description?: string;
@@ -608,7 +622,7 @@ interface StepProps {
 }
 
 const Step: React.FC<StepProps> = memo(
-  ({ id, title, description, children, className }) => {
+  ({ id, title, description, children, className, ...props }) => {
     const { currentStep, steps, registerStep } = useFormContext();
 
     useEffect(() => {
@@ -624,6 +638,7 @@ const Step: React.FC<StepProps> = memo(
       <StepContext.Provider value={{ stepId: id, stepIndex }}>
         <AnimatePresence mode="wait">
           <motion.div
+            {...props}
             key={id}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -640,21 +655,26 @@ const Step: React.FC<StepProps> = memo(
 );
 Step.displayName = "Step";
 
-interface GroupProps {
+interface GroupProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
 
-const Group: React.FC<GroupProps> = memo(({ children, className }) => {
-  return (
-    <div className={cn("grid grid-cols-1 gap-4 sm:gap-6", className)}>
-      {children}
-    </div>
-  );
-});
+const Group: React.FC<GroupProps> = memo(
+  ({ children, className, ...props }) => {
+    return (
+      <div
+        {...props}
+        className={cn("grid grid-cols-1 gap-4 sm:gap-6", className)}
+      >
+        {children}
+      </div>
+    );
+  }
+);
 Group.displayName = "Group";
 
-interface FieldProps {
+interface FieldProps extends React.ComponentProps<"div"> {
   id: string;
   validation?: FormFieldValidation;
   defaultValue?: any;
@@ -664,7 +684,15 @@ interface FieldProps {
 }
 
 const Field: React.FC<FieldProps> = memo(
-  ({ id, validation, defaultValue, conditional, children, className }) => {
+  ({
+    id,
+    validation,
+    defaultValue,
+    conditional,
+    children,
+    className,
+    ...props
+  }) => {
     const {
       formData,
       errors,
@@ -734,14 +762,16 @@ const Field: React.FC<FieldProps> = memo(
 
     return (
       <FieldContext.Provider value={fieldContext}>
-        <div className={cn("space-y-2", className)}>{children}</div>
+        <div {...props} className={cn("space-y-2", className)}>
+          {children}
+        </div>
       </FieldContext.Provider>
     );
   }
 );
 Field.displayName = "Field";
 
-interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+interface LabelProps extends React.ComponentProps<"label"> {
   required?: boolean;
   children: React.ReactNode;
 }
@@ -764,15 +794,15 @@ const Label: React.FC<LabelProps> = memo(
 );
 Label.displayName = "Label";
 
-interface DescriptionProps {
+interface DescriptionProps extends React.ComponentProps<"p"> {
   children: React.ReactNode;
   className?: string;
 }
 
 const Description: React.FC<DescriptionProps> = memo(
-  ({ children, className }) => {
+  ({ children, className, ...props }) => {
     return (
-      <p className={cn("text-xs text-muted-foreground", className)}>
+      <p {...props} className={cn("text-xs text-muted-foreground", className)}>
         {children}
       </p>
     );
@@ -780,7 +810,11 @@ const Description: React.FC<DescriptionProps> = memo(
 );
 Description.displayName = "Description";
 
-const Error: React.FC<{ className?: string }> = memo(({ className }) => {
+interface ErrorProps extends HTMLMotionProps<"div"> {
+  className?: string;
+}
+
+const Error: React.FC<ErrorProps> = memo(({ className, ...props }) => {
   const { error, touched } = useFieldContext();
 
   return (
@@ -794,6 +828,7 @@ const Error: React.FC<{ className?: string }> = memo(({ className }) => {
             "flex items-center space-x-1 text-destructive",
             className
           )}
+          {...props}
         >
           <AlertCircle className="w-3 h-3" />
           <span className="text-xs">{error}</span>
@@ -805,7 +840,7 @@ const Error: React.FC<{ className?: string }> = memo(({ className }) => {
 Error.displayName = "Error";
 
 interface FormInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  extends Omit<React.ComponentProps<typeof Input>, "onChange"> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -855,7 +890,7 @@ const FormInput: React.FC<FormInputProps> = memo(
 FormInput.displayName = "FormInput";
 
 interface FormTextareaProps
-  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> {
+  extends Omit<React.ComponentProps<typeof Textarea>, "onChange"> {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -899,7 +934,7 @@ const FormTextarea: React.FC<FormTextareaProps> = memo(
 FormTextarea.displayName = "FormTextarea";
 
 interface FormPasswordInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  extends Omit<React.ComponentProps<typeof PasswordInput>, "onChange"> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -1043,13 +1078,19 @@ const FormSwitch: React.FC<FormSwitchProps> = memo(
 );
 FormSwitch.displayName = "FormSwitch";
 
-interface FormRadioGroupProps {
+interface FormRadioGroupProps
+  extends React.ComponentProps<typeof RadioGroupBase> {
   className?: string;
   children: React.ReactNode;
 }
 
 const FormRadioGroup: React.FC<FormRadioGroupProps> = memo(
-  ({ className, children }) => {
+  ({
+    className,
+    children,
+
+    ...props
+  }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1073,6 +1114,7 @@ const FormRadioGroup: React.FC<FormRadioGroupProps> = memo(
 
     return (
       <RadioGroupBase
+        {...props}
         value={value}
         onValueChange={handleChange}
         disabled={disabled}
@@ -1088,14 +1130,14 @@ FormRadioGroup.displayName = "FormRadioGroup";
 const FormRadioGroupItem = RadioGroupItem;
 Object.assign(FormRadioGroup, { Item: FormRadioGroupItem });
 
-interface FormSelectProps {
+interface FormSelectProps extends React.ComponentProps<typeof Select> {
   placeholder?: string;
   className?: string;
   children: React.ReactNode;
 }
 
 const FormSelect: React.FC<FormSelectProps> = memo(
-  ({ placeholder, className, children }) => {
+  ({ placeholder, className, children, ...props }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1119,6 +1161,7 @@ const FormSelect: React.FC<FormSelectProps> = memo(
 
     return (
       <Select
+        {...props}
         value={value}
         onValueChange={handleChange}
         disabled={disabled}
@@ -1137,14 +1180,21 @@ FormSelect.displayName = "FormSelect";
 const FormSelectItem = SelectItem;
 Object.assign(FormSelect, { Item: FormSelectItem });
 
-interface FormMultiSelectProps {
+interface FormMultiSelectProps
+  extends React.ComponentProps<typeof MultiSelect> {
   placeholder?: string;
   className?: string;
   children: React.ReactNode;
 }
 
 const FormMultiSelect: React.FC<FormMultiSelectProps> = memo(
-  ({ placeholder, className, children }) => {
+  ({
+    placeholder,
+    className,
+    children,
+
+    ...props
+  }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1168,6 +1218,7 @@ const FormMultiSelect: React.FC<FormMultiSelectProps> = memo(
 
     return (
       <MultiSelect
+        {...props}
         values={values}
         onValuesChange={handleChange}
         disabled={disabled}
@@ -1186,7 +1237,7 @@ FormMultiSelect.displayName = "FormMultiSelect";
 const FormMultiSelectItem = MultiSelectItem;
 Object.assign(FormMultiSelect, { Item: FormMultiSelectItem });
 
-interface FormSliderProps {
+interface FormSliderProps extends React.ComponentProps<typeof Slider> {
   min?: number;
   max?: number;
   step?: number;
@@ -1195,7 +1246,15 @@ interface FormSliderProps {
 }
 
 const FormSlider: React.FC<FormSliderProps> = memo(
-  ({ min = 0, max = 100, step = 1, showValue = true, className }) => {
+  ({
+    min = 0,
+    max = 100,
+    step = 1,
+    showValue = true,
+    className,
+
+    ...props
+  }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1220,6 +1279,7 @@ const FormSlider: React.FC<FormSliderProps> = memo(
     return (
       <div className="space-y-3">
         <Slider
+          {...props}
           value={value}
           onChange={handleChange}
           min={min}
@@ -1239,7 +1299,8 @@ const FormSlider: React.FC<FormSliderProps> = memo(
 );
 FormSlider.displayName = "FormSlider";
 
-interface FormRangeSliderProps {
+interface FormRangeSliderProps
+  extends React.ComponentProps<typeof RangeSlider> {
   min?: number;
   max?: number;
   step?: number;
@@ -1248,7 +1309,7 @@ interface FormRangeSliderProps {
 }
 
 const FormRangeSlider: React.FC<FormRangeSliderProps> = memo(
-  ({ min = 0, max = 100, step = 1, showValue = true, className }) => {
+  ({ min = 0, max = 100, step = 1, showValue = true, className, ...props }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1273,6 +1334,7 @@ const FormRangeSlider: React.FC<FormRangeSliderProps> = memo(
     return (
       <div className="space-y-3">
         <RangeSlider
+          {...props}
           value={value}
           onChange={handleChange}
           min={min}
@@ -1292,13 +1354,19 @@ const FormRangeSlider: React.FC<FormRangeSliderProps> = memo(
 );
 FormRangeSlider.displayName = "FormRangeSlider";
 
-interface FormCheckboxGroupProps {
+interface FormCheckboxGroupProps
+  extends React.ComponentProps<typeof CheckboxGroupBase> {
   className?: string;
   children: React.ReactNode;
 }
 
 const FormCheckboxGroup: React.FC<FormCheckboxGroupProps> = memo(
-  ({ className, children }) => {
+  ({
+    className,
+    children,
+
+    ...props
+  }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1322,6 +1390,7 @@ const FormCheckboxGroup: React.FC<FormCheckboxGroupProps> = memo(
 
     return (
       <CheckboxGroupBase
+        {...props}
         value={values}
         onValueChange={handleChange}
         disabled={disabled}
@@ -1336,14 +1405,14 @@ FormCheckboxGroup.displayName = "FormCheckboxGroup";
 
 Object.assign(FormCheckboxGroup, { Item: CheckboxGroupBase.Item });
 
-interface FormMultiInputProps {
+interface FormMultiInputProps extends React.ComponentProps<typeof MultiInput> {
   placeholder?: string;
   max?: number;
   className?: string;
 }
 
 const FormMultiInput: React.FC<FormMultiInputProps> = memo(
-  ({ placeholder, max, className }) => {
+  ({ placeholder, max, className, ...props }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1367,6 +1436,7 @@ const FormMultiInput: React.FC<FormMultiInputProps> = memo(
 
     return (
       <MultiInput
+        {...props}
         id={id}
         value={values}
         onChange={handleChange}
@@ -1380,7 +1450,7 @@ const FormMultiInput: React.FC<FormMultiInputProps> = memo(
 );
 FormMultiInput.displayName = "FormMultiInput";
 
-interface FormDatePickerProps {
+interface FormDatePickerProps extends React.ComponentProps<typeof DatePicker> {
   placeholder?: string;
   includeTime?: boolean;
   minDate?: Date;
@@ -1389,7 +1459,14 @@ interface FormDatePickerProps {
 }
 
 const FormDatePicker: React.FC<FormDatePickerProps> = memo(
-  ({ placeholder, includeTime = false, minDate, maxDate, className }) => {
+  ({
+    placeholder,
+    includeTime = false,
+    minDate,
+    maxDate,
+    className,
+    ...props
+  }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1414,6 +1491,7 @@ const FormDatePicker: React.FC<FormDatePickerProps> = memo(
 
     return (
       <DatePicker
+        {...props}
         id={id}
         value={value ? new Date(value) : null}
         onChange={handleChange}
@@ -1429,7 +1507,8 @@ const FormDatePicker: React.FC<FormDatePickerProps> = memo(
 );
 FormDatePicker.displayName = "FormDatePicker";
 
-interface FormDateRangePickerProps {
+interface FormDateRangePickerProps
+  extends React.ComponentProps<typeof DateRangePicker> {
   placeholder?: string;
   minDate?: Date;
   maxDate?: Date;
@@ -1437,7 +1516,7 @@ interface FormDateRangePickerProps {
 }
 
 const FormDateRangePicker: React.FC<FormDateRangePickerProps> = memo(
-  ({ placeholder, minDate, maxDate, className }) => {
+  ({ placeholder, minDate, maxDate, className, ...props }) => {
     const { id, error, touched } = useFieldContext();
     const {
       formData,
@@ -1461,6 +1540,7 @@ const FormDateRangePicker: React.FC<FormDateRangePickerProps> = memo(
 
     return (
       <DateRangePicker
+        {...props}
         id={id}
         value={value}
         onChange={handleChange}
@@ -1476,10 +1556,7 @@ const FormDateRangePicker: React.FC<FormDateRangePickerProps> = memo(
 FormDateRangePicker.displayName = "FormDateRangePicker";
 
 interface FormFileInputProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "type" | "onChange"
-  > {
+  extends Omit<React.ComponentProps<"input">, "onChange" | "type"> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -1515,8 +1592,7 @@ const FormFileInput: React.FC<FormFileInputProps> = memo(
 );
 FormFileInput.displayName = "FormFileInput";
 
-interface FormImageInputProps
-  extends Omit<React.ComponentProps<typeof ImageInput>, "onChange"> {
+interface FormImageInputProps extends React.ComponentProps<typeof ImageInput> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   previewUrl?: string;
 }
@@ -1560,32 +1636,41 @@ const FormImageInput: React.FC<FormImageInputProps> = memo(
 );
 FormImageInput.displayName = "FormImageInput";
 
-interface ActionsProps {
+interface ActionsProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
 
-const Actions: React.FC<ActionsProps> = memo(({ children, className }) => {
-  return (
-    <div
-      className={cn(
-        "flex flex-col sm:flex-row gap-3 items-center justify-between pt-6 border-t border-border",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-});
+const Actions: React.FC<ActionsProps> = memo(
+  ({
+    children,
+    className,
+
+    ...props
+  }) => {
+    return (
+      <div
+        {...props}
+        className={cn(
+          "flex flex-col sm:flex-row gap-3 items-center justify-between pt-6 border-t border-border",
+          className
+        )}
+      >
+        {children}
+      </div>
+    );
+  }
+);
 Actions.displayName = "Actions";
 
-interface BackButtonProps {
+interface BackButtonProps
+  extends Omit<React.ComponentProps<typeof Button>, "children"> {
   children?: React.ReactNode;
   className?: string;
 }
 
 const BackButton: React.FC<BackButtonProps> = memo(
-  ({ children = "Back", className }) => {
+  ({ children = "Back", className, ...props }) => {
     const { currentStep, steps, setCurrentStep } = useFormContext();
 
     const handleBack = useCallback(() => {
@@ -1596,6 +1681,7 @@ const BackButton: React.FC<BackButtonProps> = memo(
 
     return (
       <Button
+        {...props}
         type="button"
         variant="outline"
         onClick={handleBack}
@@ -1609,13 +1695,14 @@ const BackButton: React.FC<BackButtonProps> = memo(
 );
 BackButton.displayName = "BackButton";
 
-interface NextButtonProps {
+interface NextButtonProps
+  extends Omit<React.ComponentProps<typeof Button>, "children"> {
   children?: React.ReactNode;
   className?: string;
 }
 
 const NextButton: React.FC<NextButtonProps> = memo(
-  ({ children = "Next", className }) => {
+  ({ children = "Next", className, ...props }) => {
     const {
       currentStep,
       steps,
@@ -1676,6 +1763,7 @@ const NextButton: React.FC<NextButtonProps> = memo(
         >
           <div>
             <Button
+              {...props}
               type="button"
               disabled={true}
               className={cn(
@@ -1693,6 +1781,7 @@ const NextButton: React.FC<NextButtonProps> = memo(
 
     return (
       <Button
+        {...props}
         type="button"
         onClick={handleNext}
         className={cn("flex items-center space-x-2 min-w-[100px]", className)}
@@ -1705,14 +1794,21 @@ const NextButton: React.FC<NextButtonProps> = memo(
 );
 NextButton.displayName = "NextButton";
 
-interface SubmitButtonProps {
+interface SubmitButtonProps
+  extends Omit<React.ComponentProps<typeof Button>, "children"> {
   children?: React.ReactNode;
   isLoading?: boolean;
   className?: string;
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = memo(
-  ({ children = "Submit", isLoading, className }) => {
+  ({
+    children = "Submit",
+    isLoading,
+    className,
+
+    ...props
+  }) => {
     const { canProceed, currentStep, steps, isSubmitting } = useFormContext();
 
     const isLastStep = steps.length === 0 || currentStep === steps.length - 1;
@@ -1730,6 +1826,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = memo(
         >
           <div>
             <Button
+              {...props}
               type="submit"
               disabled={true}
               isLoading={loading}
@@ -1744,6 +1841,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = memo(
 
     return (
       <Button
+        {...props}
         type="submit"
         isLoading={loading}
         className={cn("min-w-[120px]", className)}
@@ -1755,13 +1853,14 @@ const SubmitButton: React.FC<SubmitButtonProps> = memo(
 );
 SubmitButton.displayName = "SubmitButton";
 
-interface ResetButtonProps {
+interface ResetButtonProps
+  extends Omit<React.ComponentProps<typeof Button>, "children"> {
   children?: React.ReactNode;
   className?: string;
 }
 
 const ResetButton: React.FC<ResetButtonProps> = memo(
-  ({ children = "Reset", className }) => {
+  ({ children = "Reset", className, ...props }) => {
     const { setFormData, setErrors, setTouched, setCurrentStep, clearStorage } =
       useFormContext();
 
@@ -1775,6 +1874,7 @@ const ResetButton: React.FC<ResetButtonProps> = memo(
 
     return (
       <Button
+        {...props}
         type="button"
         variant="destructive"
         onClick={handleReset}
@@ -1787,13 +1887,18 @@ const ResetButton: React.FC<ResetButtonProps> = memo(
 );
 ResetButton.displayName = "ResetButton";
 
-interface FormProps {
+interface FormProps extends Omit<React.ComponentProps<"form">, "onSubmit"> {
   children: React.ReactNode;
   onSubmit: (data: Record<string, any>) => void | Promise<void>;
   className?: string;
 }
 
-const Form: React.FC<FormProps> = ({ children, onSubmit, className }) => {
+const Form: React.FC<FormProps> = ({
+  children,
+  onSubmit,
+  className,
+  ...props
+}) => {
   const {
     formData,
     fields,
@@ -1867,27 +1972,72 @@ const Form: React.FC<FormProps> = ({ children, onSubmit, className }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
+    <form
+      {...props}
+      onSubmit={handleSubmit}
+      className={cn("space-y-6", className)}
+    >
       {children}
     </form>
   );
 };
 
-interface FooterProps {
+interface FooterProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   className?: string;
 }
 
-const Footer: React.FC<FooterProps> = memo(({ children, className }) => {
-  return (
-    <div className={cn("pt-4 border-t border-border", className)}>
-      {children}
-    </div>
-  );
-});
+const Footer: React.FC<FooterProps> = memo(
+  ({
+    children,
+    className,
+
+    ...props
+  }) => {
+    return (
+      <div {...props} className={cn("pt-4 border-t border-border", className)}>
+        {children}
+      </div>
+    );
+  }
+);
 Footer.displayName = "Footer";
 
-export const AdvancedForm = Object.assign(AdvancedFormRoot, {
+export const AdvancedForm: React.FC<AdvancedFormProps> & {
+  Header: typeof Header;
+  StepperProgress: typeof StepperProgress;
+  Step: typeof Step;
+  Group: typeof Group;
+  Field: typeof Field;
+  Label: typeof Label;
+  Description: typeof Description;
+  Error: typeof Error;
+  Input: typeof FormInput;
+  Textarea: typeof FormTextarea;
+  PasswordInput: typeof FormPasswordInput;
+  Checkbox: typeof FormCheckbox;
+  Switch: typeof FormSwitch;
+  RadioGroup: typeof FormRadioGroup & { Item: typeof RadioGroupItem };
+  Select: typeof FormSelect & { Item: typeof SelectItem };
+  MultiSelect: typeof FormMultiSelect & { Item: typeof MultiSelectItem };
+  Slider: typeof FormSlider;
+  RangeSlider: typeof FormRangeSlider;
+  CheckboxGroup: typeof FormCheckboxGroup & {
+    Item: typeof CheckboxGroupBase.Item;
+  };
+  MultiInput: typeof FormMultiInput;
+  DatePicker: typeof FormDatePicker;
+  DateRangePicker: typeof FormDateRangePicker;
+  FileInput: typeof FormFileInput;
+  ImageInput: typeof FormImageInput;
+  Actions: typeof Actions;
+  BackButton: typeof BackButton;
+  NextButton: typeof NextButton;
+  SubmitButton: typeof SubmitButton;
+  ResetButton: typeof ResetButton;
+  Form: typeof Form;
+  Footer: typeof Footer;
+} = Object.assign(AdvancedFormRoot, {
   Header,
   StepperProgress,
   Step,

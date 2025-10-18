@@ -2,7 +2,8 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface SwitchProps {
+export interface SwitchProps
+  extends Omit<React.ComponentProps<"input">, "onChange" | "size"> {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   disabled?: boolean;
@@ -18,6 +19,7 @@ export const Switch: React.FC<SwitchProps> = ({
   id,
   className,
   size = "default",
+  ...props
 }) => {
   const [isChecked, setIsChecked] = React.useState(checked);
 
@@ -60,6 +62,7 @@ export const Switch: React.FC<SwitchProps> = ({
   return (
     <label className="inline-block">
       <input
+        {...props}
         type="checkbox"
         checked={isChecked}
         onChange={handleChange}

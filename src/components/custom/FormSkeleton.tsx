@@ -14,6 +14,7 @@ export const FormSkeleton: React.FC<FormSkeletonProps> = ({
   className,
   fields = 6,
   columns = 2,
+  ...props
 }) => {
   const getGridCols = () => {
     switch (columns) {
@@ -84,7 +85,7 @@ export const FormSkeleton: React.FC<FormSkeletonProps> = ({
   };
 
   return (
-    <div className={cn("space-y-6", className)}>
+    <div {...props} className={cn("space-y-6", className)}>
       {/*  */}
 
       <div className={cn("grid gap-4 sm:gap-6", getGridCols())}>

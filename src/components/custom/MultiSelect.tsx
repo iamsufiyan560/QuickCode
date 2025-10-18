@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 import { ChevronDown, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ const MultiSelectContext = React.createContext<{
   setOpen: () => {},
 });
 
-export interface MultiSelectProps {
+export interface MultiSelectProps extends React.ComponentProps<"div"> {
   values?: string[];
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
@@ -36,6 +36,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   disabled = false,
   className,
   children,
+  ...props
 }) => {
   const [selectedValues, setSelectedValues] = React.useState<string[]>(
     values ?? defaultValues
@@ -103,7 +104,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         disabled,
       }}
     >
-      <div ref={containerRef} className={cn("relative", className)}>
+      <div {...props} ref={containerRef} className={cn("relative", className)}>
         {children}
       </div>
     </MultiSelectContext.Provider>
@@ -111,7 +112,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
 };
 
 export interface MultiSelectTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends React.ComponentProps<"button"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -149,7 +150,7 @@ export const MultiSelectTrigger: React.FC<MultiSelectTriggerProps> = ({
   );
 };
 
-export interface MultiSelectValueProps {
+export interface MultiSelectValueProps extends React.ComponentProps<"span"> {
   placeholder?: string;
   className?: string;
   maxDisplay?: number;
@@ -159,6 +160,7 @@ export const MultiSelectValue: React.FC<MultiSelectValueProps> = ({
   placeholder = "Select options",
   className,
   maxDisplay = 3,
+  ...props
 }) => {
   const context = React.useContext(MultiSelectContext);
 
@@ -178,6 +180,7 @@ export const MultiSelectValue: React.FC<MultiSelectValueProps> = ({
       <div className="flex items-center gap-1 flex-wrap max-h-20 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {displayValues.map((value) => (
           <span
+            {...props}
             key={value}
             className="inline-flex items-center gap-1 rounded-md bg-primary/10 hover:bg-primary/15 border border-primary/20 px-2 py-1 text-xs text-primary"
           >
@@ -196,6 +199,7 @@ export const MultiSelectValue: React.FC<MultiSelectValueProps> = ({
         ))}
         {remainingValues.map((value) => (
           <span
+            {...props}
             key={value}
             className="inline-flex items-center gap-1 rounded-md bg-primary/10 hover:bg-primary/15 border border-primary/20 px-2 py-1 text-xs text-primary"
           >
@@ -217,7 +221,7 @@ export const MultiSelectValue: React.FC<MultiSelectValueProps> = ({
   );
 };
 
-export interface MultiSelectContentProps {
+export interface MultiSelectContentProps extends HTMLMotionProps<"div"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -225,6 +229,7 @@ export interface MultiSelectContentProps {
 export const MultiSelectContent: React.FC<MultiSelectContentProps> = ({
   className,
   children,
+  ...props
 }) => {
   const context = React.useContext(MultiSelectContext);
   const [position, setPosition] = React.useState({
@@ -278,6 +283,7 @@ export const MultiSelectContent: React.FC<MultiSelectContentProps> = ({
   return ReactDOM.createPortal(
     <AnimatePresence>
       <motion.div
+        {...props}
         onMouseDown={(e) => e.stopPropagation()}
         initial={{ opacity: 0, y: position.placement === "bottom" ? -10 : 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -302,7 +308,7 @@ export const MultiSelectContent: React.FC<MultiSelectContentProps> = ({
   );
 };
 
-export interface MultiSelectGroupProps {
+export interface MultiSelectGroupProps extends React.ComponentProps<"div"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -310,11 +316,16 @@ export interface MultiSelectGroupProps {
 export const MultiSelectGroup: React.FC<MultiSelectGroupProps> = ({
   className,
   children,
+  ...props
 }) => {
-  return <div className={cn("p-1", className)}>{children}</div>;
+  return (
+    <div {...props} className={cn("p-1", className)}>
+      {children}
+    </div>
+  );
 };
 
-export interface MultiSelectLabelProps {
+export interface MultiSelectLabelProps extends React.ComponentProps<"div"> {
   className?: string;
   children: React.ReactNode;
 }
@@ -322,9 +333,11 @@ export interface MultiSelectLabelProps {
 export const MultiSelectLabel: React.FC<MultiSelectLabelProps> = ({
   className,
   children,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={cn(
         "px-2 py-1.5 text-sm font-semibold text-muted-foreground",
         className
@@ -335,7 +348,8 @@ export const MultiSelectLabel: React.FC<MultiSelectLabelProps> = ({
   );
 };
 
-export interface MultiSelectItemProps {
+export interface MultiSelectItemProps
+  extends Omit<React.ComponentProps<"button">, "value"> {
   value: string;
   disabled?: boolean;
   className?: string;
@@ -347,12 +361,14 @@ export const MultiSelectItem: React.FC<MultiSelectItemProps> = ({
   disabled = false,
   className,
   children,
+  ...props
 }) => {
   const context = React.useContext(MultiSelectContext);
   const isSelected = context.values.includes(value);
 
   return (
     <button
+      {...props}
       type="button"
       disabled={disabled}
       onClick={() => !disabled && context.onValueToggle?.(value)}

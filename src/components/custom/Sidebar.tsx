@@ -22,7 +22,7 @@ export function useSidebar() {
   return context;
 }
 
-interface SidebarProps {
+interface SidebarProps extends React.ComponentProps<"aside"> {
   children: React.ReactNode;
   defaultCollapsed?: boolean;
   className?: string;
@@ -47,13 +47,12 @@ function SidebarProvider({
 function SidebarRoot({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...props
+}: React.ComponentProps<"aside">) {
   const { collapsed } = useSidebar();
   return (
     <aside
+      {...props}
       className={cn(
         "hidden md:flex md:flex-col bg-sidebar transition-all duration-300 h-full border-r border-r-sidebar-border",
         collapsed ? "w-16" : "w-64",
@@ -68,12 +67,11 @@ function SidebarRoot({
 function SidebarHeader({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
+      {...props}
       className={cn(
         "flex-shrink-0 bg-sidebar p-4 border-b border-sidebar-border",
         className
@@ -87,12 +85,11 @@ function SidebarHeader({
 function SidebarContent({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
+      {...props}
       className={cn(
         "flex-1 overflow-y-auto min-h-0 p-2 [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent",
         className
@@ -106,22 +103,23 @@ function SidebarContent({
 function SidebarGroup({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return <div className={cn("space-y-1", className)}>{children}</div>;
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div {...props} className={cn("space-y-1", className)}>
+      {children}
+    </div>
+  );
 }
 
 function SidebarFooter({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
+      {...props}
       className={cn(
         "flex-shrink-0 p-4 bg-sidebar border-t border-sidebar-border",
         className
@@ -207,12 +205,11 @@ function SidebarMobile({ children }: { children: React.ReactNode }) {
 function SidebarMain({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
+      {...props}
       className={cn(
         "flex flex-1 flex-col overflow-hidden h-full  rounded-lg",
         className
@@ -223,14 +220,15 @@ function SidebarMain({
   );
 }
 
-const Sidebar = SidebarProvider as any;
-Sidebar.Root = SidebarRoot;
-Sidebar.Header = SidebarHeader;
-Sidebar.Content = SidebarContent;
-Sidebar.Group = SidebarGroup;
-Sidebar.Footer = SidebarFooter;
-Sidebar.Trigger = SidebarTrigger;
-Sidebar.Mobile = SidebarMobile;
-Sidebar.Main = SidebarMain;
+const Sidebar = Object.assign(SidebarProvider, {
+  Root: SidebarRoot,
+  Header: SidebarHeader,
+  Content: SidebarContent,
+  Group: SidebarGroup,
+  Footer: SidebarFooter,
+  Trigger: SidebarTrigger,
+  Mobile: SidebarMobile,
+  Main: SidebarMain,
+});
 
 export { Sidebar };

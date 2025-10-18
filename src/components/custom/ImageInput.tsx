@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ImageInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "accept"> {
+  extends Omit<React.ComponentProps<"input">, "type" | "accept"> {
   className?: string;
   onImageChange?: (file: File | null) => void;
   previewClassName?: string;

@@ -4,13 +4,7 @@ import React from "react";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type ButtonBaseProps = Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >,
-  "children"
-> & {
+export type ButtonProps = {
   variant?:
     | "default"
     | "destructive"
@@ -18,20 +12,10 @@ type ButtonBaseProps = Omit<
     | "secondary"
     | "ghost"
     | "link";
-  children: React.ReactNode;
-};
-
-type ButtonWithLoader = ButtonBaseProps & {
-  size?: "default" | "sm" | "md" | "lg";
+  size?: "default" | "sm" | "md" | "lg" | "icon";
   isLoading?: boolean;
-};
-
-type IconButton = ButtonBaseProps & {
-  size: "icon";
-  isLoading?: never; // ❌ not allowed when size="icon"
-};
-
-export type ButtonProps = ButtonWithLoader | IconButton;
+  children: React.ReactNode;
+} & React.ComponentProps<"button">;
 
 export const Button: React.FC<ButtonProps> = ({
   className,
