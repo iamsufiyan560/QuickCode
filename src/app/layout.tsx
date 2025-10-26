@@ -197,7 +197,13 @@ export default function RootLayout({
         }}
       />
 
-      <Head />
+      <Head>
+        {/* <script
+          async
+          crossOrigin="anonymous"
+          src="https://tweakcn.com/live-preview.min.js"
+        /> */}
+      </Head>
 
       <body className={`${inter.className}  antialiased `}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

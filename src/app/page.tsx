@@ -202,10 +202,7 @@ export default function QuickCodeLanding() {
                   />
                 </span>
                 Ship
-                <span className=" text-accent dark:text-white font-black">
-                  {" "}
-                  Better
-                </span>
+                <span className="  dark:text-white font-black"> Better</span>
               </h1>
             </motion.div>
 
@@ -246,7 +243,11 @@ export default function QuickCodeLanding() {
                   size="lg"
                   className="relative h-13 cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px]  rounded-[16px] bg-gradient-to-t from-primary to-primary/30   active:scale-95 hover:bg-transparent"
                 >
-                  <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-primary-foreground text-primary rounded-[14px] group ">
+                  <span
+                    className="w-full h-full flex items-center gap-2 px-8 py-3 
+                  bg-popover
+                   text-primary rounded-[14px] group "
+                  >
                     <Heart className="w-5 h-5 mr-2 text-destructive group-hover:fill-destructive transition-all duration-200" />
                     Support Project
                   </span>

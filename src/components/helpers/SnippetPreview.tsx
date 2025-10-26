@@ -96,7 +96,7 @@ export const SnippetPreview: React.FC<ShowcaseProps> = ({
                 ],
               }}
             >
-              <div className="bg-white dark:bg-[#0f172a] overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+              <div className="bg-background overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
                 <LiveEditor
                   disabled
                   style={{

@@ -110,7 +110,7 @@ const navbar = (
     }
     logoLink="/"
     projectLink="https://github.com/iamsufiyan560/QuickCode"
-    className="max-w-[1440px mx-auto]  transition-colors duration-300 bg-[#f8fafc]  dark:bg-[#0f172a]    "
+    className="max-w-[1440px]  mx-auto  transition-colors duration-300     "
   >
     {/* 👇 Right side items */}
     {/* <ThemeSwitch className="!text-gray-400 hover:!text-gray-100" /> */}
@@ -160,11 +160,7 @@ export default async function RootLayout({
           ),
         }}
       >
-        <div
-          className={clsx(
-            "min-w-full bg-[#f8fafc]  dark:bg-[#0f172a]    transition-colors duration-300"
-          )}
-        >
+        <div className={clsx("min-w-full     transition-colors duration-300")}>
           {children}
         </div>
       </Layout>
