@@ -244,6 +244,11 @@ export const components = {
     deps: {},
   },
 
+  Popover: {
+    url: `${BASE_URL}Popover.tsx`,
+    deps: {},
+  },
+
   KanbanBoard: {
     url: `${BASE_URL}KanbanBoard.tsx`,
     deps: {},

@@ -1,0 +1,55 @@
+import { UserActionsPopover } from "@/components/custom/example/PopoverExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Popover
+
+A floating content container that displays rich content in a portal, positioned relative to a trigger element with intelligent vertical positioning.
+
+<InstallTabs components="Popover" />
+
+## Example
+
+<UserActionsPopover />
+
+## Props
+
+### Popover
+
+Root component that manages popover state and provides context.
+
+| Prop           | Type                      | Default     | Description                      |
+| -------------- | ------------------------- | ----------- | -------------------------------- |
+| `children`     | `React.ReactNode`         | —           | Trigger and Content components   |
+| `open`         | `boolean`                 | `undefined` | Controlled open state            |
+| `onOpenChange` | `(open: boolean) => void` | `undefined` | Callback when open state changes |
+
+### Popover.Trigger
+
+Trigger element that opens the popover when clicked.
+
+| Prop        | Type              | Default     | Description                                         |
+| ----------- | ----------------- | ----------- | --------------------------------------------------- |
+| `children`  | `React.ReactNode` | —           | Trigger content                                     |
+| `asChild`   | `boolean`         | `false`     | Merges props with child element instead of wrapping |
+| `className` | `string`          | `undefined` | Additional CSS classes                              |
+
+### Popover.Content
+
+The popover content container with intelligent positioning.
+
+| Prop         | Type                           | Default     | Description                              |
+| ------------ | ------------------------------ | ----------- | ---------------------------------------- |
+| `children`   | `React.ReactNode`              | —           | Content to display in the popover        |
+| `align`      | `"start" \| "center" \| "end"` | `"center"`  | Horizontal alignment relative to trigger |
+| `sideOffset` | `number`                       | `8`         | Distance in pixels from trigger element  |
+| `className`  | `string`                       | `undefined` | Additional CSS classes                   |
+
+### Popover.Close
+
+Button that closes the popover when clicked.
+
+| Prop        | Type                            | Default     | Description              |
+| ----------- | ------------------------------- | ----------- | ------------------------ |
+| `children`  | `React.ReactNode`               | —           | Button content           |
+| `onClick`   | `(e: React.MouseEvent) => void` | `undefined` | Additional click handler |
+| `className` | `string`                        | `undefined` | Additional CSS classes   |

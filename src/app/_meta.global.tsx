@@ -68,6 +68,7 @@ export default {
       OtpInput: "",
 
       PasswordInput: "",
+      Popover: "",
       RadioGroup: "",
       RangeSlider: "",
       SearchBox: "",
