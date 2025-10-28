@@ -52,6 +52,8 @@ export default {
       Card: "",
       Checkbox: "",
       CheckboxGroup: "",
+      ComboBox: "",
+
       ContextMenu: "",
       DatePicker: "",
       DateRangePicker: "",

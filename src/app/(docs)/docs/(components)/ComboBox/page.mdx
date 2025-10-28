@@ -1,0 +1,77 @@
+import {
+  DefaultExample,
+  GroupedExample,
+} from "@/components/custom/example/ComboBoxExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# ComboBox
+
+A searchable select component that combines a dropdown with search functionality for filtering options.
+
+<InstallTabs components="ComboBox" />
+
+## Examples
+
+<DefaultExample />
+
+<GroupedExample />
+
+## Props
+
+### ComboBox
+
+| Prop            | Type                      | Default | Description                      |
+| --------------- | ------------------------- | ------- | -------------------------------- |
+| `value`         | `string`                  | —       | Controlled value of the combobox |
+| `defaultValue`  | `string`                  | `""`    | Default value when uncontrolled  |
+| `onValueChange` | `(value: string) => void` | —       | Callback when value changes      |
+| `disabled`      | `boolean`                 | `false` | Whether the combobox is disabled |
+| `className`     | `string`                  | —       | Additional CSS classes           |
+| `children`      | `React.ReactNode`         | —       | ComboBox trigger and content     |
+
+### ComboBoxTrigger
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Trigger button content |
+
+### ComboBoxValue
+
+| Prop          | Type     | Default              | Description                             |
+| ------------- | -------- | -------------------- | --------------------------------------- |
+| `placeholder` | `string` | `"Select an option"` | Placeholder text when no value selected |
+| `className`   | `string` | —                    | Additional CSS classes                  |
+
+### ComboBoxContent
+
+| Prop                | Type              | Default                 | Description                                |
+| ------------------- | ----------------- | ----------------------- | ------------------------------------------ |
+| `className`         | `string`          | —                       | Additional CSS classes                     |
+| `searchPlaceholder` | `string`          | `"Search..."`           | Placeholder for search input               |
+| `emptyMessage`      | `string`          | `"No framework found."` | Message shown when no results match search |
+| `children`          | `React.ReactNode` | —                       | ComboBox items and groups                  |
+
+### ComboBoxItem
+
+| Prop        | Type              | Default | Description                             |
+| ----------- | ----------------- | ------- | --------------------------------------- |
+| `value`     | `string`          | —       | Value of the item                       |
+| `disabled`  | `boolean`         | `false` | Whether the item is disabled            |
+| `keywords`  | `string[]`        | `[]`    | Additional keywords for search matching |
+| `className` | `string`          | —       | Additional CSS classes                  |
+| `children`  | `React.ReactNode` | —       | Item content                            |
+
+### ComboBoxGroup
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Group items            |
+
+### ComboBoxLabel
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Label content          |
