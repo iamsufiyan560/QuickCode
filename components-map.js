@@ -169,6 +169,11 @@ export const components = {
     url: `${BASE_URL}Skeleton.tsx`,
     deps: {},
   },
+
+  Spinner: {
+    url: `${BASE_URL}Spinner.tsx`,
+    deps: {},
+  },
   Stepper: {
     url: `${BASE_URL}Stepper.tsx`,
     deps: {},

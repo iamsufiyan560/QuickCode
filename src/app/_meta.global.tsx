@@ -79,6 +79,7 @@ export default {
       Skeleton: "",
       Slider: "",
       Sidebar: "",
+      Spinner: "",
       Stepper: "",
       Switch: "",
       Tabs: "",
