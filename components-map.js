@@ -93,6 +93,10 @@ export const components = {
     url: `${BASE_URL}Card.tsx`,
     deps: {},
   },
+  Cell: {
+    url: `${BASE_URL}Cell.tsx`,
+    deps: {},
+  },
   ComboBox: {
     url: `${BASE_URL}ComboBox.tsx`,
     deps: {},

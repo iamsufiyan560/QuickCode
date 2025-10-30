@@ -50,6 +50,8 @@ export default {
       Button: "",
       ButtonGroup: "",
       Card: "",
+      Cell: "",
+
       Checkbox: "",
       CheckboxGroup: "",
       ComboBox: "",
