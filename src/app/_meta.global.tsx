@@ -70,7 +70,7 @@ export default {
       MultiSelect: "",
       MultiTooltip: "",
       OtpInput: "",
-
+      Pagination: "",
       PasswordInput: "",
       Popover: "",
       RadioGroup: "",
@@ -120,10 +120,6 @@ export default {
       ParticleBackground: "",
       SocialCard: "",
       SwipeStack: "",
-      // __4: {
-      //   type: "separator",
-      //   title: "Coming Soon",
-      // },
 
       CandlestickChart: { type: "page", display: "hidden" },
       DonutChart: { type: "page", display: "hidden" },

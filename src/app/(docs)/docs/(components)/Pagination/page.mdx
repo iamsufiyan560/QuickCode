@@ -1,0 +1,29 @@
+import { PaginationBasicExample } from "@/components/custom/example/PaginationExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Pagination
+
+A flexible and accessible pagination component used to navigate multiple pages of content.
+
+<InstallTabs components="Pagination" />
+
+## Usage
+
+<PaginationBasicExample />
+
+## Props
+
+| Component            | Prop        | Type              | Default     | Description                         |
+| -------------------- | ----------- | ----------------- | ----------- | ----------------------------------- |
+| `Pagination`         | `className` | `string`          | `undefined` | Wrapper element for pagination UI.  |
+|                      | `children`  | `React.ReactNode` | Required    | Pagination items to render.         |
+| `PaginationContent`  | `children`  | `React.ReactNode` | Required    | Holds all pagination buttons/links. |
+| `PaginationItem`     | `children`  | `React.ReactNode` | Required    | Single pagination item wrapper.     |
+| `PaginationLink`     | `href`      | `string`          | `"#"`       | Target URL.                         |
+|                      | `isActive`  | `boolean`         | `false`     | Highlights active page.             |
+|                      | `children`  | `React.ReactNode` | Required    | Page number or custom content.      |
+| `PaginationPrev`     | `href`      | `string`          | `"#"`       | Target URL for previous page.       |
+|                      | `children`  | `React.ReactNode` | Optional    | Custom label (example: `"Prev"`).   |
+| `PaginationNext`     | `href`      | `string`          | `"#"`       | Target URL for next page.           |
+|                      | `children`  | `React.ReactNode` | Optional    | Custom label (example: `"Next"`).   |
+| `PaginationEllipsis` | `children`  | `React.ReactNode` | Optional    | Custom ellipsis symbol.             |

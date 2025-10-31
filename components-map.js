@@ -192,6 +192,12 @@ export const components = {
     requires: ["Badge"],
   },
 
+  Pagination: {
+    url: `${BASE_URL}Pagination.tsx`,
+    deps: {},
+    requires: ["Button"],
+  },
+
   PasswordInput: {
     url: `${BASE_URL}PasswordInput.tsx`,
     deps: {},
