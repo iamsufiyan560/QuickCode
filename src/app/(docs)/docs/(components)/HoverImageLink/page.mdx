@@ -1,0 +1,34 @@
+import { DefaultExample } from "@/components/custom/example/HoverImageLinkExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Hover Image Link
+
+An interactive navigation component that reveals contextual images on hover with smooth animations and spring physics.
+
+<InstallTabs components="HoverImageLink" />
+
+## Examples
+
+### Default
+
+<DefaultExample />
+
+## Props
+
+### HoverImageLink
+
+| Prop        | Type              | Default     | Description                      |
+| ----------- | ----------------- | ----------- | -------------------------------- |
+| `children`  | `React.ReactNode` | —           | `HoverImageLink.Item` components |
+| `className` | `string`          | `undefined` | Additional CSS classes           |
+
+### HoverImageLinkItem
+
+| Prop         | Type     | Default     | Description                                              |
+| ------------ | -------- | ----------- | -------------------------------------------------------- |
+| `heading`    | `string` | —           | Main heading text displayed on the link                  |
+| `subheading` | `string` | `undefined` | Optional subheading text below the main heading          |
+| `imageSrc`   | `string` | —           | Source URL for the hover image                           |
+| `imageAlt`   | `string` | `undefined` | Alt text for the image (defaults to heading + "preview") |
+| `href`       | `string` | `"#"`       | Link destination URL                                     |
+| `className`  | `string` | `undefined` | Additional CSS classes for the link item                 |

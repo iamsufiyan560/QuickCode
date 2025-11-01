@@ -317,6 +317,11 @@ export const components = {
     url: `${ANIMATED_BASE_URL}FloatingCode.tsx`,
     deps: {},
   },
+
+  HoverImageLink: {
+    url: `${ANIMATED_BASE_URL}HoverImageLink.tsx`,
+    deps: {},
+  },
   ParticleBackground: {
     url: `${ANIMATED_BASE_URL}ParticleBackground.tsx`,
     deps: {},

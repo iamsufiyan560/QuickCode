@@ -116,6 +116,7 @@ export default {
       CardStack: "",
       DraggableCards: "",
       FloatingCode: "",
+      HoverImageLink: "",
       MorphButton: "",
       ParticleBackground: "",
       SocialCard: "",
