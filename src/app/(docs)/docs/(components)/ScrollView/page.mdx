@@ -1,0 +1,31 @@
+import {
+  DefaultExample,
+  HorizontalExample,
+} from "@/components/custom/example/ScrollViewExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# ScrollView
+
+A custom scrollable container with styled scrollbars that automatically hides when not in use.
+
+<InstallTabs components="ScrollView" />
+
+## Examples
+
+### Default (Vertical)
+
+<DefaultExample />
+
+### Horizontal
+
+<HorizontalExample />
+
+## Props
+
+| Prop            | Type                         | Default      | Description                              |
+| --------------- | ---------------------------- | ------------ | ---------------------------------------- |
+| `orientation`   | `'vertical' \| 'horizontal'` | `'vertical'` | Scroll direction of the container        |
+| `showScrollbar` | `boolean`                    | `true`       | Whether to display the custom scrollbar  |
+| `scrollbarSize` | `'sm' \| 'md' \| 'lg'`       | `'md'`       | Size of the scrollbar thumb              |
+| `className`     | `string`                     | `undefined`  | Additional CSS classes for the container |
+| `children`      | `React.ReactNode`            | —            | Content to be scrolled                   |

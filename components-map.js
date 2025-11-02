@@ -203,6 +203,11 @@ export const components = {
     deps: {},
     requires: ["Button", "Input"],
   },
+
+  ScrollView: {
+    url: `${BASE_URL}ScrollView.tsx`,
+    deps: {},
+  },
   Switch: {
     url: `${BASE_URL}Switch.tsx`,
     deps: {},

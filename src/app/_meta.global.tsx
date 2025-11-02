@@ -75,6 +75,7 @@ export default {
       Popover: "",
       RadioGroup: "",
       RangeSlider: "",
+      ScrollView: "",
       SearchBox: "",
       Select: "",
       Separator: "",

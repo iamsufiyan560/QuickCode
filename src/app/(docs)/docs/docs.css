@@ -190,6 +190,11 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
+
+  .x\:text-primary-600 {
+    color: var(--primary);
+  }
+
   /* .x\:dark\:bg-neutral-900 {
     &:where(.dark *) {
       background-color: var(--x-color-nextra-bg);
