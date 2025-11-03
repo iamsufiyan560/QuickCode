@@ -355,4 +355,8 @@ export const components = {
     url: `${ANIMATED_BASE_URL}SwipeStack.tsx`,
     deps: {},
   },
+  TypingText: {
+    url: `${ANIMATED_BASE_URL}TypingText.tsx`,
+    deps: {},
+  },
 };

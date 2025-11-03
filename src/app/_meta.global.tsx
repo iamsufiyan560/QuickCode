@@ -122,6 +122,7 @@ export default {
       ParticleBackground: "",
       SocialCard: "",
       SwipeStack: "",
+      TypingText: "",
 
       CandlestickChart: { type: "page", display: "hidden" },
       DonutChart: { type: "page", display: "hidden" },

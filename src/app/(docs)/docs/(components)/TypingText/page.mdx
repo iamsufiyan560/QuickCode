@@ -1,0 +1,37 @@
+import { DefaultExample } from "@/components/custom/example/TypingTextExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# TypingText
+
+An animated typing effect component that displays text character by character with optional erasing and looping.
+
+> This component is inspired by [ReactBits TextType](https://www.reactbits.dev/text-animations/text-type). All credit goes to the original creators.
+
+<InstallTabs components="TypingText" />
+
+## Example
+
+<DefaultExample />
+
+## Props
+
+| Prop            | Type                                       | Default | Description                                                                      |
+| --------------- | ------------------------------------------ | ------- | -------------------------------------------------------------------------------- |
+| `content`       | `string \| string[]`                       | —       | Text content to display. Can be a single string or array of strings for rotation |
+| `as`            | `ElementType`                              | `'div'` | HTML element or component to render                                              |
+| `speed`         | `number`                                   | `50`    | Typing speed in milliseconds per character                                       |
+| `startDelay`    | `number`                                   | `0`     | Delay before animation starts in milliseconds                                    |
+| `pause`         | `number`                                   | `2000`  | Pause duration after completing a string before erasing                          |
+| `eraseSpeed`    | `number`                                   | `30`    | Erasing speed in milliseconds per character                                      |
+| `repeat`        | `boolean`                                  | `true`  | Whether to loop through strings continuously                                     |
+| `cursor`        | `boolean`                                  | `true`  | Show animated cursor                                                             |
+| `cursorChar`    | `string \| React.ReactNode`                | `'\|'`  | Character or element to use as cursor                                            |
+| `cursorHide`    | `boolean`                                  | `false` | Hide cursor while typing and erasing                                             |
+| `cursorClass`   | `string`                                   | `''`    | Additional CSS classes for cursor                                                |
+| `cursorBlink`   | `number`                                   | `0.5`   | Cursor blink duration in seconds                                                 |
+| `colors`        | `string[]`                                 | `[]`    | Array of colors to cycle through for each string                                 |
+| `randomSpeed`   | `{ min: number; max: number }`             | —       | Random speed range for variable typing speed                                     |
+| `onComplete`    | `(content: string, index: number) => void` | —       | Callback fired when a string completes typing                                    |
+| `triggerOnView` | `boolean`                                  | `false` | Start animation when component enters viewport                                   |
+| `reversed`      | `boolean`                                  | `false` | Reverse the text direction                                                       |
+| `className`     | `string`                                   | —       | Additional CSS classes                                                           |
