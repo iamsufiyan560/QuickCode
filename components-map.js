@@ -157,6 +157,11 @@ export const components = {
     url: `${BASE_URL}ImageInput.tsx`,
     deps: {},
   },
+  Indicator: {
+    url: `${BASE_URL}Indicator.tsx`,
+    deps: {},
+  },
+
   Label: {
     url: `${BASE_URL}Label.tsx`,
     deps: {},

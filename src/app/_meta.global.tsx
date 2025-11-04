@@ -63,6 +63,7 @@ export default {
       Filter: "",
       Form: "",
       ImageInput: "",
+      Indicator: "",
       Input: "",
       KanbanBoard: "",
       Label: "",

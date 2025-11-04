@@ -1,0 +1,32 @@
+import { ComprehensiveExample } from "@/components/custom/example/IndicatorExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Indicator
+
+Display badges, dots, or labels on top of another element to show status, notifications, or counts.
+
+<InstallTabs components="Indicator" />
+
+## Example
+
+<ComprehensiveExample />
+
+## Props
+
+| Prop         | Type                                                                                                                                                 | Default            | Description                                              |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------- |
+| `children`   | `React.ReactNode`                                                                                                                                    | —                  | The element to wrap with the indicator                   |
+| `label`      | `React.ReactNode`                                                                                                                                    | —                  | Content to display in the indicator (number, text, icon) |
+| `showZero`   | `boolean`                                                                                                                                            | `false`            | Show indicator when label is 0                           |
+| `dot`        | `boolean`                                                                                                                                            | `false`            | Display as a dot without label                           |
+| `inline`     | `boolean`                                                                                                                                            | `false`            | Display inline instead of flex                           |
+| `size`       | `number \| string`                                                                                                                                   | `16`               | Size of the indicator in pixels or custom value          |
+| `radius`     | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                                                           | `'full'`           | Border radius of the indicator                           |
+| `color`      | `string`                                                                                                                                             | `'bg-destructive'` | Background color class for the indicator                 |
+| `position`   | `'top-start' \| 'top-center' \| 'top-end' \| 'middle-start' \| 'middle-center' \| 'middle-end' \| 'bottom-start' \| 'bottom-center' \| 'bottom-end'` | `'top-end'`        | Position of the indicator relative to children           |
+| `offset`     | `number`                                                                                                                                             | `0`                | Offset in pixels to adjust indicator position            |
+| `disabled`   | `boolean`                                                                                                                                            | `false`            | Hide the indicator                                       |
+| `processing` | `boolean`                                                                                                                                            | `false`            | Add pulsing animation to indicate processing state       |
+| `withBorder` | `boolean`                                                                                                                                            | `false`            | Add border around indicator for better contrast          |
+| `zIndex`     | `number`                                                                                                                                             | `200`              | Z-index value for the indicator                          |
+| `className`  | `string`                                                                                                                                             | —                  | Additional CSS classes for the wrapper element           |
