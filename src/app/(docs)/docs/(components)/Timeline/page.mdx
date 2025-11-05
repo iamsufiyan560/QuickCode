@@ -1,0 +1,88 @@
+import {
+  DefaultExample,
+  GitExample,
+} from "@/components/custom/example/TimelineExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Timeline
+
+Display a series of events in chronological order with visual indicators and connecting lines.
+
+<InstallTabs components="Timeline" />
+
+## Examples
+
+### Default Example
+
+<DefaultExample />
+
+### Git Example
+
+<GitExample />
+
+---
+
+## Props
+
+### Timeline
+
+| Prop            | Type                    | Default        | Description                                                        |
+| --------------- | ----------------------- | -------------- | ------------------------------------------------------------------ |
+| `children`      | `React.ReactNode`       | —              | Timeline items to display                                          |
+| `active`        | `number`                | `undefined`    | Index of current active element, items before are highlighted      |
+| `color`         | `string`                | `'bg-primary'` | Color class applied to active items                                |
+| `lineWidth`     | `number`                | `2`            | Width of the connecting line in pixels                             |
+| `bulletSize`    | `number`                | `32`           | Size of the bullet (dot)                                           |
+| `align`         | `'left' \| 'right'`     | `'left'`       | Position of the line and bullets relative to content               |
+| `reverseActive` | `boolean`               | `false`        | Reverse active direction (highlight after index instead of before) |
+| `dotStyle`      | `'filled' \| 'Outline'` | `filled`       | Style for all the LineItem content                                 |
+| `className`     | `string`                | `undefined`    | Additional CSS classes                                             |
+
+---
+
+### TimelineItem
+
+| Prop          | Type                              | Default     | Description                            |
+| ------------- | --------------------------------- | ----------- | -------------------------------------- |
+| `children`    | `React.ReactNode`                 | —           | Content inside the item                |
+| `variant`     | `'solid' \| 'dashed' \| 'dotted'` | `'solid'`   | Line style for this item               |
+| `bullet`      | `React.ReactNode`                 | `undefined` | Icon or element rendered as the bullet |
+| `title`       | `React.ReactNode`                 | `undefined` | Optional title shortcut                |
+| `lineVariant` | `'solid' \| 'dashed' \| 'dotted'` | `undefined` | Override line variant for this item    |
+| `className`   | `string`                          | `undefined` | Additional CSS classes                 |
+
+---
+
+### TimelineDot
+
+| Prop        | Type              | Default     | Description                    |
+| ----------- | ----------------- | ----------- | ------------------------------ |
+| `children`  | `React.ReactNode` | `undefined` | Icon or element inside the dot |
+| `className` | `string`          | `undefined` | Additional CSS classes         |
+
+---
+
+### TimelineContent
+
+| Prop        | Type              | Default     | Description               |
+| ----------- | ----------------- | ----------- | ------------------------- |
+| `children`  | `React.ReactNode` | —           | Inner content of the item |
+| `className` | `string`          | `undefined` | Additional CSS classes    |
+
+---
+
+### TimelineTitle
+
+| Prop        | Type              | Default     | Description              |
+| ----------- | ----------------- | ----------- | ------------------------ |
+| `children`  | `React.ReactNode` | —           | Title inside the content |
+| `className` | `string`          | `undefined` | Additional CSS classes   |
+
+---
+
+### TimelineDescription
+
+| Prop        | Type              | Default     | Description            |
+| ----------- | ----------------- | ----------- | ---------------------- |
+| `children`  | `React.ReactNode` | —           | Description text       |
+| `className` | `string`          | `undefined` | Additional CSS classes |

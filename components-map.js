@@ -249,6 +249,10 @@ export const components = {
     url: `${BASE_URL}Textarea.tsx`,
     deps: {},
   },
+  Timeline: {
+    url: `${BASE_URL}Timeline.tsx`,
+    deps: {},
+  },
   Tooltip: {
     url: `${BASE_URL}Tooltip.tsx`,
     deps: {},

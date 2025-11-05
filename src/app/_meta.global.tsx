@@ -95,6 +95,7 @@ export default {
         },
       },
       TextArea: "",
+      Timeline: "",
       Toast: "",
       Tooltip: "",
       _3: {
