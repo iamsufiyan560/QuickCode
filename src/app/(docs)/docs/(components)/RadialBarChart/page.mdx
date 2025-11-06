@@ -1,0 +1,76 @@
+import {
+  DefaultExample,
+  PerformanceExample,
+} from "@/components/custom/example/RadialBarChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# RadialBarChart
+
+A circular chart component for displaying comparative data in radial bars, ideal for showing progress, metrics, or hierarchical data.
+
+<InstallTabs components="RadialBarChart" />
+
+## Examples
+
+### Default
+
+<DefaultExample />
+
+### Performance Metrics
+
+<PerformanceExample />
+
+## Props
+
+### ChartContainer
+
+| Prop        | Type                 | Default     | Description                                                 |
+| ----------- | -------------------- | ----------- | ----------------------------------------------------------- |
+| `config`    | `ChartConfig`        | —           | Configuration object mapping data keys to labels and colors |
+| `children`  | `React.ReactElement` | —           | Single chart component to render                            |
+| `className` | `string`             | `undefined` | Additional CSS classes                                      |
+
+### RadialBarChart
+
+| Prop          | Type               | Default     | Description                            |
+| ------------- | ------------------ | ----------- | -------------------------------------- |
+| `data`        | `any[]`            | —           | Array of data objects to display       |
+| `innerRadius` | `string \| number` | `0`         | Inner radius of the radial bars        |
+| `outerRadius` | `string \| number` | `100%`      | Outer radius of the radial bars        |
+| `startAngle`  | `number`           | `0`         | Starting angle of the chart in degrees |
+| `endAngle`    | `number`           | `360`       | Ending angle of the chart in degrees   |
+| `className`   | `string`           | `undefined` | Additional CSS classes                 |
+
+### RadialBar
+
+| Prop           | Type                | Default | Description                       |
+| -------------- | ------------------- | ------- | --------------------------------- |
+| `dataKey`      | `string`            | —       | Key from data object to plot      |
+| `cornerRadius` | `number`            | `0`     | Corner radius of the bars         |
+| `label`        | `boolean \| object` | `false` | Configuration for bar labels      |
+| `background`   | `boolean \| object` | `false` | Background configuration for bars |
+
+### PolarAngleAxis
+
+| Prop     | Type                     | Default       | Description        |
+| -------- | ------------------------ | ------------- | ------------------ |
+| `type`   | `"number" \| "category"` | `"category"`  | Type of axis scale |
+| `domain` | `[number, number]`       | `[0, "auto"]` | Domain of the axis |
+| `tick`   | `boolean \| object`      | `true`        | Tick configuration |
+
+### ChartTooltip
+
+| Prop      | Type                  | Default               | Description                   |
+| --------- | --------------------- | --------------------- | ----------------------------- |
+| `content` | `React.ComponentType` | `ChartTooltipContent` | Custom tooltip component      |
+| `cursor`  | `boolean \| object`   | `true`                | Cursor configuration on hover |
+
+### ChartTooltipContent
+
+| Prop        | Type               | Default     | Description               |
+| ----------- | ------------------ | ----------- | ------------------------- |
+| `active`    | `boolean`          | `false`     | Whether tooltip is active |
+| `payload`   | `any[]`            | `[]`        | Data payload for tooltip  |
+| `label`     | `string \| number` | `undefined` | Label to display          |
+| `hideLabel` | `boolean`          | `false`     | Hide the label section    |
+| `className` | `string`           | `undefined` | Additional CSS classes    |

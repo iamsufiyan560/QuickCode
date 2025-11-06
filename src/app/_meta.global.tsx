@@ -106,6 +106,7 @@ export default {
       BarChart: "",
       ComposedChart: "",
       FunnelChart: "",
+      RadialBarChart: "",
       LineChart: "",
       PieChart: "",
       RadarChart: "",
