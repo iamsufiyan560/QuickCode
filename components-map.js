@@ -312,6 +312,10 @@ export const components = {
     url: `${CHART_URL}RadarChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
+  RadialBarChart: {
+    url: `${CHART_URL}RadialBarChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
 
   ComposedChart: {
     url: `${CHART_URL}ComposedChart.tsx`,
@@ -354,6 +358,10 @@ export const components = {
   },
   AnimatedList: {
     url: `${ANIMATED_BASE_URL}AnimatedList.tsx`,
+    deps: {},
+  },
+  AnimatedProgress: {
+    url: `${ANIMATED_BASE_URL}AnimatedProgress.tsx`,
     deps: {},
   },
   SocialCard: {

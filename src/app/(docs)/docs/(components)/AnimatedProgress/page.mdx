@@ -1,0 +1,26 @@
+import { AnimatedProgressExample } from "@/components/custom/example/AnimatedProgressExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# AnimatedProgress
+
+A simple, accessible animated progress bar component. Use it to display progress-level UI such as uploads, steps, or poll results.
+
+<InstallTabs components="AnimatedProgress" />
+
+## Example
+
+<AnimatedProgressExample />
+
+## Props
+
+| Prop           | Type                          | Default     | Description                                                          |
+| -------------- | ----------------------------- | ----------- | -------------------------------------------------------------------- |
+| `value`        | `number`                      | `0`         | Current value. Interpreted against `max`.                            |
+| `max`          | `number`                      | `100`       | Maximum value.                                                       |
+| `label`        | `string`                      | `undefined` | Optional label displayed above the bar.                              |
+| `showValue`    | `boolean`                     | `true`      | Show percentage text next to the label.                              |
+| `animated`     | `boolean`                     | `true`      | Use animation for the fill transition (uses Framer Motion).          |
+| `size`         | `"sm" \| "md" \| "lg"`        | `"md"`      | Visual thickness of the bar.                                         |
+| `barClassName` | `string`                      | `undefined` | Extra classes applied to the inner fill element. Useful for theming. |
+| `className`    | `string`                      | `undefined` | Additional classes for the component wrapper.                        |
+| `...props`     | `React.ComponentProps<'div'>` | —           | Any other valid div props are forwarded to the wrapper.              |
