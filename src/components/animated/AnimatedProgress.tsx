@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 export interface AnimatedProgressProps extends React.ComponentProps<"div"> {
   value?: number;
   max?: number;
+  min?: number;
   label?: string;
   showValue?: boolean;
   animated?: boolean;
@@ -14,6 +15,7 @@ export interface AnimatedProgressProps extends React.ComponentProps<"div"> {
 
 export const AnimatedProgress: React.FC<AnimatedProgressProps> = ({
   value = 0,
+  min = 0,
   max = 100,
   label,
   showValue = true,
@@ -23,11 +25,15 @@ export const AnimatedProgress: React.FC<AnimatedProgressProps> = ({
   barClassName,
   ...props
 }) => {
-  const safeMax = Number.isFinite(max) && max > 0 ? max : 100;
+  const safeMin = Number.isFinite(min) ? min : 0;
+  const safeMax = Number.isFinite(max) ? max : 100;
+
   const safeValue = Number.isFinite(value)
-    ? Math.max(0, Math.min(value, safeMax))
-    : 0;
-  const percent = safeMax === 0 ? 0 : (safeValue / safeMax) * 100;
+    ? Math.max(safeMin, Math.min(value, safeMax))
+    : safeMin;
+
+  const range = safeMax - safeMin;
+  const percent = range === 0 ? 0 : ((safeValue - safeMin) / range) * 100;
 
   const sizes = {
     sm: "h-2 rounded-full",
