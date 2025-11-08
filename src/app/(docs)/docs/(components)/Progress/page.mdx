@@ -1,0 +1,34 @@
+import {
+  DefaultProgressExample,
+  SizesProgressExample,
+  CustomColorProgressExample,
+} from "@/components/custom/example/ProgressExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Progress
+
+A simple, accessible progress bar component. Use it to display progress-level UI such as uploads, steps, or poll results.
+
+<InstallTabs components="Progress" />
+
+## Examples
+
+<DefaultProgressExample />
+
+<SizesProgressExample />
+
+<CustomColorProgressExample />
+
+## Props
+
+| Prop           | Type                          | Default     | Description                                                          |
+| -------------- | ----------------------------- | ----------- | -------------------------------------------------------------------- |
+| `value`        | `number`                      | `0`         | Current value. Interpreted against `max`.                            |
+| `max`          | `number`                      | `100`       | Maximum value.                                                       |
+| `min`          | `number`                      | `0`         | Minimum value.                                                       |
+| `label`        | `string`                      | `undefined` | Optional label displayed above the bar.                              |
+| `showValue`    | `boolean`                     | `true`      | Show percentage text next to the label.                              |
+| `size`         | `"sm" \| "md" \| "lg"`        | `"md"`      | Visual thickness of the bar.                                         |
+| `barClassName` | `string`                      | `undefined` | Extra classes applied to the inner fill element. Useful for theming. |
+| `className`    | `string`                      | `undefined` | Additional classes for the component wrapper.                        |
+| `...props`     | `React.ComponentProps<'div'>` | —           | Any other valid div props are forwarded to the wrapper.              |

@@ -73,6 +73,7 @@ export default {
       OtpInput: "",
       Pagination: "",
       PasswordInput: "",
+      Progress: "",
       Popover: "",
       RadioGroup: "",
       RangeSlider: "",

@@ -208,6 +208,10 @@ export const components = {
     deps: {},
     requires: ["Button", "Input"],
   },
+  Progress: {
+    url: `${BASE_URL}Progress.tsx`,
+    deps: {},
+  },
 
   ScrollView: {
     url: `${BASE_URL}ScrollView.tsx`,
