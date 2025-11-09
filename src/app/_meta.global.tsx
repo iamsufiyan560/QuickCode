@@ -107,6 +107,8 @@ export default {
       BarChart: "",
       ComposedChart: "",
       FunnelChart: "",
+      GaugeChart: "",
+
       RadialBarChart: "",
       LineChart: "",
       PieChart: "",
@@ -131,7 +133,6 @@ export default {
 
       CandlestickChart: { type: "page", display: "hidden" },
       DonutChart: { type: "page", display: "hidden" },
-      GaugeChart: { type: "page", display: "hidden" },
       Heatmap: { type: "page", display: "hidden" },
     },
   },

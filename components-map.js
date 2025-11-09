@@ -302,6 +302,11 @@ export const components = {
     deps: { recharts: "^3.2.1" },
   },
 
+  GaugeChart: {
+    url: `${CHART_URL}GaugeChart.tsx`,
+    deps: {},
+  },
+
   LineChart: {
     url: `${CHART_URL}LineChart.tsx`,
     deps: { recharts: "^3.2.1" },

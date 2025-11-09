@@ -1,5 +1,44 @@
-import { GaugeChart } from "@/components/custom/Chart/GaugeChart";
+import {
+  DefaultExample,
+  FullCircleExample,
+  CustomSegmentsExample,
+} from "@/components/custom/example/GaugeChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# GaugeChart Example
+# Gauge Chart
 
-<GaugeChart />
+A visual indicator for displaying single-value metrics with configurable ranges and color segments.
+
+<InstallTabs components="GaugeChart" />
+
+## Examples
+
+### Default
+
+<DefaultExample />
+
+### Full Circle
+
+<FullCircleExample />
+
+### Custom Segments
+
+<CustomSegmentsExample />
+
+## Props
+
+| Prop             | Type                                                        | Default                                                                                                                                   | Description                                                   |
+| ---------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `value`          | `number`                                                    | —                                                                                                                                         | The current value to display on the gauge                     |
+| `min`            | `number`                                                    | `0`                                                                                                                                       | Minimum value of the gauge range                              |
+| `max`            | `number`                                                    | `100`                                                                                                                                     | Maximum value of the gauge range                              |
+| `startAngle`     | `number`                                                    | `-90`                                                                                                                                     | Starting angle in degrees (0 is 3 o'clock, -90 is 12 o'clock) |
+| `endAngle`       | `number`                                                    | `90`                                                                                                                                      | Ending angle in degrees                                       |
+| `segments`       | `Array<{threshold: number, color: string, label?: string}>` | `[{ threshold: 0, color: "var(--destructive)" }, { threshold: 33, color: "var(--chart-2)" }, { threshold: 66, color: "var(--chart-3)" }]` | Array of color segments with threshold values (0-100 range)   |
+| `showValue`      | `boolean`                                                   | `true`                                                                                                                                    | Whether to display the value text below the gauge             |
+| `showLabels`     | `boolean`                                                   | `true (not applicable for full circle)`                                                                                                   | Whether to display min/max labels                             |
+| `valueFormatter` | `(value: number) => string`                                 | `(v) => String(v)`                                                                                                                        | Function to format the displayed value                        |
+| `needleColor`    | `string`                                                    | `var(--foreground)`                                                                                                                       | Color of the gauge needle                                     |
+| `trackColor`     | `string`                                                    | `var(--muted)`                                                                                                                            | Color of the background track                                 |
+| `size`           | `number`                                                    | `200`                                                                                                                                     | Size of the gauge in pixels                                   |
+| `className`      | `string`                                                    | —                                                                                                                                         | Additional CSS classes                                        |
