@@ -148,6 +148,10 @@ export const components = {
     deps: {},
     requires: ["Label"],
   },
+  FlexGrid: {
+    url: `${BASE_URL}FlexGrid.tsx`,
+    deps: {},
+  },
   Input: {
     url: `${BASE_URL}Input.tsx`,
     deps: {},

@@ -62,6 +62,7 @@ export default {
       Dialog: "",
       Filter: "",
       Form: "",
+      FlexGrid: "",
       ImageInput: "",
       Indicator: "",
       Input: "",

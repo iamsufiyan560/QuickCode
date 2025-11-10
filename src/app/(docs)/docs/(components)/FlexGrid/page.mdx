@@ -1,0 +1,37 @@
+import {
+  DefaultExample,
+  AlignmentExample,
+  CustomGapExample,
+} from "@/components/custom/example/FlexGridExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# FlexGrid
+
+A layout component that automatically wraps children when they don't fit, with consistent spacing control.
+
+<InstallTabs components="FlexGrid" />
+
+## Examples
+
+### Default
+
+<DefaultExample />
+
+### Alignment
+
+<AlignmentExample />
+
+### Custom Row and Column Gap
+
+<CustomGapExample />
+
+## Props
+
+| Prop        | Type                                                                | Default     | Description                                           |
+| ----------- | ------------------------------------------------------------------- | ----------- | ----------------------------------------------------- |
+| `gap`       | `string`                                                            | `'2'`       | Spacing between all children (Tailwind spacing scale) |
+| `rowGap`    | `string`                                                            | `undefined` | Vertical spacing between rows                         |
+| `columnGap` | `string`                                                            | `undefined` | Horizontal spacing between columns                    |
+| `align`     | `'start' \| 'center' \| 'end' \| 'stretch' \| 'baseline'`           | `undefined` | Alignment of children along the cross axis            |
+| `justify`   | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | `undefined` | Alignment of children along the main axis             |
+| `className` | `string`                                                            | `undefined` | Additional CSS classes                                |
