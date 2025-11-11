@@ -334,6 +334,10 @@ export const components = {
     url: `${CHART_URL}ComposedChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
+  CandlestickChart: {
+    url: `${CHART_URL}CandlestickChart.tsx`,
+    deps: { recharts: "^3.2.1" },
+  },
   FunnelChart: {
     url: `${CHART_URL}FunnelChart.tsx`,
     deps: { recharts: "^3.2.1" },

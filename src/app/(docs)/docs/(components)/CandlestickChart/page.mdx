@@ -1,5 +1,56 @@
-import { CandlestickChart } from "@/components/custom/Chart/CandlestickChart";
+import {
+  DefaultExample,
+  CustomStyleExample,
+} from "@/components/custom/example/CandlestickChartExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# CandlestickChart Example
+# CandlestickChart
 
-<CandlestickChart />
+A financial chart component for displaying OHLC (Open, High, Low, Close) data commonly used in stock and cryptocurrency trading analysis.
+
+<InstallTabs components="CandlestickChart" />
+
+## Examples
+
+### Default
+
+<DefaultExample />
+
+### Custom Colors
+
+<CustomStyleExample />
+
+## Props
+
+| Prop            | Type                        | Default     | Description                                                                    |
+| --------------- | --------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| `data`          | `CandlestickDataPoint[]`    | —           | Array of candlestick data points with open, high, low, close values            |
+| `config`        | `CandlestickChartConfig`    | `{}`        | Configuration for chart colors and labels                                      |
+| `showGrid`      | `boolean`                   | `true`      | Whether to display the background grid                                         |
+| `showTooltip`   | `boolean`                   | `true`      | Whether to display tooltip on hover                                            |
+| `customTooltip` | `(dataPoint, index) => JSX` | `undefined` | **Custom tooltip renderer**. Allows passing your own tooltip component/content |
+| `showLegend`    | `boolean`                   | `false`     | Whether to display the chart legend                                            |
+| `showVolume`    | `boolean`                   | `false`     | Whether to display volume data in tooltip                                      |
+| `candleWidth`   | `number`                    | `8`         | Width of each candlestick body in pixels                                       |
+| `wickWidth`     | `number`                    | `1`         | Width of the candlestick wick lines in pixels                                  |
+| `className`     | `string`                    | —           | Additional CSS classes for the container                                       |
+
+### CandlestickDataPoint
+
+| Property | Type     | Description                           |
+| -------- | -------- | ------------------------------------- |
+| `date`   | `string` | Date or time label for the data point |
+| `open`   | `number` | Opening price                         |
+| `high`   | `number` | Highest price                         |
+| `low`    | `number` | Lowest price                          |
+| `close`  | `number` | Closing price                         |
+| `volume` | `number` | (Optional) Trading volume             |
+
+### CandlestickChartConfig
+
+| Property  | Type                                 | Description                                       |
+| --------- | ------------------------------------ | ------------------------------------------------- |
+| `date`    | `{ label?: string; color?: string }` | Configuration for date axis                       |
+| `bullish` | `{ label?: string; color?: string }` | Configuration for bullish candles (close >= open) |
+| `bearish` | `{ label?: string; color?: string }` | Configuration for bearish candles (close < open)  |
+| `volume`  | `{ label?: string; color?: string }` | Configuration for volume display                  |

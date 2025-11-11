@@ -43,10 +43,10 @@ export const SnippetPreview: React.FC<ShowcaseProps> = ({
         className="!p-0 !m-0 [&_[role=tab]]:px-4 [&_[role=tab]]:py-2 [&_[role=tab]]:text-sm [&_[role=tab]]:font-medium [&_[role=tab][aria-selected=true]]:border-b-2 [&_[role=tab][aria-selected=true]]:border-blue-500 [&_[role=tab][aria-selected=true]]:text-blue-600 dark:[&_[role=tab][aria-selected=true]]:text-blue-400 "
       >
         {/* Preview tab */}
-        <Tabs.Tab>
+        <Tabs.Tab className="!p-0 m-0">
           <div
             className={cn(
-              "p-2 min-h-[200px] bg-gradient-to-br bg-background flex items-center justify-center overflow-auto",
+              " min-h-[200px] bg-gradient-to-br bg-background flex items-center justify-center overflow-auto",
               className
             )}
           >

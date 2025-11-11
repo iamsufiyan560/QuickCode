@@ -106,6 +106,8 @@ export default {
       },
       AreaChart: "",
       BarChart: "",
+      CandlestickChart: "",
+
       ComposedChart: "",
       FunnelChart: "",
       GaugeChart: "",
@@ -132,7 +134,6 @@ export default {
       SwipeStack: "",
       TypingText: "",
 
-      CandlestickChart: { type: "page", display: "hidden" },
       DonutChart: { type: "page", display: "hidden" },
       Heatmap: { type: "page", display: "hidden" },
     },
