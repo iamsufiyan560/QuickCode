@@ -342,6 +342,11 @@ export const components = {
     url: `${CHART_URL}FunnelChart.tsx`,
     deps: { recharts: "^3.2.1" },
   },
+  Heatmap: {
+    url: `${CHART_URL}Heatmap.tsx`,
+    deps: { recharts: "^3.2.1" },
+    requires: ["Tooltip"],
+  },
   ScatterChart: {
     url: `${CHART_URL}ScatterChart.tsx`,
     deps: { recharts: "^3.2.1" },

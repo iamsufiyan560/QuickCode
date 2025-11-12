@@ -111,6 +111,7 @@ export default {
       ComposedChart: "",
       FunnelChart: "",
       GaugeChart: "",
+      Heatmap: "",
 
       RadialBarChart: "",
       LineChart: "",
@@ -135,7 +136,6 @@ export default {
       TypingText: "",
 
       DonutChart: { type: "page", display: "hidden" },
-      Heatmap: { type: "page", display: "hidden" },
     },
   },
 } as MetaRecord;

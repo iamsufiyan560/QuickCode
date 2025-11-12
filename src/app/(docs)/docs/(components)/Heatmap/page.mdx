@@ -1,5 +1,34 @@
-import { Heatmap } from "@/components/custom/Chart/Heatmap";
+import {
+  BasicExample,
+  GithubLikeExample,
+  RowColumnCustomExample,
+} from "@/components/custom/example/HeatmapExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
 
-# Heatmap Example
+# Heatmap
 
-<Heatmap />
+<InstallTabs components="Heatmap" />
+
+## Examples
+
+<BasicExample />
+
+<GithubLikeExample />
+
+<RowColumnCustomExample />
+
+## Props
+
+| Prop             | Type                                                     | Default | Description                            |
+| ---------------- | -------------------------------------------------------- | ------- | -------------------------------------- |
+| `data`           | `number[][]`                                             | —       | Heatmap matrix of values.              |
+| `colorFn`        | `(value, row, col, min, max) => string`                  | —       | Full custom coloring logic.            |
+| `colorScale`     | `string[]`                                               | —       | Tailwind-based color bucket list.      |
+| `gap`            | `number`                                                 | `4`     | Gap between heatmap cells (px).        |
+| `cellSize`       | `number`                                                 | `20`    | Size of each cell (width + height).    |
+| `rowLabels`      | `string[]`                                               | —       | Optional labels for rows.              |
+| `colLabels`      | `string[]`                                               | —       | Optional labels for columns.           |
+| `onCellClick`    | `(row: number, col: number, value: number) => void`      | —       | Callback fired when a cell is clicked. |
+| `showTooltip`    | `boolean`                                                | `false` | Enable tooltips for each cell.         |
+| `tooltipContent` | `(value: number, row: number, col: number) => ReactNode` | —       | Custom JSX/UI to show inside tooltip.  |
+| `tooltipSide`    | `"top" \| "right" \| "bottom" \| "left"`                 | `"top"` | Tooltip position relative to the cell. |

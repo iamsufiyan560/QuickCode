@@ -11,9 +11,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
-export interface TooltipProps extends React.ComponentProps<"div"> {
+export interface TooltipProps
+  extends Omit<React.ComponentProps<"div">, "content"> {
   children: React.ReactNode;
-  content: string;
+  content: string | React.ReactNode;
   side?: "top" | "bottom" | "left" | "right";
   className?: string;
   gap?: number;
@@ -227,10 +228,12 @@ export const Tooltip: React.FC<TooltipProps> = ({
                 onMouseLeave={onTooltipLeave}
                 className={cn(
                   "fixed bg-popover text-popover-foreground rounded-lg shadow-xl border border-border z-[99999] pointer-events-auto",
-                  content.length < 20
-                    ? "px-2 py-1 text-xs whitespace-nowrap"
-                    : content.length < 100
-                    ? "px-3 py-2 text-sm whitespace-nowrap"
+                  typeof content === "string" || typeof content === "number"
+                    ? String(content).length < 20
+                      ? "px-2 py-1 text-xs whitespace-nowrap"
+                      : String(content).length < 100
+                      ? "px-3 py-2 text-sm whitespace-nowrap"
+                      : "px-4 py-3 text-sm max-w-72 leading-relaxed whitespace-normal"
                     : "px-4 py-3 text-sm max-w-72 leading-relaxed whitespace-normal",
                   className
                 )}
