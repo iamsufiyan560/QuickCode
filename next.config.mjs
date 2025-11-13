@@ -13,10 +13,10 @@ export default withNextra({
     // ✅ This will allow production builds to complete even with TS errors
     ignoreBuildErrors: true,
   },
-  eslint: {
-    // ✅ Disable ESLint checks during build
-    ignoreDuringBuilds: true,
-  },
+  // eslint: {
+  //   // ✅ Disable ESLint checks during build
+  //   ignoreDuringBuilds: true,
+  // },
   images: {
     remotePatterns: [
       {

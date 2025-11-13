@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -19,7 +20,6 @@ export const ImageInput: React.FC<ImageInputProps> = ({
   previewClassName,
   showRemoveButton = true,
   onChange,
-  value,
   previewUrl,
   ...props
 }) => {
@@ -57,17 +57,21 @@ export const ImageInput: React.FC<ImageInputProps> = ({
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPreview(previewUrl || null);
   }, [previewUrl]);
 
   return (
     <div className="flex  gap-3">
       {preview && (
-        <div className={cn("relative flex-shrink-0", previewClassName)}>
+        <div className={cn("relative shrink-0")}>
           <img
             src={preview}
             alt="Preview"
-            className="w-12 h-12 object-cover rounded-md border border-border"
+            className={cn(
+              "size-9 object-cover rounded-md border border-border",
+              previewClassName
+            )}
           />
           {showRemoveButton && (
             <button
