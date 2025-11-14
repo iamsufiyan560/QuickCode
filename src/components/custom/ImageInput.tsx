@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
@@ -24,7 +25,24 @@ export const ImageInput: React.FC<ImageInputProps> = ({
   ...props
 }) => {
   const [preview, setPreview] = useState<string | null>(previewUrl || null);
+  const [isValidPreview, setIsValidPreview] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!preview) {
+      setIsValidPreview(false);
+      return;
+    }
+
+    const img = new Image();
+    img.src = preview;
+
+    img.onload = () => setIsValidPreview(true);
+    img.onerror = () => {
+      setIsValidPreview(false);
+      setPreview(null);
+    };
+  }, [preview]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -37,6 +55,7 @@ export const ImageInput: React.FC<ImageInputProps> = ({
       reader.readAsDataURL(file);
     } else {
       setPreview(null);
+      setIsValidPreview(false);
     }
 
     onImageChange?.(file);
@@ -45,25 +64,28 @@ export const ImageInput: React.FC<ImageInputProps> = ({
 
   const handleRemove = () => {
     setPreview(null);
+    setIsValidPreview(false);
+
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+
     onImageChange?.(null);
 
     const fakeEvent = {
       target: { files: null, value: "" },
     } as React.ChangeEvent<HTMLInputElement>;
+
     onChange?.(fakeEvent);
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPreview(previewUrl || null);
   }, [previewUrl]);
 
   return (
-    <div className="flex  gap-3">
-      {preview && (
+    <div className="flex gap-3">
+      {isValidPreview && preview && (
         <div className={cn("relative shrink-0")}>
           <img
             src={preview}
@@ -73,11 +95,12 @@ export const ImageInput: React.FC<ImageInputProps> = ({
               previewClassName
             )}
           />
+
           {showRemoveButton && (
             <button
               type="button"
               onClick={handleRemove}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-xs hover:bg-destructive/80 transition-colors cursor-pointer disabled:cursor-not-allowed"
+              className="absolute -top-2 -right-2 w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-xs hover:bg-destructive/80 transition-colors cursor-pointer"
             >
               <X className="w-3 h-3" />
             </button>
@@ -85,6 +108,7 @@ export const ImageInput: React.FC<ImageInputProps> = ({
         </div>
       )}
 
+      {/* File input */}
       <div className="flex-1 space-y-1">
         <input
           ref={fileInputRef}
