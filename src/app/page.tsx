@@ -32,7 +32,7 @@ import {
   Play,
   CircleArrowUp,
 } from "lucide-react";
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Particles from "@/extras/particles";
 import QuickCodePromoPage from "@/extras/VsCode";

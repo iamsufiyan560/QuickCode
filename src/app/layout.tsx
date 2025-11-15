@@ -4,7 +4,7 @@ import "./globals.css";
 import Script from "next/script";
 import { ThemeProvider } from "@/extras/theme-provider";
 import { Head } from "nextra/components";
-import { ToastProvider } from "@/components/custom/Toast";
+import { ToastProvider } from "@/components/ui/Toast";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],

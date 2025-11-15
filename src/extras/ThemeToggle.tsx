@@ -1,4 +1,4 @@
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

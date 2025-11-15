@@ -1,8 +1,8 @@
 export const BASE_URL =
-  "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/custom/";
+  "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/ui/";
 
 export const CHART_URL =
-  "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/custom/Chart/";
+  "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/ui/Chart/";
 
 export const ANIMATED_BASE_URL =
   "https://github.com/iamsufiyan560/QuickCode/blob/main/src/components/animated/";

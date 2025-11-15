@@ -637,13 +637,13 @@ body {
     TabsList,
     TabsTrigger,
     TabsContent,
-  } from "@/components/custom/Tabs";
+  } from "@/components/ui/Tabs";
   import { Copy, Zap } from "lucide-react";
   import { Edit3, Share2, Trash2 } from "lucide-react";
   import {
     ActionSheet,
     ActionSheetAction,
-  } from "@/components/custom/ActionSheet";
+  } from "@/components/ui/ActionSheet";
   
   import {
     MultiSelect,
@@ -651,10 +651,10 @@ body {
     MultiSelectValue,
     MultiSelectContent,
     MultiSelectItem,
-  } from "@/components/custom/MultiSelect";
+  } from "@/components/ui/MultiSelect";
   import React from "react";
-  import { DatePicker } from "@/components/custom/DatePicker";
-  import { AdvancedForm } from "@/components/custom/AdvancedForm";
+  import { DatePicker } from "@/components/ui/DatePicker";
+  import { AdvancedForm } from "@/components/ui/AdvancedForm";
   
   export const DefaultTabsExample = () => {
     const [selectedFrameworks, setSelectedFrameworks] = React.useState<string[]>(

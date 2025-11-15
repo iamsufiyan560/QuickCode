@@ -29,12 +29,12 @@ To add a specific component (e.g., Accordion), use:
 npx quickcode add accordion
 ```
 
-Or manually copy the component from our [documentation](https://quickcode.space) and paste it into your `components/custom` directory.
+Or manually copy the component from our [documentation](https://quickcode.space) and paste it into your `components/ui` directory.
 
 Then import and use the component:
 
 ```tsx
-import { Accordion } from "@/components/custom/accordion";
+import { Accordion } from "@/components/ui/accordion";
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ import { Accordion } from "@/components/custom/accordion";
 Import and use [QuickCode](https://quickcode.space) components in your project. Example with the Accordion component:
 
 ```tsx
-import { Accordion } from "@/components/custom/accordion";
+import { Accordion } from "@/components/ui/accordion";
 
 export default function MyComponent() {
   return (
@@ -65,7 +65,7 @@ export default function MyComponent() {
 - **Hero**: Eye-catching hero sections designed for high conversion
 - **Card**: Premium cards with hover effects and customizable layouts
 - **Button**: Customizable buttons with variants (outline, secondary, ghost, destructive, link) and sizes
-- More components and UI blocks available in the `components/custom` directory
+- More components and UI blocks available in the `components/ui` directory
 
 Check the documentation (powered by Nextra) for detailed usage and props for each component.
 
@@ -97,7 +97,7 @@ To contribute or run the project locally:
 ```
 quickcode/
 ├── components/
-│   ├── custom/
+│   ├── ui/
 │   │   ├── Accordion.tsx
 │   │   ├── Navbar.tsx
 │   │   ├── Hero.tsx

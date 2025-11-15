@@ -6,20 +6,20 @@ Contributions are welcome! To contribute:
 
 2. Create a new branch (`git checkout -b feature/your-feature`).
 
-3. Go to `components/custom/` and locate the component file. If the component is not yet built, write the component code in this directory.
+3. Go to `components/ui/` and locate the component file. If the component is not yet built, write the component code in this directory.
 
-4. In `components/custom/examples/`, create a file with the component name suffixed with `Example` (e.g., `ButtonExample.tsx`). Write example usage of the component and wrap it in the `SnippetPreview` component, as shown below:
+4. In `components/ui/examples/`, create a file with the component name suffixed with `Example` (e.g., `ButtonExample.tsx`). Write example usage of the component and wrap it in the `SnippetPreview` component, as shown below:
 
    ```tsx
    "use client";
 
    import React from "react";
-   import { Button } from "@/components/custom/Button";
+   import { Button } from "@/components/ui/Button";
    import { SnippetPreview } from "@/components/helpers/SnippetPreview";
 
    export const DefaultButtonExample = () => {
      const defaultButtonCode = `
-      import { Button } from "@/components/custom/Button";
+      import { Button } from "@/components/ui/Button";
    
       export const DefaultButtonExample = () => {
         return <Button>Default Button</Button>;

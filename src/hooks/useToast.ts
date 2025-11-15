@@ -1,8 +1,4 @@
-import {
-  ToastContext,
-  ToastPosition,
-  ToastType,
-} from "@/components/custom/Toast";
+import { ToastContext, ToastPosition, ToastType } from "@/components/ui/Toast";
 import { useContext } from "react";
 
 interface ShowToastOptions {

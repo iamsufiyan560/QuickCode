@@ -21,9 +21,9 @@ import {
 } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Button } from "@/components/custom/Button";
+import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "./ThemeToggle";
-import { Tooltip } from "@/components/custom/Tooltip";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { DefaultTabsExample } from "./Example";
 import { commands, fileContents } from "./fileContents";
 import Link from "next/link";
