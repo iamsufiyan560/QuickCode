@@ -1,11 +1,11 @@
 "use client";
-import Heatmap from "../Chart/Heatmap";
 import { SnippetPreview } from "@/components/helpers/SnippetPreview";
+import Heatmap from "../Chart/Heatmap";
 
 const basicCode = `import Heatmap from '@/components/ui/Heatmap'
 
 const data = [
- [ 5, 12, 18, 22, 30, 35, 40, 48 ],
+  [ 5, 12, 18, 22, 30, 35, 40, 48 ],
   [ 2,  8, 15, 20, 28, 33, 38, 45 ],
   [10, 14, 19, 25, 32, 37, 42, 50 ],
   [ 3,  7, 11, 18, 26, 31, 36, 43 ],
@@ -48,7 +48,6 @@ const data = Array.from({ length: rows }, () =>
 export default function Example() {
   return (
     <Heatmap
-
       data={data}
       colorFn={(value, row, col, min, max) => {
         const t = (value - min) / (max - min)
@@ -111,35 +110,32 @@ const data = [
 export default function Example() {
   return (
     <Heatmap
-        showTooltip
-        data={data}
-        tooltipContent={(value, row, col) => (
-          <div className=" text-sm">
+      data={data}
+      colorFn={(value, row, col, min, max) => {
+        const t = (value - min) / (max - min)
+        const shades = [
+          'bg-blue-200',
+          'bg-blue-300',
+          'bg-blue-400',
+          'bg-blue-500',
+          'bg-blue-600',
+          'bg-blue-700',
+        ]
+        return shades[Math.floor(t * (shades.length - 1))]
+      }}
+    >
+      <Heatmap.Tooltip
+        content={(value, row, col) => (
+          <div className="text-sm">
             <div className="font-medium mb-1">Cell Details</div>
-            <div>
-              Row: <b>{row}</b>
-            </div>
-            <div>
-              Col: <b>{col}</b>
-            </div>
-            <div>
-              Value: <b>{value}</b>
-            </div>
+            <div>Row: <b>{row}</b></div>
+            <div>Col: <b>{col}</b></div>
+            <div>Value: <b>{value}</b></div>
           </div>
         )}
-        colorFn={(value, row, col, min, max) => {
-          const t = (value - min) / (max - min);
-          const shades = [
-            "bg-blue-200",
-            "bg-blue-300",
-            "bg-blue-400",
-            "bg-blue-500",
-            "bg-blue-600",
-            "bg-blue-700",
-          ];
-          return shades[Math.floor(t * (shades.length - 1))];
-        }}
+        side="top"
       />
+    </Heatmap>
   )
 }`;
 
@@ -157,26 +153,11 @@ export function RowColumnCustomExample() {
   return (
     <SnippetPreview
       className="p-4"
-      title="Row + Column Shaded Coloring"
+      title="Heatmap with Tooltip"
       code={customCode}
     >
       <Heatmap
-        showTooltip
         data={data}
-        tooltipContent={(value, row, col) => (
-          <div className=" text-sm">
-            <div className="font-medium mb-1">Cell Details</div>
-            <div>
-              Row: <b>{row}</b>
-            </div>
-            <div>
-              Col: <b>{col}</b>
-            </div>
-            <div>
-              Value: <b>{value}</b>
-            </div>
-          </div>
-        )}
         colorFn={(value, row, col, min, max) => {
           const t = (value - min) / (max - min);
           const shades = [
@@ -189,7 +170,25 @@ export function RowColumnCustomExample() {
           ];
           return shades[Math.floor(t * (shades.length - 1))];
         }}
-      />
+      >
+        <Heatmap.Tooltip
+          content={(value, row, col) => (
+            <div className="text-sm ">
+              <div className="font-medium mb-1">Cell Details</div>
+              <div>
+                Row: <b>{row}</b>
+              </div>
+              <div>
+                Col: <b>{col}</b>
+              </div>
+              <div>
+                Value: <b>{value}</b>
+              </div>
+            </div>
+          )}
+          side="top"
+        />
+      </Heatmap>
     </SnippetPreview>
   );
 }

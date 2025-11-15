@@ -21,12 +21,80 @@ export interface HeatmapProps extends React.ComponentProps<"div"> {
   ) => string;
   colorScale?: string[];
   caption?: string;
-  showTooltip?: boolean;
-  tooltipContent?: (value: number, row: number, col: number) => React.ReactNode;
-  tooltipSide?: "top" | "right" | "bottom" | "left";
+  children?: React.ReactNode;
 }
 
-export const Heatmap = ({
+export interface HeatmapTooltipProps {
+  content?: (value: number, row: number, col: number) => React.ReactNode;
+  side?: "top" | "right" | "bottom" | "left";
+  className?: string;
+}
+
+interface CellProps {
+  value: number;
+  row: number;
+  col: number;
+  cellSize: number;
+  classColor: string;
+  styleColor: React.CSSProperties;
+  onClick?: () => void;
+  tooltipConfig: HeatmapTooltipProps | null;
+}
+
+const HeatmapCell = React.memo(
+  ({
+    value,
+    row,
+    col,
+    cellSize,
+    classColor,
+    styleColor,
+    onClick,
+    tooltipConfig,
+  }: CellProps) => {
+    const cellStyle = React.useMemo(
+      () => ({
+        width: cellSize,
+        height: cellSize,
+        ...styleColor,
+      }),
+      [cellSize, styleColor]
+    );
+
+    const button = (
+      <button
+        type="button"
+        className={cn(
+          "rounded",
+          "focus-visible:ring-2 focus-visible:ring-primary",
+          classColor
+        )}
+        style={cellStyle}
+        onClick={onClick}
+      />
+    );
+
+    if (!tooltipConfig) return button;
+
+    return (
+      <Tooltip
+        content={
+          tooltipConfig.content
+            ? tooltipConfig.content(value, row, col)
+            : `Value: ${value}`
+        }
+        side={tooltipConfig.side || "top"}
+        className={tooltipConfig.className}
+      >
+        {button}
+      </Tooltip>
+    );
+  }
+);
+
+HeatmapCell.displayName = "HeatmapCell";
+
+const HeatmapRoot = ({
   data,
   rowLabels,
   colLabels,
@@ -39,31 +107,67 @@ export const Heatmap = ({
   colorScale,
   caption,
   className,
-  showTooltip = false,
-  tooltipContent,
-  tooltipSide = "top",
+  children,
   ...props
 }: HeatmapProps) => {
-  const flat = data.flat();
-  const computedMin =
-    typeof min === "number" ? min : flat.length ? Math.min(...flat) : 0;
-  const computedMax =
-    typeof max === "number" ? max : flat.length ? Math.max(...flat) : 1;
+  const flat = React.useMemo(() => data.flat(), [data]);
+
+  const computedMin = React.useMemo(
+    () => (typeof min === "number" ? min : flat.length ? Math.min(...flat) : 0),
+    [min, flat]
+  );
+
+  const computedMax = React.useMemo(
+    () => (typeof max === "number" ? max : flat.length ? Math.max(...flat) : 1),
+    [max, flat]
+  );
 
   const range = computedMax - computedMin || 1;
-  const normalize = (v: number) => (v - computedMin) / range;
 
-  const getBucket = (v: number) => {
-    if (!colorScale) return "bg-primary/50";
-    const t = normalize(v);
-    const idx = Math.min(
-      colorScale.length - 1,
-      Math.floor(t * (colorScale.length - 1))
-    );
-    return colorScale[idx];
-  };
+  const normalize = React.useCallback(
+    (v: number) => (v - computedMin) / range,
+    [computedMin, range]
+  );
+
+  const getBucket = React.useCallback(
+    (v: number) => {
+      if (!colorScale) return "bg-primary/50";
+      const t = normalize(v);
+      const idx = Math.min(
+        colorScale.length - 1,
+        Math.floor(t * (colorScale.length - 1))
+      );
+      return colorScale[idx];
+    },
+    [colorScale, normalize]
+  );
+
+  const tooltipConfig = React.useMemo(() => {
+    const tooltipChild = React.Children.toArray(children).find(
+      (child) => React.isValidElement(child) && child.type === HeatmapTooltip
+    ) as React.ReactElement<HeatmapTooltipProps> | undefined;
+
+    return tooltipChild?.props || null;
+  }, [children]);
 
   const padding = 2;
+
+  const getCellStyle = React.useCallback(
+    (value: number, ri: number, ci: number) => {
+      const result = colorFn?.(value, ri, ci, computedMin, computedMax);
+      const isClass = result?.startsWith("bg-");
+      const classColor = isClass
+        ? result || ""
+        : !colorFn
+        ? getBucket(value)
+        : "";
+      const styleColor: React.CSSProperties =
+        !isClass && colorFn && result ? { background: result } : {};
+
+      return { classColor, styleColor };
+    },
+    [colorFn, computedMin, computedMax, getBucket]
+  );
 
   return (
     <div className={cn("overflow-auto", className)} {...props}>
@@ -99,70 +203,24 @@ export const Heatmap = ({
               )}
 
               {row.map((value, ci) => {
-                const result = colorFn?.(
-                  value,
-                  ri,
-                  ci,
-                  computedMin,
-                  computedMax
-                );
-
-                const isClass = result?.startsWith("bg-");
-                const classColor = isClass
-                  ? result
-                  : !colorFn
-                  ? getBucket(value)
-                  : "";
-
-                const styleColor =
-                  !isClass && colorFn ? { background: result } : {};
+                const { classColor, styleColor } = getCellStyle(value, ri, ci);
 
                 return (
-                  <td key={ci} style={{ padding: padding }}>
-                    {/* <button
-                      type="button"
-                      className={cn(
-                        "rounded",
-                        "focus-visible:ring-2 focus-visible:ring-primary",
-                        classColor
-                      )}
-                      style={{
-                        width: cellSize,
-                        height: cellSize,
-                        ...styleColor,
-                      }}
-                      onClick={() => onCellClick?.(ri, ci, value)}
-                    /> */}
-                    <ConditionalWrapper
-                      condition={showTooltip}
-                      wrapper={(children) => (
-                        <Tooltip
-                          content={
-                            tooltipContent
-                              ? tooltipContent(value, ri, ci)
-                              : `Value: ${value}`
-                          }
-                          side={tooltipSide}
-                        >
-                          {children}
-                        </Tooltip>
-                      )}
-                    >
-                      <button
-                        type="button"
-                        className={cn(
-                          "rounded",
-                          "focus-visible:ring-2 focus-visible:ring-primary",
-                          classColor
-                        )}
-                        style={{
-                          width: cellSize,
-                          height: cellSize,
-                          ...styleColor,
-                        }}
-                        onClick={() => onCellClick?.(ri, ci, value)}
-                      />
-                    </ConditionalWrapper>
+                  <td key={ci} style={{ padding }}>
+                    <HeatmapCell
+                      value={value}
+                      row={ri}
+                      col={ci}
+                      cellSize={cellSize}
+                      classColor={classColor}
+                      styleColor={styleColor}
+                      onClick={
+                        onCellClick
+                          ? () => onCellClick(ri, ci, value)
+                          : undefined
+                      }
+                      tooltipConfig={tooltipConfig}
+                    />
                   </td>
                 );
               })}
@@ -174,14 +232,13 @@ export const Heatmap = ({
   );
 };
 
-export default Heatmap;
+const HeatmapTooltip = (_props: HeatmapTooltipProps) => {
+  return null;
+};
 
-const ConditionalWrapper = ({
-  condition,
-  wrapper,
-  children,
-}: {
-  condition: boolean;
-  wrapper: (children: React.ReactNode) => React.JSX.Element;
-  children: React.ReactNode;
-}) => (condition ? wrapper(children) : <>{children}</>);
+export const Heatmap = Object.assign(HeatmapRoot, {
+  Tooltip: HeatmapTooltip,
+});
+
+export { HeatmapTooltip };
+export default Heatmap;
