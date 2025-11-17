@@ -46,7 +46,7 @@ export const SnippetPreview: React.FC<ShowcaseProps> = ({
         <Tabs.Tab className="!p-0 m-0">
           <div
             className={cn(
-              " min-h-[200px] bg-gradient-to-br bg-background flex items-center justify-center overflow-auto",
+              " min-h-[200px] p-4 bg-gradient-to-br bg-background flex items-center justify-center overflow-auto",
               className
             )}
           >

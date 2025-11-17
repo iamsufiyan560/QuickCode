@@ -78,7 +78,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 {index < steps.length - 1 && (
                   <div
                     className={cn(
-                      "w-0.5 h-16 mt-2 transition-colors duration-300",
+                      "w-0.5 h-16  transition-colors duration-300",
                       index < currentStep ? "bg-primary" : "bg-border"
                     )}
                   />
@@ -126,7 +126,7 @@ export const Stepper: React.FC<StepperProps> = ({
               className="flex flex-col items-center relative flex-1 min-w-[120px]"
             >
               {index > 0 && (
-                <div className="absolute top-4 right-1/2 w-full h-0.5 z-[9]">
+                <div className="absolute top-4 right-1/2 w-full h-0.5 z-9">
                   <div
                     className={cn(
                       "h-full transition-colors duration-300",
@@ -195,12 +195,12 @@ export const Stepper: React.FC<StepperProps> = ({
       </div>
 
       <div className="md:hidden">
-        <div className="flex items-center justify-center flex-wrap gap-2">
+        <div className="flex items-center gap-y-2  justify-center flex-wrap ">
           {steps.map((step, index) => (
             <React.Fragment key={step.id}>
               <div
                 className={cn(
-                  "flex items-center justify-center rounded-full border-2 font-medium transition-all duration-200",
+                  "flex  items-center justify-center rounded-full border-2 font-medium transition-all duration-200",
                   config.circle,
                   index < currentStep
                     ? "bg-primary border-primary text-primary-foreground shadow-sm"
@@ -227,8 +227,9 @@ export const Stepper: React.FC<StepperProps> = ({
               {index < steps.length - 1 && (
                 <div
                   className={cn(
-                    "w-4 h-0.5 transition-colors duration-200",
-                    index < currentStep ? "bg-primary" : "bg-muted"
+                    "flex-1 min-w-10 h-0.5 transition-colors duration-200",
+
+                    index < currentStep ? "bg-primary" : "bg-input"
                   )}
                 />
               )}
