@@ -60,6 +60,7 @@ export default {
       DatePicker: "",
       DateRangePicker: "",
       Dialog: "",
+      ExpandableCard: "",
       Filter: "",
       Form: "",
       FlexGrid: "",

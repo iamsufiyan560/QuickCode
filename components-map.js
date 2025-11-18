@@ -120,6 +120,12 @@ export const components = {
     deps: {},
     requires: ["Button"],
   },
+
+  ExpandableCard: {
+    url: `${BASE_URL}ExpandableCard.tsx`,
+    deps: {},
+    requires: ["Stepper"],
+  },
   Filter: {
     url: `${BASE_URL}Filter.tsx`,
     deps: {},

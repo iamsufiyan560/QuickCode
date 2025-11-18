@@ -1,0 +1,38 @@
+import { DefaultExample } from "@/components/ui/example/ExpandableCardExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# ExpandableCard
+
+A collapsible card for showing and hiding contextual information.
+
+## Example
+
+<DefaultExample />
+
+## Props
+
+### ExpandableCard
+
+| Prop      | Type                          | Default | Description                     |
+| --------- | ----------------------------- | ------- | ------------------------------- |
+| value     | `string`                      | —       | Unique key for animation layout |
+| open      | `boolean`                     | —       | Controls card open state        |
+| onToggle  | `() => void`                  | —       | Toggles open state              |
+| className | `string`                      | —       | Custom classes                  |
+| ...props  | `React.ComponentProps<'div'>` | —       | All div props                   |
+
+### ExpandableCard.Item
+
+| Prop      | Type                          | Default | Description    |
+| --------- | ----------------------------- | ------- | -------------- |
+| children  | `React.ReactNode`             | —       | Header content |
+| className | `string`                      | —       | Custom classes |
+| ...props  | `React.ComponentProps<'div'>` | —       | All div props  |
+
+### ExpandableCard.Content
+
+| Prop      | Type                          | Default | Description    |
+| --------- | ----------------------------- | ------- | -------------- |
+| children  | `React.ReactNode`             | —       | Content body   |
+| className | `string`                      | —       | Custom classes |
+| ...props  | `React.ComponentProps<'div'>` | —       | All div props  |
