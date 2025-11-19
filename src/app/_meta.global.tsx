@@ -69,6 +69,7 @@ export default {
       Input: "",
       KanbanBoard: "",
       Label: "",
+      MultiComboBox: "",
       MultiInput: "",
       MultiSelect: "",
       MultiTooltip: "",

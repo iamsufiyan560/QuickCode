@@ -1,0 +1,78 @@
+import {
+  DefaultExample,
+  GroupedExample,
+} from "@/components/ui/example/MultiComboBoxExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# MultiComboBox
+
+A searchable multi-select component that combines a dropdown with search functionality and supports selecting multiple options.
+
+<InstallTabs components="MultiComboBox" />
+
+## Examples
+
+<DefaultExample />
+
+<GroupedExample />
+
+## Props
+
+### MultiComboBox
+
+| Prop             | Type                         | Default | Description                            |
+| ---------------- | ---------------------------- | ------- | -------------------------------------- |
+| `values`         | `string[]`                   | —       | Controlled selected values             |
+| `defaultValues`  | `string[]`                   | `[]`    | Default values when uncontrolled       |
+| `onValuesChange` | `(values: string[]) => void` | —       | Callback when selected values change   |
+| `disabled`       | `boolean`                    | `false` | Whether the multi-combobox is disabled |
+| `className`      | `string`                     | —       | Additional CSS classes                 |
+| `children`       | `React.ReactNode`            | —       | MultiComboBox trigger and content      |
+
+### MultiComboBoxTrigger
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Trigger button content |
+
+### MultiComboBoxValue
+
+| Prop          | Type     | Default            | Description                              |
+| ------------- | -------- | ------------------ | ---------------------------------------- |
+| `placeholder` | `string` | `"Select options"` | Placeholder text when no values selected |
+| `maxDisplay`  | `number` | `3`                | Maximum displayed tags before overflow   |
+| `className`   | `string` | —                  | Additional CSS classes                   |
+
+### MultiComboBoxContent
+
+| Prop                | Type              | Default               | Description                                |
+| ------------------- | ----------------- | --------------------- | ------------------------------------------ |
+| `className`         | `string`          | —                     | Additional CSS classes                     |
+| `searchPlaceholder` | `string`          | `"Search..."`         | Placeholder for search input               |
+| `emptyMessage`      | `string`          | `"No results found."` | Message shown when no results match search |
+| `children`          | `React.ReactNode` | —                     | MultiComboBox items + groups               |
+
+### MultiComboBoxItem
+
+| Prop        | Type              | Default | Description                             |
+| ----------- | ----------------- | ------- | --------------------------------------- |
+| `value`     | `string`          | —       | Value of the option                     |
+| `disabled`  | `boolean`         | `false` | Whether the item is disabled            |
+| `keywords`  | `string[]`        | `[]`    | Additional keywords for search matching |
+| `className` | `string`          | —       | Additional CSS classes                  |
+| `children`  | `React.ReactNode` | —       | Item content                            |
+
+### MultiComboBoxGroup
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Group items            |
+
+### MultiComboBoxLabel
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `className` | `string`          | —       | Additional CSS classes |
+| `children`  | `React.ReactNode` | —       | Label content          |

@@ -197,6 +197,10 @@ export const components = {
     url: `${BASE_URL}Stepper.tsx`,
     deps: {},
   },
+  MultiComboBox: {
+    url: `${BASE_URL}MultiComboBox.tsx`,
+    deps: {},
+  },
   MultiSelect: {
     url: `${BASE_URL}MultiSelect.tsx`,
     deps: {},
