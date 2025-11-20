@@ -1,0 +1,85 @@
+---
+title: Command
+description: Fast, composable command palette for React with keyboard shortcuts and fuzzy search.
+---
+
+import { CommandPaletteExample } from "@/components/ui/example/CommandExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Command
+
+A keyboard-first command palette component that provides fast access to actions and navigation through fuzzy search and keyboard shortcuts.
+
+<InstallTabs components="Command" />
+
+## Example
+
+<CommandPaletteExample />
+
+## Props
+
+### Command
+
+| Prop            | Type                      | Default | Description                        |
+| --------------- | ------------------------- | ------- | ---------------------------------- |
+| `className`     | `string`                  | —       | Additional CSS classes             |
+| `value`         | `string`                  | —       | Controlled search value            |
+| `onValueChange` | `(value: string) => void` | —       | Callback when search value changes |
+| `shouldFilter`  | `boolean`                 | `true`  | Enable built-in filtering          |
+| `loop`          | `boolean`                 | `false` | Enable keyboard navigation looping |
+
+### CommandDialog
+
+| Prop           | Type                      | Default | Description                             |
+| -------------- | ------------------------- | ------- | --------------------------------------- |
+| `open`         | `boolean`                 | —       | Controls dialog visibility              |
+| `onOpenChange` | `(open: boolean) => void` | —       | Callback when dialog open state changes |
+| `className`    | `string`                  | —       | Additional CSS classes                  |
+
+### CommandInput
+
+| Prop          | Type     | Default | Description            |
+| ------------- | -------- | ------- | ---------------------- |
+| `placeholder` | `string` | —       | Input placeholder text |
+| `className`   | `string` | —       | Additional CSS classes |
+
+### CommandList
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | —       | Additional CSS classes |
+
+### CommandEmpty
+
+| Prop        | Type              | Default               | Description                        |
+| ----------- | ----------------- | --------------------- | ---------------------------------- |
+| `className` | `string`          | —                     | Additional CSS classes             |
+| `children`  | `React.ReactNode` | `"No results found."` | Content to display when no results |
+
+### CommandGroup
+
+| Prop        | Type              | Default | Description            |
+| ----------- | ----------------- | ------- | ---------------------- |
+| `heading`   | `React.ReactNode` | —       | Group heading text     |
+| `className` | `string`          | —       | Additional CSS classes |
+
+### CommandItem
+
+| Prop        | Type                      | Default | Description                         |
+| ----------- | ------------------------- | ------- | ----------------------------------- |
+| `value`     | `string`                  | —       | Item value for search and selection |
+| `disabled`  | `boolean`                 | `false` | Disables item interaction           |
+| `onSelect`  | `(value: string) => void` | —       | Callback when item is selected      |
+| `className` | `string`                  | —       | Additional CSS classes              |
+
+### CommandShortcut
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | —       | Additional CSS classes |
+
+### CommandSeparator
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | —       | Additional CSS classes |

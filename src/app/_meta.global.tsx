@@ -55,7 +55,7 @@ export default {
       Checkbox: "",
       CheckboxGroup: "",
       ComboBox: "",
-
+      Command: "",
       ContextMenu: "",
       DatePicker: "",
       DateRangePicker: "",

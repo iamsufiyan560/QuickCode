@@ -101,6 +101,10 @@ export const components = {
     url: `${BASE_URL}ComboBox.tsx`,
     deps: {},
   },
+  Command: {
+    url: `${BASE_URL}Command.tsx`,
+    deps: {},
+  },
   ContextMenu: {
     url: `${BASE_URL}ContextMenu.tsx`,
     deps: {},
