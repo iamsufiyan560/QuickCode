@@ -46,8 +46,10 @@ export default {
       AlertDialog: "",
       Avatar: "",
       AvatarGroup: "",
+      Breadcrumb: "",
       Badge: "",
       Button: "",
+
       ButtonGroup: "",
       Card: "",
       Cell: "",

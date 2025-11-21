@@ -67,6 +67,10 @@ export const components = {
     deps: {},
     requires: ["Avatar"],
   },
+  Breadcrumb: {
+    url: `${BASE_URL}Breadcrumb.tsx`,
+    deps: {},
+  },
   Button: {
     url: `${BASE_URL}Button.tsx`,
     deps: {},

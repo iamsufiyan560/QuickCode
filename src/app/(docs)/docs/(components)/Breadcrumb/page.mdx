@@ -1,0 +1,65 @@
+import { BreadcrumbDemo } from "@/components/ui/example/BreadcrumbExample";
+
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# Breadcrumb
+
+Navigational component that indicates the current page’s location within a hierarchy.
+
+<InstallTabs components="Breadcrumb" />
+
+## Example
+
+<BreadcrumbDemo />
+
+## Props
+
+### Breadcrumb
+
+| Prop        | Type                          | Default | Description          |
+| ----------- | ----------------------------- | ------- | -------------------- |
+| `className` | `string`                      | —       | Custom styles        |
+| `...props`  | `React.ComponentProps<"nav">` | —       | Additional nav props |
+
+### Breadcrumb.List
+
+| Prop        | Type                         | Default | Description         |
+| ----------- | ---------------------------- | ------- | ------------------- |
+| `className` | `string`                     | —       | Custom styles       |
+| `...props`  | `React.ComponentProps<"ol">` | —       | Additional ol props |
+
+### Breadcrumb.Item
+
+| Prop        | Type                         | Default | Description         |
+| ----------- | ---------------------------- | ------- | ------------------- |
+| `className` | `string`                     | —       | Custom styles       |
+| `...props`  | `React.ComponentProps<"li">` | —       | Additional li props |
+
+### Breadcrumb.Link
+
+| Prop        | Type                        | Default | Description             |
+| ----------- | --------------------------- | ------- | ----------------------- |
+| `className` | `string`                    | —       | Custom styles           |
+| `...props`  | `React.ComponentProps<"a">` | —       | Additional anchor props |
+
+### Breadcrumb.Page
+
+| Prop        | Type                           | Default | Description                            |
+| ----------- | ------------------------------ | ------- | -------------------------------------- |
+| `className` | `string`                       | —       | Custom styles                          |
+| `...props`  | `React.ComponentProps<"span">` | —       | Additional props for current page text |
+
+### Breadcrumb.Separator
+
+| Prop        | Type                         | Default            | Description      |
+| ----------- | ---------------------------- | ------------------ | ---------------- |
+| `children`  | `React.ReactNode`            | `<ChevronRight />` | Separator icon   |
+| `className` | `string`                     | —                  | Custom styles    |
+| `...props`  | `React.ComponentProps<"li">` | —                  | Additional props |
+
+### Breadcrumb.Ellipsis
+
+| Prop        | Type                           | Default | Description      |
+| ----------- | ------------------------------ | ------- | ---------------- |
+| `className` | `string`                       | —       | Custom styles    |
+| `...props`  | `React.ComponentProps<"span">` | —       | Additional props |
