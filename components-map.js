@@ -404,6 +404,11 @@ export const components = {
     url: `${ANIMATED_BASE_URL}AnimatedProgress.tsx`,
     deps: {},
   },
+
+  BouncyCard: {
+    url: `${ANIMATED_BASE_URL}BouncyCard.tsx`,
+    deps: {},
+  },
   SocialCard: {
     url: `${ANIMATED_BASE_URL}SocialCard.tsx`,
     deps: {},

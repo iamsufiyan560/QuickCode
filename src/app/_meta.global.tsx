@@ -129,6 +129,7 @@ export default {
 
       AnimatedList: "",
       AnimatedProgress: "",
+      BouncyCard: "",
       CardStack: "",
       DraggableCards: "",
       FloatingCode: "",

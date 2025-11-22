@@ -1,0 +1,41 @@
+import {
+  GridExample,
+  WithFooterExample,
+} from "@/components/ui/example/BouncyCardExample";
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+
+# BouncyCard
+
+Playful interactive card for showcasing key features or actions.
+
+<InstallTabs components="BouncyCard" />
+
+## Examples
+
+<GridExample />
+
+<WithFooterExample />
+
+## Props
+
+### BouncyCard
+
+| Prop        | Type                          | Default | Description      |
+| ----------- | ----------------------------- | ------- | ---------------- |
+| `className` | `string`                      | —       | Custom styling   |
+| `children`  | `React.ReactNode`             | —       | Card elements    |
+| `...props`  | `React.ComponentProps<"div">` | —       | Native div props |
+
+### BouncyCardHeader
+
+| Prop        | Type              | Default | Description        |
+| ----------- | ----------------- | ------- | ------------------ |
+| `className` | `string`          | —       | Custom styling     |
+| `children`  | `React.ReactNode` | —       | Title/content slot |
+
+### BouncyCardContent
+
+| Prop        | Type              | Default | Description                |
+| ----------- | ----------------- | ------- | -------------------------- |
+| `className` | `string`          | —       | Styling for animated layer |
+| `children`  | `React.ReactNode` | —       | Layer content              |
