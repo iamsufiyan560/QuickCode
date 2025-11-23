@@ -101,6 +101,11 @@ export const components = {
     url: `${BASE_URL}Cell.tsx`,
     deps: {},
   },
+
+  ColorPicker: {
+    url: `${BASE_URL}ColorPicker.tsx`,
+    deps: {},
+  },
   ComboBox: {
     url: `${BASE_URL}ComboBox.tsx`,
     deps: {},

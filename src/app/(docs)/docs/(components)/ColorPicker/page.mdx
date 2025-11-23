@@ -1,0 +1,104 @@
+import { InstallTabs } from "@/components/helpers/InstallTabs";
+import {
+  DefaultExample,
+  CustomPresetsExample,
+  FormIntegrationExample,
+} from "@/components/ui/example/ColorPickerExample";
+
+# ColorPicker
+
+A professional color picker component with support for multiple color formats, alpha channel control, preset swatches, and eyedropper functionality for sampling colors from the screen.
+
+<InstallTabs components="ColorPicker" />
+
+## Examples
+
+### Default
+
+A complete color picker with all features including color area, hue and alpha sliders, preset swatches, eyedropper, input field, and format toggle.
+
+<DefaultExample />
+
+### Custom Presets
+
+Configure custom color presets for brand colors or specific use cases.
+
+<CustomPresetsExample />
+
+### Form Integration
+
+Integrate multiple color pickers in a form for theme customization or configuration interfaces.
+
+<FormIntegrationExample />
+
+## Props
+
+### ColorPicker
+
+| Prop             | Type                            | Default             | Description                                 |
+| ---------------- | ------------------------------- | ------------------- | ------------------------------------------- |
+| `value`          | `string`                        | —                   | Controlled color value in hex format        |
+| `defaultValue`   | `string`                        | `'#3b82f6'`         | Default color value for uncontrolled usage  |
+| `onValueChange`  | `(value: string) => void`       | —                   | Callback fired when color changes           |
+| `format`         | `'hex' \| 'rgb' \| 'hsl'`       | —                   | Controlled format for color display         |
+| `onFormatChange` | `(format: ColorFormat) => void` | —                   | Callback fired when format changes          |
+| `presets`        | `string[]`                      | Default color array | Array of preset color values to display     |
+| `showAlpha`      | `boolean`                       | `true`              | Whether to show the alpha (opacity) slider  |
+| `showEyeDropper` | `boolean`                       | `true`              | Whether to show the eyedropper button       |
+| `className`      | `string`                        | —                   | Additional CSS classes for the root element |
+
+### ColorPicker.Trigger
+
+| Prop        | Type              | Default | Description                                   |
+| ----------- | ----------------- | ------- | --------------------------------------------- |
+| `className` | `string`          | —       | Additional CSS classes for the trigger button |
+| `children`  | `React.ReactNode` | —       | Content to display inside the trigger button  |
+
+### ColorPicker.Content
+
+| Prop        | Type              | Default | Description                                        |
+| ----------- | ----------------- | ------- | -------------------------------------------------- |
+| `className` | `string`          | —       | Additional CSS classes for the popover content     |
+| `children`  | `React.ReactNode` | —       | Content to display inside the color picker popover |
+
+### ColorPicker.Area
+
+| Prop        | Type     | Default | Description                               |
+| ----------- | -------- | ------- | ----------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes for the color area |
+
+### ColorPicker.HueSlider
+
+| Prop        | Type     | Default | Description                               |
+| ----------- | -------- | ------- | ----------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes for the hue slider |
+
+### ColorPicker.AlphaSlider
+
+| Prop        | Type     | Default | Description                                 |
+| ----------- | -------- | ------- | ------------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes for the alpha slider |
+
+### ColorPicker.Swatches
+
+| Prop        | Type     | Default | Description                                  |
+| ----------- | -------- | ------- | -------------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes for the swatches grid |
+
+### ColorPicker.Input
+
+| Prop        | Type     | Default | Description                                |
+| ----------- | -------- | ------- | ------------------------------------------ |
+| `className` | `string` | —       | Additional CSS classes for the input field |
+
+### ColorPicker.FormatToggle
+
+| Prop        | Type     | Default | Description                                           |
+| ----------- | -------- | ------- | ----------------------------------------------------- |
+| `className` | `string` | —       | Additional CSS classes for the format select dropdown |
+
+### ColorPicker.EyeDropper
+
+| Prop        | Type     | Default | Description                                      |
+| ----------- | -------- | ------- | ------------------------------------------------ |
+| `className` | `string` | —       | Additional CSS classes for the eyedropper button |

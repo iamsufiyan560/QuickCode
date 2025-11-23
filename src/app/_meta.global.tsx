@@ -57,6 +57,7 @@ export default {
       Checkbox: "",
       CheckboxGroup: "",
       ComboBox: "",
+      ColorPicker: "",
       Command: "",
       ContextMenu: "",
       DatePicker: "",
